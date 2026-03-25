@@ -1,0 +1,246 @@
+# Columns in Angular Gantt Chart
+
+## Table of Contents
+- [Column Definition](#column-definition)
+- [Column Types](#column-types)
+- [Column Headers and Formatting](#column-headers-and-formatting)
+- [Column Template](#column-template)
+- [Column Reordering](#column-reordering)
+- [Column Resizing](#column-resizing)
+- [Frozen Columns](#frozen-columns)
+- [Column Spanning](#column-spanning)
+- [Tree Column Configuration](#tree-column-configuration)
+- [WBS Column](#wbs-column)
+- [Column Menu](#column-menu)
+- [Column Rendering Options](#column-rendering-options)
+
+---
+
+## Column Definition
+
+Columns are defined in the `columns` array. Each column maps a data field and defines display behavior:
+
+```typescript
+public columns: object[] = [
+  { field: 'TaskID',    headerText: 'ID',          width: 60, isPrimaryKey: true },
+  { field: 'TaskName',  headerText: 'Task Name',   width: 250, clipMode: 'EllipsisWithTooltip' },
+  { field: 'StartDate', headerText: 'Start',        format: 'MM/dd/yyyy' },
+  { field: 'Duration',  headerText: 'Duration',     textAlign: 'Right' },
+  { field: 'Progress',  headerText: 'Progress (%)', textAlign: 'Right' },
+  { field: 'Verified',  headerText: 'Verified',     type: 'boolean', displayAsCheckBox: true }
+];
+```
+
+---
+
+## Column Types
+
+| Type | Description |
+|------|-------------|
+| `'string'` | Default; text data |
+| `'number'` | Numeric with formatting support |
+| `'boolean'` | True/false; can render as checkbox |
+| `'date'` | Date values |
+| `'datetime'` | Date and time values |
+| `'checkbox'` | Dedicated checkbox column |
+
+```typescript
+{ field: 'Verified', type: 'boolean', displayAsCheckBox: true }
+```
+
+---
+
+## Column Headers and Formatting
+
+```typescript
+{ 
+  field: 'StartDate',
+  headerText: 'Start Date',           // Column header label
+  format: { type: 'date', format: 'MM/dd/yyyy' },  // Date format
+  textAlign: 'Center',                // 'Left' | 'Right' | 'Center' | 'Justify'
+  headerTextAlign: 'Center',
+  width: 120,
+  minWidth: 80,
+  maxWidth: 300
+}
+```
+
+For number columns:
+```typescript
+{ field: 'Progress', format: 'N0', textAlign: 'Right' }  // No decimal places
+```
+
+---
+
+## Column Template
+
+Customize how cell values are displayed using Angular templates:
+
+```typescript
+@Component({
+  template: `
+    <ejs-gantt [columns]="columns">
+      <ng-template #progressTemplate let-data>
+        <div class="progress-bar">
+          <div [style.width.%]="data.Progress" class="fill"></div>
+          <span>{{data.Progress}}%</span>
+        </div>
+      </ng-template>
+    </ejs-gantt>
+  `
+})
+```
+
+```typescript
+public columns: object[] = [
+  { field: 'Progress', headerText: 'Progress', template: '#progressTemplate' }
+];
+```
+
+---
+
+## Column Reordering
+
+Allow users to drag columns to change their order:
+
+```html
+<ejs-gantt [allowReordering]="true"></ejs-gantt>
+```
+
+Programmatic reorder:
+```typescript
+this.ganttObj.reorderColumns('TaskName', 'Duration');  // Move TaskName before Duration
+```
+
+---
+
+## Column Resizing
+
+Allow users to resize columns by dragging column borders:
+
+```html
+<ejs-gantt [allowResizing]="true"></ejs-gantt>
+```
+
+Set min/max widths to control resize bounds:
+```typescript
+{ field: 'TaskName', minWidth: 120, maxWidth: 400 }
+```
+
+Auto-fit a column width to content:
+```typescript
+this.ganttObj.autoFitColumns(['TaskName', 'Duration']);
+```
+
+---
+
+## Frozen Columns
+
+Keep columns visible when scrolling horizontally. Set `frozenColumns` to the number of columns to freeze from the left:
+
+```html
+<ejs-gantt [frozenColumns]="2"></ejs-gantt>
+```
+
+Or freeze at column level:
+```typescript
+{ field: 'TaskID', isFrozen: true }
+```
+
+The frozen section and scrollable section behave as independent scroll areas.
+
+---
+
+## Column Spanning
+
+Merge cells across multiple rows in the header:
+
+```typescript
+public splitterSettings: object = { columnIndex: 3 };
+
+// Column spanning in header
+public columns: object[] = [
+  { field: 'TaskID', headerText: 'ID' },
+  { field: 'TaskName', headerText: 'Task Name' },
+  { field: 'StartDate', headerText: 'Start' },
+  { field: 'EndDate', headerText: 'End' }
+];
+```
+
+Use `queryCellInfo` to span data cells:
+```typescript
+public queryCellInfo(args: any): void {
+  if (args.column.field === 'StartDate' && args.data.TaskID === 1) {
+    args.colSpan = 2;  // Merge this cell with the next column
+  }
+}
+```
+
+---
+
+## Tree Column Configuration
+
+The tree column (expand/collapse hierarchy) is typically the `TaskName` column. Configure with `treeColumnIndex`:
+
+```html
+<ejs-gantt [treeColumnIndex]="1"></ejs-gantt>
+```
+
+`treeColumnIndex` is zero-based. Default is `0` (first column).
+
+---
+
+## WBS Column
+
+Work Breakdown Structure (WBS) column shows hierarchical numbering (1, 1.1, 1.1.1, etc.):
+
+```typescript
+public columns: object[] = [
+  { field: 'TaskID', headerText: 'ID' },
+  { field: 'TaskName', headerText: 'Task Name' },
+  { field: 'wbs', headerText: 'WBS' }   // Built-in WBS field
+];
+```
+
+The `wbs` field is auto-generated by the Gantt based on task hierarchy.
+
+---
+
+## Column Menu
+
+Add a context menu to column headers (sort, filter, autofit, hide):
+
+```html
+<ejs-gantt [showColumnMenu]="true"></ejs-gantt>
+```
+
+Inject `ColumnMenuService`. Available menu items: `SortAscending`, `SortDescending`, `AutoFitAll`, `AutoFit`, `Filter`.
+
+Customize items per column:
+```typescript
+{ field: 'TaskName', showColumnMenu: false }  // Disable menu for this column
+```
+
+---
+
+## Column Rendering Options
+
+```typescript
+{ 
+  field: 'TaskName',
+  visible: true,           // Show/hide column
+  allowEditing: true,      // Allow editing this column
+  allowSorting: true,      // Allow sorting by this column
+  allowFiltering: true,    // Allow filtering this column
+  allowResizing: true,     // Allow resizing this column
+  allowReordering: true,   // Allow reordering this column
+  disableHtmlEncode: false, // Allow HTML in cell content
+  clipMode: 'EllipsisWithTooltip'  // Handle overflow: 'Clip' | 'Ellipsis' | 'EllipsisWithTooltip'
+}
+```
+
+Toggle column visibility programmatically:
+```typescript
+this.ganttObj.hideColumn('TaskName', 'headerText');
+this.ganttObj.showColumn('TaskName', 'headerText');
+```
