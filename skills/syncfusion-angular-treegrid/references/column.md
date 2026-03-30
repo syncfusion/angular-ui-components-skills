@@ -7,6 +7,17 @@ description: 'Columns in Syncfusion Angular TreeGrid - column configuration, hea
 
 Columns define the structure and display of TreeGrid data with various customization options.
 
+## When to Use
+
+Use column features when you need to:
+- **Define data structure** — Map data fields to columns for display
+- **Customize column headers** — Add icons, tooltips, and custom header templates
+- **Control column width** — Set fixed or auto-calculated column widths
+- **Hide/show columns** — Toggle visibility of specific columns
+- **Reorder columns** — Allow users to drag columns to reorder
+- **Format column data** — Display dates, numbers, currency with proper formatting
+- **Custom column templates** — Render custom HTML or components in columns
+
 ## Table of Contents
 - [Column Definition](#column-definition)
 - [Column Types](#column-types)

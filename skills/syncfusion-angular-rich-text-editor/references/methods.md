@@ -327,7 +327,7 @@ import { ILinkCommandsArgs } from '@syncfusion/ej2-angular-richtexteditor';
 
 insertLink(): void {
   const linkArgs: ILinkCommandsArgs = {
-    url: 'https://example.com',
+    url: 'url',
     text: 'Visit Example',
     title: 'Example Website',
     target: '_blank'
@@ -342,7 +342,7 @@ import { IImageCommandsArgs } from '@syncfusion/ej2-angular-richtexteditor';
 
 insertImage(): void {
   const imageArgs: IImageCommandsArgs = {
-    url: 'https://example.com/image.jpg',
+    url: 'url',
     altText: 'Sample Image',
     width: '300px',
     height: 'auto'

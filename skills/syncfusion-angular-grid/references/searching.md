@@ -1,5 +1,24 @@
 # Searching
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Global Search](#global-search)
+- [Custom Search Configuration](#custom-search-configuration)
+- [Search with Highlighting](#search-with-highlighting)
+- [Clear Search by External Button](#clear-search-by-external-button)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Global search** — Search across all grid rows and columns
+- **Search functionality** — Add search bar to grid toolbar
+- **Custom search** — Configure which columns to search
+- **Search highlighting** — Highlight matching text in results
+- **Clear search** — Reset search with external button
+- **Text highlighting** — Visual feedback for search matches
+- **Quick data discovery** — Help users find specific rows quickly
+
 ## Overview
 
 Search functionality allows users to find rows matching search text across multiple columns quickly. Grid provides global search with customizable options.
@@ -104,12 +123,12 @@ import { GridComponent } from '@syncfusion/ej2-angular-grids';
         <e-column field="OrderID" headerText="Order ID" width="100"></e-column>
         <e-column field="CustomerName" headerText="Customer Name" width="150">
           <ng-template #template let-data>
-            <span [innerHTML]="highlightText(data.CustomerName)"></span>
+            <span>data.CustomerName</span>
           </ng-template>
         </e-column>
         <e-column field="ShipCity" headerText="Ship City" width="150">
           <ng-template #template let-data>
-            <span [innerHTML]="highlightText(data.ShipCity)"></span>
+            <span>data.ShipCity</span>
           </ng-template>
         </e-column>
       </e-columns>
@@ -148,7 +167,7 @@ Clear search results and reset the grid to display all records using an external
 
 Implementation of clearing search results from an external button:
 
-1. Set the [searchSettings.key](https://ej2.syncfusion.com/angular/documentation/api/grid/searchSettings#key) property to an empty string.
+1. Set the [searchSettings.key](ej2.syncfusion.com/angular/documentation/api/grid/searchSettings#key) property to an empty string.
 2. This property represents the current search text.
 3. Setting it to empty clears the search text and resets the grid.
 

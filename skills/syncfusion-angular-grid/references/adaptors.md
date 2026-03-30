@@ -1,6 +1,7 @@
 # Data Adaptors in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [URL Adaptor](#url-adaptor)
 - [ODataV4 Adaptor](#odatav4-adaptor)
@@ -10,6 +11,19 @@
 - [RemoteSave Adaptor](#remotesave-adaptor)
 - [Adaptor Comparison](#adaptor-comparison)
 - [Error Handling](#error-handling)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Connect to REST APIs** — Configure grid to fetch data from RESTful backend services
+- **Integrate with OData services** — Use ODataV4 adaptor for OData-compliant APIs
+- **WebAPI integration** — Connect to .NET WebAPI endpoints with proper parameter binding
+- **GraphQL support** — Integrate grid with GraphQL backend services
+- **Custom backend protocols** — Build custom adaptors for proprietary or specialized backend systems
+- **Server-side operations** — Offload filtering, sorting, grouping, and paging to the server
+- **Error handling** — Implement robust error handling for backend communication failures
+- **Data transformation** — Transform server responses before binding to grid
+- **Cross-domain requests** — Configure CORS and cross-domain data fetching
 
 ## Overview
 
@@ -37,7 +51,7 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 })
 export class UrlAdaptorGridComponent {
   public dataManager = new DataManager({
-    url: 'https://api.example.com/orders',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });
@@ -52,7 +66,7 @@ The server expects:
 
 Example URL:
 ```
-GET https://api.example.com/orders?$skip=0&$top=12&$orderby=OrderID%20desc&$filter=Freight%20gt%2050
+GET url?$skip=0&$top=12&$orderby=OrderID%20desc&$filter=Freight%20gt%2050
 ```
 
 ### Server Response Format
@@ -98,7 +112,7 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 })
 export class UrlAdaptorGridComponent {
   public dataManager = new DataManager({
-    url: 'https://api.example.com/orders',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });
@@ -127,7 +141,7 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 })
 export class ODataV4GridComponent {
   public dataManager = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     pageSize: 12
   });
@@ -193,11 +207,10 @@ gridInstance.refresh();
 
 ```typescript
 const dataManager = new DataManager({
-  url: 'https://services.odata.org/v4/northwind/northwind.svc/Orders',
+  url: 'url',
   adaptor: new ODataV4Adaptor()
 });
 
-// In component class:
 export class ODataGridComponent implements OnInit {
   @ViewChild('grid') gridInstance: GridComponent;
   data = dataManager;
@@ -326,10 +339,10 @@ import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
   `
 })
 export class WebApiCrudGridComponent {
-    insertUrl: 'https://api.example.com/api/orders',
-    updateUrl: 'https://api.example.com/api/orders',
-    removeUrl: 'https://api.example.com/api/orders',
-    batchUrl: 'https://api.example.com/api/orders/batch'
+    insertUrl: 'url/insert',
+    updateUrl: 'url/update',
+    removeUrl: 'url/remove',
+    batchUrl: 'url/batch'
   });
 }
 ```
@@ -346,7 +359,7 @@ For GraphQL endpoints returning complex nested queries.
 import { DataManager, GraphQLAdaptor } from '@syncfusion/ej2-data';
 
 const data = new DataManager({
-  url: 'https://api.example.com/graphql',
+  url: 'url',
   adaptor: new GraphQLAdaptor(),
   query: `query {
     orders(skip: 0, take: 12) {
@@ -371,7 +384,7 @@ const data = new DataManager({
 
 ```typescript
 const data = new DataManager({
-  url: 'https://api.example.com/graphql',
+  url: 'url',
   adaptor: new GraphQLAdaptor(),
   query: `query getOrders($skip: Int!, $take: Int!, $filter: String) {
     orders(skip: $skip, take: $take, filter: $filter) {
@@ -413,7 +426,7 @@ const schema = buildSchema(`
 
 const root = {
   orders: ({ skip = 0, take = 12, filter }) => {
-    let orders = getAllOrders(); // Your data
+    let orders = getAllOrders();
     
     if (filter) {
       orders = orders.filter(o => o.customerId.includes(filter));
@@ -495,9 +508,8 @@ class CustomAdaptor extends Adaptor {
   }
 }
 
-// Usage
 const data = new DataManager({
-  url: 'https://api.example.com/orders',
+  url: 'url',
   adaptor: new CustomAdaptor()
 });
 ```
@@ -509,7 +521,7 @@ class AuthenticatedAdaptor extends Adaptor {
   processRequest(dm, request, state) {
     request.headers = {
       ...request.headers,
-      'Authorization': `Bearer ${getAuthToken()}`,
+      'Authorization': `send_token`,
       'X-Custom-Header': 'CustomValue'
     };
     return request;
@@ -538,12 +550,11 @@ import { DataManager, RemoteSaveAdaptor } from '@syncfusion/ej2-data';
 import { GridComponent, Inject, Edit, Toolbar } from '@syncfusion/ej2-angular-grids';
 
 const data = new DataManager({
-  url: 'https://api.example.com/api/orders',
+  url: 'url',
   adaptor: new RemoteSaveAdaptor(),
-  batchUrl: 'https://api.example.com/api/orders/batch'
+  batchUrl: 'url/batch'
 });
 
-// In component class:
 export class BatchGridComponent implements OnInit {
   @ViewChild('grid') gridInstance: GridComponent;
   data = dataManager;
@@ -555,12 +566,8 @@ export class BatchGridComponent implements OnInit {
   };
   toolbar: string[] = ['Add', 'Edit', 'Delete', 'Update', 'Cancel'];
   
-  ngOnInit() {
-    // Initialize grid
-  }
 }
 
-// In template:
 <ejs-grid [dataSource]="data" [editSettings]="editSettings" [toolbar]="toolbar">
   <e-columns>
     <!-- columns -->
@@ -637,11 +644,10 @@ public class BatchRequest
 
 ```typescript
 const data = new DataManager({
-  url: 'https://api.example.com/orders',
+  url: 'url',
   adaptor: new UrlAdaptor()
 });
 
-// In component:
 export class ErrorHandlingGridComponent implements OnInit {
   @ViewChild('grid') gridInstance: GridComponent;
   data = dataManager;
@@ -688,45 +694,3 @@ class InterceptorAdaptor extends Adaptor {
   }
 }
 ```
-
-### Retry Logic for Failed Requests
-
-```typescript
-const createDataManagerWithRetry = (url) => {
-  const data = new DataManager({
-    url: url,
-    adaptor: new UrlAdaptor()
-  });
-
-  let retryCount = 0;
-  const maxRetries = 3;
-
-  data.onActionFailure = (error) => {
-    if (retryCount < maxRetries) {
-      retryCount++;
-      console.log(`Retry attempt ${retryCount}...`);
-      setTimeout(() => data.executeQuery(), 1000 * retryCount);
-    } else {
-      console.error('Max retries exceeded');
-    }
-  };
-
-  return data;
-};
-```
-
----
-
-## Best Practices
-
-1. **Choose the right adaptor** for your backend type
-2. **Implement server-side filtering** for large datasets
-3. **Use pagination** to limit data transfer
-4. **Handle errors gracefully** with user-friendly messages
-5. **Add loading indicators** during data fetching
-6. **Optimize queries** - only fetch needed columns
-7. **Implement authentication** for secure APIs
-8. **Cache data** when appropriate
-9. **Test error scenarios** thoroughly
-10. **Monitor performance** with network inspector
-

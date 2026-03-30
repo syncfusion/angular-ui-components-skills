@@ -60,10 +60,10 @@ export class DialogNestedComponent {
   @ViewChild('dialogObj') dialogObj?: DialogComponent;
 
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public toolbarSettings = {
@@ -122,10 +122,10 @@ export class FileSelectorDialogComponent {
   public selectedFileName = 'None';
 
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public selectFile(): void {
@@ -192,10 +192,10 @@ import { TabModule } from '@syncfusion/ej2-angular-popups';
 })
 export class TabsNestedComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -205,10 +205,10 @@ export class TabsNestedComponent {
 ```typescript
 export class MultiTabFileManagerComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   template: `<div>
@@ -253,24 +253,24 @@ export class MultiTabFileManagerComponent {
   </div>`;
 
   public localSettings = {
-    url: 'https://your-server.com/api/FileManager/Local',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public cloudSettings = {
-    url: 'https://your-server.com/api/FileManager/Cloud',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public sharedSettings = {
-    url: 'https://your-server.com/api/FileManager/Shared',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -330,10 +330,10 @@ import { SplitterModule } from '@syncfusion/ej2-angular-layouts';
 })
 export class SplitterNestedComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -398,24 +398,24 @@ import { AccordionModule } from '@syncfusion/ej2-angular-popups';
 })
 export class AccordionNestedComponent {
   public documentSettings = {
-    url: 'https://your-server.com/api/FileManager/Documents',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public mediaSettings = {
-    url: 'https://your-server.com/api/FileManager/Media',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public archivesSettings = {
-    url: 'https://your-server.com/api/FileManager/Archives',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -588,10 +588,10 @@ export class FileUploadDialogComponent {
 ```typescript
 export class TabbedFileManagerComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   template: `<ejs-tab>
@@ -623,5 +623,3 @@ export class TabbedFileManagerComponent {
 - [File Operations](file-operations.md)
 - [Customization](customization-styling.md)
 - [Navigation Features](navigation-features.md)
-- [Syncfusion Dialog](https://ej2.syncfusion.com/angular/documentation/dialog/getting-started/)
-- [Syncfusion Tabs](https://ej2.syncfusion.com/angular/documentation/tab/getting-started/)

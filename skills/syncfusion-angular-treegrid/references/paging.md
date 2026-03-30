@@ -7,6 +7,17 @@ description: 'Paging in Syncfusion Angular TreeGrid - pagination configuration, 
 
 Paging divides data into pages for better performance and user experience.
 
+## When to Use
+
+Use paging when you need to:
+- **Improve performance** — Load data in chunks for large datasets instead of all at once
+- **Control page size** — Let users view a specific number of records per page
+- **Navigate large datasets** — Provide page controls for browsing through data
+- **Server-side paging** — Offload pagination to your backend API
+- **Lazy load data** — Fetch only the records needed for the current page
+- **Customize page navigation** — Add custom paging templates or controls
+- **Reduce UI load** — Display fewer records at a time for better responsiveness
+
 ## Table of Contents
 - [Enable Paging](#enable-paging)
 - [Page Configuration](#page-configuration)
@@ -103,7 +114,7 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 
 export class AppComponent {
   public dataManager = new DataManager({
-    url: 'https://api.example.com/tasks',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     pageSize: 10
   });

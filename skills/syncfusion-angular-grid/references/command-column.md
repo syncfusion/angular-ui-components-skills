@@ -1,6 +1,7 @@
 # Command Column in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Enable Command Column](#enable-command-column)
 - [Built-in Commands](#built-in-commands)
@@ -8,6 +9,18 @@
 - [Command Events](#command-events)
 - [Conditional Commands](#conditional-commands)
 - [Styling Commands](#styling-commands)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Add action buttons to rows** — Implement Edit, Delete, or custom action buttons
+- **Enable built-in commands** — Use predefined Edit, Delete, Save, Cancel commands
+- **Create custom commands** — Add application-specific button actions
+- **Handle command events** — Respond to user clicks on command buttons
+- **Conditional command display** — Show/hide commands based on row data or user permissions
+- **Style command buttons** — Customize button appearance and behavior
+- **Batch row operations** — Enable multiple row selections with command execution
+- **Simplify row interactions** — Avoid custom templates for common row actions
 
 ## Overview
 
@@ -87,233 +100,105 @@ export class AppCommandGridComponent {
 </e-column>
 ```
 
-### All Commands
-
-```typescript
-<e-column
-  headerText="Actions"
-  width="200"
-  [commands]="[
-    { type: 'Edit', buttonOption: { cssClass: 'e-flat', iconCss: 'e-icons e-edit' } },
-    { type: 'Save', buttonOption: { cssClass: 'e-flat', iconCss: 'e-icons e-save' } },
-    { type: 'Cancel', buttonOption: { cssClass: 'e-flat', iconCss: 'e-icons e-cancel' } },
-    { type: 'Delete', buttonOption: { cssClass: 'e-flat e-flat-danger', iconCss: 'e-icons e-delete' } }
-  ]">
-</e-column>
-```
-
----
-
 ## Custom Commands
 
-### Duplicate Row Command
+The custom command column feature extends the Grid component's capabilities by enabling custom command buttons in a column to perform specific actions on individual rows. To define custom command buttons, use the `column.commands` property. Associate the desired actions with these buttons through the `commandClick` event, allowing custom logic to be executed on button click.
+
+### View Details with Dialog
+
+The following example demonstrates how to display a custom "Details" command button and handle the click event to show row information in a dialog:
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
+import { GridModule, EditService, CommandColumnService } from '@syncfusion/ej2-angular-grids';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommandModel, CommandClickEventArgs, GridComponent, EditSettingsModel } from '@syncfusion/ej2-angular-grids';
 
 @Component({
-  selector: 'app-duplicate-command',
+  selector: 'app-custom-command',
+  standalone: true,
+  imports: [GridModule, DialogModule],
+  providers: [EditService, CommandColumnService],
   template: `
-    <ejs-grid #grid [dataSource]="data" [editSettings]="editSettings">
+    <ejs-grid #grid [dataSource]="data" [editSettings]="editSettings" 
+              (commandClick)="commandClick($event)" height="310px">
       <e-columns>
-        <e-column field="OrderID" headerText="Order ID" [isPrimaryKey]="true"></e-column>
-        <e-column field="CustomerID" headerText="Customer"></e-column>
-        <e-column
-          headerText="Actions"
-          width="150"
-          [commands]="[
-            { type: 'Edit', buttonOption: { cssClass: 'e-flat' } },
-            { buttonOption: { content: 'Copy', cssClass: 'e-flat', click: onDuplicate } },
-            { type: 'Delete', buttonOption: { cssClass: 'e-flat' } }
-          ]">
-        </e-column>
+        <e-column field="OrderID" headerText="Order ID" textAlign="Right" 
+                  [isPrimaryKey]="true" width="100"></e-column>
+        <e-column field="CustomerID" headerText="Customer ID" width="120"></e-column>
+        <e-column field="Freight" headerText="Freight" textAlign="Right" 
+                  editType="numericedit" width="120" format="C2"></e-column>
+        <e-column field="ShipCountry" headerText="Ship Country" 
+                  editType="dropdownedit" width="150"></e-column>
+        <e-column headerText="Commands" width="140" [commands]="commands"></e-column>
       </e-columns>
     </ejs-grid>
-  `,
-  providers: [EditService]
+
+    <ejs-dialog #dialog header="Row Information" showCloseIcon="true"
+                width="400px" [visible]="dialogVisible" (close)="dialogClose()">
+      <ng-template>
+        <ng-container *ngIf="rowData">
+          <p><b>Order ID:</b> {{ rowData.OrderID }}</p>
+          <p><b>Customer ID:</b> {{ rowData.CustomerID }}</p>
+          <p><b>Freight:</b> {{ rowData.Freight }}</p>
+          <p><b>Ship Country:</b> {{ rowData.ShipCountry }}</p>
+        </ng-container>
+      </ng-template>
+    </ejs-dialog>
+  `
 })
-export class DuplicateCommandComponent {
+export class CustomCommandComponent implements OnInit {
   @ViewChild('grid') gridComponent!: GridComponent;
+  
   data: any[] = [];
-  editSettings: any = { allowEditing: true, allowDeleting: true };
+  editSettings: EditSettingsModel = { allowEditing: true, allowDeleting: true };
+  commands: CommandModel[] = [];
+  dialogVisible: boolean = false;
+  rowData: any;
 
-  onDuplicate = (args: any): void => {
-    const rowData = args.rowData;
-    const newData = { ...rowData };
-    delete newData[this.gridComponent.getPrimaryKeyFieldNames()[0]];
-    
-    this.gridComponent.addRecord(newData);
-  };
-```
-
-### View Details Command
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-details-command',
-  template: `
-    <ejs-grid #grid [dataSource]="data" [editSettings]="editSettings">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" [isPrimaryKey]="true"></e-column>
-        <e-column field="CustomerID" headerText="Customer"></e-column>
-        <e-column
-          headerText="Actions"
-          width="150"
-          [commands]="[
-            { buttonOption: { content: 'Details', cssClass: 'e-flat e-info', click: onViewDetails } },
-            { type: 'Edit', buttonOption: { cssClass: 'e-flat' } },
-            { type: 'Delete', buttonOption: { cssClass: 'e-flat' } }
-          ]">
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [EditService]
-})
-export class DetailsCommandComponent {
-  @ViewChild('grid') gridComponent!: GridComponent;
-  data: any[] = [];
-  editSettings: any = { allowEditing: true, allowDeleting: true };
-
-  onViewDetails = (args: any): void => {
-    const rowData = args.rowData;
-    this.showDetailModal(rowData);
-  };
-
-  private showDetailModal(data: any): void {
-    alert(`Order Details: ${JSON.stringify(data)}`);
-  }
-```
-
-### Download/Export Command
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-download-command',
-  template: `
-    <ejs-grid #grid [dataSource]="data" [editSettings]="editSettings">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" [isPrimaryKey]="true"></e-column>
-        <e-column field="CustomerID" headerText="Customer"></e-column>
-        <e-column
-          headerText="Actions"
-          width="150"
-          [commands]="[
-            { buttonOption: { content: 'Download', cssClass: 'e-flat e-success', iconCss: 'e-icons e-download', click: onDownload } },
-            { type: 'Edit', buttonOption: { cssClass: 'e-flat' } }
-          ]">
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [EditService]
-})
-export class DownloadCommandComponent {
-  @ViewChild('grid') gridComponent!: GridComponent;
-  data: any[] = [];
-  editSettings: any = { allowEditing: true, allowDeleting: true };
-
-  onDownload = (args: any): void => {
-    const rowData = args.rowData;
-    const csv = this.convertToCSV(rowData);
-    this.downloadCSV(csv, `order-${rowData.OrderID}.csv`);
-  };
-
-  private convertToCSV(data: any): string {
-    return JSON.stringify(data);
+  ngOnInit(): void {
+    this.loadData();
+    this.initializeCommands();
   }
 
-  private downloadCSV(csv: string, filename: string): void {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
-```
-
-### Multi-Action Button
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-multi-action-command',
-  template: `
-    <ejs-grid #grid [dataSource]="data" [editSettings]="editSettings">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" [isPrimaryKey]="true"></e-column>
-        <e-column field="CustomerID" headerText="Customer"></e-column>
-        <e-column
-          headerText="Actions"
-          width="150"
-          [commands]="commandOptions">
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [EditService]
-})
-export class MultiActionCommandComponent {
-  @ViewChild('grid') gridComponent!: GridComponent;
-  data: any[] = [];
-  editSettings: any = { allowEditing: true, allowDeleting: true };
-
-  commandOptions = [
-    {
-      buttonOption: {
-        content: 'More Actions',
-        cssClass: 'e-flat e-outline',
-        click: this.showActionMenu
-      }
-    }
-  ];
-
-  private showActionMenu = (args: any): void => {
-    const actions = [
-      { label: 'Print', action: () => this.printRow(args.rowData) },
-      { label: 'Email', action: () => this.emailRow(args.rowData) },
-      { label: 'Archive', action: () => this.archiveRow(args.rowData) },
-      { label: 'Share', action: () => this.shareRow(args.rowData) }
+  private loadData(): void {
+    // Load grid data from service
+    this.data = [
+      { OrderID: 10248, CustomerID: 'VINET', Freight: 32.38, ShipCountry: 'France' },
+      { OrderID: 10249, CustomerID: 'TOMSP', Freight: 11.61, ShipCountry: 'Germany' }
+      // ... more data
     ];
+  }
+
+  private initializeCommands(): void {
+    this.commands = [
+      { buttonOption: { content: 'Details', cssClass: 'e-flat' } }
+    ];
+  }
+
+  commandClick(args: CommandClickEventArgs): void {
+    // Get command type from commandColumn.type (Edit, Delete, Save, Cancel)
+    // For custom commands, type will be None/undefined
+    const commandType = args.commandColumn?.type;
+    const buttonText = args.target?.textContent?.trim();
     
-    actions.forEach(action => {
-      const button = document.createElement('button');
-      button.textContent = action.label;
-      button.className = 'e-btn e-flat';
-      button.onclick = () => action.action();
-      document.body.appendChild(button);
-    });
-  };
-
-  private printRow(data: any): void {
-    console.log('Print:', data);
+    if (commandType === 'Edit' || commandType === 'Delete') {
+      // Built-in commands are handled automatically by the grid
+      return;
+    }
+    
+    // Handle custom command buttons
+    if (buttonText === 'Details') {
+      this.rowData = args.rowData;
+      this.dialogVisible = true;
+    }
   }
 
-  private emailRow(data: any): void {
-    console.log('Email:', data);
+  dialogClose(): void {
+    this.dialogVisible = false;
   }
-
-  private archiveRow(data: any): void {
-    console.log('Archive:', data);
-  }
-
-  private shareRow(data: any): void {
-    console.log('Share:', data);
-  }
+}
 ```
-
----
 
 ## Command Events
 
@@ -321,7 +206,7 @@ export class MultiActionCommandComponent {
 
 ```typescript
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, CommandClickEventArgs } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-command-click-grid',
@@ -345,10 +230,11 @@ export class CommandClickGridComponent implements OnInit {
     this.data = [...]; // Load from service
   }
 
-  onCommandClick(args: any) {
-    console.log('Command type:', args.commandType);
+  onCommandClick(args: CommandClickEventArgs) {
+    console.log('Command type:', args.commandColumn?.type);
     console.log('Row data:', args.rowData);
     console.log('Button element:', args.target);
+    console.log('Button text:', args.target?.textContent);
   }
 }
 ```
@@ -357,7 +243,7 @@ export class CommandClickGridComponent implements OnInit {
 
 ```typescript
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
+import { GridComponent, CommandClickEventArgs } from '@syncfusion/ej2-angular-grids';
 
 @Component({
   selector: 'app-command-check-grid',
@@ -381,13 +267,17 @@ export class CommandCheckGridComponent implements OnInit {
     this.data = [...]; // Load from service
   }
 
-  onCommand(args: any) {
-    if (args.commandType === 'Edit') {
+  onCommand(args: CommandClickEventArgs) {
+    const commandType = args.commandColumn?.type;
+    const buttonText = args.target?.textContent?.trim();
+    
+    if (commandType === 'Edit') {
       console.log('Edit command:', args.rowData);
-    } else if (args.commandType === 'Delete') {
+    } else if (commandType === 'Delete') {
       console.log('Delete command:', args.rowData);
-    } else if (args.commandType === 'Custom') {
-      console.log('Custom command:', args.commandType);
+    } else {
+      // Custom commands identified by button text
+      console.log('Custom command:', buttonText, 'Data:', args.rowData);
     }
   }
 }
@@ -456,6 +346,8 @@ export class ConditionalCommandComponent {
 ```
 
 ### Role-Based Commands
+
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
@@ -693,115 +585,3 @@ export class StyledCommandComponent {
     }
   }
 ```
-
----
-
-## Complete Example
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { GridComponent, ColumnsDirective, ColumnDirective, Inject, Edit, Toolbar } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-grid-commands',
-  template: `
-    <ejs-grid #gridInstance [dataSource]="orders" [editSettings]="editSettings" [toolbar]="toolbar" (commandClick)="onCommandClick($event)">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" width="100" isPrimaryKey="true"></e-column>
-        <e-column field="CustomerID" headerText="Customer" width="120"></e-column>
-        <e-column field="Freight" headerText="Freight" width="100" format="C2"></e-column>
-        <e-column headerText="Actions" width="250" [commands]="commands"></e-column>
-      </e-columns>
-      <e-inject [services]="[Edit, Toolbar]"></e-inject>
-    </ejs-grid>
-  `
-})
-export class CommandComplexGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  orders: any[] = [];
-  editSettings: any = { mode: 'Dialog', allowEditing: true, allowDeleting: true };
-  toolbar: string[] = [];
-  commands: any[] = [];
-
-  ngOnInit() {
-    this.initializeCommands();
-    this.loadOrders();
-  }
-
-  initializeCommands() {
-    this.commands = [
-      { 
-        type: 'Edit', 
-        buttonOption: { cssClass: 'e-flat', iconCss: 'e-icons e-edit' } 
-      },
-      { 
-        buttonOption: { 
-          content: 'Duplicate', 
-          cssClass: 'e-flat e-info' 
-        } 
-      },
-      { 
-        buttonOption: { 
-          content: 'Details', 
-          cssClass: 'e-flat e-primary' 
-        } 
-      },
-      { 
-        type: 'Delete', 
-        buttonOption: { cssClass: 'e-flat e-danger', iconCss: 'e-icons e-delete' } 
-      }
-    ];
-  }
-
-  onCommandClick(args: any) {
-    switch (args.commandType) {
-      case 'Edit':
-        console.log('Editing:', args.rowData);
-        break;
-      case 'Delete':
-        if (confirm('Are you sure you want to delete this record?')) {
-          this.gridInstance.deleteRecord();
-        }
-        break;
-      case 'Duplicate':
-        this.onDuplicate(args);
-        break;
-      case 'Details':
-        this.onViewDetails(args);
-        break;
-    }
-  }
-
-  onDuplicate(args: any) {
-    const newData = { ...args.rowData };
-    delete newData.OrderID;
-    this.gridInstance.addRecord(newData);
-  }
-
-  onViewDetails(args: any) {
-    alert(`Order ID: ${args.rowData.OrderID}\nCustomer: ${args.rowData.CustomerID}`);
-  }
-
-  loadOrders() {
-    // Load orders from service
-  }
-}
-```
-
----
-
-## Best Practices
-
-1. **Keep command column width fixed** (~150-250px)
-2. **Order commands logically** (Edit → Save/Cancel, Delete at end)
-3. **Use icons with text** for clarity
-4. **Confirm destructive actions** (delete)
-5. **Disable commands** when not applicable
-6. **Show loading state** for async operations
-7. **Provide keyboard shortcuts** (accessibility)
-8. **Test with touch devices** (small button sizing)
-9. **Group related commands** visually
-10. **Provide tooltips** for clarity
-
-
-

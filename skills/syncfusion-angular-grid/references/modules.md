@@ -1,6 +1,7 @@
 # Module System in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Critical Rule](#critical-rule)
 - [Module Injection Pattern](#module-injection-pattern)
@@ -8,6 +9,17 @@
 - [Module Dependencies](#module-dependencies)
 - [Bundle Optimization](#bundle-optimization)
 - [Feature-Module Mapping](#feature-module-mapping)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Enable grid features** — Inject services to unlock feature methods
+- **Optimize bundle size** — Import only required modules
+- **Configure services** — Understand service injection for features
+- **Troubleshoot silent failures** — Ensure required services are provided
+- **Feature prerequisites** — Know which services enable which methods
+- **Performance tuning** — Reduce bundle by excluding unused modules
+- **Lazy loading** — Load modules conditionally when needed
 
 ## Overview
 
@@ -17,7 +29,7 @@ Modules are injected using the `Inject` property in the component template or pr
 
 ## Critical Rule
 
-#### Rule 1: Service Injection Required for Feature Methods
+### Rule 1: Service Injection Required for Feature Methods
 
 **Features work only if their service is injected via `providers` array. No error thrown if missing.**
 
@@ -59,21 +71,21 @@ import {
       </e-columns>
     </ejs-grid>
   `,
-  providers: [  // ✅ Inject all required services
-    PageService,         // for goToPage(), allowPaging
-    SortService,         // for sortColumn(), allowSorting
-    FilterService,       // for filterByColumn(), allowFiltering
-    EditService,         // for addRecord(), deleteRecord()
-    ToolbarService,      // for toolbar
-    ExcelExportService,  // for excelExport()
-    PdfExportService     // for pdfExport()
+  providers: [
+    PageService,
+    SortService,
+    FilterService,
+    EditService,
+    ToolbarService,
+    ExcelExportService,
+    PdfExportService
   ]
 })
 export class GridComponent {
   @ViewChild('grid') gridComponent!: GridComponent;
   
   navigateToPage() {
-    this.gridComponent.goToPage(2);  // ✅ Works - PageService injected
+    this.gridComponent.goToPage(2);
   }
 }
 ```
@@ -97,30 +109,6 @@ export class GridComponent {
 
 ## Module Injection Pattern
 
-### Basic Injection
-
-```typescript
-import { Component } from '@angular/core';
-import { GridComponent, PageService, SortService, FilterService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-grid',
-  template: `
-    <ejs-grid [dataSource]="data">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" width="100"></e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [PageService, SortService, FilterService]
-})
-export class GridComponent {
-  data = [];
-}
-```
-
-### Multiple Modules
-
 ```typescript
 import { Component } from '@angular/core';
 import { 
@@ -138,55 +126,6 @@ import {
 })
 export class GridComponent {
   data = [];
-}
-```
-
-### Conditional Injection
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, PageService, SortService, FilterService, GroupService, EditService, ToolbarService, ExcelExportService, PdfExportService } from '@syncfusion/ej2-angular-grids';
-
-const getRequiredModules = (features: string[]) => {
-  const baseServices = [];
-  
-  if (features.includes('paging')) baseServices.push(PageService);
-  if (features.includes('sorting')) baseServices.push(SortService);
-  if (features.includes('filtering')) baseServices.push(FilterService);
-  if (features.includes('grouping')) baseServices.push(GroupService);
-  if (features.includes('editing')) {
-    baseServices.push(EditService);
-    baseServices.push(ToolbarService);
-  }
-  if (features.includes('export')) {
-    baseServices.push(ExcelExportService);
-    baseServices.push(PdfExportService);
-  }
-  
-  return baseServices;
-};
-
-@Component({
-  selector: 'app-conditional-grid',
-  template: `
-    <ejs-grid [dataSource]="data" 
-              [allowPaging]="features.includes('paging')"
-              [allowSorting]="features.includes('sorting')"
-              [allowFiltering]="features.includes('filtering')">
-      <e-columns>
-        <!-- columns -->
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [PageService, SortService, FilterService, GroupService, EditService, ToolbarService, ExcelExportService, PdfExportService]
-})
-export class ConditionalGridComponent {
-  data: any[] = [];
-  features: string[] = ['paging', 'sorting', 'filtering'];
-  
-  constructor() {
-    // Services injected via providers in component decorator
-  }
 }
 ```
 
@@ -540,91 +479,3 @@ Core Grid Only:          ~45 KB
 ```typescript
 // providers: [ColumnChooserService, ColumnMenuService, ResizeService, ReorderService, PageService, SortService, FilterService]
 ```
-
-## Advanced Scenarios
-
-### Lazy Module Loading
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-lazy-modules',
-  template: `<ejs-grid [dataSource]="data"></ejs-grid>`
-})
-export class LazyModulesComponent implements OnInit {
-  data: any[] = [];
-  modules: any[] = [];
-
-  async ngOnInit() {
-    const { PageService } = await import('@syncfusion/ej2-angular-grids');
-    this.modules = [PageService];
-  }
-}
-
-// Conditional module injection with NgIf
-// <ejs-grid [dataSource]="data">
-//   <!-- columns -->
-//   <!-- providers passed in @Component -->
-// </ejs-grid>
-```
-
-### Dynamic Module Management
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService, ToolbarService, PageService, SortService, FilterService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-dynamic-modules',
-  template: `
-    <button (click)="toggleEditMode()">{{ enableEdit ? 'Disable' : 'Enable' }} Edit</button>
-    
-    <ejs-grid #grid [dataSource]="data" [allowPaging]="true" [allowSorting]="true" 
-              [allowFiltering]="true" [editSettings]="editSettings" [toolbar]="toolbar">
-      <e-columns>
-        <!-- columns -->
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [PageService, SortService, FilterService, EditService, ToolbarService]
-})
-export class DynamicModulesGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  enableEdit = false;
-  toolbar: string[] = [];
-  editSettings: any = {};
-
-  ngOnInit() {
-    this.initializeSettings();
-  }
-
-  toggleEditMode() {
-    this.enableEdit = !this.enableEdit;
-    this.initializeSettings();
-  }
-
-  initializeSettings() {
-    this.toolbar = this.enableEdit ? ['Add', 'Edit', 'Delete', 'Update', 'Cancel'] : [];
-    this.editSettings = this.enableEdit ? { mode: 'Dialog', allowEditing: true } : {};
-  }
-}
-```
-
-### Check if Module is Injected
-
-```typescript
-export class CheckModulesGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-
-  ngOnInit() {
-    // Check available modules
-    console.log('Paging enabled:', this.gridInstance?.allowPaging);
-    console.log('Edit settings:', this.gridInstance?.editSettings);
-  }
-}
-```
-
-

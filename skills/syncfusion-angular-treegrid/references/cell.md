@@ -7,6 +7,17 @@ description: 'Cells in Syncfusion Angular TreeGrid - cell styling, custom templa
 
 Cells are individual data elements within rows that can be customized with templates, styles, and formats.
 
+## When to Use
+
+Use cell features when you need to:
+- **Apply cell-specific styling** — Color-code cells based on values or conditions
+- **Custom cell templates** — Render custom HTML or components in cells
+- **Cell formatting** — Format numbers, dates, currency in cells
+- **Cell tooltips** — Show informative tooltips on hover
+- **Cell validation** — Validate cell values before editing
+- **Conditional rendering** — Show/hide content based on cell values
+- **Cell events** — Handle click, double-click, and edit events
+
 ## Table of Contents
 - [Cell Styling](#cell-styling)
 - [Cell Templates](#cell-templates)

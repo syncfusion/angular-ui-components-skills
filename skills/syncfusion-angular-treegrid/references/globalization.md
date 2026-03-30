@@ -7,6 +7,17 @@ description: 'Globalization in Syncfusion Angular TreeGrid - localization and lo
 
 Globalization provides localization, RTL support, and culture-specific formatting for international use.
 
+## When to Use
+
+Use globalization features when you need to:
+- **Multi-language support** — Display UI in different languages
+- **RTL languages** — Support Arabic, Hebrew, Persian
+- **Culture-specific formatting** — Format dates, numbers by locale
+- **International apps** — Adapt for global audience
+- **Custom translations** — Add domain-specific language packs
+- **Date/time formatting** — Show dates in user's locale format
+- **Currency display** — Show currency symbols and formatting by region
+
 ## Table of Contents
 - [Locale Configuration](#locale-configuration)
 - [RTL Support](#rtl-support)
@@ -26,7 +37,7 @@ import { L10n } from '@syncfusion/ej2-base';
     <ejs-treegrid 
       [dataSource]='data'
       [childMapping]='childMapping'
-      locale='es-ES'>
+      locale='fa-AF'>
       <e-columns>
         <e-column field='TaskID' headerText='Task ID' width='90'></e-column>
         <e-column field='TaskName' headerText='Task Name' width='200'></e-column>

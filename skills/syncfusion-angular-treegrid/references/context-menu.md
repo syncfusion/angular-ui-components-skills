@@ -7,6 +7,17 @@ description: 'Context menu in Syncfusion Angular TreeGrid - context menu configu
 
 Context menu provides quick actions when right-clicking on rows or cells.
 
+## When to Use
+
+Use context menu when you need to:
+- **Quick actions** — Right-click menu for common operations
+- **CRUD operations** — Edit, delete, copy from menu
+- **Custom menus** — Add domain-specific menu items
+- **Conditional items** — Show/hide menu items based on context
+- **Copy to clipboard** — Copy cell or row data via menu
+- **Row operations** — Actions specific to selected row
+- **Touch-friendly** — Alternative to right-click on touch devices
+
 ## Table of Contents
 - [Enable Context Menu](#enable-context-menu)
 - [Context Menu Items](#context-menu-items)

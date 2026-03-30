@@ -7,15 +7,23 @@ description: 'RxJS Observables in Syncfusion Angular TreeGrid - async pipe bindi
 
 RxJS Observables enable reactive data binding in TreeGrid with automatic subscription management, async operations, and real-time data updates.
 
+## When to Use
+
+Use Observables when you need to:
+- **Reactive binding** — Bind TreeGrid to Observable streams
+- **Async pipe** — Use *ngIf with async pipe for automatic subscription
+- **Real-time updates** — Stream live data to TreeGrid
+- **Angular best practices** — Use reactive patterns in Angular
+
 ## Table of Contents
 - [Observable Data Binding](#observable-data-binding)
-- [Async Pipe Binding](#async-pipe-binding)
 - [Data State Change Handling](#data-state-change-handling)
+- [Filtering with Observables](#filtering-with-observables)
 - [CRUD Operations with Observables](#crud-operations-with-observables)
-- [Custom Data Service](#custom-data-service)
 - [Child Data Binding](#child-data-binding)
 - [Aggregate Calculation](#aggregate-calculation)
-- [Filtering with Observables](#filtering-with-observables)
+- [Observable Without Async Pipe](#observable-ithout-async-pipe)
+- [Error Handling with Observables](#error-handling-with-observables)
 
 ## Observable Data Binding
 
@@ -24,7 +32,7 @@ RxJS Observables enable reactive data binding in TreeGrid with automatic subscri
 ```typescript
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TreeGridComponent, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
+import { TreeGridComponent, DataStateChangeEventArgs, PageService } from '@syncfusion/ej2-angular-treegrid';
 import { DataService } from './data.service';
 
 @Component({
@@ -43,7 +51,8 @@ import { DataService } from './data.service';
         <e-column field='Duration' headerText='Duration' width='100'></e-column>
       </e-columns>
     </ejs-treegrid>
-  `
+  `,
+  providers: [PageService]
 })
 export class AppComponent implements OnInit {
   public data: Observable<DataStateChangeEventArgs>;
@@ -63,174 +72,6 @@ export class AppComponent implements OnInit {
 }
 ```
 
-## Async Pipe Binding
-
-### Async Pipe with Observable
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
-import { DataService } from './data.service';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <!-- Async pipe automatically subscribes to observable -->
-    <ejs-treegrid 
-      [dataSource]='data | async'
-      [allowPaging]='true'
-      [pageSettings]='{ pageSize: 10, pageSizeMode: "Root" }'>
-      <!-- columns -->
-    </ejs-treegrid>
-  `
-})
-export class AppComponent implements OnInit {
-  public data: Observable<DataStateChangeEventArgs>;
-
-  constructor(private dataService: DataService) {
-    this.data = dataService;
-  }
-
-  ngOnInit(): void {
-    const initialState: any = { skip: 0, take: 10 };
-    this.dataService.execute(initialState);
-  }
-}
-```
-
-## Data State Change Handling
-
-### Handle Paging, Sorting & Filtering
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TreeGridComponent, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
-import { DataService } from './data.service';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data | async'
-      [allowPaging]='true'
-      [allowSorting]='true'
-      [allowFiltering]='true'
-      (dataStateChange)='onDataStateChange($event)'>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  public data: Observable<DataStateChangeEventArgs>;
-
-  constructor(private dataService: DataService) {
-    this.data = dataService;
-  }
-
-  onDataStateChange(state: DataStateChangeEventArgs): void {
-    // Triggered on pagination, sorting, filtering
-    console.log('State changed:', state);
-    this.dataService.execute(state);
-  }
-}
-```
-
-### DataStateChangeEventArgs Properties
-
-```typescript
-// State object contains:
-{
-  skip: 0,           // Pagination offset
-  take: 10,          // Page size
-  sorted: [],        // Sort settings
-  where: [],         // Filter conditions
-  search: [],        // Search criteria
-  requestType: 'paging' | 'sorting' | 'filtering' | 'expand',
-  data: {},          // Row data (for expand)
-  childData: [],     // Child data (for custom binding)
-  childDataBind: () => void  // Method to bind child data
-}
-```
-
-## CRUD Operations with Observables
-
-### Add, Edit, Delete with Observable
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TreeGridComponent, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
-import { DataSourceChangedEventArgs } from '@syncfusion/ej2-grids';
-import { DataService } from './data.service';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data | async'
-      [editSettings]='{ mode: "Normal", allowEditing: true, allowAdding: true, allowDeleting: true }'
-      (dataStateChange)='onDataStateChange($event)'
-      (dataSourceChanged)='onDataSourceChanged($event)'>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  public data: Observable<DataStateChangeEventArgs>;
-
-  constructor(private dataService: DataService) {
-    this.data = dataService;
-  }
-
-  onDataStateChange(state: DataStateChangeEventArgs): void {
-    this.dataService.execute(state);
-  }
-
-  onDataSourceChanged(state: DataSourceChangedEventArgs): void {
-    if (state.action === 'add') {
-      // Adding new record
-      this.dataService.addRecord(state).subscribe({
-        next: () => {
-          state.endEdit();
-          console.log('Record added');
-        },
-        error: (error) => {
-          console.error('Add failed:', error);
-        }
-      });
-    } else if (state.action === 'edit') {
-      // Editing existing record
-      this.dataService.updateRecord(state).subscribe({
-        next: () => {
-          state.endEdit();
-          console.log('Record updated');
-        },
-        error: (error) => {
-          console.error('Update failed:', error);
-        }
-      });
-    } else if (state.requestType === 'delete') {
-      // Deleting record
-      this.dataService.deleteRecord(state).subscribe({
-        next: () => {
-          state.endEdit();
-          console.log('Record deleted');
-        },
-        error: (error) => {
-          console.error('Delete failed:', error);
-        }
-      });
-    }
-  }
-}
-```
-
-## Custom Data Service
-
 ### Create Observable Data Service
 
 ```typescript
@@ -244,7 +85,7 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class DataService extends Subject<DataStateChangeEventArgs> {
   
-  private BASE_URL = 'https://api.example.com/tasks';
+  private BASE_URL = 'url';
 
   constructor(private http: HttpClient) {
     super();
@@ -321,6 +162,185 @@ export class DataService extends Subject<DataStateChangeEventArgs> {
   public deleteRecord(state: any): Observable<any> {
     const id = state.data[0].TaskID;
     return this.http.delete(`${this.BASE_URL}/${id}`);
+  }
+}
+```
+
+## Data State Change Handling
+
+### Handle Paging, Sorting & Filtering
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TreeGridComponent, DataStateChangeEventArgs, PageService, SortService, FiterService } from '@syncfusion/ej2-angular-treegrid';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-treegrid',
+  template: `
+    <ejs-treegrid 
+      #treegrid
+      [dataSource]='data | async'
+      [allowPaging]='true'
+      [allowSorting]='true'
+      [allowFiltering]='true'
+      (dataStateChange)='onDataStateChange($event)'>
+    </ejs-treegrid>
+  `,
+  providers: [PageService, SortService, FiterService]
+})
+export class AppComponent {
+  @ViewChild('treegrid') treegrid!: TreeGridComponent;
+  public data: Observable<DataStateChangeEventArgs>;
+
+  constructor(private dataService: DataService) {
+    this.data = dataService;
+  }
+
+  onDataStateChange(state: DataStateChangeEventArgs): void {
+    // Triggered on pagination, sorting, filtering
+    console.log('State changed:', state);
+    this.dataService.execute(state);
+  }
+}
+```
+
+### DataStateChangeEventArgs Properties
+
+```typescript
+// State object contains:
+{
+  skip: 0,           // Pagination offset
+  take: 10,          // Page size
+  sorted: [],        // Sort settings
+  where: [],         // Filter conditions
+  search: [],        // Search criteria
+  requestType: 'paging' | 'sorting' | 'filtering' | 'expand',
+  data: {},          // Row data (for expand)
+  childData: [],     // Child data (for custom binding)
+  childDataBind: () => void  // Method to bind child data
+}
+```
+
+## Filtering with Observables
+
+### Excel Filter with Observable
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TreeGridComponent, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-treegrid',
+  template: `
+    <ejs-treegrid 
+      #treegrid
+      [dataSource]='data | async'
+      [allowFiltering]='true'
+      [filterSettings]='{ type: "Excel" }'
+      (dataStateChange)='onDataStateChange($event)'>
+    </ejs-treegrid>
+  `
+})
+export class AppComponent {
+  @ViewChild('treegrid') treegrid!: TreeGridComponent;
+  public data: Observable<DataStateChangeEventArgs>;
+
+  constructor(private dataService: DataService) {
+    this.data = dataService;
+  }
+
+  onDataStateChange(state: DataStateChangeEventArgs): void {
+    // Check if filter choice request
+    if (state.action?.requestType === 'filterchoicerequest' || 
+        state.action?.requestType === 'filtersearchbegin') {
+      
+      // Provide filter data source
+      this.dataService.getData(state).subscribe(filterData => {
+        state.dataSource(filterData);
+      });
+    } else {
+      // Regular data operation
+      this.dataService.execute(state);
+    }
+  }
+}
+```
+
+## CRUD Operations with Observables
+
+### Add, Edit, Delete with Observable
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { TreeGridComponent, DataStateChangeEventArgs, EditService } from '@syncfusion/ej2-angular-treegrid';
+import { DataSourceChangedEventArgs } from '@syncfusion/ej2-grids';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-treegrid',
+  template: `
+    <ejs-treegrid 
+      #treegrid
+      [dataSource]='data | async'
+      [editSettings]='{ mode: "Normal", allowEditing: true, allowAdding: true, allowDeleting: true }'
+      (dataStateChange)='onDataStateChange($event)'
+      (dataSourceChanged)='onDataSourceChanged($event)'>
+    </ejs-treegrid>
+  `,
+  providers: [EditService]
+})
+export class AppComponent {
+  @ViewChild('treegrid') treegrid!: TreeGridComponent;
+  public data: Observable<DataStateChangeEventArgs>;
+
+  constructor(private dataService: DataService) {
+    this.data = dataService;
+  }
+
+  onDataStateChange(state: DataStateChangeEventArgs): void {
+    this.dataService.execute(state);
+  }
+
+  onDataSourceChanged(state: DataSourceChangedEventArgs): void {
+    if (state.action === 'add') {
+      // Adding new record
+      this.dataService.addRecord(state).subscribe({
+        next: () => {
+          state.endEdit();
+          console.log('Record added');
+        },
+        error: (error) => {
+          console.error('Add failed:', error);
+        }
+      });
+    } else if (state.action === 'edit') {
+      // Editing existing record
+      this.dataService.updateRecord(state).subscribe({
+        next: () => {
+          state.endEdit();
+          console.log('Record updated');
+        },
+        error: (error) => {
+          console.error('Update failed:', error);
+        }
+      });
+    } else if (state.requestType === 'delete') {
+      // Deleting record
+      this.dataService.deleteRecord(state).subscribe({
+        next: () => {
+          state.endEdit();
+          console.log('Record deleted');
+        },
+        error: (error) => {
+          console.error('Delete failed:', error);
+        }
+      });
+    }
   }
 }
 ```
@@ -442,53 +462,6 @@ export class AppComponent {
 }
 ```
 
-## Filtering with Observables
-
-### Excel Filter with Observable
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TreeGridComponent, DataStateChangeEventArgs } from '@syncfusion/ej2-angular-treegrid';
-import { DataService } from './data.service';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data | async'
-      [allowFiltering]='true'
-      [filterSettings]='{ type: "Excel" }'
-      (dataStateChange)='onDataStateChange($event)'>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  public data: Observable<DataStateChangeEventArgs>;
-
-  constructor(private dataService: DataService) {
-    this.data = dataService;
-  }
-
-  onDataStateChange(state: DataStateChangeEventArgs): void {
-    // Check if filter choice request
-    if (state.action?.requestType === 'filterchoicerequest' || 
-        state.action?.requestType === 'filtersearchbegin') {
-      
-      // Provide filter data source
-      this.dataService.getData(state).subscribe(filterData => {
-        state.dataSource(filterData);
-      });
-    } else {
-      // Regular data operation
-      this.dataService.execute(state);
-    }
-  }
-}
-```
-
 ## Observable Without Async Pipe
 
 ### Manual Subscription Management
@@ -569,31 +542,6 @@ export class DataService extends Subject<DataStateChangeEventArgs> {
         }
       });
   }
-}
-```
-
-### Component Error Handling
-
-```typescript
-onDataStateChange(state: DataStateChangeEventArgs): void {
-  this.dataService.execute(state);
-  
-  // If you need explicit error handling
-  this.dataService.subscribe({
-    next: (data) => {
-      // Update grid with data
-    },
-    error: (error) => {
-      console.error('Grid data error:', error);
-      // Show user-friendly message
-      this.showErrorMessage('Failed to load data. Please try again.');
-    }
-  });
-}
-
-showErrorMessage(message: string): void {
-  // Display error to user
-  alert(message);
 }
 ```
 

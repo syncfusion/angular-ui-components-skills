@@ -1,5 +1,23 @@
 # Clipboard
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Enable Copy/Paste](#enable-copypaste)
+- [Copy with Formatting](#copy-with-formatting)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Copy/paste functionality** — Enable users to copy grid cells and paste into other applications
+- **Excel integration** — Allow copying grid data to Excel with formatting preserved
+- **Clipboard operations** — Support Ctrl+C/Ctrl+V keyboard shortcuts for cell selection
+- **Multi-cell copying** — Copy multiple selected cells or entire rows
+- **Formatted copying** — Preserve headers, formatting, and structure when copying
+- **Paste with validation** — Validate pasted data before updating the grid
+- **Export to external apps** — Enable users to move grid data to spreadsheets or documents
+- **Batch data entry** — Support pasting multiple rows at once for bulk operations
+
 ## Overview
 
 Clipboard functionality enables copy/paste operations for grid cells and rows. Users can copy data and paste into Excel, other applications, or back into the grid.

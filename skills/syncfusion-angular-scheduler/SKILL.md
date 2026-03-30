@@ -387,7 +387,7 @@ import { WeekService, MonthService } from '@syncfusion/ej2-angular-schedule';
 })
 export class AppComponent {
   private dataManager: DataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejservices/api/Schedule/LoadData',
+    url: 'url',
     adaptor: new WebApiAdaptor(),
     crossDomain: true
   });

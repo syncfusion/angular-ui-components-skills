@@ -1,11 +1,23 @@
 # Row
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Row Properties](#row-properties)
 - [Row Events](#row-events)
 - [Row Templates](#row-templates)
 - [Detail Templates](#detail-templates)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Configure row behavior** — Set row height, styles, and properties
+- **Handle row events** — Respond to row selection, hover, click events
+- **Row templates** — Customize row content with HTML templates
+- **Detail templates** — Show expanded detail content for rows
+- **Row styling** — Apply conditional styling to rows
+- **Row selection** — Control single/multiple row selection
+- **Row visibility** — Show/hide rows based on conditions
 
 ## Overview
 

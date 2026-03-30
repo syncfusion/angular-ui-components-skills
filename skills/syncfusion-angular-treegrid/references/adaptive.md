@@ -1,11 +1,18 @@
 ---
 name: Adaptive
-description: 'Adaptive design in Syncfusion Angular TreeGrid - responsive grid layout, mobile optimization, breakpoint configuration, and device detection.'
+description: 'Adaptive design in Syncfusion Angular TreeGrid - responsive grid layout, mobile optimization, and breakpoint configuration.'
 ---
 
 # Adaptive Design
 
 Adaptive design makes TreeGrid responsive and mobile-friendly with automatic layout adjustments.
+
+## When to Use
+
+Use adaptive design when you need to:
+- **Mobile support** — Make TreeGrid work on phones and tablets
+- **Portrait/landscape** — Reflow layout for orientation changes
+- **Cross-device consistency** — Work seamlessly on all devices
 
 ## Table of Contents
 - [Enable Adaptive](#enable-adaptive)
@@ -38,20 +45,6 @@ export class AppComponent {
   public data: Object[] = [];
   public childMapping: string = 'subtasks';
 }
-```
-
-## Mobile Layout
-
-### Material Design Mobile
-
-```typescript
-<ejs-treegrid 
-  [dataSource]='data'
-  [childMapping]='childMapping'
-  [enableAdaptiveUI]='true'
-  [rowHeight]='48'>
-  <!-- columns -->
-</ejs-treegrid>
 ```
 
 ## Responsive Breakpoints

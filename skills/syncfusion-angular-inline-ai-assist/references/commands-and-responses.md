@@ -53,9 +53,6 @@ export class AppComponent {
             }
         ]
     };
-
-    // Template
-    // [commandSettings]="commandSetting"
 }
 ```
 
@@ -112,9 +109,6 @@ export class AppComponent {
         ],
         itemSelect: this.onItemSelect
     }
-
-    // Template
-    // [responseSettings]="responseSetting"
 }
 ```
 

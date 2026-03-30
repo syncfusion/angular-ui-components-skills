@@ -1,5 +1,15 @@
 # OLAP Data Sources
 
+## ⚠️ SECURITY NOTICE
+
+**All OLAP connections MUST use authenticated, enterprise-managed OLAP servers.** Never connect to untrusted OLAP endpoints. See [core-concepts.md Security Best Practices](./core-concepts.md#security-best-practices) for comprehensive security guidelines.
+
+✅ **Required Security Controls:**
+- Enterprise OLAP server authentication
+- Role-based access control (RBAC)
+- Encrypted connections (HTTPS/SSL)
+- Configuration-based endpoints (never hardcoded)
+
 ## Table of Contents
 - [Overview](#overview)
 - [Getting Started with OLAP](#getting-started-with-olap)

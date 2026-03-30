@@ -23,15 +23,15 @@ Syncfusion Angular component packages are available on [npmjs.com](https://www.n
 **Example: Installing the Grid component**
 
 ```bash
-ng add @syncfusion/ej2-angular-grids
+ng add @syncfusion/ej2-angular-grids@latest
 ```
 
 **Example: Installing multiple components**
 
 ```bash
-ng add @syncfusion/ej2-angular-buttons
-ng add @syncfusion/ej2-angular-calendars
-ng add @syncfusion/ej2-angular-dropdowns
+ng add @syncfusion/ej2-angular-buttons@latest
+ng add @syncfusion/ej2-angular-calendars@latest
+ng add @syncfusion/ej2-angular-dropdowns@latest
 ```
 
 ### Import CSS
@@ -194,7 +194,7 @@ cd ClientApp
 Install Syncfusion Angular packages from npm:
 
 ```bash
-npm install @syncfusion/ej2-angular-grids --save
+npm install @syncfusion/ej2-angular-grids@latest --save
 ```
 
 All Syncfusion Angular packages are available under the `@syncfusion` scope at [npmjs.com](https://www.npmjs.com/search?q=%40syncfusion%2Fej2-angular-).
@@ -299,7 +299,7 @@ cd ClientApp
 Install Syncfusion Angular components by following the Angular CLI installation steps. Inside the ClientApp directory, run:
 
 ```bash
-ng add @syncfusion/ej2-angular-grids
+ng add @syncfusion/ej2-angular-grids@latest
 ```
 
 Update `projects.ClientApp.architect.build.options.outputPath` in `angular.json` for the production build to `../Scripts/ClientApp`:

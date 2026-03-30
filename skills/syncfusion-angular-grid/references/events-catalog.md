@@ -1,7 +1,8 @@
 # Syncfusion Angular Grid — Events Catalog
 
 ## Table of Contents
-- [CRITICAL RULES: Event Handling](#️-critical-rules-event-handling)
+- [When to Use This Skill](#when-to-use-this-skill)
+- [CRITICAL RULES: Event Handling](#-critical-rules-event-handling)
 - [actionBegin vs actionComplete — Decision Rule](#actionbegin-vs-actioncomplete--decision-rule)
 - [requestType Full Catalog](#requesttype-full-catalog)
   - [CRUD / Edit](#crud--edit)
@@ -23,6 +24,19 @@
   - [Hierarchy / Detail Row](#hierarchy--detail-row)
   - [Context Menu](#context-menu)
   - [Toolbar](#toolbar)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Handle grid events** — Respond to user interactions and data changes
+- **Implement event handlers** — Listen to lifecycle, CRUD, and user action events
+- **Control event flow** — Cancel operations before/after they complete
+- **Synchronize with backend** — Save changes via actionBegin/actionComplete
+- **Intercept operations** — Validate or prevent actions using event cancellation
+- **Track user actions** — Monitor sorting, filtering, grouping, pagination
+- **Custom workflows** — Implement multi-step processes triggered by events
+- **Event signatures** — Ensure handlers match exact event parameter signatures
+- **Request type handling** — Distinguish between different operation types
 
 ---
 

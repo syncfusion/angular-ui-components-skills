@@ -7,9 +7,20 @@ description: 'Sorting in Syncfusion Angular TreeGrid - single column sort, multi
 
 Sorting organizes data in ascending or descending order with support for multiple columns.
 
+## When to Use
+
+Use sorting when you need to:
+- **Organize data** — Allow users to sort records by one or multiple columns
+- **Multi-column sorting** — Sort by primary column, then secondary, etc.
+- **Custom sort logic** — Implement special sorting rules (e.g., custom comparers)
+- **Initial sort order** — Load TreeGrid with data already sorted
+- **Preserve hierarchy** — Sort while maintaining parent-child relationships
+- **Toggle sort direction** — Quick column-click sorting between ascending/descending
+- **Disable sorting** — Lock specific columns from being sorted
+
 ## Table of Contents
 - [Enable Sorting](#enable-sorting)
-- [Sorting Modes](#sorting-modes)
+- [Initial Sorting](#initial-sorting)
 - [Custom Sorting](#custom-sorting)
 - [Sorting Events](#sorting-events)
 

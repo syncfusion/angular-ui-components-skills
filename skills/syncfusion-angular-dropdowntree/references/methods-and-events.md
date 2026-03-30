@@ -456,7 +456,7 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 })
 export class ActionFailureComponent {
   public data = new DataManager({
-    url: 'https://api.example.com/data',
+    url: 'url',
     adaptor: new ODataV4Adaptor
   });
 

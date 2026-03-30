@@ -60,10 +60,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class CustomIconsComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public view: string = 'LargeIcons';
@@ -193,10 +193,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class ExtensionDisplayComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public showExtensions: boolean = true;
@@ -273,10 +273,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class HiddenItemsComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public showHidden: boolean = false;
@@ -360,10 +360,10 @@ export class TooltipCustomComponent {
   @ViewChild('fileManager') fileManager?: FileManagerComponent;
 
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public onFileLoad(args: FileLoadEventArgs): void {
@@ -427,10 +427,10 @@ import { select, getValue } from '@syncfusion/ej2-base';
 })
 export class AdvancedTooltipComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public onFileLoad(args: FileLoadEventArgs): void {
@@ -515,10 +515,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class SingleSelectionComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -566,10 +566,10 @@ export class ToggleSelectionComponent {
   public allowMultiple: boolean = true;
 
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public getSelectedCount(): number {
@@ -659,10 +659,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public showThumbnail = true;
@@ -709,10 +709,10 @@ export class AppComponent {
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -759,10 +759,10 @@ export class AppComponent {
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   public showCheckboxes = false;
@@ -842,10 +842,10 @@ export class AppComponent {
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -895,10 +895,10 @@ export class AppComponent {
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -964,10 +964,10 @@ export class AppComponent {
   public isModalOpen = false;
   
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 
   openModal(): void {

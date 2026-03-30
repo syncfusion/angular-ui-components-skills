@@ -1,10 +1,93 @@
 # Bot Integrations
 
 ## Table of Contents
+- [Security Requirements](#security-requirements)
 - [Google Dialogflow Integration](#google-dialogflow-integration)
 - [Microsoft Bot Framework Integration](#microsoft-bot-framework-integration)
 - [Direct Line Configuration](#direct-line-configuration)
 - [Backend Setup](#backend-setup)
+
+## ⚠️ Security Requirements
+
+### Before Production Deployment
+
+**CRITICAL**: The code examples in this guide use `http://localhost:5000` for local development. For production environments, you MUST follow these security practices:
+
+#### 1. **Use HTTPS in Production**
+```javascript
+// ❌ Development Only
+const backendUrl = 'http://localhost:5000/api/message';
+
+// ✅ Production - Always use HTTPS
+const backendUrl = 'https://your-secure-domain.com/api/message';
+```
+
+#### 2. **Never Commit Secrets to Version Control**
+
+Create `.gitignore` in your project root:
+```
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Service account credentials
+service-acct.json
+credentials.json
+*-key.json
+token-server/.env
+
+# Node modules
+node_modules/
+```
+
+#### 3. **Environment Variables Setup**
+
+**For Token Server (.env):**
+```bash
+# ❌ NEVER include quotes or actual secrets in .env
+DIRECT_LINE_SECRET=your_actual_secret_from_azure
+
+# ✅ Load from secure source (Azure Key Vault, AWS Secrets Manager, etc.)
+DIALOGFLOW_PROJECT_ID=your_project_id
+DIALOGFLOW_CREDENTIALS_PATH=/secure/path/to/service-acct.json
+```
+
+**Load credentials securely in Node.js:**
+```javascript
+// ✅ Secure approach
+const serviceAccount = JSON.parse(
+  fs.readFileSync(process.env.DIALOGFLOW_CREDENTIALS_PATH, 'utf8')
+);
+
+// ❌ Avoid this - hardcoding paths
+const serviceAccount = require('./service-acct.json');
+```
+
+#### 4. **CORS Configuration for Production**
+```javascript
+// ❌ Development only
+app.use(cors());
+
+// ✅ Production - restrict origins
+app.use(cors({
+  origin: 'https://your-frontend-domain.com',
+  credentials: true,
+  optionsSuccessStatus: 200
+}));
+```
+
+#### 5. **Store Credentials Securely**
+
+| Environment | Solution |
+|-------------|----------|
+| **Azure** | Azure Key Vault |
+| **AWS** | AWS Secrets Manager |
+| **Google Cloud** | Google Cloud Secret Manager |
+| **Local Development** | `.env` file (in `.gitignore`) |
+| **Docker** | Docker Secrets or environment variables |
+
+---
 
 ## Google Dialogflow Integration
 
@@ -25,7 +108,7 @@ npm install express body-parser dialogflow cors
 
 ### Set Up Dialogflow Agent
 
-1. Create a new agent in [Dialogflow Console](https://dialogflow.cloud.google.com/)
+1. Create a new agent in **Dialogflow Console**
 2. Set agent name (e.g., "MyChatBot")
 3. Add intents with training phrases and responses
 4. Create service account in Google Cloud Console with "Dialogflow API Client" role
@@ -75,6 +158,7 @@ app.post('/api/message', async (req, res) => {
 });
 
 app.listen(5000, () => console.log('Backend running on http://localhost:5000'));
+// ⚠️ For production, use HTTPS and configure environment variables
 ```
 
 ### Configure Chat UI Component
@@ -125,7 +209,9 @@ export class AppComponent {
 
     // 2. Call Dialogflow backend
     try {
-      const response = await fetch('http://localhost:5000/api/message', {
+      // ⚠️ Replace with environment variable in production
+      const backendUrl = 'http://localhost:5000/api/message';
+      const response = await fetch(backendUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -179,7 +265,7 @@ npm install botframework-directlinejs axios
 
 Create `token-server/.env`:
 ```
-DIRECT_LINE_SECRET=YOUR_SECRET_KEY_HERE
+DIRECT_LINE_SECRET= "YOUR_SECRET_KEY_HERE"
 ```
 
 Create `token-server/index.js`:
@@ -213,6 +299,7 @@ app.post('/directline/token', async (req, res) => {
 });
 
 app.listen(5000, () => console.log('Token server on http://localhost:5000'));
+// ⚠️ For production, deploy with HTTPS and secure credential storage
 ```
 
 ## Direct Line Configuration
@@ -259,8 +346,10 @@ export class AppComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     try {
       // 1. Get Direct Line token from backend
+      // ⚠️ Replace with environment variable in production
+      const tokenServerUrl = 'http://localhost:5000/directline/token';
       const response = await firstValueFrom(
-        this.http.post<{ token: string }>('http://localhost:5000/directline/token', {})
+        this.http.post<{ token: string }>(tokenServerUrl, {})
       );
       const { token } = response!;
 
@@ -474,5 +563,3 @@ export class BotChatComponent implements OnInit {
 ```
 
 ---
-
-You have now covered all bot integration capabilities. Explore additional examples in the [Chat UI documentation](https://www.syncfusion.com/angular-components/angular-chat/).

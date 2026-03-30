@@ -1,5 +1,26 @@
 # Server-Side Pivot Engine
 
+## ⚠️ SECURITY NOTICE
+
+Server-side pivot engine implementations MUST include proper security measures:
+
+✅ **Required Security Controls:**
+- Authentication & Authorization (JWT, OAuth, etc.)
+- Input validation and sanitization
+- Rate limiting to prevent abuse
+- HTTPS/TLS encryption
+- CORS configuration
+- API key management
+- Request logging and monitoring
+
+❌ **Security Risks:**
+- Never expose unprotected endpoints
+- Never trust client-provided data without validation
+- Never skip authentication for "internal" APIs
+- Never use HTTP for sensitive data
+
+See the [Security & Authentication](#security--authentication) section for implementation details.
+
 ## Table of Contents
 - [Overview](#overview)
 - [When to Use Server-Side Engine](#when-to-use-server-side-engine)

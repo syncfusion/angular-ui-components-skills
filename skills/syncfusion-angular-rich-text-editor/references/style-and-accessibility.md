@@ -180,7 +180,7 @@ export class AppComponent {
     iframeSettings = {
         enable: true,
         styles: [
-            { href: 'https://cdn.syncfusion.com/ej2/material3.css' },
+            { href: 'url' },
             { href: '/assets/custom-editor.css' }
         ]
     };

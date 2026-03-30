@@ -201,21 +201,21 @@ export class AppComponent {
   
   getMonthCellText(date: Date): string {
     if (date.getMonth() === 10 && date.getDate() === 23) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/birthday.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 11 && date.getDate() === 9) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/get-together.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 11 && date.getDate() === 13) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/birthday.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 11 && date.getDate() === 22) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/thanksgiving-day.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 11 && date.getDate() === 24) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/christmas-eve.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 11 && date.getDate() === 25) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/christmas.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 0 && date.getDate() === 1) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/newyear.svg" />';
+      return '<img src="url" />';
     } else if (date.getMonth() === 0 && date.getDate() === 14) {
-      return '<img src="https://ej2.syncfusion.com/demos/src/schedule/images/birthday.svg" />';
+      return '<img src="url" />';
     }
     return '';
   }
@@ -223,7 +223,7 @@ export class AppComponent {
   getWorkCellText(date: Date): string {
     const weekEnds: number[] = [0, 6];
     if (weekEnds.indexOf(date.getDay()) >= 0) {
-      return "<img src='https://ej2.syncfusion.com/demos/src/schedule/images/newyear.svg' />";
+      return "<img src='url' />";
     }
     return '';
   }
@@ -287,7 +287,7 @@ export class AppComponent {
       const weekEnds: number[] = [0, 6];
       if (args.date && weekEnds.indexOf(args.date.getDay()) >= 0) {
         const ele: HTMLElement = createElement('div', {
-          innerHTML: "<img src='https://ej2.syncfusion.com/demos/src/schedule/images/newyear.svg' />",
+          innerHTML: "<img src='url' />",
           className: 'templatewrap'
         });
         args.element.appendChild(ele);

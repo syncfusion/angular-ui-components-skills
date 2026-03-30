@@ -173,17 +173,17 @@ Use a `DataManager` with the appropriate adaptor for your backend:
 ```typescript
 import { DataManager, ODataV4Adaptor, WebApiAdaptor } from '@syncfusion/ej2-data';
 
-// OData V4
+// OData V4 — use your own controlled OData endpoint
 public dataManager: DataManager = new DataManager({
-  url: 'https://services.odata.org/v4/northwind/northwind.svc/Tasks',
+  url: '/api/odata/tasks',   // ✅ Use an internal, authenticated endpoint — never a public third-party URL
   adaptor: new ODataV4Adaptor()
 });
 
 // Web API / REST
 public dataManager: DataManager = new DataManager({
   url: 'api/tasks',
-  adaptor: new WebApiAdaptor(),
-  crossDomain: true
+  adaptor: new WebApiAdaptor()
+  // crossDomain: true  — avoid unless required; enforce CORS on the server side instead
 });
 ```
 

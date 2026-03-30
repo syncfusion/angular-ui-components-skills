@@ -66,10 +66,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class NavTemplateComponent {
   public ajaxSettings = {
-    url: 'https://your-server.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
-    downloadUrl: 'https://your-server.com/api/FileManager/Download',
-    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
+    getImageUrl: 'url'
   };
 }
 ```
@@ -671,4 +671,3 @@ export class ProfessionalNavComponent {
 - [Navigation Features](navigation-features.md)
 - [UI Customizations](ui-customizations.md)
 - [Customization](customization-styling.md)
-- [Syncfusion Templates](https://ej2.syncfusion.com/angular/documentation/common/template/)

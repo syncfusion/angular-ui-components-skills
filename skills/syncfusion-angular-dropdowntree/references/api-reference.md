@@ -323,7 +323,7 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 })
 export class RemoteDataComponent {
   public data = new DataManager({
-    url: 'https://api.company.com/departments',
+    url: 'url',
     adaptor: new ODataV4Adaptor,
     crossDomain: true
   });
@@ -335,7 +335,7 @@ export class RemoteDataComponent {
     hasChildren: 'hasSubDepartments',
     child: {
       dataSource: new DataManager({
-        url: 'https://api.company.com/teams',
+        url: 'url',
         adaptor: new ODataV4Adaptor
       }),
       value: 'teamId',
@@ -393,7 +393,7 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 })
 export class LazyLoadComponent {
   public data = new DataManager({
-    url: 'https://api.company.com/nodes',
+    url: 'url',
     adaptor: new ODataV4Adaptor
   });
 
@@ -404,7 +404,7 @@ export class LazyLoadComponent {
     hasChildren: 'hasChild',  // Critical: tells component which nodes are expandable
     child: {
       dataSource: new DataManager({
-        url: 'https://api.company.com/nodes?parentId=${id}',
+        url: 'url/nodes?parentId=${id}',
         adaptor: new ODataV4Adaptor
       }),
       value: 'id',
@@ -1775,12 +1775,3 @@ console.log('Data:', this.data);
 4. Test simple template first: `'<div>${name}</div>'`
 
 ---
-
-## Additional Resources
-
-- [Syncfusion Angular Dropdown Tree Documentation](https://www.syncfusion.com/angular-components/angular-dropdown-tree)
-- [API Documentation](https://ej2.syncfusion.com/angular/documentation/drop-down-tree/api-dropdowntree/)
-- [Sample Projects](https://github.com/syncfusion/ej2-angular-samples)
-- [Community Forums](https://www.syncfusion.com/forums/angular)
-
-````

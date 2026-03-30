@@ -1,10 +1,22 @@
 # Global and Local Settings
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Keyboard Navigation](#keyboard-navigation)
 - [Global Configuration](#global-configuration)
 - [Locale Settings](#locale-settings)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Keyboard shortcuts** — Enable grid navigation and operations via keyboard
+- **Global settings** — Configure default behavior across all grid instances
+- **Internationalization** — Support multiple languages and locales
+- **Locale-specific formatting** — Format dates, numbers based on language
+- **Accessibility** — Ensure keyboard navigation for screen readers
+- **Regional settings** — Apply region-specific date/currency formats
+- **Multi-language support** — Translate grid UI strings and messages
 
 ## Overview
 

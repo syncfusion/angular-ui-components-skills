@@ -1,5 +1,9 @@
 # Getting Started with Angular Pivot Grid
 
+## ⚠️ Security Notice
+
+This guide demonstrates using **local data binding**, which is the most secure approach for pivot table implementation. For remote data sources, always refer to the security guidelines in [references/core-concepts.md](./core-concepts.md#security-best-practices).
+
 ## Table of Contents
 - [Setup Angular Environment](#setup-angular-environment)
 - [Create Angular Application](#create-angular-application)
@@ -168,6 +172,8 @@ export class App implements OnInit {
 ## Assigning Sample Data
 
 Providing appropriate data to the Pivot Table component enables users to perform meaningful analysis and generate actionable insights from datasets. The Pivot Table component requires a well-structured data source containing the information you want to analyze and visualize.
+
+**🔒 Security Best Practice**: This example uses **local, in-memory data**, which is the most secure approach. Local data eliminates risks associated with remote data fetching, such as indirect prompt injection or data exfiltration.
 
 For demonstration, we'll use a collection of objects containing sales details for various products across different periods and regions:
 

@@ -116,7 +116,7 @@ export class AppComponent {
     this.rteObj.executeCommand('insertText', 'Inserted text here');
     this.rteObj.executeCommand('insertHTML', '<b>Bold HTML</b>');
     this.rteObj.executeCommand('insertImage', {
-      url: 'https://example.com/image.png',
+      url: 'url',
       cssClass: 'rte-img'
     });
     this.rteObj.executeCommand('createLink', {

@@ -7,6 +7,16 @@ description: 'Performance Optimization in Syncfusion Angular TreeGrid - lazy loa
 
 Optimize TreeGrid performance for large datasets through lazy loading, virtual scrolling, pagination, and efficient rendering strategies.
 
+## When to Use
+
+Use performance optimization when you need to:
+- **Handle large datasets** — Load 1000+ rows efficiently
+- **Reduce memory usage** — Virtual scrolling loads only visible rows
+- **Improve responsiveness** — Optimize rendering and interactions
+- **Enable column virtualization** — Handle many columns
+- **Optimize change detection** — Reduce Angular change detection cycles
+- **Server-side operations** — Offload heavy operations to backend
+
 ## Table of Contents
 - [Performance Rules](#performance-rules)
 - [Enable Virtual Scrolling](#enable-virtual-scrolling)
@@ -88,7 +98,7 @@ export class AppComponent {}
 // ✅ REQUIRED for 10,000+ rows
 // Backend should handle: filtering, sorting, paging
 const dataManager = new DataManager({
-  url: 'https://api.example.com/tasks',
+  url: 'url',
   adaptor: new UrlAdaptor(),
   offline: false  // Use server-side operations
 });
@@ -123,7 +133,8 @@ import { VirtualScrollService } from '@syncfusion/ej2-angular-treegrid';
       [dataSource]='data'
       [enableVirtualization]='true'
       [pageSettings]='{ pageSize: 50 }'
-      [editSettings]='editSettings'>
+      [editSettings]='editSettings'
+      height="600">
       <e-columns>
         <e-column field='TaskID' headerText='ID' width='80'></e-column>
         <e-column field='TaskName' headerText='Task Name' width='150'></e-column>
@@ -131,13 +142,8 @@ import { VirtualScrollService } from '@syncfusion/ej2-angular-treegrid';
         <e-column field='Progress' headerText='Progress' width='100'></e-column>
       </e-columns>
     </ejs-treegrid>
-  `,,
+  `,
   providers: [VirtualScrollService]
-  styles: [`
-    ::ng-deep .e-treegrid {
-      max-height: 600px;
-    }
-  `]
 })
 export class AppComponent {
   public data: Object[] = [];
@@ -204,15 +210,19 @@ export class AppComponent {
 ### Virtualize Wide Columns
 
 ```typescript
+import { VirtualScrollService } from '@syncfusion/ej2-angular-treegrid';
 @Component({
   selector: 'app-treegrid',
   template: `
     <ejs-treegrid 
       [dataSource]='data'
+      [enableVirtualization]='true'
       [enableColumnVirtualization]='true'
-      [columns]='columns'>
+      [columns]='columns'
+      height="600">
     </ejs-treegrid>
-  `
+  `,
+  providers: [VirtualScrollService]
 })
 export class AppComponent {
   public data: Object[] = [];
@@ -246,7 +256,7 @@ export class AppComponent {
 ### Optimize Rendering with Change Detection
 
 ```typescript
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, VirtualScrollService } from '@angular/core';
 
 @Component({
   selector: 'app-treegrid',
@@ -260,6 +270,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/
       </e-columns>
     </ejs-treegrid>
   `,
+  providers: [VirtualScrollService],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {

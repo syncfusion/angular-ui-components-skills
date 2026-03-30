@@ -7,6 +7,17 @@ description: 'Selection in Syncfusion Angular TreeGrid - row selection, cell sel
 
 Selection enables users to select rows, cells, or use checkboxes for data manipulation and interaction.
 
+## When to Use
+
+Use selection features when you need to:
+- **Enable row/cell selection** — Allow users to select one or multiple records
+- **Bulk operations** — Enable users to perform actions on multiple selected rows
+- **Highlight selected data** — Show visual feedback for user selections
+- **Programmatic selection** — Select rows dynamically from code
+- **Restrict selection** — Limit selection to specific columns or rows
+- **Get selected records** — Retrieve selected data for processing
+- **Prevent selection** — Disable selection for certain rows or regions
+
 ## Table of Contents
 - [Selection Rules](#selection-rules)
 - [Selection Modes](#selection-modes)
@@ -56,6 +67,9 @@ selectionSettings: { type: 'Checkbox', mode: 'Row' }    // ✅ No service needed
 ---
 
 ### Rule: Selection Persistence Requires State Persistence
+
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
+
 **Severity**: 🟠 IMPORTANT - Selection state not preserved across page reload
 
 **Requirement**:

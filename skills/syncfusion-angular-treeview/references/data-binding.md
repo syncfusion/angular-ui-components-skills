@@ -151,7 +151,7 @@ import { DataManager, ODataAdaptor } from '@syncfusion/ej2-data';
 export class RemoteDataComponent {
   treeFields = {
     dataSource: new DataManager({
-      url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Employees',
+      url: 'url',
       adaptor: new ODataAdaptor(),
       crossDomain: true
     }),
@@ -209,7 +209,7 @@ import { DataManager, GraphQLAdaptor } from '@syncfusion/ej2-data';
 export class GraphQLComponent {
   treeFields = {
     dataSource: new DataManager({
-      url: 'https://api.example.com/graphql',
+      url: 'url',
       adaptor: new GraphQLAdaptor(),
       query: `query GetEmployees {
         employees {

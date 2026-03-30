@@ -181,7 +181,7 @@ import { DataManager, ODataV4Adaptor, Query } from '@syncfusion/ej2-data';
 export class RemoteDataComponent {
   // DataManager with remote service endpoint
   public data = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc',
+    url: 'url',
     adaptor: new ODataV4Adaptor,
     crossDomain: true
   });
@@ -227,7 +227,7 @@ export class RemoteDataComponent {
 **ODataAdaptor** (default for DataManager):
 ```typescript
 const data = new DataManager({
-  url: 'https://api.example.com/odata',
+  url: 'url',
   adaptor: new ODataAdaptor,
   crossDomain: true
 });
@@ -236,7 +236,7 @@ const data = new DataManager({
 **ODataV4Adaptor** (modern OData standard):
 ```typescript
 const data = new DataManager({
-  url: 'https://services.odata.org/V4/Northwind/Northwind.svc',
+  url: 'url',
   adaptor: new ODataV4Adaptor,
   crossDomain: true
 });
@@ -252,7 +252,7 @@ For RESTful Web APIs following OData conventions:
 import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
 
 const data = new DataManager({
-  url: 'https://api.example.com/api/categories',
+  url: 'url',
   adaptor: new WebApiAdaptor,
   crossDomain: true
 });

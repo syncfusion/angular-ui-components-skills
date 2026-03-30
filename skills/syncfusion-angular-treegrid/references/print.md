@@ -1,16 +1,21 @@
 ---
 name: Print
-description: 'Printing in Syncfusion Angular TreeGrid - print functionality, print modes, page setup control, custom print templates, and print events.'
+description: 'Printing in Syncfusion Angular TreeGrid - print functionality.'
 ---
 
 # Printing
 
 Printing allows users to generate print-friendly representations of TreeGrid data.
 
-## Table of Contents
-- [Enable Printing](#enable-printing)
-- [Print Modes](#print-modes)
-- [Print Events](#print-events)
+## When to Use
+
+Use printing when you need to:
+- **Print TreeGrid** — Enable users to print grid data
+- **Print preview** — Show how data will appear when printed
+- **Page formatting** — Control page breaks and layout
+- **Custom print templates** — Create specialized print layouts
+- **Header/footer** — Add titles and information to printed pages
+- **Quick browser printing** — Use native browser print functionality
 
 ## Enable Printing
 

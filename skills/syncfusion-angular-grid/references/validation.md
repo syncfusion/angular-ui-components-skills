@@ -1,934 +1,279 @@
 # Validation in Angular Grid
 
+Data validation ensures that information entered or modified in the grid follows specific validation rules, preventing errors and maintaining accuracy. The Angular Grid component in Syncfusion® provides built-in validation support to make this process easy and effective.
+
 ## Table of Contents
-- [Overview](#overview)
-- [Built-in Validators](#built-in-validators)
-- [Validation Rule Definition](#validation-rule-definition)
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Column Validation](#column-validation)
 - [Custom Validation](#custom-validation)
-- [Async Validation](#async-validation)
-- [Error Display](#error-display)
-- [Validation Events](#validation-events)
-- [Server-Side Validation](#server-side-validation)
+- [Dynamically Add or Remove Validation Rules](#dynamically-add-or-remove-validation-rules-from-the-form)
+- [Change the Position of Validation Error Messages](#change-the-position-of-validation-error-messages)
+- [Show Custom Error Message for Failed CRUD Actions](#show-custom-error-message-for-failed-crud-actions)
 
-## Overview
+## When to Use This Skill
 
-Validation ensures data quality and consistency before saving to the database. Syncfusion Grid supports:
-- **Built-in validators** (required, min, max, pattern)
-- **Custom validation functions**
-- **Async validation** (server-side checks)
-- **Error messages and styling**
-- **Validation events** for hooks
+Use this skill when you need to:
+- **Validate user input** — Ensure data meets requirements before saving
+- **Column validation** — Apply validation rules to individual columns
+- **Required fields** — Mark fields as mandatory
+- **Custom validation** — Implement business logic validation
+- **Error messages** — Display user-friendly validation errors
+- **Dynamic rules** — Add/remove validation rules programmatically
+- **Form validation** — Validate entire edit forms
+- **Data accuracy** — Prevent invalid data from being saved
 
----
+## Column Validation
 
-## Built-in Validators
+Column validation applies validation rules to individual columns during edit operations, ensuring data accuracy before saving. Invalid data displays error messages and prevents saving. The [FormValidator](ej2.syncfusion.com/angular/documentation/api/form-validator) component validates data using rules defined in the [validationRules](ej2.syncfusion.com/angular/documentation/api/grid/column#validationrules) property for each column.
 
-### Required Field Validation
-
+**app.component.ts**
 ```typescript
-import { Component } from '@angular/core';
-import { EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-grid',
-  template: `
-    <ejs-grid [dataSource]="data"
-              [editSettings]="{ mode: 'Dialog', allowEditing: true }"
-              toolbar="['Edit', 'Update', 'Cancel']">
-      <e-columns>
-        <e-column field="OrderID" headerText="Order ID" width="100" 
-                  [isPrimaryKey]="true" 
-                  [validationRules]="{required: true}"></e-column>
-        <e-column field="CustomerID" headerText="Customer ID" width="120" 
-                  [validationRules]="{required: true}"></e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [EditService, ToolbarService]
-})
-export class GridComponent {
-  data = [];
+export class AppComponent {
+    // Define validation rules for each column
+    orderIDRules = { required: true };
+    customerIDRules = { required: true, minLength: 3 };
+    freightRules = { required: true, min: 1, max: 1000 };
 }
 ```
 
-### Number Range Validation
-
-```typescript
-<e-column field="Freight" headerText="Freight" width="100" format="C2"
-          [validationRules]="{ required: true, min: 0, max: 1000 }"></e-column>
-```
-
-### Date Validation
-
-```typescript
-<e-column
-  field="OrderDate"
-  headerText="Order Date"
-  type="date"
-  format="yMd"
-  [editParams]="dateEditParams">
-</e-column>
-
-// In component:
-dateEditParams = {
-  params: {
-    required: true,
-    min: new Date(2020, 0, 1),
-    max: new Date()
-  }
-};
-```
-
-### Pattern/Regex Validation
-
-```typescript
-<e-column
-  field="Email"
-  headerText="Email"
-  [editParams]="emailEditParams">
-</e-column>
-
-// In component:
-emailEditParams = {
-  params: {
-    required: true,
-    pattern: /[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
-  }
-};
-```
-
----
-
-## Validation Rule Definition
-
-### Define Validation Rules on Column
-
-```typescript
-const orderIDRules = {
-  required: { message: 'Order ID is required' },
-  min: { value: 1, message: 'Order ID must be at least 1' }
-};
-
-const freightRules = {
-  required: { message: 'Freight is required' },
-  min: { value: 0, message: 'Freight cannot be negative' },
-  max: { value: 5000, message: 'Freight cannot exceed 5000' }
-};
-
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-validation-rules-grid',
-  template: `<ejs-grid #grid [dataSource]="data">
+**Template**
+```html
+<ejs-grid [dataSource]='data' [editSettings]='editSettings' [toolbar]='toolbar'>
     <e-columns>
-      <e-column
-        field="OrderID"
-        headerText="Order ID"
-        [editParams]="orderIDEditParams"></e-column>
-      <e-column
-        field="Freight"
-        headerText="Freight"
-        [editParams]="freightEditParams"></e-column>
+        <e-column field='OrderID' [validationRules]='orderIDRules'></e-column>
+        <e-column field='CustomerID' [validationRules]='customerIDRules'></e-column>
+        <e-column field='Freight' [validationRules]='freightRules' editType='numericedit'></e-column>
     </e-columns>
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class ValidationRulesGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  
-  orderIDEditParams = { params: { required: true, min: { value: 1, message: 'Order ID must be at least 1' } } };
-  freightEditParams = { params: { required: true, min: { value: 0, message: 'Freight cannot be negative' }, max: { value: 5000, message: 'Freight cannot exceed 5000' } } };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-}
+</ejs-grid>
 ```
-
-### Validation Object Structure
-
-```typescript
-const validationRules = {
-  required: true | { message: 'Custom message' },
-  min: number | { value: number, message: 'Custom message' },
-  max: number | { value: number, message: 'Custom message' },
-  minLength: number | { value: number, message: 'Custom message' },
-  maxLength: number | { value: number, message: 'Custom message' },
-  pattern: RegExp | { pattern: RegExp, message: 'Custom message' },
-  custom: validationFunction
-};
-```
-
----
 
 ## Custom Validation
 
-### Simple Custom Validation
+Custom validation rules apply specific rules to grid columns beyond standard built-in validation. The [FormValidator](ej2.syncfusion.com/angular/documentation/api/form-validator) component applies these rules and displays error messages for invalid fields. Custom validation supports dependent field validation and numeric range validation for various application scenarios.
+
+**app.component.ts**
 
 ```typescript
-import { Component } from '@angular/core';
-import { EditService } from '@syncfusion/ej2-angular-grids';
+export class AppComponent {
+    // Custom validation function
+    customFn = (args: { [key: string]: string }): boolean => {
+        return args['value'].length >= 5;
+    }
 
-@Component({
-  selector: 'app-custom-validator',
-  template: `
-    <ejs-grid [dataSource]="data">
-      <e-columns>
-        <e-column field="Email" headerText="Email"
-                  [validationRules]="{ required: true }"></e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [EditService]
-})
-export class CustomValidatorComponent {
-  data: any[] = [];
-
-  validateEmail(value: string): boolean {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(value);
-  }
+    // Apply custom validation with error message
+    customerIDRules = { 
+        required: true, 
+        minLength: [this.customFn, 'Need at least 5 letters'] 
+    };
 }
 ```
 
-### Custom Validation with Context
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-validation-context-grid',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService, ToolbarService]
-})
-export class ValidationContextGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  validateFreightMinimum(args: any) {
-    if (args.data && args.data.Freight !== undefined) {
-      if (args.data.Freight < 10) {
-        args.cancel = true;
-        this.showError('Freight must be at least $10');
-      }
-    }
-  }
-
-  onActionBegin(args: any) {
-    if (args.requestType === 'save') {
-      this.validateFreightMinimum(args);
-    }
-  }
-
-  showError(message: string) {
-    console.error(message);
-  }
-}
+**Template**
+```html
+<e-column field='CustomerID' [validationRules]='customerIDRules'></e-column>
 ```
 
-### Multi-Field Validation
+### Custom validation based on dropdown change
+
+Dependent validation rules adjust based on selections in other columns, enabling linked column validation. The "Salary" column validation adjusts based on the "Role" column selection, ensuring both columns validate correctly together.
+
+**app.component.ts**
 
 ```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
+export class AppComponent {
+    // Salary range by role
+    salaryRanges = {
+        'Sales': { min: 5000, max: 15000 },
+        'Support': { min: 15000, max: 19000 },
+        'Engineer': { min: 25000, max: 30000 },
+        'TeamLead': { min: 30000, max: 50000 },
+        'Manager': { min: 50000, max: 70000 }
+    };
 
-@Component({
-  selector: 'app-multifield-validation-grid',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class MultiFieldValidationGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  validateDateRange(args: any) {
-    if (args.data && args.data.EndDate && args.data.StartDate) {
-      if (new Date(args.data.EndDate) < new Date(args.data.StartDate)) {
-        args.cancel = true;
-        this.showError('End date must be after start date');
-      }
+    // Validate salary based on selected role
+    validateSalary = (args: { value: string }): boolean => {
+        const salary = parseInt(args.value);
+        const range = this.salaryRanges[window.currentRole as keyof typeof this.salaryRanges];
+        return range && salary >= range.min && salary < range.max;
     }
-  }
 
-  onActionBegin(args: any) {
-    if (args.requestType === 'save') {
-      this.validateDateRange(args);
-    }
-  }
-
-  showError(message: string) {
-    console.error(message);
-  }
-}
-```
-
-### Validation with Rules State
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-grid-validation',
-  template: `
-    <div>
-      <button (click)="updateRules({ minFreight: 50 })">
-        Set minimum freight to $50
-      </button>
-
-      <ejs-grid [dataSource]="data">
-        <e-columns>
-          <e-column field="Freight" [editParams]="getFreightEditParams()"></e-column>
-        </e-columns>
-      </ejs-grid>
-    </div>
-  `
-})
-export class GridWithValidationComponent {
-  data: any[] = [];
-  validationRules: any = {
-    minFreight: 10,
-    maxFreight: 5000
-  };
-
-  validateFreight(value: number): boolean {
-    return value >= this.validationRules.minFreight && value <= this.validationRules.maxFreight;
-  }
-
-  updateRules(newRules: any) {
-    this.validationRules = { ...this.validationRules, ...newRules };
-  }
-
-  getFreightEditParams() {
-    return {
-      params: {
-        custom: {
-          validator: (value: number) => this.validateFreight(value),
-          message: `Freight must be between $${this.validationRules.minFreight} and $${this.validationRules.maxFreight}`
+    // Role dropdown configuration
+    roleParams = {
+        params: {
+            dataSource: [
+                { role: 'Sales' },
+                { role: 'Support' },
+                { role: 'Engineer' },
+                { role: 'TeamLead' },
+                { role: 'Manager' }
+            ],
+            fields: { value: 'role', text: 'role' },
+            change: (args: any) => {
+                window.currentRole = args.value;
+            }
         }
-      }
     };
-  }
-}
-```
 
----
-
-## Async Validation
-
-### Server-Side Unique Check
-
-```typescript
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-unique-validator',
-  template: `<ejs-grid [dataSource]="data">
-    <e-columns>
-      <e-column
-        field="CustomerID"
-        headerText="Customer ID"
-        [editParams]="customerIDEditParams">
-      </e-column>
-    </e-columns>
-  </ejs-grid>`
-})
-export class UniqueValidatorComponent {
-  data: any[] = [];
-  customerIDEditParams: any;
-
-  constructor(private http: HttpClient) {
-    this.customerIDEditParams = {
-      params: {
-        required: true
-      }
+    salaryRules = {
+        required: [this.validateSalary, 'Please enter valid salary for selected role']
     };
-  }
+}
 
-  async validateUniqueCustomerID(value: string) {
-    try {
-      const response = await this.http.get<any>(`/api/customers/exists/${value}`).toPromise();
-      return !response.exists;  // true if unique
-    } catch (error) {
-      return false;
+declare global {
+    interface Window {
+        currentRole: string;
     }
-  }
 }
 ```
 
-### Async Validation with Promise
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-async-validation-promise',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class AsyncValidationPromiseComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  validateOrderNumber(value: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const isValid = value && value.length >= 3;
-        resolve(isValid);
-      }, 500);
-    });
-  }
-
-  async onActionBegin(args: any) {
-    if (args.requestType === 'save') {
-      const isValid = await this.validateOrderNumber(args.data.OrderNumber);
-      if (!isValid) {
-        args.cancel = true;
-        this.showError('Order number must be at least 3 characters');
-      }
-    }
-  }
-
-  showError(message: string) {
-    console.error(message);
-  }
-}
+**Template**
+```html
+<e-column field='Role' editType='dropdownedit' [edit]='roleParams'></e-column>
+<e-column field='Salary' [validationRules]='salaryRules' editType='numericedit'></e-column>
 ```
 
-### Debounced Async Validation
+### Custom validation for numeric columns
+
+Numeric column validation applies rules for numeric data such as positive values, minimum/maximum ranges, or decimal limits. This example validates numeric values using custom validator functions and displays error messages when data changes.
+
+**app.component.ts**
 
 ```typescript
-import { Component } from '@angular/core';
+export class AppComponent {
+    // Custom validation functions for numeric range
+    isMaxValid = (args: { [key: string]: number }): boolean => args['value'] <= 1000;
+    isMinValid = (args: { [key: string]: number }): boolean => args['value'] >= 1;
 
-@Component({
-  selector: 'app-debounced-validator',
-  template: '<ejs-grid [dataSource]="data"></ejs-grid>'
-})
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-debounced-validator',
-  template: `<ejs-grid #grid [dataSource]="data">
-    <e-columns>
-      <e-column
-        field="Email"
-        headerText="Email"
-        [editParams]="emailEditParams">
-      </e-column>
-    </e-columns>
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class DebouncedValidatorComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  emailEditParams: any;
-  private timeoutRef: any;
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.emailEditParams = {
-      params: {
-        required: true
-      }
+    // Numeric column validation with range
+    freightRules = {
+        required: true,
+        max: [this.isMaxValid, 'Please enter a value less than 1000'],
+        min: [this.isMinValid, 'Please enter a value greater than 1']
     };
-  }
-
-  createDebouncedValidator(validationFn: Function, delay: number = 500) {
-    return (value: any) => {
-      return new Promise((resolve) => {
-        clearTimeout(this.timeoutRef);
-        this.timeoutRef = setTimeout(async () => {
-          const result = await validationFn(value);
-          resolve(result);
-        }, delay);
-      });
-    };
-  }
-
-  async validateEmail(email: string) {
-    try {
-      const response = await this.http.get<any>(`/api/email/validate?email=${email}`).toPromise();
-      return response.isValid;
-    } catch (error) {
-      return false;
-    }
-  }
 }
 ```
 
----
-
-## Error Display
-
-### Style Validation Errors
-
-```typescript
-import { Component } from '@angular/core';
-import { EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-validation-error-styling',
-  template: `
-    <ejs-grid [dataSource]="data">
-      <!-- columns -->
-    </ejs-grid>
-  `,
-  styles: [`
-    .e-grid .e-gridcontent .e-invalid {
-      border: 2px solid #FF6B6B !important;
-      background-color: #FFE5E5;
-    }
-
-    .e-grid .e-form-group.e-error .e-float-text {
-      color: #FF6B6B;
-      font-weight: bold;
-    }
-
-    .e-grid .e-errorinline {
-      color: #FF6B6B;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-  `],
-  providers: [EditService]
-})
-export class ValidationErrorStylingComponent {
-  data: any[] = [];
-}
+**Template**
+```html
+<e-column field='Freight' editType='numericedit' 
+    [validationRules]='freightRules' 
+    format='C2'>
+</e-column>
 ```
 
-### Custom Error Message Display
+## Dynamically Add or Remove Validation Rules from the Form
+
+Validation rules can be added or removed from input elements based on application scenarios or data conditions. The [addRules](ej2.syncfusion.com/angular/documentation/api/form-validator#addrules) method adds validation rules dynamically to input elements using the name attribute.
+
+**app.component.ts**
 
 ```typescript
-@Component({
-  selector: 'app-error-display',
-  template: `
-    <ejs-grid [dataSource]="data" [editSettings]="editSettings" (actionFailure)="onActionFailure($event)">
-      <!-- columns -->
-    </ejs-grid>
-  `
-})
-export class ErrorDisplayGridComponent {
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
-
-  onActionFailure(args: any) {
-    if (!args.status) {
-      console.error(`Validation Error: ${args.statusMessage}`);
-      
-      // Show toast notification
-      this.showNotification({
-        type: 'error',
-        message: args.statusMessage,
-        duration: 5000
-      });
-    }
-  }
-
-  showNotification(config: any) {
-    // Show notification logic
-  }
-}
-```
-
-### Tooltip Error Messages
-
-```typescript
-const validationErrorTooltip = `
-  .e-grid .e-invalid::after {
-    content: attr(title);
-    position: absolute;
-    background-color: #FF6B6B;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 1000;
-  }
-`;
-
-import { Component, ViewChild, OnInit } from '@angular/core';
 import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
-@Component({
-  selector: 'app-tooltip-validation',
-  template: `<ejs-grid #grid [dataSource]="data">
+export class AppComponent {
+    // Validation rules to add dynamically
+    customerIDRules = {
+        required: true,
+        minLength: [5, 'Customer ID should have a minimum length of 5 characters']
+    };
+
+    // Add validation rules during edit
+    onEditStart(args: any, grid: GridComponent) {
+        if (args.requestType === 'beginEdit' || args.requestType === 'add') {
+            const formObj = grid.editModule.formObj;
+            formObj.addRules('CustomerID', this.customerIDRules);
+        }
+    }
+
+    // Remove validation rules when needed
+    removeValidation(fieldName: string, grid: GridComponent) {
+        const formObj = grid.editModule.formObj;
+        formObj.removeRules(fieldName);
+    }
+}
+```
+
+**Template**
+```html
+<ejs-grid (actionComplete)='onEditStart($event, grid)' #grid>
     <e-columns>
-      <e-column
-        field="Email"
-        headerText="Email"
-        title="Must be valid email"
-        [editParams]="emailEditParams">
-      </e-column>
+        <e-column field='CustomerID' headerText='Customer ID'></e-column>
     </e-columns>
-  </ejs-grid>`,
-  styles: [`${validationErrorTooltip}`]
-})
-export class TooltipValidationComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  emailEditParams = {
-    params: {
-      required: true,
-      pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    }
-  };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-}
+</ejs-grid>
 ```
 
----
+## Change the Position of Validation Error Messages
 
-## Validation Events
+Error message positioning customizes where validation messages appear in the grid. By default, messages display below the input field. The [customPlacement](ej2.syncfusion.com/angular/documentation/api/form-validator#customplacement) event repositions messages to custom locations based on application needs.
 
-### Validate Before Save
+**app.component.ts**
 
 ```typescript
-@Component({
-  selector: 'app-validate-save',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService, ToolbarService]
-})
-export class ValidateSaveGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog', allowEditing: true, allowAdding: true, allowDeleting: true };
+import { GridComponent } from '@syncfusion/ej2-angular-grids';
 
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  onActionBegin(args: any) {
-    if (args.requestType === 'save') {
-      if (!args.data.OrderID) {
-        args.cancel = true;
-        this.showError('Order ID is required');
-      }
-      
-      if (args.data.Freight < 0) {
-        args.cancel = true;
-        this.showError('Freight cannot be negative');
-      }
-    
-      if (!args.data.CustomerID || args.data.CustomerID.length < 2) {
-        args.cancel = true;
-        this.showError('Customer ID must be at least 2 characters');
-      }
+export class AppComponent {
+    // Customize error message position
+    onEditStart(args: any, grid: GridComponent) {
+        if (args.requestType === 'beginEdit' || args.requestType === 'add') {
+            const formObj = grid.editModule.formObj;
+            
+            formObj.customPlacement = (input: HTMLElement, errorElement: HTMLElement) => {
+                const tooltipWidth = errorElement.offsetWidth;
+                const inputPosition = input.getBoundingClientRect();
+                
+                // Position error message on the left side
+                errorElement.style.position = 'fixed';
+                errorElement.style.left = (inputPosition.left - tooltipWidth - 16) + 'px';
+                errorElement.style.top = inputPosition.top + 'px';
+            };
+        }
     }
-  }
-
-  showError(message: string) {
-    console.error(message);
-  }
 }
 ```
 
-### Validate After Edit
+**Template**
+```html
+<ejs-grid (actionComplete)='onEditStart($event, grid)' #grid>
+    <!-- Grid columns -->
+</ejs-grid>
+```
+
+## Show Custom Error Message for Failed CRUD Actions
+
+Error handling for CRUD operations in the grid displays helpful error messages when operations fail. The [actionFailure](ej2.syncfusion.com/angular/documentation/api/grid#actionfailure) event triggers on operation failures, providing access to error messages from server responses for display.
+
+**app.component.ts**
 
 ```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
+import { FailureEventArgs } from '@syncfusion/ej2-angular-grids';
 
-@Component({
-  selector: 'app-validate-complete',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionComplete)="onActionComplete($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class ValidateCompleteGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
+export class AppComponent {
+    errorMessage: string = '';
 
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  onActionComplete(args: any) {
-    if (args.requestType === 'save') {
-      console.log('Record saved successfully');
+    // Handle CRUD operation failures
+    onActionFailure(args: FailureEventArgs): void {
+        if (args.error) {
+            args.error[0]?.error?.json()
+                .then((response: any) => {
+                    this.errorMessage = response.message;
+                    console.error('Validation Error:', response.message);
+                })
+                .catch(() => {
+                    this.errorMessage = 'An error occurred during the operation.';
+                });
+        }
     }
-    
-    if (args.requestType === 'cancel') {
-      console.log('Edit cancelled');
-    }
-  }
 }
 ```
 
-### Real-time Field Validation
+**Template**
+```html
+<ejs-grid (actionFailure)='onActionFailure($event)'>
+    <!-- Grid columns -->
+</ejs-grid>
 
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-realtime-validation',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class RealtimeValidationGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog' };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  onActionBegin(args: any) {
-    if (args.requestType === 'beginEdit') {
-      this.attachValidationListeners();
-    }
-  }
-
-  attachValidationListeners() {
-    // Get input elements
-    const inputs = document.querySelectorAll('.e-gridcontent input');
-    
-    inputs.forEach((input: any) => {
-      input.addEventListener('change', (e: any) => {
-        this.validateField(e.target.value, e.target.name);
-      });
-    });
-  }
-
-  validateField(value: any, fieldName: string) {
-    let isValid = true;
-    let message = '';
-
-    if (fieldName === 'OrderID' && !value) {
-      isValid = false;
-      message = 'Order ID is required';
-    } else if (fieldName === 'Freight' && value < 0) {
-      isValid = false;
-      message = 'Freight must be positive';
-    }
-
-    this.updateValidationStatus(fieldName, isValid, message);
-  }
-
-  updateValidationStatus(fieldName: string, isValid: boolean, message: string) {
-    // Update validation UI
-    console.log(`Field: ${fieldName}, Valid: ${isValid}, Message: ${message}`);
-  }
-}
+<!-- Display error message -->
+<div *ngIf='errorMessage' class='error-alert'>
+    {{ errorMessage }}
+</div>
 ```
-
----
-
-## Server-Side Validation
-
-### Send Data for Server Validation
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GridComponent, EditService } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-server-validation',
-  template: `<ejs-grid #grid
-    [dataSource]="data"
-    [editSettings]="editSettings"
-    (actionBegin)="onActionBegin($event)">
-    <!-- columns -->
-  </ejs-grid>`,
-  providers: [EditService]
-})
-export class ServerValidationGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  editSettings = { mode: 'Dialog', allowEditing: true };
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data
-  }
-
-  async validateAndSaveToServer(data: any) {
-    try {
-      const response = await this.http.post<any>('/api/orders/validate', data).toPromise();
-      
-      if (!response.isValid) {
-        return {
-          isValid: false,
-          errors: response.errors
-        };
-      }
-
-      // If valid, save
-      await this.http.post('/api/orders', data).toPromise();
-      return { isValid: true };
-    } catch (error: any) {
-      return {
-        isValid: false,
-        error: error.message
-      };
-    }
-  }
-
-  async onActionBegin(args: any) {
-    if (args.requestType === 'save') {
-      const validation = await this.validateAndSaveToServer(args.data);
-      
-      if (!validation.isValid) {
-        args.cancel = true;
-        this.showErrors(validation.errors || validation.error);
-      }
-    }
-  }
-
-  showErrors(errors: any) {
-    console.error('Validation errors:', errors);
-  }
-}
-```
-
-### ASP.NET Validation Endpoint
-
-```csharp
-[HttpPost("validate")]
-public IActionResult ValidateOrder([FromBody] OrderRequest request)
-{
-    var errors = new List<string>();
-
-    if (string.IsNullOrEmpty(request.OrderID))
-        errors.Add("Order ID is required");
-
-    if (request.Freight < 0 || request.Freight > 5000)
-        errors.Add("Freight must be between 0 and 5000");
-
-    if (string.IsNullOrEmpty(request.CustomerID))
-        errors.Add("Customer ID is required");
-
-    // Check for duplicates
-    if (OrderExists(request.OrderID))
-        errors.Add("Order ID already exists");
-
-    return Ok(new {
-        isValid = errors.Count == 0,
-        errors = errors
-    });
-}
-```
-
----
-
-## Validation Checklist
-
-- [ ] Mark required fields clearly
-- [ ] Validate data type (number, date, etc.)
-- [ ] Set min/max ranges for numeric fields
-- [ ] Validate email format
-- [ ] Check for unique values (customer ID, email)
-- [ ] Validate date logic (start < end)
-- [ ] Show clear error messages
-- [ ] Style invalid fields distinctly
-- [ ] Prevent save if validation fails
-- [ ] Test with edge cases
-- [ ] Test with special characters
-- [ ] Test async validators
-- [ ] Provide user feedback on progress
-- [ ] Implement server-side validation
-- [ ] Log validation errors for debugging
-
-
-
-
-
-

@@ -1,11 +1,24 @@
 # Sorting
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Single Column Sorting](#single-column-sorting)
 - [Multi-Column Sorting](#multi-column-sorting)
 - [Custom Sort](#custom-sort)
 - [Sort Events](#sort-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Sort grid data** — Reorder rows based on column values
+- **Single column sort** — Sort by clicking column header
+- **Multi-column sort** — Sort by multiple columns at once
+- **Custom sort logic** — Implement custom comparison functions
+- **Programmatic sorting** — Apply sorting via code/API
+- **Sort events** — Hook into sort start/complete events
+- **Ascending/descending** — Control sort direction
+- **Allow/disallow sorts** — Enable sorting on specific columns
 
 ## Overview
 

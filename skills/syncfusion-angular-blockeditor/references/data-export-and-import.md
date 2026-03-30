@@ -75,7 +75,7 @@ private convertToMarkdown(blocks: BlockModel[]): string {
         return `1. ${this.getBlockText(block)}`;
       case 'Code':
         const lang = block.properties?.language || '';
-        return `\`\`\`${lang}\n${this.getBlockText(block)}\n\`\`\``;
+        return `${lang}\n${this.getBlockText(block)}`;
       default:
         return this.getBlockText(block);
     }

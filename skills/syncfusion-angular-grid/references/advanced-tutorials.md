@@ -1,6 +1,7 @@
 # Advanced Tutorials & Patterns
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Real-Time Data Updates](#real-time-data-updates)
 - [Master-Detail with Filtering](#master-detail-with-filtering)
@@ -8,7 +9,19 @@
 - [Advanced Filtering](#advanced-filtering)
 - [Custom Themes](#custom-themes)
 - [Performance Monitoring](#performance-monitoring)
-- [Testing Grids](#testing-grids)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Real-time data updates** — Implement auto-refresh or WebSocket-based live data updates
+- **Master-detail scenarios** — Create hierarchical grids with parent-child data relationships
+- **Master-detail filtering** — Filter detail grid based on master row selection
+- **Complex calculations** — Implement computed columns with custom formulas
+- **Advanced filtering** — Build sophisticated multi-criteria filtering UIs
+- **Custom themes** — Develop branded or custom-styled grid appearances
+- **Performance optimization** — Monitor and optimize grid performance for large datasets
+- **Production patterns** — Apply real-world best practices and proven patterns
+- **Complex workflows** — Implement multi-step data processing and validation workflows
 
 ## Overview
 
@@ -113,7 +126,7 @@ export class WebSocketGridComponent implements OnInit, OnDestroy {
   }
 
   connectWebSocket() {
-    this.ws = new WebSocket('ws://api.example.com/orders');
+    this.ws = new WebSocket('url');
 
     this.ws.onmessage = (event) => {
       const newData = JSON.parse(event.data);
@@ -457,12 +470,6 @@ export class DateRangeFilterGridComponent implements OnInit {
 
 ## Custom Themes
 
-### Create Custom Theme
-
-```typescript
-import { Component, OnInit } from '@angular/core';\nimport { DomSanitizer, SafeHtml } from '@angular/platform-browser';\n\n@Component({\n  selector: 'app-custom-theme-grid',\n  template: `\n    <link [href]=\"themeUrl\" rel=\"stylesheet\"</e-column>\n    <ejs-grid [dataSource]=\"data\">\n      <e-columns>\n        <!-- columns -->\n      </e-columns>\n    </ejs-grid>\n  `,\n  styles: [`\n    .e-grid .e-headercell {\n      background-color: #2c3e50;\n      color: #ecf0f1;\n      font-weight: 600;\n      padding: 12px;\n    }\n    \n    .e-grid .e-row {\n      border-bottom: 1px solid #ecf0f1;\n    }\n    \n    .e-grid .e-row:hover {\n      background-color: #f8f9fa;\n    }\n    \n    .e-grid .e-selectionbackground {\n      background-color: #3498db;\n      color: white;\n    }\n    \n    .e-grid .e-row:nth-child(even) {\n      background-color: #f8f9fa;\n    }\n    \n    .e-grid .e-gridcontent td {\n      padding: 12px;\n      color: #2c3e50;\n    }\n  `]\n})\nexport class CustomThemeGridComponent implements OnInit {\n  data: any[] = [];\n  themeUrl: string;\n\n  constructor(private sanitizer: DomSanitizer) {}\n\n  ngOnInit() {\n    this.loadData();\n  }\n\n  loadData() {\n    this.data = [...]; // Load from service\n  }\n}
-```
-
 ### Dynamic Theme Switching
 
 ```typescript
@@ -607,221 +614,3 @@ export class PerformanceGridComponent implements OnInit, OnDestroy {
   }
 }
 ```
-
----
-
-
-## Testing Grids
-
-### Unit Tests
-
-```typescript
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-import { PerformanceGridComponent } from './performance-grid.component';
-
-describe('Grid Component Tests', () => {
-  let component: PerformanceGridComponent;
-  let fixture: ComponentFixture<PerformanceGridComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PerformanceGridComponent, GridComponent]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(PerformanceGridComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create grid component', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should render grid with data', () => {
-    component.data = mockData;
-    fixture.detectChanges();
-    const gridElement = fixture.nativeElement.querySelector('.e-grid');
-    expect(gridElement).toBeTruthy();
-  });
-
-  it('should display correct number of rows', (done) => {
-    component.data = mockData;
-    fixture.detectChanges();
-    
-    setTimeout(() => {
-      const rows = fixture.nativeElement.querySelectorAll('.e-row');
-      expect(rows.length).toBe(mockData.length);
-      done();
-    }, 100);
-  });
-
-  it('should handle sorting', (done) => {
-    component.data = mockData;
-    fixture.detectChanges();
-    
-    const headerCell = fixture.nativeElement.querySelector('[data-field="OrderID"]');
-    headerCell.click();
-    fixture.detectChanges();
-    
-    setTimeout(() => {
-      const firstRow = fixture.nativeElement.querySelector('.e-row');
-      expect(firstRow.textContent).toContain('10248');
-      done();
-    }, 100);
-  });
-
-  it('should handle filtering', (done) => {
-    component.data = mockData;
-    fixture.detectChanges();
-    
-    component.gridInstance.filterByColumn('OrderID', 'equal', 10248);
-    fixture.detectChanges();
-    
-    setTimeout(() => {
-      const rows = fixture.nativeElement.querySelectorAll('.e-row');
-      expect(rows.length).toBe(1);
-      done();
-    }, 100);
-  });
-
-  it('should handle inline editing', (done) => {
-    component.data = mockData;
-    component.gridInstance.allowInlineEdit = true;
-    fixture.detectChanges();
-    
-    component.gridInstance.startEdit(0);
-    fixture.detectChanges();
-    
-    setTimeout(() => {
-      const editCell = fixture.nativeElement.querySelector('.e-editedinput');
-      expect(editCell).toBeTruthy();
-      done();
-    }, 100);
-  });
-});
-
-const mockData = [
-  { OrderID: 10248, CustomerID: 'VINET', OrderDate: new Date(1996, 6, 4), Freight: 32.38 },
-  { OrderID: 10249, CustomerID: 'TOMSP', OrderDate: new Date(1996, 6, 5), Freight: 11.61 }
-];
-    const fixture = TestBed.createComponent(GridComponent);
-    const component = fixture.componentInstance;
-    component.mockData = mockData;
-    fixture.detectChanges();
-    
-    const filterInput = fixture.nativeElement.querySelector('.e-filterinput');
-    filterInput.value = 'VINET';
-    filterInput.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-    
-    const rows = fixture.nativeElement.querySelectorAll('.e-row');
-    expect(rows.length).toBeLessThan(mockData.length);
-  });
-
-  test('editing saves data correctly', () => {
-    const fixture = TestBed.createComponent(GridComponent);
-    const component = fixture.componentInstance;
-    component.mockData = mockData;
-    component.editSettings = { mode: 'Inline' };
-    fixture.detectChanges();
-    
-    const editButton = fixture.nativeElement.querySelector('[aria-label="Edit"]');
-    editButton.click();
-    fixture.detectChanges();
-    
-    const input = fixture.nativeElement.querySelector('input');
-    input.value = 'NewValue';
-    input.dispatchEvent(new Event('change'));
-    
-    const saveButton = fixture.nativeElement.querySelector('[aria-label="Save"]');
-    saveButton.click();
-    fixture.detectChanges();
-    
-    expect(mockData[0].CustomerID).toBe('NewValue');
-  });
-});
-
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-```
-
-### Integration Tests
-
-```typescript
-describe('Grid Integration Tests', () => {
-  test('pagination, sorting, and filtering work together', () => {
-    const fixture = TestBed.createComponent(GridComponent);
-    const component = fixture.componentInstance;
-    component.largeDataset = largeDataset;
-    component.allowPaging = true;
-    component.allowSorting = true;
-    component.allowFiltering = true;
-    fixture.detectChanges();
-
-    // Apply filter
-    const filterInput = fixture.nativeElement.querySelector('.e-filterinput');
-    filterInput.value = 'Berlin';
-    filterInput.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-
-    // Sort
-    const sortHeader = fixture.nativeElement.querySelector('[data-field="OrderDate"]');
-    sortHeader.click();
-    fixture.detectChanges();
-
-    // Change page
-    const pageInput = fixture.nativeElement.querySelector('.e-pagejump input');
-    pageInput.value = '2';
-    pageInput.dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-
-    const rows = fixture.nativeElement.querySelectorAll('.e-row');
-    expect(rows.length).toBeGreaterThan(0);
-  });
-
-  test('edit and save with validation', () => {
-    const onSave = jasmine.createSpy('onSave');
-    const fixture = TestBed.createComponent(GridComponent);
-    const component = fixture.componentInstance;
-    component.mockData = mockData;
-    component.editSettings = { mode: 'Dialog', allowEditing: true };
-    component.actionComplete = onSave;
-    fixture.detectChanges();
-
-    // Start edit
-    const editButton = fixture.nativeElement.querySelector('[aria-label="Edit"]');
-    editButton.click();
-    fixture.detectChanges();
-
-    // Fill form
-    const form = fixture.nativeElement.querySelector('.e-dialog-component');
-    const inputs = form.querySelectorAll('input');
-    inputs[0].value = 'UpdatedValue';
-    inputs[0].dispatchEvent(new Event('change'));
-    fixture.detectChanges();
-
-    // Save
-    const saveButton = form.querySelector('.e-primary');
-    saveButton.click();
-    fixture.detectChanges();
-
-    expect(onSave).toHaveBeenCalled();
-  });
-});
-```
-
----
-
-## Best Practices Summary
-
-1. **Real-time data**: Use WebSocket or SignalR for live updates
-2. **Master-detail**: Filter child data based on parent selection
-3. **Calculations**: Pre-compute complex values before binding
-4. **Filtering**: Use Predicate for complex queries
-5. **Themes**: Create reusable theme CSS modules
-6. **Performance**: Monitor with Performance API
-7. **Testing**: Test user interactions and data scenarios
-8. **Error handling**: Gracefully handle API failures
-9. **Accessibility**: Ensure keyboard navigation works
-10. **Documentation**: Document custom configurations
-

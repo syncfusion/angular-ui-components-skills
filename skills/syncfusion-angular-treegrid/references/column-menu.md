@@ -7,6 +7,17 @@ description: 'Column Menu in Syncfusion Angular TreeGrid - column header context
 
 Column Menu provides a context menu for column headers enabling sorting, filtering, and custom operations on columns.
 
+## When to Use
+
+Use column menu when you need to:
+- **Sort from header** — Right-click column header to sort
+- **Filter from header** — Quick filtering from column menu
+- **Column grouping** — Group columns from menu
+- **Custom operations** — Add domain-specific column actions
+- **Column visibility** — Show/hide columns from menu
+- **Column ordering** — Reorder columns via menu
+- **Conditional menu items** — Show different options per column
+
 ## Table of Contents
 - [Enable Column Menu](#enable-column-menu)
 - [Built-in Menu Items](#built-in-menu-items)

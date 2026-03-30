@@ -1,6 +1,7 @@
 # Localization & Globalization in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Localization Setup](#localization-setup)
 - [Culture Configuration](#culture-configuration)
@@ -9,6 +10,18 @@
 - [Currency Formatting](#currency-formatting)
 - [RTL Support](#rtl-support)
 - [Custom Localization](#custom-localization)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Multi-language support** — Translate grid UI strings and messages
+- **Locale formatting** — Format dates, numbers, currency by culture
+- **Number formatting** — Display numbers with locale-specific separators
+- **Currency display** — Show amounts in different currency formats
+- **Date formatting** — Display dates in culture-appropriate formats
+- **RTL support** — Support right-to-left languages like Arabic, Hebrew
+- **Custom translations** — Provide custom localization strings
+- **International applications** — Build grids for global audiences
 
 ## Overview
 
@@ -590,19 +603,3 @@ const translations = {
   }
 };
 ```
-
----
-
-## Best Practices
-
-1. **Use locale codes** (en-US, de-DE, etc.)
-2. **Set culture early** in application
-3. **Test all locales** with real data
-4. **Use format codes** for automatic locale formatting
-5. **Provide language switcher** if needed
-6. **Support RTL languages** properly
-7. **Test with special characters** in each locale
-8. **Document locale support** for users
-9. **Use browser locale** as default
-10. **Cache locale settings** in user preferences
-

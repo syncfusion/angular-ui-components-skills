@@ -7,6 +7,15 @@ description: 'PDF export in Syncfusion Angular TreeGrid - PDF export configurati
 
 Export TreeGrid data to PDF with customization options for headers, footers, and styling.
 
+## When to Use
+
+Use PDF export when you need to:
+- **Create reports** — Generate professional PDF reports from TreeGrid
+- **Print-ready format** — Create optimized printable documents
+- **Preserve formatting** — Include colors and styles in export
+- **Headers and footers** — Add document titles, page numbers, dates
+- **Multi-page support** — Automatically paginate long documents
+
 ## Table of Contents
 - [Enable PDF Export](#enable-pdf-export)
 - [PDF Export Options](#pdf-export-options)
@@ -29,7 +38,7 @@ import { ClickEventArgs } from '@syncfusion/ej2-navigations';
       #treegrid
       [dataSource]='data'
       [childMapping]='childMapping'
-      allowPdfExport='true'
+      [allowPdfExport]='true'
       [toolbar]='["PdfExport"]'>
       <e-columns>
         <e-column field='TaskID' headerText='Task ID' width='90'></e-column>

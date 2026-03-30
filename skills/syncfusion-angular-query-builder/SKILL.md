@@ -37,6 +37,8 @@ The Syncfusion Angular Query Builder (`ejs-querybuilder`) is a UI component for 
 - Using `getPredicate()` with DataManager for filtering
 - Complex/nested data binding with sub-columns
 
+> ⚠️ **Security:** Remote `DataManager` endpoints (OData, WebApiAdaptor, etc.) make live outbound HTTP requests. Always use **HTTPS-only** URLs and ensure endpoints require authentication (e.g., bearer tokens, API keys). Never point a remote adaptor at an unauthenticated or HTTP endpoint in production.
+
 ### Filtering & Rules Management
 📄 **Read:** [references/filtering-and-rules.md](references/filtering-and-rules.md)
 - Adding/deleting conditions with `addRules` / `deleteRules`
@@ -72,7 +74,7 @@ The Syncfusion Angular Query Builder (`ejs-querybuilder`) is a UI component for 
 - Display modes: horizontal (default) vs. vertical (`displayMode`)
 - Summary view (`summaryView`)
 - RTL support (`enableRtl`)
-- State persistence (`enablePersistence`)
+- State persistence (`enablePersistence`) — stores rules in `localStorage` unencrypted; avoid enabling when rules may contain sensitive data
 
 ### Accessibility & Localization
 📄 **Read:** [references/accessibility-and-localization.md](references/accessibility-and-localization.md)
@@ -126,8 +128,9 @@ export class App {
 
 Install with:
 ```bash
-ng add @syncfusion/ej2-angular-querybuilder
+ng add @syncfusion/ej2-angular-querybuilder@<EXACT_VERSION>
 ```
+> ⚠️ **Security:** Replace `<EXACT_VERSION>` with a fully-pinned version number (e.g. `33.1.44`) — no wildcards (`x`, `*`, `~`, `^`). Check the [Syncfusion release notes](https://ej2.syncfusion.com/angular/documentation/release-notes/) to confirm the exact stable version before installing. Wildcard or range specifiers are a supply-chain risk and must not be used.
 
 ---
 
@@ -145,6 +148,7 @@ getSqlQuery(): string {
   return this.qb.getSqlFromRules(this.qb.getRules());
 }
 ```
+> ⚠️ **Security:** The SQL string returned by `getSqlFromRules` is **not safe to concatenate directly into a backend query**. Always use **parameterized queries or prepared statements** server-side to prevent SQL injection attacks. Treat the output as untrusted user input.
 
 ### Pattern 2: Load rules at runtime
 ```typescript
@@ -186,7 +190,7 @@ public showButtons = { ruleDelete: true, groupInsert: true, groupDelete: true, r
 | `[enableSeparateConnector]` | boolean | Different AND/OR per rule instead of per group |
 | `[enableNotCondition]` | boolean | Show NOT condition toggle on groups |
 | `[summaryView]` | boolean | Show human-readable summary of current query |
-| `[enablePersistence]` | boolean | Persist rules to localStorage across refreshes |
+| `[enablePersistence]` | boolean | Persist rules to `localStorage` across refreshes — ⚠️ **avoid for sensitive field values** (stored unencrypted) |
 | `[enableRtl]` | boolean | Right-to-left layout for RTL languages |
 | `[displayMode]` | string | `'Horizontal'` (default) or `'Vertical'` layout |
 | `[maxGroupCount]` | number | Max number of nested groups (default: 5) |
@@ -200,8 +204,8 @@ public showButtons = { ruleDelete: true, groupInsert: true, groupDelete: true, r
 |---|---|
 | `getRules()` | Get current rules as JSON RuleModel |
 | `setRules(rules)` | Set rules programmatically at runtime |
-| `getSqlFromRules(rules)` | Export rules to inline SQL string |
-| `setRulesFromSql(sql)` | Import inline SQL string into Query Builder |
+| `getSqlFromRules(rules)` | Export rules to inline SQL string — ⚠️ **never pass output directly to a backend query engine**; use parameterized queries server-side to prevent SQL injection |
+| `setRulesFromSql(sql)` | Import inline SQL string into Query Builder — ⚠️ validate and sanitize the SQL string before passing it to a backend |
 | `getMongoQuery(rules)` | Export rules to MongoDB query string |
 | `setMongoQuery(query)` | Import MongoDB query string |
 | `addRules(rules, groupID)` | Add rules to a specific group |

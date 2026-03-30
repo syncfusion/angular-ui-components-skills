@@ -7,6 +7,17 @@ description: 'Frozen columns in Syncfusion Angular TreeGrid - freeze rows, freez
 
 Freezing columns and rows keeps them visible while scrolling through data.
 
+## When to Use
+
+Use frozen columns/rows when you need to:
+- **Keep headers visible** — Always show column headers while scrolling horizontally
+- **Lock key columns** — Keep ID or name column visible while viewing other data
+- **Freeze row numbers** — Display row index or row numbers while scrolling
+- **Fix action columns** — Keep command/action columns visible during horizontal scroll
+- **Improve readability** — Maintain context while viewing distant columns
+- **Multi-level headers** — Freeze parent headers in grouped columns
+- **Large datasets** — Enhance UX when viewing wide tables with many columns
+
 ## Table of Contents
 - [Freeze Columns](#freeze-columns)
 - [Freeze Rows](#freeze-rows)
@@ -179,7 +190,7 @@ public aggregates = [
 ### Width Configuration
 
 ```typescript
-// Always specify explicit widths for frozen columns
+// Must specify explicit widths for frozen columns
 <e-column field='TaskID' headerText='Task ID' width='90' isFrozen='true'></e-column>
 <e-column field='TaskName' headerText='Task Name' width='150' isFrozen='true'></e-column>
 
@@ -204,17 +215,14 @@ public aggregates = [
 ```
 
 ### Limitations
+ - Cannot use auto width for frozen columns
+ - Limited styling options for frozen area
+ - Reordering may not work as expected with frozen columns
+ - Print/export may not maintain frozen column layout
 
-```typescript
-// Frozen columns limitations:
-// - Cannot use auto width for frozen columns
-// - Limited styling options for frozen area
-// - Reordering may not work as expected with frozen columns
-// - Print/export may not maintain frozen column layout
+### Best practices:
+ - Use freezing for key identifier columns only
+ - Test performance with actual data volume
+ - Consider using rowTemplate for complex layouts
+ - Disable freezing for mobile devices
 
-// Best practices:
-// - Use freezing for key identifier columns only
-// - Test performance with actual data volume
-// - Consider using rowTemplate for complex layouts
-// - Disable freezing for mobile devices
-```

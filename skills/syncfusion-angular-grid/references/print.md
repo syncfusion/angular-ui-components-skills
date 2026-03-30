@@ -1,5 +1,23 @@
 # Print
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Basic Printing](#basic-printing)
+- [Programmatic Printing](#programmatic-printing)
+- [Print Styling](#print-styling)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Print grid data** — Generate print-friendly grid output
+- **Print button** — Add print functionality to toolbar
+- **Programmatic printing** — Trigger print via code
+- **Custom print styling** — Optimize grid appearance for printing
+- **Page breaks** — Control how grid spans multiple pages
+- **Print layouts** — Customize header, footer, margins
+- **Print preview** — Show preview before printing
+
 ## Overview
 
 Print grid data with full formatting and layout control. Optimize grid appearance for printed output.

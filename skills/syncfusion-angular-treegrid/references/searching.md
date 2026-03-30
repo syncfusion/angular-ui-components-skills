@@ -1,14 +1,22 @@
 ---
 name: Searching
-description: 'Searching in Syncfusion Angular TreeGrid - global search across columns, column-level search, search highlight, case sensitivity control.'
+description: 'Searching in Syncfusion Angular TreeGrid - global search across columns, column-level search.'
 ---
 
 # Searching
 
 Search functionality enables users to quickly find records across all columns or specific columns.
 
-## Table of Contents
-- [Global Search](#global-search)
+## When to Use
+
+Use searching when you need to:
+- **Global search** — Search across multiple columns at once
+- **Real-time filtering** — Filter as users type in a search box
+- **Quick data discovery** — Help users find records without complex filter UIs
+- **Partial text matching** — Find records containing search terms
+- **Search highlighting** — Highlight matching text in results
+- **Hierarchical search** — Search across parent and child records
+- **Combine with other features** — Use search alongside filtering and sorting
 
 ## Global Search
 

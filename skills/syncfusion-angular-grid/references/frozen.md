@@ -1,5 +1,21 @@
 # Frozen
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Freeze Default Columns](#freeze-default-columns)
+- [Freeze Specific Columns](#freeze-specific-columns)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Keep columns visible** — Freeze key columns while scrolling horizontally
+- **Fix ID columns** — Keep identifier columns visible at all times
+- **Progressive disclosure** — Show important columns while allowing scroll through others
+- **Large data sets** — Navigate wide grids with frozen key reference columns
+- **Mobile optimization** — Maintain visible context on smaller screens
+- **Data integrity** — Ensure users always see identifier information
+
 ## Overview
 
 Freeze columns to keep them visible while scrolling horizontally. Useful for ID or key columns that should always be visible.

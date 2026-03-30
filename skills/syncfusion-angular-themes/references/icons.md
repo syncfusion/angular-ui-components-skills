@@ -46,7 +46,7 @@ Add to angular.json:
           "options": {
             "styles": [
               "src/styles.css",
-              "https://cdn.syncfusion.com/ej2/32.1.19/ej2-icons/styles/material3.css"
+              "https://cdn.syncfusion.com/ej2/32.1.44/ej2-icons/styles/material3.css"
             ]
           }
         }
@@ -57,12 +57,14 @@ Add to angular.json:
 ```
 
 Or in index.html:
+**Use the matching CDN version:**
 
 ```html
-<link href="https://cdn.syncfusion.com/ej2/32.1.19/ej2-icons/styles/material3.css" rel="stylesheet"/>
+<link href="https://cdn.syncfusion.com/ej2/33.1.44/ej2-icons/styles/material3.css" rel="stylesheet"/>
 ```
 
-**⚠️ Version matching is critical:** Replace `32.1.19` with your installed package version.
+> **⚠️ Important:** The CDN version MUST match your installed npm package version to avoid style issues.
+
 
 ## Using Icons
 

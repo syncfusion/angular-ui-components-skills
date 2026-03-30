@@ -1,6 +1,7 @@
 # Selection
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Critical Rule](#critical-rule)
 - [Row Selection](#row-selection)
@@ -8,6 +9,18 @@
 - [Column Selection](#column-selection)
 - [Checkbox Selection](#checkbox-selection)
 - [Selection Events](#selection-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Enable row selection** — Allow users to select single or multiple rows
+- **Cell selection** — Enable selection of individual cells
+- **Column selection** — Allow selecting entire columns
+- **Checkbox selection** — Add checkboxes for multi-select rows
+- **Get selected rows** — Access selected rows programmatically
+- **Handle selection events** — Hook into selection change events
+- **Programmatic selection** — Select rows via code
+- **Selection prerequisites** — Ensure [allowSelection] is enabled for methods
 
 ## Overview
 

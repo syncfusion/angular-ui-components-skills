@@ -1,11 +1,18 @@
 ---
 name: Accessibility
-description: 'Accessibility (a11y) in Syncfusion Angular TreeGrid - WCAG 2.1 conformance, ARIA labels, keyboard navigation, screen reader support, and inclusive design.'
+description: 'Accessibility in Syncfusion Angular TreeGrid - WCAG 2.1 conformance, ARIA labels, keyboard navigation, screen reader support, and inclusive design.'
 ---
 
 # Accessibility (a11y)
 
 Implement accessible TreeGrid with WCAG 2.1 Level AA conformance for inclusive user experiences.
+
+## When to Use
+
+Use accessibility features when you need to:
+- **Keyboard navigation** — Enable full keyboard-only usage without a mouse
+- **ARIA labels** — Provide semantic meaning to assistive technologies
+- **Accessibility testing** — Validate compliance with tools and standards
 
 ## Table of Contents
 - [ARIA Labels and Attributes](#aria-labels-and-attributes)

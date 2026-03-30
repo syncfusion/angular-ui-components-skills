@@ -1,10 +1,22 @@
 # Scrolling
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Virtual Scrolling](#virtual-scrolling)
 - [Infinite Scrolling](#infinite-scrolling)
 - [Scrolling Events](#scrolling-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Handle large datasets** — Efficiently display 10K+ rows with virtual scrolling
+- **Virtual scrolling** — Render only visible rows for performance
+- **Infinite scrolling** — Load more data as user scrolls down
+- **Lazy loading** — Load data on demand during scroll
+- **Scrolling events** — Hook into scroll lifecycle
+- **Progressive data loading** — Implement pagination through scrolling
+- **Memory optimization** — Reduce memory usage with large grids
 
 ## Overview
 
@@ -85,7 +97,7 @@ import { DataManager, UrlAdaptor, Query } from '@syncfusion/ej2-data';
 })
 export class InfiniteScrollGridComponent {
   dataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });

@@ -1,10 +1,30 @@
 # State Management
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Save Grid State](#save-grid-state)
+- [Restore Column State](#restore-column-state)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Persist grid state** — Save and restore column, sort, filter, paging state
+- **User preferences** — Remember user's grid configuration across sessions
+- **State recovery** — Restore grid to previous state on page reload
+- **Column layout** — Save custom column widths and order
+- **Filter persistence** — Keep applied filters between sessions
+- **Sort preferences** — Remember sort settings
+- **LocalStorage integration** — Store state in browser storage
+- **Form recovery** — Recover form state after disconnection
+
 ## Overview
 
 Save and restore grid state including columns, sorting, filters, and paging. Useful for persistent user preferences and form recovery.
 
 ## Save Grid State
+
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
 
 Capture current grid state:
 
@@ -73,6 +93,8 @@ export class StateSaveGridComponent {
 ```
 
 ## Restore Column State
+
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
 
 Save and restore column configuration:
 

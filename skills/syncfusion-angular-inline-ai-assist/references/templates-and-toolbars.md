@@ -564,9 +564,6 @@ export class AppComponent {
             }
         ]
     };
-
-    // Template
-    // [inlineToolbarSettings]="inlineToolbarSettings"
 }
 ```
 

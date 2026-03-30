@@ -7,6 +7,17 @@ description: 'Styling in Syncfusion Angular TreeGrid - built-in themes, CSS cust
 
 Customize TreeGrid appearance with themes, CSS, and row/cell styling.
 
+## When to Use
+
+Use styling features when you need to:
+- **Apply themes** — Use built-in light/dark/material themes
+- **Custom styles** — Modify colors, fonts, spacing
+- **Conditional formatting** — Style rows/cells based on data values
+- **Branding** — Match corporate design guidelines
+- **Highlight data** — Use colors to emphasize important information
+- **Responsive appearance** — Adapt styles for different screen sizes
+- **CSS customization** — Override default styles with custom CSS
+
 ## Table of Contents
 - [CSS Customization](#css-customization)
 - [Row and Cell Styling](#row-and-cell-styling)

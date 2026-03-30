@@ -1,5 +1,18 @@
 # Database Connectivity
 
+## ⚠️ CRITICAL SECURITY NOTICE
+
+**All database connections MUST be handled through authenticated backend APIs.** Never expose database connection strings or credentials to the client-side application. This documentation assumes you have:
+
+✅ A secure backend API (ASP.NET Core, Node.js, etc.)
+✅ Proper authentication and authorization
+✅ Server-side database connection handling
+✅ Input validation and SQL injection prevention
+
+❌ **NEVER** connect directly to databases from the browser
+❌ **NEVER** expose connection strings in client code
+❌ **NEVER** accept user-provided database endpoints
+
 ## Table of Contents
 - [Connection Patterns](#connection-patterns)
 - [SQL Server](#sql-server)
@@ -15,10 +28,14 @@
 
 ### Server-Side Engine Connection
 
+⚠️ **SECURITY**: This pattern uses a secure backend API. Never expose database connections to the client.
+
 ```typescript
-// Client-side: Configure endpoint
+// Client-side: Configure AUTHENTICATED endpoint only
+import { environment } from '../environments/environment';
+
 dataSourceSettings: IDataOptions = {
-  url: 'https://your-api-server.com/api/pivot/data',
+  url: environment.apiEndpoint,  // Use environment config, not hardcoded URLs
   mode: 'Server',
   rows: [{ name: 'Region' }],
   columns: [{ name: 'Year' }],

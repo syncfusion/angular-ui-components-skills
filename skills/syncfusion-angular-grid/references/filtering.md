@@ -1,12 +1,25 @@
 # Filtering
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Filter Bar](#filter-bar)
 - [Filter Menu](#filter-menu)
 - [Excel-Like Filter](#excel-like-filter)
 - [Advanced Filtering](#advanced-filtering)
 - [Filter Events](#filter-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Enable data filtering** — Allow users to filter grid by column values
+- **Filter bar** — Add inline filter input below headers
+- **Filter menu** — Provide dropdown menus for filtering options
+- **Excel-like filtering** — Implement Excel-style filter UI with checkboxes
+- **Advanced filtering** — Build complex multi-criteria filters
+- **Programmatic filtering** — Filter grid data via code/API
+- **Filter events** — Handle filtering state changes
+- **Search and filter** — Combine search with advanced filtering
 
 ## Overview
 

@@ -1,11 +1,25 @@
 # Data Binding
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
+- [Data Source Selection Rule](#️-data-source-selection-rule--choose-the-right-approach)
 - [Local Data Binding](#local-data-binding)
 - [Remote Data Binding](#remote-data-binding)
 - [DataManager Configuration](#datamanager-configuration)
 - [Dynamic Data Updates](#dynamic-data-updates)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Bind local data** — Display static arrays or client-side data in the grid
+- **Bind remote data** — Connect grid to REST APIs or server endpoints
+- **Configure DataManager** — Set up data sources with adaptors and parameters
+- **Implement dynamic updates** — Update grid data in response to user actions
+- **Handle API responses** — Transform and bind API data to grid
+- **Server-side operations** — Configure filtering, sorting, paging on server
+- **Real-time data** — Update grid with new data from backend
+- **Data source strategies** — Choose between local array and remote DataManager
 
 ## Overview
 
@@ -98,7 +112,7 @@ import { Query } from '@syncfusion/ej2-data';
 })
 export class RemoteGridComponent implements OnInit {
   public dataManager: DataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });
@@ -147,7 +161,7 @@ import { DataManager, ODataV4Adaptor, Query } from '@syncfusion/ej2-data';
 })
 export class CustomDataGridComponent {
   public dataManager: DataManager = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     pageSize: 12
   });

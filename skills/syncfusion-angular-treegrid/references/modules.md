@@ -7,6 +7,17 @@ description: 'Modules in Syncfusion Angular TreeGrid - service providers for pag
 
 Modules are service providers that need to be injected into TreeGrid to enable specific features. Each module extends TreeGrid functionality for operations like paging, sorting, filtering, and more.
 
+## When to Use
+
+Use modules when you need to:
+- **Enable features** — Inject services for paging, sorting, filtering
+- **Optimize bundle size** — Load only required modules
+- **Add export support** — Include Excel, PDF, CSV export modules
+- **Enable editing** — Inject edit and toolbar services
+- **Add drag-drop** — Include row drag-drop service
+- **Enable print** — Include print service
+- **Module dependencies** — Understand which modules depend on others
+
 ## Table of Contents
 - [Module Injection Rules](#module-injection-rules)
 - [Core Modules Overview](#core-modules-overview)

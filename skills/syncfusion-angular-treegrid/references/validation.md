@@ -7,6 +7,17 @@ description: 'Advanced validation in Syncfusion Angular TreeGrid - async validat
 
 Comprehensive validation strategies for TreeGrid editing including async validation, custom rules, and server-side validation.
 
+## When to Use
+
+Use validation features when you need to:
+- **Ensure data quality** — Validate user input before saving
+- **Required fields** — Force users to fill in mandatory fields
+- **Format validation** — Check email, phone, URL formats
+- **Custom rules** — Implement business-specific validation logic
+- **Cross-field validation** — Validate relationships between multiple fields
+- **Async validation** — Validate against server (check username availability, etc.)
+- **Server-side validation** — Prevent invalid data from being saved
+
 ## Table of Contents
 - [Built-in Validation Rules](#built-in-validation-rules)
 - [Custom Validation Rules](#custom-validation-rules)

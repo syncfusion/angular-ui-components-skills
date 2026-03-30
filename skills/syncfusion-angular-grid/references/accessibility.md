@@ -1,6 +1,7 @@
 # Accessibility (WCAG 2.2 & Section 508) in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Keyboard Navigation](#keyboard-navigation)
 - [WCAG 2.2 Compliance](#wcag-22-compliance)
@@ -9,6 +10,19 @@
 - [Color Contrast](#color-contrast)
 - [Focus Management](#focus-management)
 - [Accessibility Testing](#accessibility-testing)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Ensure WCAG 2.2 compliance** — Build grids that meet Web Content Accessibility Guidelines Level AA standards
+- **Support keyboard navigation** — Enable users to navigate grids without a mouse
+- **Screen reader support** — Ensure screen readers can interpret and announce grid content properly
+- **Section 508 compliance** — Meet U.S. federal accessibility requirements
+- **Color contrast** — Verify that text and UI elements meet contrast ratio requirements
+- **Focus management** — Implement proper focus handling and visual indicators
+- **WAI-ARIA implementation** — Use ARIA attributes correctly for rich internet applications
+- **Accessibility testing** — Test and validate grids for compliance with accessibility standards
+- **Inclusive design** — Support users with disabilities including visual, motor, and cognitive impairments
 
 ## Overview
 
@@ -448,7 +462,6 @@ const gridStyles = `
   }
 `;
 
-<style [innerHTML]="gridStyles"></style>
 <ejs-grid [dataSource]="data">
   <e-columns>
     <!-- columns -->
@@ -471,7 +484,6 @@ const focusStyles = `
   }
 `;
 
-<style [innerHTML]="focusStyles"></style>
 <ejs-grid [dataSource]="data">
   <e-columns>
     <!-- columns -->
@@ -603,56 +615,3 @@ Grid Accessibility Audit - [Date]
 Notes:
 - [Any issues found]
 ```
-
----
-
-## Best Practices Summary
-
-1. **Always enable keyboard navigation**
-   ```typescript
-   [allowKeyboard]="true"
-   ```
-
-2. **Use semantic HTML**
-   ```typescript
-   <e-column ariaLabel='...'</e-column>
-   ```
-
-3. **Maintain color contrast**
-   - 4.5:1 for normal text
-   - 3:1 for large text
-
-4. **Provide clear labels and instructions**
-   ```typescript
-   <label htmlFor='grid-id'>Instructions here</label>
-   ```
-
-5. **Test with assistive technology**
-   - Use NVDA or JAWS
-   - Use axe automation
-
-6. **Implement focus management**
-   - Show focus indicator
-   - Maintain logical focus order
-
-7. **Use ARIA appropriately**
-   - Let Grid handle automatic ARIA
-   - Add custom ARIA when needed
-
-8. **Make dynamic changes announcements**
-   - Use aria-live regions
-   - Announce data updates
-
-9. **Ensure print-friendly**
-   ```typescript
-   @media print {
-     .grid { /* print styles */ }
-   }
-   ```
-
-10. **Document accessibility features**
-    - Include in user guide
-    - Provide keyboard shortcuts
-
-
-

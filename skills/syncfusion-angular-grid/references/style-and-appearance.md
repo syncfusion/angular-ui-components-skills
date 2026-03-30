@@ -1,11 +1,24 @@
 # Style and Appearance
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Theme Selection](#theme-selection)
 - [CSS Customization](#css-customization)
 - [Style Specific Areas](#style-specific-areas)
 - [Custom CSS Classes](#custom-css-classes)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Apply themes** — Use built-in Syncfusion themes (Material, Bootstrap, etc.)
+- **Customize colors** — Override theme colors for brand matching
+- **Custom CSS** — Add custom styling via CSS classes
+- **Style specific areas** — Customize grid header, rows, cells appearance
+- **Responsive styling** — Apply different styles on mobile vs desktop
+- **Dark mode** — Implement dark theme support
+- **Professional appearance** — Create polished, branded data tables
+- **Accessibility styling** — Ensure proper contrast and visibility
 
 ## Overview
 

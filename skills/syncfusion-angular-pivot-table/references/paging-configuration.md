@@ -1,5 +1,9 @@
 # Paging Configuration
 
+## ⚠️ SECURITY NOTICE
+
+When using server-side paging with remote APIs, **always use trusted, authenticated endpoints**. See [core-concepts.md Security Best Practices](./core-concepts.md#security-best-practices) for comprehensive security guidelines.
+
 ## Table of Contents
 - [Overview](#overview)
 - [Basic Setup](#basic-setup)

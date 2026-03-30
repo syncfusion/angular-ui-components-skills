@@ -13,6 +13,38 @@ The Syncfusion Angular Pivot Grid is a powerful data visualization and analysis 
 
 **Important:** Always verify API class names, properties, and method signatures by consulting the **reference files in this skill** (`references/*.md`). These are maintained with verified, working examples. Do not assume API details from other sources.
 
+## ⚠️ Security Warning: Data Source Validation
+
+**CRITICAL SECURITY NOTICE:** When implementing pivot tables, always use trusted data sources. **Never** fetch or bind data from untrusted or user-provided URLs without proper validation and sanitization.
+
+### Security Best Practices:
+
+1. **Use Local Data**: Prefer local, in-memory data sources for maximum security
+2. **Validate Remote Sources**: Only connect to authenticated and authorized API endpoints under your control
+3. **Sanitize User Input**: Never allow users to specify arbitrary URLs or data sources
+4. **Implement Authentication**: Always use authentication headers and secure API endpoints
+5. **Content Validation**: Validate and sanitize all data received from external sources before binding
+6. **Use HTTPS**: Always use HTTPS for remote data connections
+7. **Rate Limiting**: Implement rate limiting on API endpoints to prevent abuse
+
+### Security Risks:
+
+- **Indirect Prompt Injection**: Untrusted third-party data can contain malicious content that manipulates AI agent behavior
+- **Data Exfiltration**: Malicious data sources could attempt to extract sensitive information
+- **Code Injection**: Untrusted data may contain scripts or harmful content
+
+### Recommended Approach:
+
+✅ **DO**: Use controlled, authenticated backend APIs
+✅ **DO**: Implement server-side data validation
+✅ **DO**: Use environment variables for API endpoints
+✅ **DO**: Whitelist allowed data sources
+
+❌ **DON'T**: Accept user-provided URLs
+❌ **DON'T**: Bind to public, untrusted endpoints
+❌ **DON'T**: Skip data validation and sanitization
+❌ **DON'T**: Use HTTP for sensitive data
+
 ## When to Use This Skill
 
 Use this skill when users need to:
@@ -73,30 +105,32 @@ Use this skill when users need to:
 
 ### Pivot Chart Integration
 📄 **Read:** [references/pivot-chart-integration.md](references/pivot-chart-integration.md)
-- Chart types: 21+ types including Line, Column, Area, Bar, Pie, Doughnut, Funnel, Pyramid
-- Display options: Configure with `displayOption` to show Grid, Chart, or Both
-- Series customization: Customize charts via `chartSeries` with marker, dataLabel, etc.
-- Drill operations: Enable drill-down/drill-up on accumulation charts
-- Multiple axes: Configure `enableMultipleAxis` for multi-value visualization
-- Chart events: Series creation, axis customization, legend customization
+- Inject `PivotChartService` provider to enable chart functionality
+- Chart types: 21+ types including Line, Column, Area, Bar, StepArea, Pie, Doughnut, Funnel, Pyramid, Radar, Polar, Pareto, Bubble, Scatter, Spline
+- Display options: Configure with `displayOption` property to show Table, Chart, or Both with `view` and `primary` settings
+- Series customization: Customize charts via `chartSeries` in `chartSettings` (type, marker, dataLabel)
+- Field list integration: Enable with `showFieldList: true` for dynamic field manipulation
+- Grouping bar support: Enable with `showGroupingBar: true` for axis field switching
+- Axis configuration: Customize X/Y axes via `primaryXAxis` and `primaryYAxis` in `chartSettings`
+- Multiple axes: Configure `enableMultipleAxis` for multi-value visualization with `multipleAxisMode`
+- Accumulation chart drill: Support drill-down/up on Pie, Doughnut, Funnel, Pyramid via context menu
 
 ### Filtering & Sorting
 📄 **Read:** [references/filtering-and-sorting.md](references/filtering-and-sorting.md)
-- Label filtering: Filter by field names and member values
-- Value filtering: Filter rows/columns by aggregated values
-- Member filtering: UI-based filtering through Field List
-- Member search: Quick search in filter dialogs
-- Sort settings: Configure ascending/descending sort by field
-- Advanced sorting: Sort by aggregated values or custom order
+- Member filtering: Include or exclude specific field members
+- Label filtering: Filter based on header text or member names
+- Value filtering: Filter based on aggregated values meeting conditions
+- Member sorting: Arrange field members in ascending/descending order
+- Custom member sorting: Sort field members in user-defined order using `membersOrder`
+- Value sorting: Sort pivot table values and aggregated data with `enableValueSorting`
+- Programmatic value sorting: Configure with `valueSortSettings`
 
 ### Data Formatting & Conditional Formatting
 📄 **Read:** [references/data-formatting.md](references/data-formatting.md)
-- Number formats: Currency (C), Percentage (P), Number (N), Scientific (E)
-- Custom formats: Define format strings with placeholders
-- Conditional formatting: Apply colors/styles based on cell values
-- Icon sets: Display icons based on thresholds
-- Data bars: Show bar visualization within cells
-- Format settings configuration
+- Number formatting: Apply Currency (C), Percentage (P), Number (N), Scientific (E) formats
+- Custom format strings: Define format strings with placeholders for calculated fields
+- Conditional formatting: Apply colors/styles based on cell values using `conditionalFormatSettings`
+- Format settings configuration: Configure in separate `formatSettings` array in `dataSourceSettings`
 
 ### Export & Printing
 📄 **Read:** [references/export-and-print.md](references/export-and-print.md)
@@ -118,47 +152,46 @@ Use this skill when users need to:
 
 ### Grouping Bar UI Operations
 📄 **Read:** [references/grouping-bar-ui-operations.md](references/grouping-bar-ui-operations.md)
-- Grouping bar setup and configuration
-- Drag-and-drop field reorganization between axes
-- Filter, sort, and remove operations
-- Fields panel management and visibility control
-- Icon controls: filter, sort, remove buttons
-- Field-specific vs global icon configuration
-- Responsive grouping bar for different screen sizes
+- Enable grouping bar: Set `showGroupingBar: true` on component
+- Drag-and-drop reorganization: Move fields between Row, Column, Value, Filter axes
+- Filter operations: Access filters from grouping bar field buttons
+- Sort operations: Configure sort options via grouping bar interface
+- Remove operations: Remove fields directly from grouping bar
+- Value field management: Switch between value fields in accumulation charts
+- Hide specific icons: Control visibility of filter, sort, remove icons per field
+- Grouping bar customization: Configure via `groupingBarSettings`
 
 ### Tooltips Customization
 📄 **Read:** [references/tooltips-customization.md](references/tooltips-customization.md)
-- Enable/disable tooltips with `showTooltip` property
-- Custom tooltip templates with dynamic placeholders
-- Available placeholders: `${rowHeaders}`, `${columnHeaders}`, `${value}`, etc.
-- Pivot chart tooltip customization
-- CSS styling for tooltip appearance
-- Dynamic tooltip content based on cell values
-- Troubleshooting tooltip rendering issues
+- Enable/disable tooltips: Configure tooltip visibility on cells and charts
+- Custom tooltip templates: Define dynamic tooltip content with placeholders
+- Available placeholders: Row headers, column headers, value, and other cell metadata
+- Pivot chart tooltip customization: Customize tooltip appearance for chart data points
+- CSS styling: Style tooltip appearance with custom CSS
+- Dynamic tooltip content: Configure based on cell values and context
 
 ### Editing & Drill Operations
 📄 **Read:** [references/editing-drill-operations.md](references/editing-drill-operations.md)
-- Enable cell editing with `allowEditing: true` (relational data only)
-- Edit settings: `allowAdding`, `allowDeleting`, `allowCommandColumns`
-- Four editing modes: Normal, Dialog, Batch, Command Column
-- Inline editing for quick updates
-- Edit events: `editCompleted`, `actionBegin`, `actionComplete`, `actionFailure`
-- Custom validation and confirmation dialogs
-- Editing via pivot chart data points
-- CRUD operations and data persistence
-- Drill through and drill down operations
-- Cell drill-down events and customization
+- Enable editing: Set `allowEditing: true` on component (relational data only)
+- Edit modes: Normal (inline), Dialog (popup), Batch (multiple), Command Column (dedicated)
+- Edit settings: Configure via `editSettings` with `allowAdding`, `allowDeleting`, `allowCommandColumns`
+- Edit events: Monitor `editCompleted`, `actionBegin`, `actionComplete`, `actionFailure`
+- CRUD operations: Create, Read, Update, Delete records via editing interface
+- Drill-through operations: View raw underlying data for aggregated values via context menu
+- Drill-down operations: Click cells to navigate hierarchical data deeper
+- Cell selection: Configure via `selectionSettings`
+- Save data: Updated records persist via event handlers and data binding
 
 ### OLAP Data Sources
 📄 **Read:** [references/olap-data-sources.md](references/olap-data-sources.md)
-- OLAP vs relational data source differences
-- Connection configuration: `url`, `catalog`, `cube`, `providerType`
-- OLAP cube elements: Measures, Dimensions, Hierarchies, Named Sets
-- Authentication and role-based access control
-- Working with hierarchies and attribute hierarchies
-- Calculated fields (Calculated Measures and Dimensions) for OLAP
-- Advanced features: Virtual scrolling, drill-down, filter axis
-- MDX formula support and expression syntax
+- Connection configuration: Set `url`, `catalog`, `cube`, `providerType: 'SSAS'` in dataSourceSettings
+- OLAP cube elements: Measures (numeric aggregates), Dimensions (hierarchical groupings), Hierarchies, Named Sets
+- MDX support: Configure using MDX (Multidimensional Expressions) syntax for queries
+- Hierarchies: Access via `[Dimension].[Hierarchy]` notation (e.g., `[Date].[Date Hierarchy]`)
+- Calculated fields: Create Calculated Measures and Dimensions in OLAP cubes
+- Authentication: Configure via connection string or backend authentication headers
+- Named sets: Predefined member groups for analysis
+- Advanced features: Drill-down, virtual scrolling, value filtering with OLAP
 
 ### Paging Configuration
 📄 **Read:** [references/paging-configuration.md](references/paging-configuration.md)
@@ -190,21 +223,25 @@ Use this skill when users need to:
 
 ### Database Connections
 📄 **Read:** [references/database-connections.md](references/database-connections.md)
-- Relational databases: SQL Server, MySQL, PostgreSQL, Oracle
-- NoSQL databases: MongoDB support
-- Big data: Elasticsearch integration
-- Connection strings: Configure data source connections
-- Query optimization: Pre-aggregation and filtering
+- SQL Server: Connect via connection strings with SQL authentication
+- MySQL: Configure with host, port, user, password, and database
+- PostgreSQL: Connection configuration for PostgreSQL databases
+- Oracle: Oracle database connectivity with named parameters
+- MongoDB: Connect to MongoDB collections and query documents
+- Elasticsearch: Big data analytics via Elasticsearch indices
+- Snowflake: Cloud data warehouse integration
+- Server-side processing: Use ASP.NET Core backend with database queries
 
 ### Server-Side Pivot Engine
 📄 **Read:** [references/server-side-pivot-engine.md](references/server-side-pivot-engine.md)
-- Server-side processing: Delegate aggregation to backend server
-- ASP.NET Core setup: Download and configure PivotController application
-- Angular client configuration: Set mode: 'Server' with server endpoint URL
-- Data sources: Collection, JSON, CSV, DataTable, Dynamic objects
-- Virtual scrolling: Handle 100K+ rows efficiently
-- Excel/CSV export: Export processed data to files
-- Security: Add authentication headers with beforeServiceInvoke event
+- Server-side aggregation: Delegate heavy processing to ASP.NET Core backend
+- Client configuration: Set `mode: 'Server'` with `url` endpoint in dataSourceSettings
+- ASP.NET Core setup: Download and configure PivotController with Syncfusion.Pivot.Engine NuGet
+- Data sources: Support Collection, JSON, CSV, DataTable, Dynamic objects on server
+- Large datasets: Handle 100K+ rows with server-side processing
+- Virtual scrolling: Combine with server mode for optimal performance
+- Export operations: Excel/CSV export of server-processed data
+- Authentication: Configure via beforeServiceInvoke event or headers
 
 ### Performance Optimization
 📄 **Read:** [references/performance-optimization.md](references/performance-optimization.md)
@@ -218,36 +255,36 @@ Use this skill when users need to:
 
 ### State Persistence & Hyperlinks
 📄 **Read:** [references/state-persistence-hyperlinks.md](references/state-persistence-hyperlinks.md)
-- State persistence: Save and restore pivot configuration
-- Local storage: Store report state in browser
-- Report export/import: JSON format serialization
-- Hyperlinks: Enable clickable hyperlinks in cells
-- Hyperlink events: Respond to hyperlink clicks
-- Hyperlink customization: Set targets and formatting
+- State persistence: Save and restore pivot configuration using `getPersistData()`
+- Local storage: Persist report state in browser localStorage for user sessions
+- Report management: Save, load, and delete named reports
+- JSON serialization: Export/import report configurations as JSON
+- Hyperlinks: Enable clickable hyperlinks in pivot cells via `hyperlinkSettings`
+- Hyperlink events: Handle hyperlink clicks with appropriate event handlers
+- Drill-through hyperlinks: Links to detailed data sources for aggregates
 
 ---
 
 ## Quick Start Example
 
 ```typescript
-import { PivotViewAllModule, PivotChartService } from '@syncfusion/ej2-angular-pivotview';
+import { PivotViewAllModule, CalculatedFieldService } from '@syncfusion/ej2-angular-pivotview';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PivotViewComponent, IDataSet } from '@syncfusion/ej2-angular-pivotview';
+import { DataSourceSettingsModel } from '@syncfusion/ej2-pivotview/src/model/datasourcesettings-model';
 
 @Component({
   imports: [PivotViewAllModule],
-  providers: [PivotChartService],
+  providers: [CalculatedFieldService],
   standalone: true,
   selector: 'app-pivot-grid',
   template: `
     <ejs-pivotview #pivotview id='PivotView' 
-      [dataSourceSettings]=dataSourceSettings
+      [dataSourceSettings]="dataSourceSettings"
       [height]="'500px'"
       [width]="'100%'"
       [allowCalculatedField]="true" 
       [allowGrouping]="true"
-      [allowConditionalFormatting]="true"
-      [displayOption]="displayOption"
       [toolbar]="toolbarItems">
     </ejs-pivotview>
   `
@@ -256,10 +293,8 @@ export class AppComponent implements OnInit {
     @ViewChild('pivotview') pivotViewComponent!: PivotViewComponent;
     
     public pivotData!: IDataSet[];
-    public dataSourceSettings: any;
-    public displayOption: any;
-    public toolbarItems: string[] = ['New', 'Save', 'SaveAs', 'Rename', 'Remove', 'Load',
-                                      'Grid', 'Chart', 'Export', 'SubTotal', 'GrandTotal'];
+    public dataSourceSettings!: DataSourceSettingsModel;
+    public toolbarItems: string[] = ['New', 'Save', 'SaveAs', 'Rename', 'Remove', 'Load', 'Export'];
 
     ngOnInit(): void {
         this.pivotData = [
@@ -269,9 +304,6 @@ export class AppComponent implements OnInit {
             { 'Sold': 25, 'Amount': 42500, 'Country': 'France', 'Products': 'Road Bikes', 'Year': 'FY 2015', 'Quarter': 'Q1' },
             { 'Sold': 40, 'Amount': 68000, 'Country': 'Germany', 'Products': 'Mountain Bikes', 'Year': 'FY 2015', 'Quarter': 'Q2' }
         ];
-
-        // Display both grid and chart with grid as primary view
-        this.displayOption = { view: 'Both', primary: 'Table' };
 
         this.dataSourceSettings = {
             dataSource: this.pivotData,
@@ -291,15 +323,6 @@ export class AppComponent implements OnInit {
             formatSettings: [
                 { name: 'Amount', format: 'C2' },             // Currency format
                 { name: 'AvgAmount', format: 'C2' }           // Format calculated field
-            ],
-            conditionalFormatSettings: [
-                {
-                    measure: 'Amount',
-                    value1: 50000,
-                    value2: 100000,
-                    condition: 'Between',
-                    style: { backgroundColor: '#FFE5CC', color: 'black' }
-                }
             ]
         };
     }
@@ -336,6 +359,26 @@ columns: [
 ]
 ```
 
+### Pattern 3: Using Calculated Fields with Aggregations
+Combine calculated fields with multiple aggregation types for advanced analysis:
+```typescript
+values: [
+    { name: 'Amount', type: 'Sum' },       // Total amount
+    { name: 'Quantity', type: 'Avg' },     // Average quantity
+    { name: 'AvgRevenue', type: 'CalculatedField' }  // Custom calculation
+],
+calculatedFieldSettings: [
+    {
+        name: 'AvgRevenue',
+        formula: '"Sum(Amount)" / "Count(Quantity)"'  // Revenue per unit
+    }
+],
+formatSettings: [
+    { name: 'Amount', format: 'C2' },      // Currency format for Amount
+    { name: 'AvgRevenue', format: 'C2' }   // Currency format for calculated field
+]
+```
+
 ### Pattern 4: Number Range Grouping
 Group numeric fields into ranges:
 ```typescript
@@ -368,23 +411,28 @@ groupSettings: [
 
 ## Key Configuration Properties
 
-| Property | Type | Purpose |
-|----------|------|---------|
-| `values` | Array | Fields to aggregate with type (Sum, Avg, Count, CalculatedField, etc.) |
-| `type` | String | Aggregation type for value field (Sum, Avg, Count, Min, Max, etc.) or 'CalculatedField' for calculated fields |
-| `baseField` | String | Field reference for DifferenceFrom/Percentage comparisons |
-| `baseItem` | String | Specific member for base field comparisons |
-| `allowCalculatedField` | Boolean | Enable calculated field feature |
-| `calculatedFieldSettings` | Array | Define calculated field name and formula |
-| `formula` | String | Mathematical expression for calculated field using aggregation functions |
-| `formatSettings` | Array | SEPARATE array for number formatting (N, C, P) of values and calculated fields |
-| `allowGrouping` | Boolean | Enable grouping feature |
-| `groupSettings` | Array | Configure number, date, or custom grouping |
-| `groupInterval` | Array | Grouping hierarchy (Years, Months, Days, etc.) |
-| `aggregateTypes` | Array | Show specific aggregation types in UI dropdown |
-| `showAggregationOnValueField` | Boolean | Display aggregation type in button text |
+| Property | Type | Location | Purpose |
+|----------|------|----------|---------|
+| `rows` | Array | `dataSourceSettings` | Fields organized vertically for grouping data |
+| `columns` | Array | `dataSourceSettings` | Fields organized horizontally for grouping data |
+| `values` | Array | `dataSourceSettings` | Fields to aggregate with `type` (Sum, Avg, Count, CalculatedField, etc.) |
+| `filters` | Array | `dataSourceSettings` | Fields used to filter data across both axes |
+| `type` | String | `values` field | Aggregation type: Sum, Avg, Count, Min, Max, Product, DistinctCount, Median, RunningTotals, DifferenceFrom, PercentageOfDifferenceFrom, PercentageOfGrandTotal, PercentageOfColumnTotal, PercentageOfRowTotal, PercentageOfParentTotal, PopulationStDev, SampleStDev, PopulationVar, SampleVar, Index, CalculatedField |
+| `baseField` | String | `values` field | Field reference for DifferenceFrom/Percentage-based comparisons (base field aggregation) |
+| `baseItem` | String | `values` field | Specific member for base field comparisons |
+| `allowCalculatedField` | Boolean | Component | Enable calculated field feature (requires CalculatedFieldService provider) |
+| `calculatedFieldSettings` | Array | `dataSourceSettings` | Define calculated field `name` and `formula` properties |
+| `formula` | String | `calculatedFieldSettings` | Mathematical expression using aggregation functions (Sum, Count, Avg, Min, Max) and operators (+, -, *, /, ^, <, >, ==, !=, &, \|, ?) |
+| `formatSettings` | Array | `dataSourceSettings` | SEPARATE array for number formatting (C, N, P, E) of value fields and calculated fields |
+| `allowGrouping` | Boolean | Component | Enable grouping feature (requires GroupingService provider) |
+| `groupSettings` | Array | `dataSourceSettings` | Configure number, date, or custom grouping with `name`, `type`, `rangeInterval`, `groupInterval` |
+| `groupInterval` | Array | `groupSettings` | Grouping hierarchy (Years, Quarters, Months, Days, Hours, Minutes, Seconds) |
+| `aggregateTypes` | Array | Component | Restrict aggregation dropdown to specific types (array of AggregateTypes) |
+| `showAggregationOnValueField` | Boolean | `dataSourceSettings` | Display aggregation type in grouping bar button text (e.g., "Sum of Amount" vs "Amount") |
+| `sortSettings` | Array | `dataSourceSettings` | Configure field sorting with `order`, `membersOrder`, `name` properties |
+| `enableValueSorting` | Boolean | Component | Enable sorting by aggregated values |
 
-**Important**: When adding calculated fields to values, use `type: 'CalculatedField'` to distinguish them from regular aggregations.
+**Important**: When adding calculated fields to values, use `type: 'CalculatedField'` to distinguish them from regular aggregations. Format settings must be applied in a separate `formatSettings` array, not within the value field object.
 
 ---
 

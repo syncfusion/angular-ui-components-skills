@@ -4,6 +4,8 @@
 - [Overview](#overview)
 - [Basic Filtering Setup](#basic-filtering-setup)
 - [Filtering Event and updateData](#filtering-event-and-updatedata)
+- [Preventing Default Filtering](#preventing-default-filtering)
+- [Filtering by Multiple Fields](#filtering-by-multiple-fields)
 - [Minimum Filter Character Limit](#minimum-filter-character-limit)
 - [Filter Type](#filter-type)
 - [Case-Sensitive Filtering](#case-sensitive-filtering)
@@ -85,6 +87,200 @@ The `filtering` event fires on every keystroke. Use `args.updateData()` to pass 
 `updateData` accepts:
 1. **Filtered array** — pre-filter your array and pass the result
 2. **DataManager + Query** — let the DataManager handle the filtering query
+
+---
+
+## Preventing Default Filtering
+
+> **CRITICAL:** When you provide a custom `filtering` event handler, the component's built-in filtering logic still runs **unless you stop it**. This causes double-filtering, resulting in incorrect or empty results.
+
+**Always call `args.updateData()` inside your custom handler.** This tells the component you've handled filtering yourself and prevents the internal filter from running on top of your custom logic.
+
+```typescript
+onFilter(args: FilteringEventArgs): void {
+  // ✅ CORRECT: Always call updateData() to prevent default filtering
+  let query = new Query();
+  query = args.text !== '' 
+    ? query.where('Game', 'contains', args.text, true) 
+    : query;
+  args.updateData(this.sports, query);
+}
+
+// ❌ INCORRECT: Omitting updateData() lets internal filtering run, causing double-filtering
+onFilterWrong(args: FilteringEventArgs): void {
+  // Do something with args.text but don't call updateData()
+  console.log('User typed:', args.text);
+  // Internal filter runs on top → wrong results
+}
+```
+
+| Scenario | Behavior |
+|---|---|
+| No `filtering` handler | ✅ Built-in filter only |
+| Custom handler with `updateData()` | ✅ Custom filter runs, internal filter suppressed |
+| Custom handler without `updateData()` | ❌ Custom logic runs **and** internal filter runs = double-filtering |
+
+**Pattern for conditional filtering (e.g., minimum characters):**
+
+```typescript
+onFilter(args: FilteringEventArgs): void {
+  let query = new Query();
+  
+  // Show all results if text is empty
+  if (args.text === '') {
+    args.updateData(this.sports, query);
+    return;
+  }
+  
+  // Only filter after 2+ characters to prevent unnecessary calls
+  if (args.text.length < 2) {
+    args.updateData(this.sports, query);  // Show all, don't filter yet
+    return;
+  }
+  
+  // Apply custom filter
+  query = query.where('Game', 'startswith', args.text, true);
+  args.updateData(this.sports, query);
+}
+```
+
+---
+
+## Filtering by Multiple Fields
+
+By default, the DropDownList filters only the mapped `text` field. To search across **multiple fields** (e.g., both `name` and `code`), use the `Predicate` class from `@syncfusion/ej2-data` with `.or()` to combine conditions:
+
+### Filter Text and Value Fields
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { DropDownListModule, DropDownListComponent } from '@syncfusion/ej2-angular-dropdowns';
+import { FilteringEventArgs } from '@syncfusion/ej2-dropdowns';
+import { Query, Predicate } from '@syncfusion/ej2-data';
+
+@Component({
+  standalone: true,
+  imports: [DropDownListModule],
+  selector: 'app-root',
+  template: `
+    <ejs-dropdownlist
+      [dataSource]="countryData"
+      [fields]="fields"
+      [allowFiltering]="true"
+      (filtering)="onFilter($event)"
+      placeholder="Search by name or code (e.g. 'CA' or 'Canada')">
+    </ejs-dropdownlist>
+  `
+})
+export class AppComponent {
+  public countryData = [
+    { Name: 'Australia', Code: 'AU' },
+    { Name: 'Bermuda',   Code: 'BM' },
+    { Name: 'Canada',    Code: 'CA' },
+    { Name: 'Cameroon',  Code: 'CM' },
+    { Name: 'Denmark',   Code: 'DK' },
+  ];
+  public fields = { text: 'Name', value: 'Code' };
+
+  onFilter(args: FilteringEventArgs): void {
+    // ✅ Prevent default filtering
+    if (args.text === '') {
+      args.updateData(this.countryData);
+      return;
+    }
+
+    // Build a Predicate that matches BOTH Name and Code fields
+    const predicate = new Predicate('Name', 'contains', args.text, true)
+      .or('Code', 'contains', args.text, true);
+    
+    const query = new Query().where(predicate);
+    args.updateData(this.countryData, query);
+  }
+}
+```
+
+**How it works:**
+- `new Predicate('Name', 'contains', args.text, true)` matches items where `Name` contains the typed text (case-insensitive).
+- `.or('Code', 'contains', args.text, true)` extends the predicate to **also** match items where `Code` contains the typed text.
+- Typing `"ca"` returns `Canada` (name match) AND `CA` (code match).
+
+### Filter Across Three or More Fields
+
+Chain multiple `.or()` calls for each additional field:
+
+```typescript
+onFilter(args: FilteringEventArgs): void {
+  if (args.text === '') {
+    args.updateData(this.employeeData);
+    return;
+  }
+
+  const predicate = new Predicate('FirstName', 'contains', args.text, true)
+    .or('LastName',  'contains', args.text, true)
+    .or('EmployeeID', 'contains', args.text, true);
+  
+  args.updateData(this.employeeData, new Query().where(predicate));
+}
+```
+
+### Using Different Filter Operators
+
+Replace `'contains'` with `'startswith'` or `'endsWith'` to change the matching strategy:
+
+```typescript
+// Match items that START with the typed text (across multiple fields)
+const predicate = new Predicate('Name', 'startswith', args.text, true)
+  .or('Code', 'startswith', args.text, true);
+```
+
+### Remote Data with Multi-Field Predicates
+
+The same `Predicate` approach works with remote `DataManager` sources. The predicate is encoded into the outgoing OData query:
+
+```typescript
+import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ejs-dropdownlist
+      [dataSource]="remoteData"
+      [fields]="fields"
+      [allowFiltering]="true"
+      [debounceDelay]="300"
+      (filtering)="onFilter($event)"
+      placeholder="Search by name or ID">
+    </ejs-dropdownlist>
+  `
+})
+export class AppComponent {
+  public remoteData = new DataManager({
+    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Customers',
+    adaptor: new ODataV4Adaptor(),
+    crossDomain: true
+  });
+  public fields = { text: 'ContactName', value: 'CustomerID' };
+
+  onFilter(args: FilteringEventArgs): void {
+    if (args.text === '') {
+      args.updateData(this.remoteData);
+      return;
+    }
+
+    const predicate = new Predicate('ContactName', 'startswith', args.text, true)
+      .or('CustomerID', 'startswith', args.text, true);
+    
+    const query = new Query()
+      .select(['ContactName', 'CustomerID'])
+      .where(predicate)
+      .take(10);
+    
+    args.updateData(this.remoteData, query);
+  }
+}
+```
+
+> **Note:** When filtering remote data across multiple fields, ensure the server supports OData `$filter` expressions with `or` conditions. Some APIs may need custom adaptors or server-side filtering logic.
 
 ---
 

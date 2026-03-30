@@ -1,6 +1,7 @@
 # Editing
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Critical Rules](#critical-rules)
 - [Edit Types](#edit-types)
@@ -10,6 +11,20 @@
 - [Edit Templates](#edit-templates)
 - [Validation](#validation)
 - [Persisting Changes](#persisting-changes)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Enable inline editing** — Allow users to edit cells directly in the grid
+- **Dialog-based editing** — Open dialog forms for editing row data
+- **Batch editing** — Allow multiple row edits before saving
+- **Validation** — Validate data before saving with error handling
+- **Custom edit templates** — Create specialized edit forms for complex data
+- **CRUD operations** — Add, update, and delete records through the grid
+- **Edit mode control** — Manage edit mode entry and exit
+- **Data persistence** — Save edited data to backend services
+- **Edit events** — Hook into before/after edit lifecycle events
+- **Primary key requirement** — Ensure proper data manipulation with primary keys
 
 ## Overview
 

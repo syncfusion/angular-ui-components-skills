@@ -1,11 +1,24 @@
 # Toolbar
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Mandatory Rules](#mandatory-rules)
 - [Built-in Toolbar Items](#built-in-toolbar-items)
 - [Custom Toolbar](#custom-toolbar)
 - [Toolbar Events](#toolbar-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Add toolbar** — Display toolbar with buttons and controls
+- **Built-in items** — Use predefined toolbar items like Print, Export, Search
+- **Custom buttons** — Add application-specific toolbar buttons
+- **Toolbar events** — Handle toolbar button clicks
+- **Export buttons** — Implement Excel/PDF export buttons
+- **Search bar** — Add search functionality to toolbar
+- **Grid ID requirement** — Ensure grid has ID for toolbar event handling
+- **Toolbar styling** — Customize toolbar appearance
 
 ## Overview
 

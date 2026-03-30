@@ -52,7 +52,7 @@ export class AppComponent {
   }
 
   async callOpenAI(prompt: string, context: string): Promise<string> {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('url', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

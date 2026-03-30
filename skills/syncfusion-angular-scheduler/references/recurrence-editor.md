@@ -31,7 +31,7 @@ The recurrence editor is a standalone component for managing recurrence rule gen
 
 ## Overview
 
-The recurrence editor provides UI to create and manage recurrence patterns according to [iCalendar RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.10) specification. It can be used:
+The recurrence editor provides UI to create and manage recurrence patterns according to iCalendar RFC 5545 specification. It can be used:
 - **Integrated**: Within Scheduler's event editor window (default)
 - **Standalone**: As an independent component for custom recurrence scenarios
 
@@ -432,8 +432,6 @@ public class RecurrenceController : Controller
     }
 }
 ```
-
-**Reference**: [Server-Side Recurrence Parsing KB Article](https://www.syncfusion.com/kb/10009/how-to-parse-the-recurrencerule-at-server-side)
 
 ## Best Practices
 

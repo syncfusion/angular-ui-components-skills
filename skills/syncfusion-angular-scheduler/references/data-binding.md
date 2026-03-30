@@ -157,7 +157,7 @@ export class AppComponent {
   public selectedDate: Date = new Date(2020, 9, 20);
   
   private dataManager: DataManager = new DataManager({
-    url: 'https://services.syncfusion.com/angular/production/api/Schedule',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     crossDomain: true
   });
@@ -177,7 +177,7 @@ export class AppComponent {
   public selectedDate: Date = new Date(2024, 0, 15);
   
   private dataManager: DataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejservices/api/Schedule/LoadData',
+    url: 'url',
     adaptor: new WebApiAdaptor(),
     crossDomain: true
   });
@@ -218,7 +218,7 @@ export class AppComponent {
   public selectedDate: Date = new Date(1996, 6, 9);
   
   private dataManager: DataManager = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     crossDomain: true
   });
@@ -300,7 +300,7 @@ export class AppComponent implements OnInit {
   
   onCreate() {
     const ajax = new Ajax(
-      'https://services.syncfusion.com/angular/production/api/Schedule',
+      'url',
       'GET'
     );
     
@@ -627,7 +627,7 @@ export class AppComponent {
   public selectedDate: Date = new Date(1996, 6, 9);
   
   private dataManager: DataManager = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
+    url: 'url',
     adaptor: new CustomAdaptor()
   });
   
@@ -676,7 +676,7 @@ export class AppComponent {
   public selectedDate: Date = new Date(2024, 0, 15);
   
   private dataManager: DataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejservices/api/Schedule/LoadData',
+    url: 'url',
     adaptor: new ODataV4Adaptor()
   });
   

@@ -138,7 +138,7 @@ Add Syncfusion CSS files to your `src/styles.css`:
 
 **Using Custom Resource Generator (CRG):**
 
-For optimized, combined styles, use Syncfusion's [Custom Resource Generator](https://crg.syncfusion.com/).
+For optimized, combined styles, use Syncfusion's CRG.
 
 ## Basic Component Integration
 

@@ -7,6 +7,13 @@ description: 'CSV Export in Syncfusion Angular TreeGrid - export configuration, 
 
 Export TreeGrid data to CSV format with customization options.
 
+## When to Use
+
+Use CSV export when you need to:
+- **Create data files** — Export TreeGrid data as CSV
+- **Lightweight format** — Use CSV for simplicity and compatibility
+- **Exclude columns** — Skip certain columns in export
+
 ## Table of Contents
 - [Basic CSV Export](#basic-csv-export)
 - [Export Configuration](#export-configuration)

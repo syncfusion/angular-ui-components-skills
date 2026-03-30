@@ -1,16 +1,20 @@
 ---
 name: Clipboard
-description: 'Clipboard in Syncfusion Angular TreeGrid - copy and paste operations, clipboard modes, custom formatting, and clipboard event handling.'
+description: 'Clipboard in Syncfusion Angular TreeGrid - copy and paste operations.'
 ---
 
 # Clipboard
 
 Clipboard functionality enables copy and paste operations with custom formatting options.
 
-## Table of Contents
-- [Copy and Paste](#copy-and-paste)
-- [Clipboard Modes](#clipboard-modes)
-- [Custom Formatting](#custom-formatting)
+## When to Use
+
+Use clipboard features when you need to:
+- **Copy data** — Allow users to copy cells or rows
+- **Paste data** — Enable pasting data into TreeGrid
+- **Bulk data entry** — Paste from spreadsheets or other sources
+- **Keyboard shortcuts** — Support Ctrl+C/Ctrl+V operations
+- **Custom paste** — Handle special formatting on paste
 
 ## Copy and Paste
 

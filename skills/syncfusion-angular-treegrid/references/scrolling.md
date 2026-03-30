@@ -5,14 +5,22 @@ description: 'Scrolling in Syncfusion Angular TreeGrid - virtual scrolling for l
 
 # Scrolling
 
+## When to Use
+
+Use scrolling features when you need to:
+- **Virtual scrolling** — Handle 1000+ rows efficiently without loading all at once
+- **Infinite scrolling** — Load more data as users scroll to the bottom
+- **Horizontal scrolling** — Handle TreeGrid wider than viewport
+- **Smooth scrolling** — Optimize scroll performance and responsiveness
+- **Combined with paging** — Choose between paging vs. scrolling strategies
+- **Large datasets** — Efficiently render large amounts of data
+
 ## Table of Contents
 - [Scrolling Rules](#scrolling--paging-rules)
 - [Virtual Scrolling](#virtual-scrolling)
 - [Infinite Scrolling](#infinite-scrolling)
 - [Height and Width](#height-and-width)
-- [Scroll Position](#scroll-position)
 - [Horizontal Scrolling](#horizontal-scrolling)
-- [Keyboard Navigation](#keyboard-navigation)
 
 ## Scrolling Rules
 

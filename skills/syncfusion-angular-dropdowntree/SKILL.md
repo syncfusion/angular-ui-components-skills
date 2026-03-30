@@ -204,7 +204,7 @@ import { DataManager, ODataV4Adaptor, Query } from '@syncfusion/ej2-data';
 })
 export class RemoteDataExample {
   public data = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc',
+    url: 'url',
     adaptor: new ODataV4Adaptor,
     crossDomain: true
   });

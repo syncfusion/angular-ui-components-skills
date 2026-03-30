@@ -1,5 +1,15 @@
 # Editing & Drill Operations
 
+## ⚠️ SECURITY NOTICE
+
+**All OLAP connections MUST use authenticated, enterprise-managed OLAP servers.** Never connect to untrusted OLAP endpoints. See [core-concepts.md Security Best Practices](./core-concepts.md#security-best-practices) for comprehensive security guidelines.
+
+✅ **Required Security Controls:**
+- Enterprise OLAP server authentication
+- Role-based access control (RBAC)
+- Encrypted connections (HTTPS/SSL)
+- Configuration-based endpoints (never hardcoded)
+
 ## Table of Contents
 - [Cell Editing](#cell-editing)
 - [Edit Settings & Modes](#edit-settings--modes)

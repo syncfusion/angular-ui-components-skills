@@ -7,12 +7,22 @@ description: 'Filtering in Syncfusion Angular TreeGrid - filter bar mode, filter
 
 Filtering enables users to find specific records based on column values using multiple filter modes.
 
+## When to Use
+
+Use filtering when you need to:
+- **Enable data search** — Allow users to find records matching specific criteria
+- **Filter by column values** — Provide filter UI for individual columns
+- **Excel-like filtering** — Show checkboxes for filtering by multiple values
+- **Custom filter expressions** — Create complex filters combining multiple conditions
+- **Server-side filtering** — Filter data on the backend for large datasets
+- **Dynamic filtering** — Apply filters programmatically based on user interactions
+- **Hierarchical filtering** — Filter parent and child records simultaneously
+
 ## Table of Contents
 - [Basic Filtering](#basic-filtering)
 - [Filter Modes](#filter-modes)
 - [Custom Filters](#custom-filters)
 - [Filter Events](#filter-events)
-- [Server-side Filtering](#server-side-filtering)
 
 ## Basic Filtering
 
@@ -81,47 +91,28 @@ public filterSettings = {
 };
 ```
 
-## Custom Filters
+### Checkbox Filter
 
-### Filter by Column
+Checkbox filtering interface:
 
 ```typescript
-@ViewChild('treegrid') treegrid!: TreeGridComponent;
-
-filterByColumn(field: string, operator: string, value: any) {
-  this.treegrid.filterByColumn(field, operator, value);
-}
-
-// Usage
-filterByColumn('Status', 'equal', 'Completed');
+public filterSettings = {
+  type: 'Checkbox'
+};
 ```
+
+## Custom Filters
 
 ### Programmatic Filtering
 
 ```typescript
-<button (click)='applyFilter()'>Filter Data</button>
-
-<ejs-treegrid 
-  #treegrid
-  [dataSource]='data'
-  [childMapping]='childMapping'
-  [allowFiltering]='true'>
-  <!-- columns -->
-</ejs-treegrid>
-```
-
-```typescript
-applyFilter() {
-  this.treegrid.filterByColumn('Progress', 'greaterThan', 50);
-}
+  this.treegrid.filterByColumn('Progress', 'greaterthan', 50);
 ```
 
 ### Clear Filters
 
 ```typescript
-clearFilters() {
   this.treegrid.clearFiltering();
-}
 ```
 
 ### Custom Filter Template
@@ -134,20 +125,20 @@ clearFilters() {
   <e-columns>
     <e-column field='Status' 
       headerText='Status' 
-      [filter]='statusFilterTemplate'
       width='120'>
+        <ng-template #filterTemplate let-data>
+          <select style="width: 100%;">
+            <option value="">All</option>
+            <option value="Completed">Completed</option>
+            <option value="InProgress">In Progress</option>
+            <option value="Pending">Pending</option>
+          </select>
+        </ng-template>
     </e-column>
   </e-columns>
 </ejs-treegrid>
 
-<ng-template #statusFilterTemplate let-data>
-  <select style="width: 100%;">
-    <option value="">All</option>
-    <option value="Completed">Completed</option>
-    <option value="InProgress">In Progress</option>
-    <option value="Pending">Pending</option>
-  </select>
-</ng-template>
+
 ```
 
 ### Predicate-based Filtering
@@ -167,31 +158,15 @@ filterWithPredicates() {
 ### Date Range Filter
 
 ```typescript
-<ejs-treegrid 
-  [dataSource]='data'
-  [childMapping]='childMapping'
-  [allowFiltering]='true'>
-  <!-- columns -->
-</ejs-treegrid>
+let startDate: string = new Date('2026-01-01');
+let endDate: string = new Date('2026-01-05');
 
-<div style="margin-bottom: 20px;">
-  <label>From: <input type='date' [(ngModel)]='startDate'></label>
-  <label>To: <input type='date' [(ngModel)]='endDate'></label>
-  <button (click)='filterByDateRange()'>Filter</button>
-</div>
-```
+const predicate1 = new Predicate('TaskDate', 'greaterthanorequal', this.startDate);
+const predicate2 = new Predicate('TaskDate', 'lessthanorequal', this.endDate);
+const finalPredicate = predicate1.and(predicate2);
 
-```typescript
-startDate: string = '';
-endDate: string = '';
+this.treegrid.filterByColumn(finalPredicate);
 
-filterByDateRange() {
-  const predicate1 = new Predicate('TaskDate', 'greaterThanOrEqual', this.startDate);
-  const predicate2 = new Predicate('TaskDate', 'lessThanOrEqual', this.endDate);
-  const finalPredicate = predicate1.and(predicate2);
-  
-  this.treegrid.filterByColumn(finalPredicate);
-}
 ```
 
 ## Filter Events
@@ -225,7 +200,7 @@ onActionBegin(args: any) {
 ```typescript
 onActionComplete(args: any) {
   if (args.requestType === 'filtering') {
-    console.log('Filtered records:', this.treegrid.records.length);
+    console.log('Records Filtered');
   }
 }
 ```
@@ -234,67 +209,8 @@ onActionComplete(args: any) {
 
 ```typescript
 onActionBegin(args: any) {
-  if (args.requestType === 'filtering') {
-    if (args.column?.field === 'SecureField') {
-      args.cancel = true;  // Prevent filtering on secure field
-    }
+  if (args.requestType === 'filtering' && args.column?.field === 'SecureField') {
+    args.cancel = true;  // Prevent filtering on secure field
   }
 }
-```
-
-## Server-side Filtering
-
-### Filter on Server
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { TreeGridComponent, FilterService } from '@syncfusion/ej2-angular-treegrid';
-import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='dataManager'
-      idMapping='TaskID'
-      parentIdMapping='ParentItem'
-      hasChildMapping='isParent'
-      [allowFiltering]='true'
-      [filterSettings]='filterSettings'
-      (actionComplete)='onActionComplete($event)'>
-      <e-columns>
-        <e-column field='TaskID' headerText='Task ID' width='90'></e-column>
-        <e-column field='TaskName' headerText='Task Name' width='200'></e-column>
-        <e-column field='Status' headerText='Status' width='100'></e-column>
-        <e-column field='Priority' headerText='Priority' width='100'></e-column>
-      </e-columns>
-    </ejs-treegrid>
-  `,
-  providers: [FilterService]
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  
-  public dataManager: DataManager;
-  public filterSettings = {
-    type: 'FilterBar',
-    mode: 'Immediate'  // Immediate on server
-  };
-
-  constructor() {
-    this.dataManager = new DataManager({
-      url: 'https://api.example.com/tasks',
-      adaptor: new UrlAdaptor(),
-      // Server handles filtering via query parameters
-      params: []
-    });
-  }
-
-  onActionComplete(args: any): void {
-    if (args.requestType === 'filtering') {
-      console.log('Server-side filter applied');
-    }
-  }
-}
-```
+```S

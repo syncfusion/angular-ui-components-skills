@@ -1,11 +1,23 @@
 # Paging
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Enable Pagination](#enable-pagination)
 - [Page Settings](#page-settings)
 - [Pager Modes](#pager-modes)
 - [Paging Events](#paging-events)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Display large datasets** — Split data into manageable pages
+- **Improve performance** — Load and display only current page
+- **User navigation** — Provide page navigation controls
+- **Configure pager** — Set page size, positioning, and behavior
+- **Handle paging events** — Respond to page changes
+- **Custom paging** — Implement server-side pagination
+- **Pager styling** — Customize pager appearance
 
 ## Overview
 

@@ -372,7 +372,7 @@ Configures PDF export options.
 import { ExportPdfModel } from '@syncfusion/ej2-angular-richtexteditor';
 
 public pdfExport: ExportPdfModel = {
-  serviceUrl: 'https://your-api.com/export-pdf',
+  serviceUrl: 'url',
   fileName: 'Document.pdf',
   stylesheet: 'body { font-family: Arial; font-size: 12pt; }'
 };
@@ -395,7 +395,7 @@ Configures Word import options. The `serviceUrl` specifies the endpoint for impo
 **Example:**
 ```typescript
 public wordImport: ImportWordModel = {
-  serviceUrl: 'https://your-api.com/import-word'
+  serviceUrl: 'url'
 };
 ```
 
@@ -424,7 +424,7 @@ import { IFrameSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
 public iframeConfig: IFrameSettingsModel = {
   enable: true,
   resources: {
-    styles: ['https://cdn.example.com/custom-styles.css'],
+    styles: ['url'],
     scripts: []
   },
   attributes: { title: 'Rich Text Editor Content' }
@@ -484,7 +484,7 @@ import { ImageSettingsModel } from '@syncfusion/ej2-angular-richtexteditor';
 public imageSettings: ImageSettingsModel = {
   allowedTypes: ['.jpeg', '.jpg', '.png', '.gif', '.webp'],
   maxFileSize: 5000000, // 5MB
-  saveUrl: 'https://your-api.com/upload-image',
+  saveUrl: 'url',
   saveFormat: 'Blob',
   width: '100%',
   height: 'auto'
@@ -711,8 +711,8 @@ export class AppComponent {
     enable: true,
     path: '/Documents/',
     ajaxSettings: {
-      url: 'https://your-api.com/file-operations',
-      uploadUrl: 'https://your-api.com/file-upload'
+      url: 'url',
+      uploadUrl: 'url'
     },
     view: 'LargeIcons',
     showFileExtension: true,

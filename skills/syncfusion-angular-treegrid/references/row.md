@@ -7,6 +7,16 @@ description: 'Rows in Syncfusion Angular TreeGrid - row templates, detail row ex
 
 Rows display data records with support for templates, detail expansion, and drag-drop functionality.
 
+## When to Use
+
+Use row features when you need to:
+- **Custom row templates** — Render entire rows with custom HTML layouts
+- **Detail rows** — Show expandable detail information for each row
+- **Row styling** — Apply custom styles based on data conditions
+- **Row hover effects** — Highlight rows on user interaction
+- **Row spanning** — Merge cells across columns in a row
+- **Programmatic row manipulation** — Add, remove, or update rows dynamically
+
 ## Table of Contents
 - [Row Templates](#row-templates)
 - [Detail Rows](#detail-rows)

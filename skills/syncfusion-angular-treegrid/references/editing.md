@@ -7,16 +7,24 @@ description: 'Editing in Syncfusion Angular TreeGrid - cell editing, inline edit
 
 Editing allows users to create, modify, and delete records with multiple editing modes and validation.
 
+## When to Use
+
+Use editing features when you need to:
+- **Enable CRUD operations** — Allow users to create, read, update, and delete records in the TreeGrid
+- **Inline editing** — Edit cell values directly without opening dialogs
+- **Dialog editing** — Provide a dedicated form for editing records with validation
+- **Batch editing** — Edit multiple records and save them all at once
+- **Field validation** — Ensure data integrity with required fields and custom validation rules
+- **Edit mode customization** — Control how editing behaves (e-mail formats, numeric precision, etc.)
+- **Prevent unwanted edits** — Disable editing for specific columns or rows
+
 ## Table of Contents
 - [CRUD & Editing Rules](#crud--editing-rules)
 - [Editing Modes](#editing-modes)
 - [Configure Editing](#configure-editing)
 - [Validation](#validation)
 - [Events](#events)
-- [Undo/Redo](#undoredo)
 - [Optimistic Updates](#optimistic-updates)
-- [Inline Error Display](#inline-error-display)
-- [Cross-Field Validation](#cross-field-validation)
 
 ## CRUD & Editing Rules
 
@@ -179,9 +187,10 @@ export class AppComponent {}
 ```
 
 ---
+
 ## Editing Modes
 
-### Cell Editing
+### Row Editing
 
 ```typescript
 import { Component } from '@angular/core';
@@ -207,7 +216,7 @@ export class AppComponent {
   public childMapping: string = 'subtasks';
 
   public editSettings = {
-    mode: 'Cell'
+    mode: 'Inline'
   };
 }
 ```
@@ -217,14 +226,6 @@ export class AppComponent {
 ```typescript
 public editSettings = {
   mode: 'Dialog'
-};
-```
-
-### Row Editing
-
-```typescript
-public editSettings = {
-  mode: 'Row'
 };
 ```
 
@@ -242,7 +243,7 @@ public editSettings = {
 
 ```typescript
 public editSettings = {
-  mode: 'Cell',
+  mode: 'Inline',
   allowEditing: true,
   allowDeleting: true,
   allowAdding: true
@@ -252,9 +253,9 @@ public editSettings = {
 ### Column Editor Type
 
 ```typescript
-<e-column field='Duration' headerText='Duration' type='number' editType='numerictextbox' width='100'></e-column>
-<e-column field='StartDate' headerText='Start Date' type='date' editType='datepicker' width='130'></e-column>
-<e-column field='Status' headerText='Status' editType='dropdownlist' width='100'></e-column>
+<e-column field='Duration' headerText='Duration' type='number' editType='numericedit' width='100'></e-column>
+<e-column field='StartDate' headerText='Start Date' type='date' editType='datepickeredit' width='130'></e-column>
+<e-column field='Status' headerText='Status' editType='dropdownedit' width='100'></e-column>
 ```
 
 ## Validation
@@ -308,102 +309,13 @@ onActionFailure(args: any) {
 }
 ```
 
-## Undo/Redo
-
-### Implement Undo/Redo Stack
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
-
-interface EditHistory {
-  action: 'add' | 'edit' | 'delete';
-  originalData: Object;
-  modifiedData: Object;
-  timestamp: number;
-}
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <div class='toolbar'>
-      <button (click)='undo()' [disabled]='!canUndo'>Undo</button>
-      <button (click)='redo()' [disabled]='!canRedo'>Redo</button>
-    </div>
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data'
-      (actionComplete)='onActionComplete($event)'>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  
-  public data: Object[] = [];
-  private undoStack: EditHistory[] = [];
-  private redoStack: EditHistory[] = [];
-
-  get canUndo(): boolean {
-    return this.undoStack.length > 0;
-  }
-
-  get canRedo(): boolean {
-    return this.redoStack.length > 0;
-  }
-
-  onActionComplete(args: any): void {
-    if (args.requestType === 'save' || args.requestType === 'delete') {
-      const history: EditHistory = {
-        action: args.requestType === 'save' ? 'edit' : 'delete',
-        originalData: { ...args.previous },
-        modifiedData: { ...args.data },
-        timestamp: Date.now()
-      };
-      this.undoStack.push(history);
-      this.redoStack = [];
-    }
-  }
-
-  undo(): void {
-    if (this.undoStack.length === 0) return;
-    
-    const history = this.undoStack.pop()!;
-    this.redoStack.push(history);
-    
-    const index = this.data.findIndex(
-      item => item.TaskID === history.originalData.TaskID
-    );
-    if (index !== -1) {
-      this.data[index] = { ...history.originalData };
-      this.data = [...this.data];
-    }
-  }
-
-  redo(): void {
-    if (this.redoStack.length === 0) return;
-    
-    const history = this.redoStack.pop()!;
-    this.undoStack.push(history);
-    
-    const index = this.data.findIndex(
-      item => item.TaskID === history.modifiedData.TaskID
-    );
-    if (index !== -1) {
-      this.data[index] = { ...history.modifiedData };
-      this.data = [...this.data];
-    }
-  }
-}
-```
-
 ## Optimistic Updates
 
 ### Apply Changes Before Server Confirmation
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
-import { TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
+import { TreeGridComponent, EditService } from '@syncfusion/ej2-angular-treegrid';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -416,7 +328,8 @@ import { HttpClient } from '@angular/common/http';
       (beforeBatchSave)='onBeforeBatchSave($event)'
       (actionFailure)='onActionFailure($event)'>
     </ejs-treegrid>
-  `
+  `,
+  providers: [EditService]
 })
 export class AppComponent {
   @ViewChild('treegrid') treegrid!: TreeGridComponent;
@@ -437,6 +350,7 @@ export class AppComponent {
     this.http.post('/api/tasks/batch', changes).subscribe({
       next: (response) => {
         console.log('Changes saved successfully');
+        this.treegrid.refresh();
       },
       error: (error) => {
         console.error('Save failed, reverting changes');
@@ -448,151 +362,6 @@ export class AppComponent {
 
   onActionFailure(args: any): void {
     console.error('Operation failed:', args);
-  }
-}
-```
-
-## Inline Error Display
-
-### Show Validation Errors in Cells
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data'
-      [editSettings]='editSettings'
-      (actionComplete)='onActionComplete($event)'>
-      <e-columns>
-        <e-column 
-          field='TaskName' 
-          headerText='Task Name'
-          validationRules='{ required: true, minLength: 3 }'>
-        </e-column>
-        <e-column 
-          field='Duration' 
-          headerText='Duration'
-          type='number'
-          validationRules='{ required: true, min: 1 }'>
-        </e-column>
-      </e-columns>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-  
-  public data: Object[] = [];
-  public editSettings = { mode: 'Cell', allowEditing: true };
-
-  onActionComplete(args: any): void {
-    if (args.requestType === 'save') {
-      const validationResult = this.validateRecord(args.data);
-      if (!validationResult.isValid) {
-        args.cancel = true;
-        this.showInlineErrors(args.data, validationResult.errors);
-      }
-    }
-  }
-
-  private validateRecord(record: any): { isValid: boolean; errors: string[] } {
-    const errors: string[] = [];
-    
-    if (!record.TaskName || record.TaskName.trim().length < 3) {
-      errors.push('Task name must be at least 3 characters');
-    }
-    if (!record.Duration || record.Duration < 1) {
-      errors.push('Duration must be at least 1');
-    }
-    
-    return {
-      isValid: errors.length === 0,
-      errors
-    };
-  }
-
-  private showInlineErrors(record: any, errors: string[]): void {
-    const errorMessage = errors.join(', ');
-    console.warn('Validation errors:', errorMessage);
-  }
-
-  onCellSelected(args: any): void {
-    const prevErrorCell = document.querySelector('.cell-error');
-    if (prevErrorCell) {
-      prevErrorCell.classList.remove('cell-error');
-    }
-  }
-}
-```
-
-## Cross-Field Validation
-
-### Validate Multiple Fields Together
-
-```typescript
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      [dataSource]='data'
-      [editSettings]='editSettings'
-      (actionComplete)='onActionComplete($event)'>
-      <e-columns>
-        <e-column field='StartDate' headerText='Start Date' type='date'></e-column>
-        <e-column field='EndDate' headerText='End Date' type='date'></e-column>
-        <e-column field='Duration' headerText='Duration' type='number'></e-column>
-      </e-columns>
-    </ejs-treegrid>
-  `
-})
-export class AppComponent {
-  public data: Object[] = [];
-  public editSettings = { mode: 'Cell', allowEditing: true };
-
-  onActionComplete(args: any): void {
-    if (args.requestType === 'save') {
-      const validation = this.validateCrossFields(args.data);
-      if (!validation.valid) {
-        args.cancel = true;
-        alert(validation.message);
-      }
-    }
-  }
-
-  private validateCrossFields(record: any): { valid: boolean; message: string } {
-    if (!record.StartDate || !record.EndDate) {
-      return { valid: true, message: '' };
-    }
-
-    const startDate = new Date(record.StartDate);
-    const endDate = new Date(record.EndDate);
-
-    if (endDate <= startDate) {
-      return {
-        valid: false,
-        message: 'End date must be after start date'
-      };
-    }
-
-    const duration = Math.floor(
-      (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
-
-    if (record.Duration && record.Duration !== duration) {
-      return {
-        valid: false,
-        message: `Duration (${record.Duration}) does not match the date range (${duration} days)`
-      };
-    }
-
-    return { valid: true, message: '' };
   }
 }
 ```

@@ -7,6 +7,16 @@ description: 'Aggregates in Syncfusion Angular TreeGrid - sum, average, minimum,
 
 Aggregates calculate summary statistics like sum, average, minimum, and maximum.
 
+## When to Use
+
+Use aggregates when you need to:
+- **Summary statistics** — Calculate sum, average, min, max
+- **Group totals** — Show subtotals for grouped data
+- **Footer summaries** — Display totals in footer rows
+- **Bottom summaries** — Show aggregate for entire dataset
+- **Custom calculations** — Create custom aggregate functions
+- **Child aggregates** — Calculate aggregates for child records
+
 ## Table of Contents
 - [Aggregate Types](#aggregate-types)
 - [Configure Aggregates](#configure-aggregates)

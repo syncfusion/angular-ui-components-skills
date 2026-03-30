@@ -56,7 +56,7 @@ export class AppComponent {
     @ViewChild('editor') editorObj!: RichTextEditorComponent;
     @ViewChild('uploadObj') uploadObj!: UploaderComponent;
     value = '<p>Start editing or import a Word document.</p>';
-    private hostUrl = 'https://services.syncfusion.com/angular/production/';
+    private hostUrl = 'url';
 
     asyncSettings: AsyncSettingsModel = {
         saveUrl: this.hostUrl + 'api/RichTextEditor/ImportFromWord'
@@ -101,7 +101,7 @@ For a simpler setup, use the built-in `'ImportWord'` toolbar item with the `impo
         ImageService, HtmlEditorService]
 })
 export class AppComponent {
-    private hostUrl = 'https://services.syncfusion.com/angular/production/';
+    private hostUrl = 'url';
     toolbarSettings = { items: ['ImportWord'] };
     importWord = {
         serviceUrl: this.hostUrl + 'api/RichTextEditor/ImportFromWord'
@@ -126,7 +126,7 @@ import { UploadingEventArgs } from '@syncfusion/ej2-angular-inputs';
         ImageService, HtmlEditorService]
 })
 export class AppComponent {
-    private hostUrl = 'https://services.syncfusion.com/angular/production/';
+    private hostUrl = 'url';
     toolbarSettings = { items: ['ImportWord'] };
     importWord = { serviceUrl: this.hostUrl + 'api/RichTextEditor/ImportFromWord' };
 
@@ -153,7 +153,7 @@ Use `fetch` to POST the editor's HTML to a server endpoint that returns a file b
 })
 export class AppComponent {
     @ViewChild('editor') editorObj!: RichTextEditorComponent;
-    private hostUrl = 'https://services.syncfusion.com/angular/production/';
+    private hostUrl = 'url';
 
     tools: ToolbarSettingsModel = {
         items: [
@@ -219,7 +219,7 @@ Use the built-in toolbar items with the `exportWord` and `exportPdf` properties:
     providers: [ToolbarService, QuickToolbarService, LinkService, ImageService, HtmlEditorService]
 })
 export class AppComponent {
-    private hostUrl = 'https://services.syncfusion.com/angular/production/';
+    private hostUrl = 'url';
     toolbarSettings = { items: ['ExportWord', 'ExportPdf'] };
 
     exportWord = {

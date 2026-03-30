@@ -1,12 +1,25 @@
 # Excel Export
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Critical Rule: Async Methods](#critical-rule-async-methods)
 - [Basic Export](#basic-export)
 - [Export Options](#export-options)
 - [Export Templates](#export-templates)
 - [Exporting Server-Side](#exporting-server-side)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Export to Excel** — Generate Excel files from grid data with formatting
+- **Apply export options** — Configure Excel export with custom settings
+- **Include templates in export** — Export formatted content from custom column templates
+- **Server-side export** — Offload large exports to backend services
+- **Auto-fit columns** — Automatically adjust column widths in exported file
+- **Format numbers/dates** — Preserve formatting in exported Excel
+- **Multi-sheet exports** — Create multiple sheets from grouped data
+- **Async export handling** — Wait for export completion before proceeding
 
 ## Overview
 

@@ -7,13 +7,24 @@ description: 'Toolbar in Syncfusion Angular TreeGrid - built-in toolbar items, c
 
 Toolbar provides quick access to frequently used actions and custom functionality.
 
+## When to Use
+
+Use toolbar when you need to:
+- **Add action buttons** — Provide quick access to CRUD operations
+- **Export functionality** — Export data to Excel, PDF, CSV
+- **Print options** — Enable print-friendly view
+- **Search interface** — Add global search to toolbar
+- **Custom buttons** — Create custom action buttons
+- **Toolbar styling** — Customize toolbar appearance
+- **Responsive toolbar** — Adapt toolbar for different screen sizes
+
 ## Table of Contents
+- [Toolbar Rules](#toolbar-rules)
 - [Built-in Toolbar Items](#built-in-toolbar-items)
-- [Mandatory Rules](#mandatory-rules)
 - [Custom Toolbar Items](#custom-toolbar-items)
 - [Toolbar Events](#toolbar-events)
 
-## Mandatory Rules
+## Toolbar Rules
  
 ### Rule 1: TreeGridComponent ID is REQUIRED for Toolbar Click Events (Export/Import)
  

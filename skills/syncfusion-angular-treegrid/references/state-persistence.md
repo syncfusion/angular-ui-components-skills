@@ -7,6 +7,17 @@ description: 'State persistence in Syncfusion Angular TreeGrid - auto save and r
 
 State persistence saves and restores TreeGrid settings like sorting, filtering, and expansion state.
 
+## When to Use
+
+Use state persistence when you need to:
+- **Save user preferences** — Remember column order, width, visibility
+- **Preserve filters** — Restore applied filters on page reload
+- **Maintain sort order** — Keep sorting preferences
+- **Save expansion state** — Remember which rows were expanded
+- **Restore position** — Return to same scroll position
+- **Session continuity** — Provide seamless user experience across sessions
+- **localStorage/sessionStorage** — Store state locally for quick access
+
 ## Table of Contents
 - [Enable State Persistence](#enable-state-persistence)
 - [Storage Methods](#storage-methods)
@@ -53,6 +64,8 @@ export class AppComponent {
 
 ### SessionStorage
 
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
+
 // Get in component
 ```typescript
 let value: string = window.localStorage.getItem('treegridTreeGrid'); // treegrid - component name, TreeGrid - component id
@@ -68,6 +81,8 @@ window.localStorage.setItem('treegridTreeGrid', JSON.stringify(this.getState()))
 
 ### Save State Manually
 
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
+
 ```typescript
 getSavedState() {
   const state: any = {};
@@ -81,6 +96,8 @@ getSavedState() {
 ```
 
 ### Restore State Manually
+
+> 🔒 **Security Warning:** `localStorage` and `sessionStorage` store data **unencrypted** in the browser. **Never store sensitive data** (passwords, tokens, PII, payment info, user secrets, authentication credentials) in persisted TreeGrid state. State persistence is safe for **UI state only** (expand/collapse state, page number, sort order, column visibility, filter selections). For sensitive configuration or user data, use secure server-side session storage instead.
 
 ```typescript
 restoreSavedState() {

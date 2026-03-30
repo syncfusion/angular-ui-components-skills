@@ -11,6 +11,11 @@ metadata:
 
 A comprehensive guide to implementing powerful, feature-rich data grids using Syncfusion's Angular Grid component. This skill covers all aspects of grid functionality from basic data binding to advanced features like virtual scrolling, hierarchical data, state management, and multi-format exports.
 
+## ⚠️ Security & Trust Boundary
+ 
+- The Grid skill does not perform any remote data access.
+- All external API interaction is handled by a separate DataManager skill outside this skill’s trust boundary.
+
 ## Table of Contents
 
 - [When to Use This Skill](#when-to-use-this-skill)
@@ -53,12 +58,14 @@ Grid's inbuilt API (137+ methods, 65+ events, 95+ properties) requires strict ad
 
 **⚠️ Detailed rules for proper API usage are located in the reference guides** — review the sections below based on your needs:
 
-- 📄 **Method Access & Properties** → [references/programmatic-api.md](references/programmatic-api.md) — Learn @ViewChild requirement, method parameters, async handling, and refresh patterns
+- 📄 **Properties Reference** → [references/grid-properties.md](references/grid-properties.md) — 95+ configurable properties organized by category
+- 📄 **Methods Reference** → [references/grid-methods.md](references/grid-methods.md) — 137+ methods for data manipulation, selection, sorting, filtering, and more
+- 📄 **Events Reference** → [references/grid-events.md](references/grid-events.md) — 65+ events for lifecycle management, user interactions, and data changes
+- 📄 **Programmatic Control** → [references/programmatic-api.md](references/programmatic-api.md) — Learn @ViewChild requirement, method parameters, async handling, and refresh patterns
 - 📄 **Event Handling** → [references/events-catalog.md](references/events-catalog.md) — Event signatures, timing, cancellation, and render event restrictions
-- 📄 **Full API Reference:** [references/grid-properties-methods-events.md](references/grid-properties-methods-events.md) 
 - 📄 **Module System** → [references/modules.md](references/modules.md) — Service injection requirements for feature methods
 - 📄 **Selection** → [references/selection.md](references/selection.md) — Selection method prerequisites 
-- 📄 **Backend Integration:** [references/adaptors.md](references/adaptors.md)
+- 📄 **Backend Integration** → [references/adaptors.md](references/adaptors.md)
 
 ---
 
@@ -336,7 +343,34 @@ Grid's inbuilt API (137+ methods, 65+ events, 95+ properties) requires strict ad
 - Advanced filtering with complex predicates
 - Custom themes and theme switching
 - Performance monitoring techniques
-- Unit and integration testing strategies
+
+### API Reference - Properties
+📄 **Read:** [references/grid-properties.md](references/grid-properties.md)
+- Properties overview
+- Core data properties
+- Property organization by category
+- Configuration reference
+
+### API Reference - Methods
+📄 **Read:** [references/grid-methods.md](references/grid-methods.md)
+- Methods overview
+- Data manipulation methods
+- Method parameters and signatures
+- Return types and async handling
+
+### API Reference - Events
+📄 **Read:** [references/grid-events.md](references/grid-events.md)
+- Events overview
+- Data events
+- Event lifecycle and timing
+- Event arguments and properties
+
+### Testing & Quality Assurance
+📄 **Read:** [references/test-case.md](references/test-case.md)
+- Unit tests
+- Integration tests
+- Testing strategies
+- Test case examples
 
 ## Quick Start Example
 

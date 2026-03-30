@@ -7,13 +7,22 @@ description: 'Getting Started with Syncfusion Angular TreeGrid - installation, s
 
 Quick start guide to set up Syncfusion Angular TreeGrid in your Angular project.
 
+## When to Use
+
+Use this guide when you need to:
+- **New project setup** — Install TreeGrid from scratch
+- **Learn basics** — Understand core TreeGrid concepts
+- **First component** — Create your first TreeGrid
+- **Module configuration** — Set up required imports and providers
+- **Data binding** — Connect data sources
+- **Feature enabled** — Enable paging, sorting, filtering
+- **Quick examples** — See working code examples
+
 ## Table of Contents
 - [Installation](#installation)
 - [Module Setup](#module-setup)
-- [Create First Component](#create-first-component)
-- [Basic Configuration](#basic-configuration)
+- [Basic TreeGrid Component](#basic-treegrid-component)
 - [Data Binding Basics](#data-binding-basics)
-- [Common Issues](#common-issues)
 
 ## Installation
 
@@ -117,67 +126,7 @@ import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
 export class AppModule { }
 ```
 
-## Create First Component
-
-### Basic TreeGrid Component
-
-```typescript
-import { Component, ViewChild } from '@angular/core';
-import { TreeGridComponent } from '@syncfusion/ej2-angular-treegrid';
-
-@Component({
-  selector: 'app-treegrid',
-  template: `
-    <ejs-treegrid 
-      #treegrid
-      [dataSource]='data'
-      [childMapping]='childMapping'
-      [enablePersistence]='true'>
-      <e-columns>
-        <e-column field='TaskID' headerText='Task ID' width='90' isPrimaryKey='true'></e-column>
-        <e-column field='TaskName' headerText='Task Name' width='150'></e-column>
-        <e-column field='Duration' headerText='Duration' width='100'></e-column>
-        <e-column field='Progress' headerText='Progress' width='100'></e-column>
-      </e-columns>
-    </ejs-treegrid>
-  `,
-  styles: [`
-    ::ng-deep .e-treegrid {
-      font-family: 'Segoe UI', sans-serif;
-    }
-  `]
-})
-export class AppComponent {
-  @ViewChild('treegrid') treegrid!: TreeGridComponent;
-
-  public childMapping: string = 'subtasks';
-  
-  public data: Object[] = [
-    {
-      TaskID: 1,
-      TaskName: 'Planning',
-      Duration: 8,
-      Progress: 100,
-      subtasks: [
-        { TaskID: 2, TaskName: 'Requirements', Duration: 4, Progress: 100 },
-        { TaskID: 3, TaskName: 'Design', Duration: 4, Progress: 100 }
-      ]
-    },
-    {
-      TaskID: 4,
-      TaskName: 'Development',
-      Duration: 16,
-      Progress: 75,
-      subtasks: [
-        { TaskID: 5, TaskName: 'Backend', Duration: 10, Progress: 80 },
-        { TaskID: 6, TaskName: 'Frontend', Duration: 6, Progress: 70 }
-      ]
-    }
-  ];
-}
-```
-
-## Basic Configuration
+## Basic TreeGrid Component
 
 ### Enable Common Features
 
@@ -215,7 +164,7 @@ export class AppComponent {
     allowEditing: true,
     allowAdding: true,
     allowDeleting: true,
-    mode: 'Cell'
+    mode: 'Inline'
   };
 
   public data: Object[] = [
@@ -304,7 +253,7 @@ export class AppComponent {
   public childMapping: string = 'subtasks';
 
   public dataManager = new DataManager({
-    url: 'https://api.example.com/tasks',
+    url: 'url',
     adaptor: new UrlAdaptor()
   });
 }
@@ -336,7 +285,7 @@ export class AppComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.http.get('https://api.example.com/tasks').subscribe({
+    this.http.get('url').subscribe({
       next: (response: any) => {
         this.data = response;
         this.loading = false;
@@ -350,75 +299,6 @@ export class AppComponent implements OnInit {
 }
 ```
 
-## Common Issues
-
-### Issue: Module Not Found
-
-**Error:** `Cannot find module '@syncfusion/ej2-angular-treegrid'`
-
-**Solution:**
-```bash
-npm install @syncfusion/ej2-angular-treegrid --save
-npm install @syncfusion/ej2-angular-grids --save
-npm install @syncfusion/ej2-base --save
-```
-
-### Issue: Styles Not Applied
-
-**Error:** TreeGrid renders but looks unstyled
-
-**Solution:** Ensure CSS imports are in your `styles.css` or `angular.json`
-
-```css
-@import "@syncfusion/ej2-base/styles/material.css";
-@import "@syncfusion/ej2-angular-treegrid/styles/material.css";
-```
-
-### Issue: TreeGrid Not Rendering
-
-**Error:** Component renders but no content shows
-
-**Solution:** Ensure data is provided and columns are defined
-
-```typescript
-public data: Object[] = [
-  { TaskID: 1, TaskName: 'Task 1' }
-];
-
-// In template:
-<e-column field='TaskID' headerText='Task ID'></e-column>
-<e-column field='TaskName' headerText='Task Name'></e-column>
-```
-
-### Issue: Child Records Not Expanding
-
-**Error:** Hierarchical data doesn't show expand arrows
-
-**Solution:** Verify `childMapping` matches your data property
-
-```typescript
-// Correct mapping
-public childMapping: string = 'subtasks'; // Must match data property
-
-// Data structure
-public data = [{
-  TaskID: 1,
-  subtasks: [  // Property name must match childMapping
-    { TaskID: 2 }
-  ]
-}];
-```
-
-## Next Steps
-
-1. **Read:** [modules.md](modules.md) - Learn required module imports
-2. **Read:** [data-binding.md](data-binding.md) - Master data binding techniques
-3. **Read:** [editing.md](editing.md) - Add editing capabilities
-4. **Read:** [filtering.md](filtering.md) - Implement filtering
-5. **Read:** [sorting.md](sorting.md) - Add sorting functionality
-6. **Read:** [paging.md](paging.md) - Configure pagination
-7. **Explore:** [advanced-features.md](advanced-features.md) - Discover advanced capabilities
-
 ## Quick Reference
 
 | Feature | Enable |
@@ -431,9 +311,3 @@ public data = [{
 | Virtualization | `[enableVirtualization]='true'` |
 | Export | Inject ExcelExportService, PdfExportService |
 
-## Resources
-
-- [Syncfusion Documentation](https://www.syncfusion.com/angular-components/angular-tree-grid)
-- [GitHub Examples](https://github.com/syncfusion/ej2-angular-samples)
-- [Stack Overflow Tag](https://stackoverflow.com/questions/tagged/syncfusion)
-- [Support Forum](https://www.syncfusion.com/forums/angular-treegrid)

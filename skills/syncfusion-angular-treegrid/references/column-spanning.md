@@ -1,11 +1,18 @@
 ---
 name: Column Spanning
-description: 'Column Spanning in Syncfusion Angular TreeGrid - merge columns across rows, spanning header cells, and columnsSpan configuration for complex grid layouts.'
+description: 'Column Spanning in Syncfusion Angular TreeGrid - merge columns across rows and columnsSpan configuration for complex grid layouts.'
 ---
 
 # Column Spanning
 
 Column Spanning allows merging of adjacent cells in single row to organize data more effectively in grid layouts.
+
+## When to Use
+
+Use column spanning when you need to:
+- **Merge cells** — Combine adjacent cells in a row
+- **Reduce repetition** — Show category headers once for multiple columns
+- **Visual organization** — Improve readability with cell grouping
 
 ## Table of Contents
 - [Basic Column Spanning](#basic-column-spanning)

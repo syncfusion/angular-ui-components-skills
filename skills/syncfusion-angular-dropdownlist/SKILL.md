@@ -1,10 +1,10 @@
 ---
-name: syncfusion-angular-drop-down-list
-description: Implement the Syncfusion Angular DropDownList component for single-value selection from a predefined list. Use this when building dropdown selectors, searchable dropdowns, filtered lists, grouped options, or cascading dropdowns. This skill covers data binding, filtering, templates, grouping, virtualization, form integration, styling, and API usage with @syncfusion/ej2-angular-dropdowns.
+name: syncfusion-angular-dropdownlist
+description: Implement the Syncfusion Angular DropDownList component for single-value selection from a predefined list. Use this when users need a dropdown selector, searchable dropdown, or cascading dropdowns in Angular. This skill covers data binding, filtering, templates, grouping, virtualization, and form integration using @syncfusion/ej2-angular-dropdowns.
 metadata:
   author: "Syncfusion Inc"
+  category: "Dropdowns"
   version: "33.1.44"
-  category: "DropDowns"
 ---
 
 # Syncfusion Angular DropDownList
@@ -93,6 +93,14 @@ The DropDownList component allows users to select a single value from a predefin
 - Value change event handling
 - Icon support in list items
 
+### API Reference
+📄 **Read:** [references/api.md](references/api.md)
+- Complete properties reference with types, defaults, and usage examples
+- All methods with signatures, parameters, and return types
+- All events with argument interfaces and usage examples
+- Interface details: `FieldSettingsModel`, `ChangeEventArgs`, `SelectEventArgs`, `PopupEventArgs`, `FilteringEventArgs`
+- Quick-reference summary tables for properties, methods, and events
+
 ## Quick Start Example
 
 ```typescript
@@ -154,11 +162,12 @@ onFilter(args: FilteringEventArgs) {
 ```
 
 ### Remote Data Dropdown
+
 ```typescript
 import { DataManager, ODataV4Adaptor, Query } from '@syncfusion/ej2-data';
 
 public remoteData: DataManager = new DataManager({
-  url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Customers',
+  url: 'https://your-api-endpoint.com/Customers', // replace with your own OData or Web API URL
   adaptor: new ODataV4Adaptor(),
   crossDomain: true
 });

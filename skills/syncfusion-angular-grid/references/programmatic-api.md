@@ -1,7 +1,8 @@
 # Programmatic Control - Angular Grid
 
 ## Table of Contents
-- [CRITICAL RULES: Method Access & Properties](#️-critical-rules-method-access--properties)
+- [When to Use This Skill](#when-to-use-this-skill)
+- [CRITICAL RULES: Method Access & Properties](#critical-rules-method-access--properties)
 - [@ViewChild Reference - Complete Method Catalog](#viewchild-reference---complete-method-catalog)
   - [Data Methods](#data-methods)
   - [Row Methods](#row-methods)
@@ -16,11 +17,23 @@
   - [Print Method](#print-method)
   - [Toolbar Methods](#toolbar-methods)
 
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Call grid methods** — Programmatically control grid behavior
+- **Set up ViewChild references** — Access component instance for method calls
+- **Understand method catalog** — Find and learn available methods by category
+- **Troubleshoot method failures** — Debug silent failures from missing ViewChild
+- **Async method handling** — Properly await async methods like export/print
+- **Data manipulation** — Add, edit, delete, refresh records via methods
+- **Navigation** — Go to specific pages, rows, or cells
+- **Dynamic operations** — Perform operations triggered by user actions
+
 ---
 
-### ⚠️ CRITICAL RULES: Method Access & Properties
+## CRITICAL RULES: Method Access & Properties
 
-#### Rule 1: @ViewChild is MANDATORY for Method Calls
+### Rule 1: @ViewChild is MANDATORY for Method Calls
 Always attach a ViewChild reference — methods fail silently without it.
 
 ```typescript
@@ -44,7 +57,7 @@ export class MyGridComponent {
 <ejs-grid #grid [dataSource]="data"></ejs-grid>
 ```
 
-#### Rule 2: Use Correct Method Parameters
+### Rule 2: Use Correct Method Parameters
 Wrong parameters cause silent failure — always verify method signature.
 
 ```typescript
@@ -67,7 +80,7 @@ this.gridComponent.deleteRecord('OrderID');
 this.gridComponent.deleteRecord('OrderID', recordObj);
 ```
 
-#### Rule 3: Check Return Values from Getter Methods
+### Rule 3: Check Return Values from Getter Methods
 Don't assume methods return data — values may be empty or undefined.
 
 ```typescript
@@ -94,7 +107,7 @@ if (visibleCols && visibleCols.length > 0) {
 }
 ```
 
-#### Rule 4: Properties vs Methods — Know the Difference
+### Rule 4: Properties vs Methods — Know the Difference
 - **Properties**: Set via Angular binding (`[property]="value"`)
 - **Methods**: Call via @ViewChild reference (`this.gridComponent.method()`)
 - Never mix them
@@ -125,7 +138,7 @@ export class MyComponent {
 <button (click)="navigatePage(2)"></button>
 ```
 
-#### Rule 5: Refresh Grid After External Data Changes
+### Rule 5: Refresh Grid After External Data Changes
 When data changes outside grid's knowledge, refresh to reflect changes.
 
 ```typescript
@@ -153,7 +166,7 @@ async handleExternalUpdate() {
 
 Here's the full catalog of available methods:
 
-### @ViewChild Reference - Complete Method Catalog
+## @ViewChild Reference - Complete Method Catalog
 
 Always attach a ViewChild reference to access the grid instance programmatically:
 
@@ -166,7 +179,7 @@ export class MyGridComponent {
   @ViewChild('grid') gridInstance: GridComponent;
 ```
 
-#### Data Methods
+### Data Methods
 ```typescript
 this.gridInstance.refresh()                             // Reload data from source
 this.gridInstance.setProperties({ dataSource: newData })// Change data source at runtime
@@ -174,7 +187,7 @@ this.gridInstance.getCurrentViewRecords()               // Get currently visible
 this.gridInstance.getDataModule().dataManager           // Access underlying DataManager
 ```
 
-#### Row Methods
+### Row Methods
 ```typescript
 this.gridInstance.getRowByIndex(rowIndex)               // Get DOM row element by index
 this.gridInstance.getRowInfo(rowElement)                // Get row data from a DOM element
@@ -185,7 +198,7 @@ this.gridInstance.getSelectedRows()                     // Get selected DOM row 
 this.gridInstance.getSelectedRecords()                  // Get selected data records (objects)
 ```
 
-#### Column Methods
+### Column Methods
 ```typescript
 this.gridInstance.getColumns()                          // Get all column objects
 this.gridInstance.getVisibleColumns()                   // Get only visible column objects
@@ -199,7 +212,7 @@ this.gridInstance.autoFitColumns()                      // Auto-fit all columns 
 this.gridInstance.autoFitColumns(['OrderID', 'Freight'])// Auto-fit specific columns
 ```
 
-#### Sort Methods
+### Sort Methods
 ```typescript
 this.gridInstance.sortColumn('OrderID', 'Ascending')   // Sort a column programmatically
 this.gridInstance.sortColumn('Freight', 'Descending')  // Descending sort
@@ -207,7 +220,7 @@ this.gridInstance.clearSorting()                       // Remove all sorts
 this.gridInstance.sortSettings.columns                 // Read current sort state
 ```
 
-#### Filter Methods
+### Filter Methods
 ```typescript
 this.gridInstance.filterByColumn('CustomerID', 'StartsWith', 'VIN') // Filter column
 this.gridInstance.filterByColumn('Freight', 'GreaterThan', 50)       // Numeric filter
@@ -216,20 +229,20 @@ this.gridInstance.clearFiltering(['CustomerID'])                     // Remove o
 this.gridInstance.filterSettings.columns                             // Read current filter state
 ```
 
-#### Search Methods
+### Search Methods
 ```typescript
 this.gridInstance.search('searchTerm')                 // Perform global search
 this.gridInstance.search('')                           // Clear search
 ```
 
-#### Group Methods
+### Group Methods
 ```typescript
 this.gridInstance.groupColumn('ShipCountry')           // Group by a column
 this.gridInstance.ungroupColumn('ShipCountry')         // Remove group
 this.gridInstance.groupSettings.columns               // Read currently grouped columns
 ```
 
-#### Page Methods
+### Page Methods
 ```typescript
 this.gridInstance.goToPage(3)                          // Navigate to specific page
 this.gridInstance.pageSettings.currentPage            // Current page number
@@ -237,7 +250,7 @@ this.gridInstance.pageSettings.pageSize               // Current page size
 this.gridInstance.pageSettings.totalRecordsCount      // Total record count
 ```
 
-#### Edit Methods
+### Edit Methods
 ```typescript
 this.gridInstance.addRecord({ OrderID: 99, CustomerID: 'NEW' }) // Add record programmatically
 this.gridInstance.startEdit()                          // Begin editing selected row
@@ -248,7 +261,7 @@ this.gridInstance.updateRow(rowIndex, updatedData)    // Update a specific row
 this.gridInstance.setCellValue(rowIndex, field, value)// Update a single cell value
 ```
 
-#### Export Methods
+### Export Methods
 ```typescript
 this.gridInstance.excelExport()                        // Export to Excel
 this.gridInstance.excelExport({ fileName: 'data.xlsx' }) // With options
@@ -257,24 +270,24 @@ this.gridInstance.pdfExport({ pageOrientation: 'Landscape' }) // With options
 this.gridInstance.csvExport()                          // Export to CSV
 ```
 
-#### Print Method
+### Print Method
 ```typescript
 this.gridInstance.print()                              // Print the grid
 ```
 
-#### Toolbar Methods
+### Toolbar Methods
 ```typescript
 this.gridInstance.toolbarModule.enableItems(['Add', 'Edit'], true)     // Enable items
 this.gridInstance.toolbarModule.enableItems(['Delete', 'Update'], false) // Disable items
 ```
 
-#### Hierarchy / Detail Row Methods
+### Hierarchy / Detail Row Methods
 ```typescript
 this.gridInstance.detailRowModule.detailsExpand([0, 1, 2])   // Expand detail rows by index
 this.gridInstance.detailRowModule.detailsCollapse([0, 1, 2]) // Collapse detail rows
 ```
 
-#### State Methods
+### State Methods
 ```typescript
 this.gridInstance.getState()                           // Get full serializable grid state
 this.gridInstance.setState(savedStateObj)              // Restore grid to saved state

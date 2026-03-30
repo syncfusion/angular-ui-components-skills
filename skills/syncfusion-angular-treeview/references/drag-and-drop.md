@@ -126,12 +126,12 @@ import { DragAndDropEventArgs } from '@syncfusion/ej2-angular-navigations';
 export class DragStartComponent {
   onNodeDragStart(event: DragAndDropEventArgs): void {
     console.log('Dragging node:', event.draggedNodeData.name);
-    
+
     // Prevent dragging specific nodes
     if (event.draggedNodeData.id === '1') {
       event.cancel = true;  // Can't drag root node
     }
-    
+
     // Check if dragged element is from this tree
     if (event.event?.ctrlKey) {
       console.log('Dragging with Ctrl key');
@@ -147,7 +147,7 @@ Triggered while node is being dragged. Use for visual feedback:
 ```typescript
 onNodeDragging(event: DragAndDropEventArgs): void {
   console.log('Dragging over node:', event.droppedNodeData?.name);
-  
+
   // Customize drag element appearance
   const dragElement = event.draggedNode as HTMLElement;
   dragElement.style.opacity = '0.5';
@@ -161,7 +161,7 @@ Triggered when drag ends but before drop completes. Use for validation:
 ```typescript
 onNodeDragStop(event: DragAndDropEventArgs): void {
   console.log('Dropped on:', event.droppedNodeData?.name);
-  
+
   // Prevent certain drops
   if (event.droppedNodeData?.isFolder === false) {
     event.cancel = true;  // Can't drop files into files
@@ -177,7 +177,7 @@ Triggered after successful drop. Use for post-processing:
 onNodeDropped(event: DragAndDropEventArgs): void {
   console.log('Node successfully dropped');
   console.log('New parent:', event.droppedNodeData?.name);
-  
+
   // Update server or perform operations
   this.saveNodeMove(event.draggedNodeData.id, event.droppedNodeData?.id);
 }
@@ -260,7 +260,7 @@ onNodeDragStop(event: DragAndDropEventArgs): void {
 onNodeDragStop(event: DragAndDropEventArgs): void {
   const draggedId = event.draggedNodeData.id;
   const targetId = event.droppedNodeData?.id;
-  
+
   // Check if target is descendant of dragged node
   if (this.isDescendant(draggedId, targetId)) {
     event.cancel = true;  // Prevent creating circular hierarchy
@@ -277,7 +277,7 @@ isDescendant(parentId: string, potentialChildId: string): boolean {
       ...children.flatMap((c: any) => findDescendants(c.id))
     ];
   };
-  
+
   return findDescendants(parentId).includes(potentialChildId);
 }
 ```
@@ -288,7 +288,7 @@ isDescendant(parentId: string, potentialChildId: string): boolean {
 onNodeDragStop(event: DragAndDropEventArgs): void {
   const maxDepth = 5;
   const targetDepth = this.getNodeDepth(event.droppedNodeData?.id);
-  
+
   if (targetDepth >= maxDepth - 1) {
     event.cancel = true;
     alert(`Maximum nesting depth (${maxDepth}) reached`);
@@ -298,7 +298,7 @@ onNodeDragStop(event: DragAndDropEventArgs): void {
 getNodeDepth(nodeId: string, depth = 0): number {
   const allNodes = this.treeViewComponent?.getTreeData() || [];
   const node = allNodes.find((n: any) => n.id === nodeId);
-  
+
   if (!node || !node.parentID) return depth;
   return this.getNodeDepth(node.parentID, depth + 1);
 }
@@ -335,14 +335,14 @@ import { TreeViewComponent } from '@syncfusion/ej2-angular-navigations';
 })
 export class CopyBehaviorComponent {
   @ViewChild('treeview') treeViewComponent?: TreeViewComponent;
-  
+
   private draggedNodeId: string = '';
 
   onNodeDropped(event: DragAndDropEventArgs): void {
     // Save original node
     const allNodes = this.treeViewComponent?.getTreeData() || [];
     const originalNode = allNodes.find((n: any) => n.id === this.draggedNodeId);
-    
+
     if (originalNode) {
       // Create copy with new ID
       const copyNode = {
@@ -350,7 +350,7 @@ export class CopyBehaviorComponent {
         id: 'copy_' + Date.now(),
         name: originalNode.name + ' (Copy)'
       };
-      
+
       // Add copy to new location
       this.treeViewComponent?.addNodes([copyNode], event.droppedNodeData?.id);
     }
@@ -364,7 +364,7 @@ export class CopyBehaviorComponent {
 onNodeDropped(event: DragAndDropEventArgs): void {
   // Check if Ctrl key was held (copy mode)
   const isCopyMode = (event as any).event?.ctrlKey;
-  
+
   if (isCopyMode) {
     // Implement copy behavior
     this.copyNode(event.draggedNodeData, event.droppedNodeData?.id);

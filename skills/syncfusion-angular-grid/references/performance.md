@@ -1,6 +1,7 @@
 # Performance Optimization in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Virtual Scrolling](#virtual-scrolling)
 - [Infinite Scrolling](#infinite-scrolling)
@@ -10,6 +11,19 @@
 - [Event Optimization](#event-optimization)
 - [Bundle Size Optimization](#bundle-size-optimization)
 - [Benchmarking](#benchmarking)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Handle large datasets** — Optimize grids with 10K+ rows
+- **Virtual scrolling** — Render only visible rows for performance
+- **Infinite scrolling** — Load data as user scrolls
+- **Lazy loading** — Load data on demand
+- **Improve initial load** — Optimize time to interactive
+- **Reduce memory usage** — Manage RAM with large datasets
+- **Optimize rendering** — Improve scroll smoothness and FPS
+- **Bundle optimization** — Reduce JavaScript bundle size
+- **Performance monitoring** — Benchmark and profile grid performance
 
 ## Overview
 
@@ -171,7 +185,7 @@ export class GridComponent {
 import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 
 const data = new DataManager({
-  url: 'https://api.example.com/orders',
+  url: 'url',
   adaptor: new UrlAdaptor(),
   pageSize: 50
 });
@@ -183,48 +197,6 @@ const data = new DataManager({
     <!-- columns -->
   </e-columns>
 </ejs-grid>
-```
-
-### Load More Indicator
-
-```typescript
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-load-more-grid',
-  template: `
-    <div>
-      <ejs-grid #grid [dataSource]="data" [enableInfiniteScrolling]="true" 
-                [pageSettings]="pageSettings" height="500px" 
-                (actionBegin)="onActionBegin($event)">
-        <!-- columns -->
-      </ejs-grid>
-    </div>
-  `
-})
-export class LoadMoreGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-  pageSettings = { pageSize: 50 };
-
-  ngOnInit() {
-    // Initialize data
-  }
-
-  onActionBegin(args: any) {
-    if (args.requestType === 'infiniteScroll') {
-      // Show loading indicator
-      this.isLoading = true;
-    }
-  }
-
-  onActionComplete(args: any) {
-    if (args.requestType === 'infiniteScroll') {
-      this.isLoading = false;
-    }
-  }
-}
 ```
 
 ### Performance Comparison
@@ -286,98 +258,6 @@ export class ProgressiveLoadingComponent implements OnInit {
 }
 ```
 
-## Shimmer Loading (Skeleton)
-
-```typescript
-@Component({
-  selector: 'app-shimmer-loading',
-  template: `
-    <div>
-      <div *ngIf="isLoading" class="shimmer-grid">
-        <div *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,11]" class="shimmer-row">
-          <div class="shimmer-cell"</e-column>
-          <div class="shimmer-cell"</e-column>
-          <div class="shimmer-cell"</e-column>
-        </div>
-      </div>
-      <ejs-grid *ngIf="!isLoading" [dataSource]="data" [allowPaging]="true" 
-                [pageSettings]="pageSettings"></ejs-grid>
-    </div>
-  `
-})
-export class ShimmerLoadingComponent implements OnInit {
-  isLoading: boolean = true;
-  data: any[] = [];
-  pageSettings = { pageSize: 12 };
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load data - set isLoading = false when done
-  }
-}
-```
-
-```css
-.shimmer-row {
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-```
-
-### Lazy Load with Defer
-
-```typescript
-// Angular supports lazy loading at module level
-// In app-routing.module.ts:
-const routes: Routes = [
-  {
-    path: 'grid',
-    loadChildren: () => import('./grid/grid.module').then(m => m.GridModule)
-  }
-];
-
-// In grid.component.ts:
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-lazy-grid',
-  template: `
-    <ejs-grid #grid [dataSource]="data" [allowPaging]="true">
-      <e-columns>
-        <!-- columns -->
-      </e-columns>
-    </ejs-grid>
-  `
-})
-export class LazyGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  data: any[] = [];
-
-  ngOnInit() {
-    this.loadData();
-  }
-
-  loadData() {
-    // Load grid data on component initialization
-  }
-}
-```
-
----
-
 ## Rendering Optimization
 
 ### Column Reordering & Resizing
@@ -407,43 +287,6 @@ export class OptimizedGridComponent implements OnInit {
 
   loadData() {
     // Load grid data
-  }
-}
-```
-
-### Template Optimization
-
-Avoid heavy computations in templates:
-
-```typescript
-// ❌ Bad: Heavy computation in template (avoid this)
-// <e-column field="Freight" 
-//   [template]="expensiveCalculation(props)">
-// </e-column>
-
-// ✅ Good: Pre-compute in component
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { GridComponent } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-optimized-template-grid',
-  template: `<ejs-grid #grid [dataSource]="optimizedData">
-    <e-columns>
-      <e-column field="OrderID" headerText="Order ID"></e-column>
-      <e-column field="freightCategory" headerText="Freight Category"></e-column>
-    </e-columns>
-  </ejs-grid>`
-})
-export class OptimizedTemplateGridComponent implements OnInit {
-  @ViewChild('grid') gridInstance: GridComponent;
-  optimizedData: any[] = [];
-  originalData: any[] = [];
-
-  ngOnInit() {
-    this.optimizedData = this.originalData.map(item => ({
-      ...item,
-      freightCategory: item.Freight > 50 ? 'High' : 'Low'
-    }));
   }
 }
 ```
@@ -836,29 +679,3 @@ Use browser DevTools Network tab to:
 - Check for unnecessary requests
 - Verify pagination/lazy loading
 - Monitor bundle sizes
-
----
-
-## Performance Checklist
-
-- [ ] Use virtual scrolling for 10K+ records
-- [ ] Use infinite scroll for real-time/mobile
-- [ ] Implement server-side filtering/sorting
-- [ ] Set explicit row height for virtual scroll
-- [ ] Use debouncing for search/filtering
-- [ ] Optimize templates (avoid heavy computations)
-- [ ] Lazy load grid component if not immediately needed
-- [ ] Only inject necessary modules
-- [ ] Enable pagination for medium datasets (1K-10K)
-- [ ] Disable features not used (reordering, resizing, etc.)
-- [ ] Monitor memory and render times
-- [ ] Test with realistic data size
-- [ ] Use CSS-based styling instead of inline
-- [ ] Implement loading indicators for UX
-- [ ] Profile bundle size regularly
-
-
-
-
-
-

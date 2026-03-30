@@ -1,11 +1,24 @@
 # Aggregates
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Basic Aggregates](#basic-aggregates)
 - [Footer Aggregates](#footer-aggregates)
 - [Custom Aggregates](#custom-aggregates)
 - [Group Aggregates](#group-aggregates)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Display summary statistics** — Show sum, average, count, min, max for numeric columns
+- **Financial reporting** — Display totals, subtotals, and aggregate calculations for financial data
+- **Group summaries** — Show aggregates at group level with expandable group rows
+- **Footer summaries** — Display aggregate totals at the bottom of the grid
+- **Custom aggregation** — Implement custom aggregate functions beyond built-in ones
+- **Multi-level aggregation** — Combine aggregates across multiple grouping levels
+- **Analytics display** — Present statistical summaries alongside detailed data
+- **Budget tracking** — Calculate running totals, spend summaries, and variance calculations
 
 ## Overview
 

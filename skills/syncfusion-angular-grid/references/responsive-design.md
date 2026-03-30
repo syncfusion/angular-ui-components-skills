@@ -1,6 +1,7 @@
 # Responsive Design in Angular Grid
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Adaptive Grid](#adaptive-grid)
 - [Mobile Optimization](#mobile-optimization)
@@ -8,6 +9,17 @@
 - [Touch Interactions](#touch-interactions)
 - [Breakpoints](#breakpoints)
 - [Responsive Examples](#responsive-examples)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Mobile-friendly grids** — Optimize grid for mobile and tablet devices
+- **Adaptive layouts** — Automatically adjust layout based on screen size
+- **Column visibility** — Hide columns on small screens
+- **Touch support** — Support touch interactions on mobile devices
+- **Responsive columns** — Change column widths for different breakpoints
+- **Multi-device support** — Build grids that work on desktop, tablet, mobile
+- **Accessibility on mobile** — Ensure keyboard and screen reader support on mobile
 
 ## Overview
 
@@ -96,8 +108,6 @@ export class VerticalGridComponent {
   data: any[] = [];
 }
 ```
-
----
 
 ## Mobile Optimization
 
@@ -205,8 +215,6 @@ export class GridHideSecondaryColumnsComponent implements OnInit {
   }
 }
 ```
-
----
 
 ## Column Visibility
 
@@ -636,51 +644,6 @@ export class CompleteResponsiveGridComponent implements OnInit, OnDestroy {
 }
 ```
 
-### Fluid Width Grid
-
-```typescript
-import { Component } from '@angular/core';
-import { GridComponent, Inject, Page } from '@syncfusion/ej2-angular-grids';
-
-@Component({
-  selector: 'app-fluid-grid',
-  template: `
-    <ejs-grid
-      [dataSource]="data"
-      width="100%"
-      height="500px"
-      [allowPaging]="true">
-      <e-columns>
-        <e-column 
-          field="OrderID" 
-          headerText="Order ID" 
-          width="25%">
-        </e-column>
-        <e-column 
-          field="CustomerID" 
-          headerText="Customer" 
-          width="25%">
-        </e-column>
-        <e-column 
-          field="Freight" 
-          headerText="Freight" 
-          width="25%">
-        </e-column>
-        <e-column 
-          field="Status" 
-          headerText="Status" 
-          width="25%">
-        </e-column>
-      </e-columns>
-    </ejs-grid>
-  `,
-  providers: [Page]
-})
-export class FluidGridComponent {
-  data: any[] = [];
-}
-```
-
 ### Horizontal Scroll on Mobile
 
 ```typescript
@@ -715,23 +678,3 @@ export class HorizontalScrollGridComponent {
   data: any[] = [];
 }
 ```
-
----
-
-## Best Practices
-
-1. **Always enable adaptive UI** for mobile experience
-2. **Test on real devices** (not just browser emulation)
-3. **Use touch-friendly dimensions** (min 48x48px)
-4. **Set explicit column widths** for narrow screens
-5. **Hide non-essential columns** on mobile
-6. **Adjust page size** based on screen size
-7. **Use vertical layout** for mobile detail views
-8. **Test landscape and portrait** orientations
-9. **Optimize toolbar** for touchscreen
-10. **Include skip navigation** for accessibility
-
-
-
-
-

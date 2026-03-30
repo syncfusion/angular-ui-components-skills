@@ -1,11 +1,24 @@
 # Getting Started
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Installation](#installation)
 - [Package Setup](#package-setup)
 - [CSS Imports](#css-imports)
 - [Basic Grid Initialization](#basic-grid-initialization)
 - [Minimal Working Example](#minimal-working-example)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Set up Angular Grid** — Install and configure Syncfusion Grid in Angular projects
+- **Install packages** — Add required npm packages
+- **Configure modules** — Import GridModule in Angular modules
+- **Add CSS styles** — Include required Syncfusion stylesheets
+- **Initialize grid** — Create first working grid component
+- **Configure data binding** — Show how to bind data to grid
+- **Basic column setup** — Define and configure columns
+- **CSS troubleshooting** — Fix unstyled pager and other components
 
 ## Installation
 

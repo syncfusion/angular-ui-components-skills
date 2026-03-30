@@ -429,7 +429,7 @@ export class AppComponent {
             const target: HTMLElement = args.originalEvent.target as HTMLElement;
             const promptContainer: HTMLElement = target.closest('.e-prompt-container') as HTMLElement;
             const prompt = (promptContainer.querySelector('.e-prompt-text') as HTMLElement).textContent;
-            window.open(`https://www.google.com/search?q=${prompt}`, '_blank')
+            window.open(`url${prompt}`, '_blank')
         } else if (args.item.iconCss === 'e-icons e-save') {
             const response = (args as any).event.currentTarget.closest('.e-output-container').querySelector('.e-content-body').innerHTML;
             console.log(response); // Handle Saving response here.
@@ -541,6 +541,16 @@ public aiAssistantSettings: AIAssistantSettingsModel = {
 
 ## Handling AI Requests
 
+**Security Warning**
+ 
+The Rich Text Editor does not handle or send requests to AI provider endpoints. All AI interactions must be processed at the application layer (preferably in the backend).
+ 
+Ensure that:
+ 
+* AI inputs are validated and moderated on the backend.
+* API keys and secrets are never exposed in request bodies or client-side code.
+* All requests to AI services are securely routed and managed through backend systems.
+
 The `aiAssistantPromptRequest` event fires when the user selects an AI command or submits a custom prompt. This event provides the necessary data to forward the request to your AI service.
 
 **Event Properties:**
@@ -556,7 +566,7 @@ Provides a typewriter-like streaming effect as chunks arrive:
 ```typescript
 async onAIRequest(args: AIAssistantPromptRequestArgs): Promise<void> {
   try {
-    const response: Response = await fetch('YOUR_AI_SERVICE_URL' + '/api/stream', {
+    const response: Response = await fetch('/api/ai/stream', {
       method: 'POST',
       headers: {
         "Content-Type": 'application/json',
@@ -597,7 +607,7 @@ A complete response can be inserted at once by setting the `finalUpdate` paramet
 
 ```typescript
 async onAIRequest(args: AIAssistantPromptRequestArgs): Promise<void> {
-  const response: Response = await fetch('YOUR_AI_SERVICE_URL' + '/api/query', {
+  const response: Response = await fetch('/api/ai/stream', {
     method: 'POST',
     headers: {
       "Content-Type": 'application/json',

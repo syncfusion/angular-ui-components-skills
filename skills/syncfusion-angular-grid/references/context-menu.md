@@ -1,5 +1,22 @@
 # Context Menu
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Basic Context Menu](#basic-context-menu)
+- [Custom Context Menu](#custom-context-menu)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Right-click menu options** — Provide context menu for grid operations
+- **Custom context menus** — Define custom menu items for specific actions
+- **Row operations** — Implement Copy, Edit, Delete, and custom row actions
+- **Column operations** — Add column-specific context menu items
+- **Conditional menu items** — Show/hide menu items based on context
+- **Keyboard accessibility** — Ensure menu works with keyboard navigation
+- **Multi-row operations** — Apply batch operations via context menu
+
 ## Overview
 
 Context menu provides right-click options for grid operations. Customize menu items for editing, copying, and other actions.

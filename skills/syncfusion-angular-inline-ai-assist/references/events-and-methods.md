@@ -56,7 +56,6 @@ public onOpen = (args: OpenEventArgs) => {
     // Focus on input
 };
 
-// Template: (open)="onOpen($event)"
 ```
 
 ### close Event
@@ -68,13 +67,8 @@ import { CloseEventArgs } from '@syncfusion/ej2-popups';
 
 public onClose = (args: CloseEventArgs) => {
     console.log('Popup closed');
-    
-    // Save conversation history
-    // Clear temporary state
-    // Update parent component
 };
 
-// Template: (close)="onClose($event)"
 ```
 
 ## Prompt Request Event
@@ -102,7 +96,6 @@ public onPromptRequest = (args: InlinePromptRequestEventArgs) => {
     }, 1000);
 };
 
-// Template: (promptRequest)="onPromptRequest($event)"
 ```
 
 ### Integrating with AI Services
@@ -271,12 +264,6 @@ export class AppComponent {
             this.inlineAssistComponent.executePrompt(promptText);
         }, 200);
     }
-
-    // Template usage
-    // <button *ngFor="let prompt of quickPrompts" 
-    //         (click)="executeQuickPrompt(prompt.text)">
-    //     {{ prompt.label }}
-    // </button>
 }
 ```
 

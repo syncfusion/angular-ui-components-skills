@@ -1,11 +1,23 @@
 # Grouping
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Enable Grouping](#enable-grouping)
 - [Group Configuration](#group-configuration)
 - [Caption Templates](#caption-templates)
 - [Lazy-Load Grouping](#lazy-load-grouping)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Organize data by category** — Group rows based on column values
+- **Multi-level grouping** — Group by multiple columns for hierarchical view
+- **Collapsible group rows** — Allow expanding/collapsing groups
+- **Group aggregates** — Show summary calculations per group
+- **Group templates** — Customize group header content
+- **Lazy-load groups** — Load grouped data on demand for performance
+- **Data analysis** — Organize and summarize data by categories
 
 ## Overview
 
@@ -150,7 +162,7 @@ import { DataManager, UrlAdaptor } from '@syncfusion/ej2-data';
 })
 export class LazyLoadGroupGridComponent {
   dataManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });

@@ -1,12 +1,25 @@
 # PDF Export
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Critical Rule: Async Methods](#critical-rule-async-methods)
 - [Basic PDF Export](#basic-pdf-export)
 - [PDF Export Options](#pdf-export-options)
 - [Custom Headers and Footers](#custom-headers-and-footers)
 - [Exporting with Templates](#exporting-with-templates)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Export to PDF** — Generate PDF files from grid data
+- **Create reports** — Generate formatted reports for distribution
+- **Custom PDF styling** — Control fonts, colors, and layout in PDF
+- **Add headers/footers** — Include titles, page numbers, dates in PDF
+- **Hierarchical export** — Export master-detail grids to PDF
+- **Wide grid export** — Fit wide grids across PDF pages
+- **Template export** — Include formatted content in PDF
+- **Async export handling** — Wait for PDF generation completion
 
 ## Overview
 

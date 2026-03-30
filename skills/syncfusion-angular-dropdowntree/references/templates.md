@@ -288,7 +288,7 @@ import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 export class ActionFailureComponent {
   // Invalid URL to trigger error
   public data = new DataManager({
-    url: 'https://invalid-api-endpoint.com/data',
+    url: 'url',
     adaptor: new ODataV4Adaptor,
     crossDomain: true
   });

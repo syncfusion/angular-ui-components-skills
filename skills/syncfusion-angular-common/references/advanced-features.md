@@ -323,45 +323,6 @@ localStorage.removeItem('grid-state-key');
 
 ## Security Best Practices
 
-### HTML Sanitization
+When working with Syncfusion Angular components, follow secure coding practices to protect your application and user data.
 
-Prevent XSS attacks by sanitizing HTML content:
-
-```typescript
-import { Component } from '@angular/core';
-import { DialogModule } from '@syncfusion/ej2-angular-popups';
-import { SanitizeHtmlHelper } from '@syncfusion/ej2-base';
-
-@Component({
-  selector: 'app-dialog',
-  standalone: true,
-  imports: [DialogModule],
-  template: `
-    <ejs-dialog
-      [header]="sanitizedHeader"
-      [enableHtmlSanitizer]="true"
-    >
-      Dialog body content
-    </ejs-dialog>
-  `
-})
-export class DialogComponent {
-  sanitizedHeader = SanitizeHtmlHelper.sanitize(
-    '<div>Safe Content</div>'
-  );
-}
-```
-
-### Content Security Policy (CSP)
-
-Configure CSP directives in your HTML meta tag:
-
-```html
-<meta http-equiv="Content-Security-Policy" content="
-  style-src 'self' https://cdn.syncfusion.com/ https://fonts.googleapis.com/ 'unsafe-inline';
-  font-src 'self' https://fonts.googleapis.com/ https://fonts.gstatic.com/ data: cdn.syncfusion.com;
-  img-src 'self' data:;
-  worker-src 'self' 'unsafe-inline' blob:;
-">
-```
-
+> **Note:** For comprehensive security guidelines and best practices, please refer to the [Syncfusion Security Documentation](https://ej2.syncfusion.com/angular/documentation/common/security).

@@ -99,23 +99,6 @@ Use the File Manager component when you need to:
 - Backend implementation examples (ASP.NET Core)
 - 3 practical examples covering image-only, document, and complete upload configs
 
-### File System Provider Reference
-📄 **Read:** [references/file-system-provider-reference.md](references/file-system-provider-reference.md)
-- Overview of 9 different file system providers
-- Physical file system provider (on-premise local files)
-- Azure cloud file system provider (Azure Blob Storage)
-- Amazon S3 cloud file provider (AWS object storage)
-- SharePoint file provider (Microsoft SharePoint integration)
-- File Transfer Protocol provider (FTP server access)
-- SQL database file system provider (database-backed storage)
-- Node.js file system provider (lightweight Node.js runtime)
-- Google Drive file system provider (Google Drive integration)
-- Firebase Realtime Database provider (serverless cloud database)
-- Setup instructions for each provider
-- Configuration examples and best practices
-- Provider comparison table
-- Quick selection guide
-
 ### Views and Layout
 📄 **Read:** [references/views-and-layout.md](references/views-and-layout.md)
 - Details view (sorted file list with columns)
@@ -314,10 +297,10 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 })
 export class AppComponent {
   public ajaxSettings = {
-    url: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/FileOperations',
-    getImageUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/GetImage',
-    uploadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Upload',
-    downloadUrl: 'https://ej2-aspcore-service.azurewebsites.net/api/FileManager/Download'
+    url: 'url',
+    getImageUrl: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url'
   };
 }
 ```

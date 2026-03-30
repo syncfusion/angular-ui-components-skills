@@ -1,5 +1,9 @@
 # Performance Optimization
 
+## ⚠️ SECURITY NOTICE
+
+When using remote data sources for performance optimization (server-side aggregation, remote APIs), **always use trusted, authenticated endpoints**. See [core-concepts.md Security Best Practices](./core-concepts.md#security-best-practices) for comprehensive security guidelines.
+
 ## Table of Contents
 - [Virtual Scrolling](#virtual-scrolling)
 - [Paging](#paging)
@@ -69,18 +73,24 @@ dataSourceSettings: IDataOptions = {
 
 ### Server-Side Aggregation
 
+⚠️ **SECURITY**: Only use authenticated backend endpoints for server-side processing.
+
 ```typescript
 // Instead of sending 100K rows, have server pre-aggregate
 // Send only summarized data to client
+import { environment } from '../environments/environment';
 
 dataSourceSettings: IDataOptions = {
-  url: 'https://api.example.com/pivot-aggregated',  // Pre-aggregated
+  url: environment.pivotApiEndpoint,  // 🔒 Use environment config
   mode: 'Server',
   rows: [{ name: 'Region' }],
   columns: [{ name: 'Year' }],
   values: [{ name: 'Sales', type: 'Sum' }]
   // Server returns: Region x Year x Sales (much smaller)
 };
+
+// Note: Implement authentication headers in your HTTP interceptor
+// or use DataManager with headers configuration
 ```
 
 ---

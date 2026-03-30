@@ -7,6 +7,13 @@ description: 'Foreign Key Columns in Syncfusion Angular TreeGrid - mapping forei
 
 Foreign Key columns enable relationships between TreeGrid data and external lookup tables for dropdown selection and display mapping.
 
+## When to Use
+
+Use Foreign Key columns when you need to:
+- **Lookup values** — Map IDs to display text from related tables
+- **Dropdown editing** — Show dropdown lists in edit mode
+- **Data relationships** — Establish connections between related data
+
 ## Table of Contents
 - [Foreign Key Configuration](#foreign-key-configuration)
 - [Remote Data Binding](#remote-data-binding)
@@ -146,14 +153,14 @@ import { DataManager, UrlAdaptor, ODataV4Adaptor } from '@syncfusion/ej2-data';
 export class AppComponent {
   // Remote data for TreeGrid
   public taskDataManager = new DataManager({
-    url: 'https://api.example.com/odata/tasks',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     crossDomain: true
   });
 
   // Remote data for FK lookup
   public employeeDataManager = new DataManager({
-    url: 'https://api.example.com/odata/employees',
+    url: 'url',
     adaptor: new ODataV4Adaptor(),
     crossDomain: true,
     pageSize: 20

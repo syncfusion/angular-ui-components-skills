@@ -441,7 +441,7 @@ public class Startup
                     .WithOrigins(
                         "http://localhost:4200",
                         "http://localhost:3000",
-                        "https://yourdomain.com"
+                        "yourdomain"
                     )
                     .AllowAnyMethod()
                     .AllowAnyHeader()
@@ -481,9 +481,9 @@ public class Startup
 })
 export class CorsFileManagerComponent {
   ajaxSettings = {
-    url: 'https://api.yourdomain.com/api/FileManager/FileOperations',
-    uploadUrl: 'https://api.yourdomain.com/api/FileManager/Upload',
-    downloadUrl: 'https://api.yourdomain.com/api/FileManager/Download',
+    url: 'url',
+    uploadUrl: 'url',
+    downloadUrl: 'url',
     credentials: 'include'  // Include cookies in CORS requests
   };
   

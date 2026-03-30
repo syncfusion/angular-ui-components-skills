@@ -225,7 +225,7 @@ export class AppComponent {
 
 ## Recurring Events
 
-Recurring events repeat at regular intervals based on a recurrence rule following the [iCalendar RFC 5545](https://tools.ietf.org/html/rfc5545#section-3.3.10) standard.
+Recurring events repeat at regular intervals based on a recurrence rule following the iCalendar RFC 5545 standard.
 
 ### Creating Recurring Events
 

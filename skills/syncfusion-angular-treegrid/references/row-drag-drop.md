@@ -7,6 +7,17 @@ description: 'Row Drag and Drop in Syncfusion Angular TreeGrid - hierarchical dr
 
 Enable users to reorganize TreeGrid rows and update parent-child relationships through drag-and-drop.
 
+## When to Use
+
+Use drag-and-drop when you need to:
+- **Reorder rows** — Allow users to reorganize data via dragging
+- **Move between groups** — Drag rows to different parent groups
+- **Reorganize hierarchy** — Change parent-child relationships
+- **Intuitive editing** — Provide natural drag-based workflow
+- **Visual feedback** — Show drop targets and drag indicators
+- **Drop constraints** — Validate drag-drop operations
+- **Event handling** — Execute custom logic on drops
+
 ## Table of Contents
 - [Enable Drag and Drop](#enable-drag-and-drop)
 - [Hierarchical Constraints](#hierarchical-constraints)
@@ -29,10 +40,9 @@ import { EditService } from '@syncfusion/ej2-angular-treegrid';
       [dataSource]='data'
       [childMapping]='childMapping'
       [allowRowDragAndDrop]='true'
-      (dragStart)='onDragStart($event)'
-      (drag)='onDrag($event)'
-      (drop)='onDrop($event)'
-      (dragStop)='onDragStop($event)'>
+      (rowDragStart)='onDragStart($event)'
+      (rowDrag)='onDrag($event)'
+      (rowDrop)='onDrop($event)'>
       <e-columns>
         <e-column field='TaskID' headerText='Task ID' width='90'></e-column>
         <e-column field='TaskName' headerText='Task Name' width='200'></e-column>
@@ -79,10 +89,6 @@ export class AppComponent {
 
   onDrop(args: any) {
     console.log('Dropped on:', args.dropTarget.rowData?.TaskName);
-  }
-
-  onDragStop(args: any) {
-    console.log('Drag Stopped');
   }
 }
 ```

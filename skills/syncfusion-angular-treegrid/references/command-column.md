@@ -7,6 +7,14 @@ description: 'Command Column in Syncfusion Angular TreeGrid - action buttons in 
 
 Command Column displays action buttons like Edit, Delete, Save, and Cancel in cells for quick inline operations on data.
 
+## When to Use
+
+Use command column when you need to:
+- **Action buttons** — Add Edit, Delete, Save, Cancel buttons
+- **Inline operations** — Perform operations without dialogs
+- **Custom commands** — Create custom action buttons
+- **Multiple actions** — Provide several options per row
+
 ## Table of Contents
 - [Basic Command Column](#basic-command-column)
 - [Built-in Commands](#built-in-commands)

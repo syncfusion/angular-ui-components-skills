@@ -1,11 +1,24 @@
 # Cell
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Cell Properties](#cell-properties)
 - [Cell Editing](#cell-editing)
 - [Cell Events](#cell-events)
 - [Cell Styling](#cell-styling)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Configure cell-level properties** — Set individual cell widths, alignment, and behavior
+- **Implement cell editing** — Enable inline editing of specific cells with validation
+- **Handle cell events** — Respond to cell selection, editing, and content changes
+- **Style cells conditionally** — Apply custom styling based on cell values or conditions
+- **Cell selection** — Enable single or multiple cell selection with keyboard support
+- **Cell templates** — Create custom cell content with HTML templates
+- **Cell validation** — Validate data before saving cell changes
+- **Cell formatting** — Format cell content (currency, dates, decimals) for display
 
 ## Overview
 

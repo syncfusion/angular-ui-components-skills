@@ -1,5 +1,21 @@
 # Hierarchy Grid
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Basic Hierarchy Grid](#basic-hierarchy-grid)
+- [Nested Grid Hierarchy](#nested-grid-hierarchy)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Master-detail relationships** — Display parent and child/related records
+- **Expandable rows** — Allow users to expand rows to see detail data
+- **Nested grids** — Show child grids within parent grid rows
+- **Hierarchical data** — Organize and display tree-like data structures
+- **Related data display** — Show details for selected parent record
+- **Complex data relationships** — Visualize parent-child and multi-level structures
+
 ## Overview
 
 Display hierarchical or nested data with master-detail grid structure. Expand rows to show child records in detail rows or nested grids.

@@ -7,6 +7,15 @@ description: 'Excel export in Syncfusion Angular TreeGrid - excel export configu
 
 Export TreeGrid data to Excel with advanced formatting, merged cells, and conditional styling.
 
+## When to Use
+
+Use Excel export when you need to:
+- **Generate reports** — Export TreeGrid data as Excel files
+- **Apply styles** — Maintain formatting in exported data
+- **Hierarchical export** — Preserve parent-child relationships in Excel
+- **Custom headers** — Add custom headers and footers to export
+- **Download files** — Enable users to download data for offline use
+
 ## Table of Contents
 - [Enable Excel Export](#enable-excel-export)
 - [Excel Export Options](#excel-export-options)
@@ -29,7 +38,7 @@ import { ClickEventArgs } from '@syncfusion/ej2-navigations';
       #treegrid
       [dataSource]='data'
       [childMapping]='childMapping'
-      allowExcelExport='true'
+      [allowExcelExport]='true'
       [toolbar]='["ExcelExport"]'>
       <e-columns>
         <e-column field='TaskID' headerText='Task ID' width='90'></e-column>

@@ -1,12 +1,25 @@
 # Columns
 
 ## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
 - [Overview](#overview)
 - [Column Properties](#column-properties)
 - [Column Types](#column-types)
 - [Column Templates](#column-templates)
 - [Foreign Key Columns](#foreign-key-columns)
 - [Column Rendering](#column-rendering)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Define grid structure** — Map data fields to grid columns with appropriate types
+- **Configure column properties** — Set widths, alignment, sorting, filtering capabilities
+- **Format column data** — Display numbers as currency, dates with specific formats
+- **Create column templates** — Customize column content with HTML templates
+- **Implement foreign keys** — Display related data from lookup tables in columns
+- **Render custom content** — Use templates for complex column visualizations
+- **Control column visibility** — Show/hide columns based on conditions
+- **Set column types** — Specify string, number, date, boolean types for proper handling
 
 ## Overview
 
@@ -192,13 +205,13 @@ export class ForeignKeyGridComponent {
   ];
 
   employeeManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Employees',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });
 
   customerManager = new DataManager({
-    url: 'https://js.syncfusion.com/demos/ejServices/Wcf/Northwind.svc/Customers',
+    url: 'url',
     adaptor: new UrlAdaptor(),
     crossDomain: true
   });

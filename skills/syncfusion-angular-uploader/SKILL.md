@@ -27,9 +27,11 @@ The Syncfusion Angular Uploader provides:
 
 ## Documentation & Navigation Guide
 
+> ⚠️ **Agentic use note:** This guide links to multiple reference documents. AI agents should read only the sections relevant to the task at hand — do **not** chain through all references automatically. Follow least-privilege reading: fetch only what is needed.
+
 ### Getting Started
 📄 **Read:** [references/getting-started.md](references/getting-started.md)
-- Installation of `@syncfusion/ej2-angular-inputs`
+- Installation of `@syncfusion/ej2-angular-inputs` ⚠️ **Always verify the package version and integrity before running `npm install` in production pipelines (supply-chain hygiene).**
 - Package setup, CSS imports, and Angular standalone component usage
 - Adding the `<ejs-uploader>` component
 - Configuring async settings (saveUrl, removeUrl)
@@ -228,6 +230,8 @@ preloadedFiles = [
   (removing)="addAuthHeader($event)">
 </ejs-uploader>
 
+// ⚠️ Never hardcode tokens — always retrieve from a secure auth service (e.g., Angular AuthService or OAuth library).
+// ⚠️ Always transmit tokens over HTTPS only. Never pass tokens as URL query parameters.
 addAuthHeader(args: any): void {
   args.currentRequest.setRequestHeader('Authorization', `Bearer ${this.token}`);
 }

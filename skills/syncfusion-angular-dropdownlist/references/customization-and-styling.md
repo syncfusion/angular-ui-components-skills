@@ -2,6 +2,7 @@
 
 ## Table of Contents
 - [CSS Architecture Overview](#css-architecture-overview)
+- [cssClass Property](#cssclass-property)
 - [Customizing the Wrapper Element](#customizing-the-wrapper-element)
 - [Customizing the Dropdown Icon](#customizing-the-dropdown-icon)
 - [Focus Color Customization](#focus-color-customization)
@@ -28,6 +29,164 @@ Syncfusion uses BEM-style CSS classes with the `e-` prefix. The DropDownList mai
 
 /* Component-scoped override */
 :host ::ng-deep .e-ddl .e-input { color: #333; }
+```
+
+---
+
+## cssClass Property
+
+| Detail | Value |
+|---|---|
+| **Property** | `cssClass` |
+| **Type** | `string` |
+| **Default** | `null` |
+
+The `cssClass` property applies one or more custom CSS class names to the **root element** of the DropDownList component (the `.e-ddl` wrapper). Use it to scope all style overrides to a specific instance without affecting other DropDownList components on the page.
+
+### Basic Usage
+
+```html
+<ejs-dropdownlist
+  [dataSource]="sportsData"
+  cssClass="my-custom-ddl"
+  placeholder="Select a game">
+</ejs-dropdownlist>
+```
+
+This renders as:
+```html
+<span class="e-control-wrapper e-ddl e-lib e-keyboard my-custom-ddl ...">
+```
+
+### Scoped Style Overrides with cssClass
+
+Because `cssClass` is applied to the root wrapper, you can scope all your CSS rules to that class and avoid conflicts with other components:
+
+```typescript
+@Component({
+  selector: 'app-root',
+  styles: [`
+    /* Scoped to only this DropDownList instance */
+    ::ng-deep .country-picker .e-input {
+      font-size: 14px;
+      color: #1a1a2e;
+      background-color: #f0f4ff;
+      border-radius: 4px;
+    }
+
+    ::ng-deep .country-picker .e-input-group-icon.e-ddl-icon::before {
+      color: #4361ee;
+    }
+
+    /* Popup inherits the cssClass too — target popup-level styles */
+    ::ng-deep .country-picker.e-popup .e-list-item.e-hover {
+      background-color: #e8edff;
+      color: #4361ee;
+    }
+
+    ::ng-deep .country-picker.e-popup .e-list-item.e-active {
+      background-color: #4361ee;
+      color: #ffffff;
+    }
+  `],
+  template: `
+    <ejs-dropdownlist
+      [dataSource]="countryData"
+      [fields]="fields"
+      cssClass="country-picker"
+      placeholder="Select a country">
+    </ejs-dropdownlist>
+  `
+})
+export class AppComponent {
+  public countryData = [
+    { Name: 'Australia', Code: 'AU' },
+    { Name: 'Canada', Code: 'CA' }
+  ];
+  public fields = { text: 'Name', value: 'Code' };
+}
+```
+
+> **Important:** The popup element also receives the `cssClass` value. You can target it using `.your-class.e-popup` or `.your-class .e-list-item`.
+
+### Multiple CSS Classes
+
+Pass a space-separated string to apply multiple classes simultaneously:
+
+```html
+<ejs-dropdownlist
+  [dataSource]="data"
+  cssClass="compact-ddl dark-theme"
+  placeholder="Select">
+</ejs-dropdownlist>
+```
+
+```css
+:host ::ng-deep .compact-ddl .e-input { 
+  padding: 4px 8px; 
+  height: 28px; 
+}
+
+:host ::ng-deep .dark-theme .e-input { 
+  background: #1e1e2e; 
+  color: #cdd6f4; 
+}
+```
+
+### Applying cssClass Conditionally (Angular State)
+
+Use property binding to dynamically add or remove CSS classes based on component state:
+
+```typescript
+@Component({
+  selector: 'app-root',
+  styles: [`
+    ::ng-deep .has-error .e-input {
+      border-color: #d32f2f;
+      background-color: #ffebee;
+    }
+
+    ::ng-deep .has-success .e-input {
+      border-color: #388e3c;
+      background-color: #e8f5e9;
+    }
+  `],
+  template: `
+    <ejs-dropdownlist
+      [dataSource]="['Option A', 'Option B', 'Option C']"
+      [cssClass]="selectedValue ? 'has-success' : 'has-error'"
+      [(value)]="selectedValue"
+      placeholder="Select an option"
+      (change)="onValueChange()">
+    </ejs-dropdownlist>
+  `
+})
+export class AppComponent {
+  public selectedValue: string | null = null;
+
+  onValueChange() {
+    // CSS class updates reactively based on selectedValue
+  }
+}
+```
+
+### Built-in Utility Classes
+
+Syncfusion provides predefined CSS classes for common states. Combine them with `cssClass`:
+
+| Class | Effect | Usage |
+|---|---|---|
+| `e-error` | Red border — validation error state | `cssClass="e-error"` |
+| `e-success` | Green border — validation success state | `cssClass="e-success"` |
+| `e-warning` | Yellow border — warning state | `cssClass="e-warning"` |
+
+```html
+<!-- Show validation error -->
+<ejs-dropdownlist
+  [dataSource]="data"
+  [cssClass]="isInvalid ? 'e-error' : ''"
+  placeholder="Required field">
+</ejs-dropdownlist>
 ```
 
 ---

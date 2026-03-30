@@ -19,9 +19,6 @@ Use the `prompt` property to define the default prompt text for the component:
 ```typescript
 export class AppComponent {
     public prompt: string = "What are the benefits of Inline AI Assist?";
-
-    // Template
-    // <ejs-inlineaiassist [prompt]="prompt"></ejs-inlineaiassist>
 }
 ```
 
@@ -36,9 +33,6 @@ Displays responses in a floating popup window. Best for review-based workflows w
 ```typescript
 export class AppComponent {
     public responseMode: string = 'Popup';
-
-    // Template
-    // <ejs-inlineaiassist [responseMode]="responseMode"></ejs-inlineaiassist>
 }
 ```
 
@@ -130,9 +124,6 @@ Customize the prompt textarea placeholder:
 export class AppComponent {
     public placeholder: string = 'Type your custom prompt here...';
 }
-
-// Template
-// [placeholder]="placeholder"
 ```
 
 Default placeholder is `"Ask or generate AI content.."`
@@ -142,9 +133,6 @@ Default placeholder is `"Ask or generate AI content.."`
 ```typescript
 export class AppComponent {
     public zIndex: number = 4000;
-    
-    // Template
-    // [zIndex]="zIndex"
 }
 ```
 
@@ -161,8 +149,6 @@ export class AppComponent {
     public cssClass: string = 'custom-assist';
 }
 
-// Template
-// [cssClass]="cssClass"
 ```
 
 ### Custom CSS Example
@@ -325,8 +311,6 @@ export class AppComponent {
         }
     ];
 
-    // Template
-    // [prompts]="prompts"
 }
 ```
 
@@ -361,9 +345,6 @@ Use the `enableStreaming` property to enable real-time streaming of AI responses
 ```typescript
 export class AppComponent {
     public enableStreaming: boolean = true;
-
-    // Template
-    // <ejs-inlineaiassist [enableStreaming]="enableStreaming"></ejs-inlineaiassist>
 }
 ```
 
@@ -513,13 +494,6 @@ Use the `enablePersistence` property to maintain component state across page rel
 ```typescript
 export class AppComponent {
     public enablePersistence: boolean = true;
-
-    // Template
-    // <ejs-inlineaiassist 
-    //     id="persistentAssist"
-    //     [enablePersistence]="enablePersistence"
-    //     [relateTo]="'#button'">
-    // </ejs-inlineaiassist>
 }
 ```
 

@@ -102,14 +102,6 @@ export class AppComponent {
         this.inlineAssistComponent.locale = newLocale;
         this.inlineAssistComponent.dataBind();
     }
-
-    // Template
-    // <select (change)="changeLocale($event.target.value)">
-    //     <option value="en">English</option>
-    //     <option value="de">German</option>
-    //     <option value="es">Spanish</option>
-    //     <option value="fr">French</option>
-    // </select>
 }
 ```
 
@@ -180,12 +172,6 @@ export class AppComponent {
         this.inlineAssistComponent.enableRtl = true;
         this.inlineAssistComponent.dataBind();
     }
-
-    // Template
-    // <ejs-inlineaiassist 
-    //     [locale]="locale"
-    //     [enableRtl]="enableRtl">
-    // </ejs-inlineaiassist>
 }
 ```
 
@@ -308,9 +294,6 @@ export class AppComponent {
 ```typescript
 export class AppComponent {
     public cssClass: string = 'custom-assist-theme';
-
-    // Template
-    // <ejs-inlineaiassist [cssClass]="cssClass"></ejs-inlineaiassist>
 }
 ```
 
@@ -408,11 +391,6 @@ export class AppComponent {
             document.body.classList.remove('dark-mode');
         }
     }
-
-    // Template
-    // <button (click)="toggleDarkMode()" class="e-btn">
-    //     Toggle Dark Mode
-    // </button>
 }
 ```
 

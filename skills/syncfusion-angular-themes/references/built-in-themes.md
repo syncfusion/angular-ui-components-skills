@@ -71,7 +71,11 @@ Or import SCSS for variable access:
 
 ## Applying Themes via CDN
 
-CDN references provide quick setup without npm installation. **Always match the CDN version to your installed npm package version.**
+Before using CDN links, check your installed package version:
+
+```bash
+npm list @syncfusion/ej2-angular-grids
+```
 
 ### Usage in angular.json
 
@@ -84,7 +88,7 @@ CDN references provide quick setup without npm installation. **Always match the 
           "options": {
             "styles": [
               "src/styles.css",
-              "https://cdn.syncfusion.com/ej2/32.1.19/tailwind3.css"
+              "https://cdn.syncfusion.com/ej2/33.1.44/tailwind3.css"
             ]
           }
         }
@@ -103,34 +107,28 @@ CDN references provide quick setup without npm installation. **Always match the 
 </head>
 ```
 
-### Available CDN Links (v32.1.19 example)
+> **⚠️ Important:** The CDN version MUST match your installed npm package version to avoid style and rendering issues.
 
-Replace `32.1.19` with your installed version:
+### Available CDN Links
 
-| Theme | CDN Link |
-|-------|----------|
-| Tailwind 3.4 | https://cdn.syncfusion.com/ej2/32.1.19/tailwind3.css |
-| Tailwind 3.4 Dark | https://cdn.syncfusion.com/ej2/32.1.19/tailwind3-dark.css |
-| Bootstrap 5.3 | https://cdn.syncfusion.com/ej2/32.1.19/bootstrap5.3.css |
-| Bootstrap 5.3 Dark | https://cdn.syncfusion.com/ej2/32.1.19/bootstrap5.3-dark.css |
-| Fluent 2 | https://cdn.syncfusion.com/ej2/32.1.19/fluent2.css |
-| Fluent 2 Dark | https://cdn.syncfusion.com/ej2/32.1.19/fluent2-dark.css |
-| Material 3 | https://cdn.syncfusion.com/ej2/32.1.19/material3.css |
-| Material 3 Dark | https://cdn.syncfusion.com/ej2/32.1.19/material3-dark.css |
+Replace `{VERSION}` with your installed version (e.g., 27.2.2, 28.1.33, 33.1.44):
 
-**Version checking:**
+| Theme | CDN Link Pattern |
+|-------|------------------|
+| Tailwind 3.4 | https://cdn.syncfusion.com/ej2/{VERSION}/tailwind3.css |
+| Tailwind 3.4 Dark | https://cdn.syncfusion.com/ej2/{VERSION}/tailwind3-dark.css |
+| Bootstrap 5.3 | https://cdn.syncfusion.com/ej2/{VERSION}/bootstrap5.3.css |
+| Bootstrap 5.3 Dark | https://cdn.syncfusion.com/ej2/{VERSION}/bootstrap5.3-dark.css |
+| Fluent 2 | https://cdn.syncfusion.com/ej2/{VERSION}/fluent2.css |
+| Fluent 2 Dark | https://cdn.syncfusion.com/ej2/{VERSION}/fluent2-dark.css |
+| Material 3 | https://cdn.syncfusion.com/ej2/{VERSION}/material3.css |
+| Material 3 Dark | https://cdn.syncfusion.com/ej2/{VERSION}/material3-dark.css |
 
-Check your installed version in package.json:
+**Example:** If your package version is `33.1.44`:
 
-```json
-{
-  "dependencies": {
-    "@syncfusion/ej2-angular-grids": "32.1.19"
-  }
-}
+```html
+<link href="https://cdn.syncfusion.com/ej2/33.1.44/tailwind3.css" rel="stylesheet"/>
 ```
-
-Use the same version (`32.1.19`) in the CDN URL.
 
 ## Individual Component Themes
 
@@ -212,5 +210,11 @@ Or SCSS:
 **CDN:**
 
 ```html
-<link href="https://cdn.syncfusion.com/ej2/32.1.19/tailwind3-lite.css" rel="stylesheet"/>
+<!-- Replace {VERSION} with your installed package version -->
+<link href="https://cdn.syncfusion.com/ej2/{VERSION}/tailwind3-lite.css" rel="stylesheet"/>
+
+<!-- Example: If your version is 33.1.44 -->
+<link href="https://cdn.syncfusion.com/ej2/33.1.44/tailwind3-lite.css" rel="stylesheet"/>
 ```
+
+> **Note:** Check your installed version with `npm list @syncfusion/ej2-angular-buttons` before using CDN links.

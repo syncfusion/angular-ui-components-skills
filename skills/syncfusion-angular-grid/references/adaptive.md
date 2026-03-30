@@ -1,5 +1,21 @@
 # Adaptive
 
+## Table of Contents
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Overview](#overview)
+- [Responsive Grid Layout](#responsive-grid-layout)
+
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Support mobile devices** — Adapt grid layout for smaller screens and touch interfaces
+- **Tablet compatibility** — Optimize grid display for tablet devices
+- **Responsive design** — Automatically adjust columns and visibility based on screen size
+- **Adaptive UI** — Enable the grid to respond dynamically to viewport changes
+- **Minimal width columns** — Configure columns to hide or adjust when space is limited
+- **Touch-friendly interaction** — Support tap-based navigation and controls on mobile devices
+- **Responsive navigation** — Ensure grid controls and toolbars work on various screen sizes
+
 ## Overview
 
 Adaptive mode provides responsive grid layout for mobile and tablet devices. Grid automatically adjusts column visibility and behavior based on screen size.

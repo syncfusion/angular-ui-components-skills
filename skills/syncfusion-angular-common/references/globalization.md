@@ -198,7 +198,7 @@ Internationalization (i18n) enables formatting numbers, dates, and currencies ac
 Install the CLDR data package:
 
 ```bash
-npm install @syncfusion/ej2-cldr-data
+npm install @syncfusion/ej2-cldr-data@latest
 ```
 
 ### Loading CLDR Data

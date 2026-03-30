@@ -11,6 +11,11 @@ metadata:
 
 Complete guide to implementing and customizing the Syncfusion Angular TreeGrid component for hierarchical data visualization.
 
+## ⚠️ Security & Trust Boundary
+ 
+- The TreeGrid skill does not perform any remote data access.
+- All external API interaction is handled by a separate DataManager skill outside this skill’s trust boundary.
+
 ## Table of Contents
 - [When to Use This Skill](#when-to-use-this-skill)
 - [Data Structure Rules](#data-structure-rules)
@@ -33,9 +38,10 @@ Use this skill when you need to:
 - Support mobile/responsive design
 - Implement row/column freezing
 
-## Mandatory Rules
+## Data Structure Rules
 
 ### Rule 1: childMapping is MANDATORY for Hierarchical Data
+
 **Severity**: 🔴 CRITICAL - Grid will not expand/collapse without this
 
 **Requirement**:
@@ -77,7 +83,6 @@ public data = [
   hasChildMapping='isParent'>
 </ejs-treegrid>
 ```
----
 
 ### Rule 2: Data Type Matching is MANDATORY
 **Severity**: 🟠 IMPORTANT - Type mismatches cause rendering/sorting issues
@@ -109,44 +114,61 @@ public data = [
 ];
 ```
 
-### Inbuilt properties, events and Methods
-📄 **Read:** [references/api-reference.md](references/api-reference.md)
-- Complete property reference
-- Methods and events documentation
-- Column and editing interfaces
-- Common data structures
-
----
- 
 ## Documentation Navigation Guide
 
 ### Getting Started & Setup
+
 📄 **Read:** [references/getting-started-guide.md](references/getting-started-guide.md)
 - Complete installation and setup
 - Module configuration
 - Project initialization
 - First TreeGrid component
 
-### Data Management
-**Data Binding & Adapters**
+
+### API Quick Reference
+
+📄 **Read:** [references/properties.md](references/properties.md)
+- 70+ properties in organized tables
+- Data binding, display, behavior, features
+- Settings objects and modules
+- Column properties quick reference
+
+📄 **Read:** [references/methods.md](references/methods.md)
+- 60+ methods in organized tables
+- Data management, selection, expand/collapse
+- Filtering, sorting, export, editing
+- DOM access and utility methods
+
+📄 **Read:** [references/events.md](references/events.md)
+- 56+ events in organized tables
+- Cancelable events and async patterns
+- Data, action, selection, edit events
+- Export, print, and query events
+
+**Recommended** for developers who need quick property/method/event lookup
+
+### Data Binding
+
 📄 **Read:** [references/data-binding.md](references/data-binding.md)
 - Local and remote data binding
 - ORM and custom adaptor implementation
 - Loading data from various sources
 
-**Observables Data**
+### Adaptors for Remote Data
+📄 **Read:** [references/adaptors.md](references/adaptors.md)
+- 7 adaptor types for backend integration
+- UrlAdaptor, ODataV4Adaptor, WebApiAdaptor, GraphQLAdaptor
+- Custom adaptors and RemoteSaveAdaptor
+- Backend configuration examples (C#, Node.js)
+- Request/response format specifications
+- Error handling and adaptor comparison
+
+### Observables Data
 📄 **Read:** [references/observables.md](references/observables.md)
 - RxJS observables integration
 - Async data binding patterns
 - Observable-based event handling
 - Async operators and pipelines
-
-**CRUD Operations & Validation**
-📄 **Read:** [references/persisting-data-in-server.md](references/persisting-data-in-server.md)
-- Server-side data persistence
-- CRUD operation management
-- Batch operations and transactions
-- Offline sync patterns
 
 ### Column Configuration
 
@@ -180,21 +202,18 @@ public data = [
 - Column chooser dialog configuration
 
 ### Row Configuration
-
 📄 **Read:** [references/row.md](references/row.md)
 - Row templates and detail rows
 - Row drag-drop functionality
 - Row spanning and customization
 
 ### Cell-Level Features
-
 📄 **Read:** [references/cell.md](references/cell.md)
 - Cell styling and formatting
 - Cell templates and tooltips
 - Custom CSS and HTML content
 
 ### Module System & Architecture
-
 📄 **Read:** [references/modules.md](references/modules.md)
 - Module imports and dependencies
 - Required service providers
@@ -202,70 +221,60 @@ public data = [
 - Library setup and initialization
 
 ### Editing
-
 📄 **Read:** [references/editing.md](references/editing.md)
 - Cell, inline, dialog, row, and batch editing
 - Data validation and error handling
 - Custom editors and validation rules
 
 ### Sorting
-
 📄 **Read:** [references/sorting.md](references/sorting.md)
 - Single and multi-column sorting
 - Custom sort comparers
 - Sort order and keyboard navigation
 
 ### Filtering
-
 📄 **Read:** [references/filtering.md](references/filtering.md)
 - Filter bar and menu modes
 - Excel-like filtering
 - Custom filters and predicates
 
 ### Searching
-
 📄 **Read:** [references/searching.md](references/searching.md)
 - Global and column-level search
 - Case-sensitive searching
 - Text highlighting
 
 ### Selection
-
 📄 **Read:** [references/selection.md](references/selection.md)
 - Row, cell, and checkbox selection modes
 - Selection events and APIs
 - Programmatic selection
 
 ### Paging
-
 📄 **Read:** [references/paging.md](references/paging.md)
 - Pagination configuration
 - Server-side paging
 - Page navigation APIs
 
 ### Scrolling
-
 📄 **Read:** [references/scrolling.md](references/scrolling.md)
 - Virtual scrolling for large datasets
 - Infinite scroll and lazy loading
 - Height/width management and scroll positioning
 
 ### Frozen Columns
-
 📄 **Read:** [references/frozen-columns.md](references/frozen-columns.md)
 - Freeze rows and columns
 - Fixed visibility configuration
 - Performance optimization
 
 ### Aggregations
-
 📄 **Read:** [references/aggregates.md](references/aggregates.md)
 - Summary calculations (Sum, Avg, Min, Max, Count)
 - Footer templates and child aggregates
 - Aggregate events
 
 ### Export & Print
-
 📄 **Read:** [references/print.md](references/print.md)
 - Print functionality and modes
 - Page setup and column visibility
@@ -289,7 +298,6 @@ public data = [
 - Selected records export
 
 ### User Interface & Interaction
-
 📄 **Read:** [references/toolbar.md](references/toolbar.md)
 - Built-in toolbar items
 - Custom toolbar items and alignment
@@ -306,7 +314,6 @@ public data = [
 - Menu event handling
 
 ### Appearance & Responsiveness
-
 📄 **Read:** [references/adaptive.md](references/adaptive.md)
 - Responsive and adaptive design
 - Mobile optimization
@@ -318,7 +325,6 @@ public data = [
 - Row/cell conditional styling
 
 ### Performance
-
 📄 **Read:** [references/performance-optimization.md](references/performance-optimization.md)
 - Virtual scrolling and lazy loading
 - Pagination for large datasets
@@ -326,7 +332,6 @@ public data = [
 - Query optimization strategies
 
 ### State Management
-
 📄 **Read:** [references/state-persistence.md](references/state-persistence.md)
 - Save and restore grid state
 - LocalStorage integration
@@ -341,7 +346,6 @@ public data = [
 - Remote data binding for FK data
 
 ### Row Drag and Drop
-
 📄 **Read:** [references/row-drag-drop.md](references/row-drag-drop.md)
 - Hierarchical drag-and-drop operations
 - Parent-child relationship updates
@@ -349,17 +353,7 @@ public data = [
 - Drop event validation and constraints
 - Visual feedback during drag operations
 
-### Custom Editors
-
-📄 **Read:** [references/custom-editors.md](references/custom-editors.md)
-- Custom editor component creation
-- Editor lifecycle management
-- Validation in custom editors
-- Custom editor templates
-- Complex data input patterns
-
 ### Validation
-
 📄 **Read:** [references/validation.md](references/validation.md)
 - Built-in and custom validation rules
 - Async validation against server
@@ -369,14 +363,12 @@ public data = [
 - Conditional validation rules
 
 ### Globalization
-
 📄 **Read:** [references/globalization.md](references/globalization.md)
 - Localization and language support
 - RTL (Right-to-Left) support
 - Cultural formatting and date/number formats
 
 ### Loading Animation
-
 📄 **Read:** [references/loading-animation.md](references/loading-animation.md)
 - Loading spinner configuration
 - Custom loading templates

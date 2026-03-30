@@ -104,7 +104,7 @@ Syncfusion provides multiple themes:
 
 ### Alternative: CRG (Custom Resource Generator)
 
-For combined component styles, use [Syncfusion CRG](https://crg.syncfusion.com):
+For combined component styles, use Syncfusion CRG:
 1. Select File Manager and required components
 2. Generate a combined CSS file
 3. Import the generated file in your project
@@ -134,7 +134,7 @@ import { FileManagerModule } from '@syncfusion/ej2-angular-filemanager';
   </ejs-filemanager>`
 })
 export class AppComponent {
-  public hostUrl: string = 'https://ej2-aspcore-service.azurewebsites.net/';
+  public hostUrl: string = 'url';
   public ajaxSettings: object = {
     url: this.hostUrl + 'api/FileManager/FileOperations'
   };
@@ -158,7 +158,7 @@ import { Component } from '@angular/core';
   </ejs-filemanager>`
 })
 export class AppComponent {
-  public hostUrl: string = 'https://ej2-aspcore-service.azurewebsites.net/';
+  public hostUrl: string = 'url';
   public ajaxSettings: object = {
     url: this.hostUrl + 'api/FileManager/FileOperations'
   };
@@ -173,7 +173,7 @@ The `ajaxSettings` property defines server endpoints for file operations:
 
 ```typescript
 public ajaxSettings: object = {
-  url: 'https://your-server.com/api/FileManager/FileOperations'
+  url: 'url'
 };
 ```
 
@@ -184,16 +184,16 @@ Configure all available endpoints:
 ```typescript
 public ajaxSettings: object = {
   // Main file operations endpoint (read, create, delete, rename, move, copy)
-  url: 'https://your-server.com/api/FileManager/FileOperations',
+  url: 'url',
   
   // Download endpoint (for file downloads and multi-file ZIP downloads)
-  downloadUrl: 'https://your-server.com/api/FileManager/Download',
+  downloadUrl: 'url',
   
   // Upload endpoint (for file uploads)
-  uploadUrl: 'https://your-server.com/api/FileManager/Upload',
+  uploadUrl: 'url',
   
   // Image preview endpoint (for displaying image thumbnails)
-  getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+  getImageUrl: 'url'
 };
 ```
 
@@ -293,7 +293,7 @@ export class AppComponent {
   public ajaxSettings?: object;
   public navigationPaneSettings?: object;
   public toolbarSettings?: object;
-  public hostUrl: string = 'https://ej2-aspcore-service.azurewebsites.net/';
+  public hostUrl: string = 'url';
 
   public ngOnInit(): void {
     this.ajaxSettings = {
