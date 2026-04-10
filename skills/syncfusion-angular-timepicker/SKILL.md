@@ -1,8 +1,8 @@
 ---
 name: syncfusion-angular-timepicker
-description: Comprehensive guide for implementing the Syncfusion Angular TimePicker component. Use this when working with time selection inputs, time formatting, or timepicker event handling in Angular applications. Covers TimePicker API, styling, methods, and accessibility patterns."
+description: Comprehensive guide for implementing the Syncfusion Angular TimePicker component. Use this when working with time selection inputs, time formatting, or timepicker event handling in Angular applications. Covers TimePicker API, styling, methods, and accessibility patterns.
 metadata:
-  author: "Syncfusion Inc
+  author: "Syncfusion Inc"
   category: "Calendars"
   version: "33.1.44"
 ---

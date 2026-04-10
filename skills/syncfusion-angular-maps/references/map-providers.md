@@ -53,7 +53,7 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
 })
 export class AppComponent {
   // OpenStreetMap standard tile server
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
 }
 ```
 
@@ -69,13 +69,13 @@ Use alternative OSM tile servers for different styles:
 ```typescript
 export class OsmVariantsComponent {
   // Standard OSM
-  public osmStandard: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public osmStandard: string = 'your URL link';
   
   // OSM Humanitarian style
-  public osmHumanitarian: string = 'https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+  public osmHumanitarian: string = 'your URL link';
   
   // OSM Transport
-  public osmTransport: string = 'https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=YOUR_API_KEY';
+  public osmTransport: string = 'your URL link';
   
   // Current active template
   public urlTemplate: string = this.osmStandard;
@@ -114,21 +114,10 @@ import { Component } from '@angular/core';
           <e-layer [urlTemplate]="urlTemplate"></e-layer>
         </e-layers>
       </ejs-maps>
-      
-      <!-- OSM Attribution (Required) -->
-      <div style="position: absolute; 
-                  bottom: 10px; 
-                  right: 10px; 
-                  background: rgba(255,255,255,0.8); 
-                  padding: 5px; 
-                  font-size: 10px;">
-        © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors
-      </div>
-    </div>
   `
 })
 export class AppComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
 }
 ```
 
@@ -175,7 +164,7 @@ import { MapsModule, ILoadEventArgs } from '@syncfusion/ej2-angular-maps';
 export class AppComponent {
   public onLoad(args: ILoadEventArgs): void {
     // Replace YOUR_BING_MAPS_KEY with your actual key
-    const bingUrl = 'https://dev.virtualearth.net/REST/V1/Imagery/Metadata/Aerial?output=json&uriScheme=https&key=YOUR_BING_MAPS_KEY';
+    const bingUrl = 'your URL link';
     
     args.maps.getBingUrlTemplate(bingUrl).then((url: string) => {
       args.maps.layers[0].urlTemplate = url;
@@ -238,7 +227,7 @@ export class AppComponent {
   }
   
   private loadBingMap(mapsInstance: any, mapType: string): void {
-    const bingUrl = `https://dev.virtualearth.net/REST/V1/Imagery/Metadata/${mapType}?output=json&uriScheme=https&key=${this.bingApiKey}`;
+    const bingUrl = 'your URL link';
     
     mapsInstance.getBingUrlTemplate(bingUrl).then((url: string) => {
       mapsInstance.layers[0].urlTemplate = url;
@@ -292,15 +281,7 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
 })
 export class AppComponent {
   // Replace YOUR_AZURE_MAPS_KEY with your subscription key
-  public urlTemplate: string = 
-    'https://atlas.microsoft.com/map/imagery/png?' +
-    'subscription-key=YOUR_AZURE_MAPS_KEY' +
-    '&api-version=1.0' +
-    '&style=satellite' +
-    '&zoom={z}' +
-    '&x={x}' +
-    '&y={y}';
-}
+  public urlTemplate: string = 'your URL link';
 ```
 
 ### Azure Map Styles
@@ -310,23 +291,19 @@ Azure Maps provides multiple pre-defined styles:
 ```typescript
 export class AzureMapStylesComponent {
   private azureKey: string = 'YOUR_AZURE_MAPS_KEY';
-  private baseUrl: string = 'https://atlas.microsoft.com/map/imagery/png';
+  private baseUrl: string = 'your URL link';
   
   // Satellite imagery
-  public satelliteStyle: string = 
-    `${this.baseUrl}?subscription-key=${this.azureKey}&api-version=1.0&style=satellite&zoom={z}&x={x}&y={y}`;
+  public satelliteStyle: string = 'your URL link';
   
   // Road map style
-  public roadStyle: string = 
-    `${this.baseUrl}?subscription-key=${this.azureKey}&api-version=1.0&style=road&zoom={z}&x={x}&y={y}`;
+  public roadStyle: string = 'your URL link';
   
   // Grayscale road map
-  public grayscaleStyle: string = 
-    `${this.baseUrl}?subscription-key=${this.azureKey}&api-version=1.0&style=grayscale_light&zoom={z}&x={x}&y={y}`;
+  public grayscaleStyle: string = 'your URL link';
   
   // Night mode
-  public nightStyle: string = 
-    `${this.baseUrl}?subscription-key=${this.azureKey}&api-version=1.0&style=night&zoom={z}&x={x}&y={y}`;
+  public nightStyle: string = 'your URL link';
   
   // Current active style
   public urlTemplate: string = this.satelliteStyle;
@@ -360,9 +337,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   // Replace YOUR_TOMTOM_KEY with your TomTom API key
-  // Obtain key from: https://developer.tomtom.com
-  public urlTemplate: string = 
-    'https://api.tomtom.com/map/1/tile/basic/main/{z}/{x}/{y}.png?key=YOUR_TOMTOM_KEY';
+  public urlTemplate: string = 'your URL link';
 }
 ```
 
@@ -373,16 +348,13 @@ export class TomTomStylesComponent {
   private tomtomKey: string = 'YOUR_TOMTOM_KEY';
   
   // Basic style
-  public basic: string = 
-    `https://api.tomtom.com/map/1/tile/basic/main/{z}/{x}/{y}.png?key=${this.tomtomKey}`;
+  public basic: string = 'your URL link';
   
   // Hybrid (satellite + labels)
-  public hybrid: string = 
-    `https://api.tomtom.com/map/1/tile/hybrid/main/{z}/{x}/{y}.png?key=${this.tomtomKey}`;
+  public hybrid: string = 'your URL link';
   
   // Labels only
-  public labels: string = 
-    `https://api.tomtom.com/map/1/tile/labels/main/{z}/{x}/{y}.png?key=${this.tomtomKey}`;
+  public labels: string = 'your URL link';
   
   public urlTemplate: string = this.basic;
 }
@@ -396,20 +368,16 @@ Integrate any tile-based map provider using the URL template pattern:
 export class CustomProviderComponent {
   // Generic template structure
   // Replace with your provider's URL and parameters
-  public urlTemplate: string = 
-    'https://<domain>/<path>/{z}/{x}/{y}.<extension>?<auth_params>';
+  public urlTemplate: string = 'your URL link';
   
   // Example: MapBox (requires API key)
-  public mapboxTemplate: string = 
-    'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=YOUR_MAPBOX_TOKEN';
+  public mapboxTemplate: string = 'your URL link';
   
   // Example: Stamen Terrain (no key required)
-  public stamenTerrain: string = 
-    'https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png';
+  public stamenTerrain: string = 'your URL link';
   
   // Example: CartoDB Positron (no key required)
-  public cartoDBPositron: string = 
-    'https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
+  public cartoDBPositron: string = 'your URL link';
 }
 ```
 
@@ -447,7 +415,7 @@ import { ZoomService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   
   public zoomSettings: object = {
     enable: true,
@@ -495,7 +463,7 @@ import { ZoomService, MarkerService, NavigationLine } from '@syncfusion/ej2-angu
   `
 })
 export class AppComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   
   public zoomSettings: object = {
     enable: true,
@@ -569,7 +537,7 @@ import { usaMap } from './usa-map';  // Your GeoJSON data
   `
 })
 export class AppComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   public usaMap: object = usaMap;
   
   public zoomSettings: object = {
@@ -593,7 +561,7 @@ export class AppComponent {
 public layers: object[] = [
   // Base map
   {
-    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+    urlTemplate: 'your URL link';
   },
   // Country boundaries
   {
@@ -641,7 +609,7 @@ import { MarkerService, Legend } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   
   public legendSettings: object = {
     visible: true,
@@ -694,8 +662,7 @@ import { environment } from '../environments/environment';
 export class SecureMapComponent {
   private apiKey: string = environment.mapApiKey;
   
-  public urlTemplate: string = 
-    `https://api.provider.com/tiles/{z}/{x}/{y}.png?key=${this.apiKey}`;
+  public urlTemplate: string = 'your URL link';
 }
 ```
 
@@ -736,7 +703,7 @@ import { MapsComponent } from '@syncfusion/ej2-angular-maps';
 export class AppComponent {
   @ViewChild('maps') public mapObj!: MapsComponent;
   public errorMessage: string = '';
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   
   public onLoadFailed(args: any): void {
     this.errorMessage = 'Failed to load map tiles. Please check your connection.';
@@ -763,9 +730,9 @@ export class MultiProviderComponent {
   @ViewChild('maps') public mapObj!: MapsComponent;
   
   public providers: any = {
-    osm: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    osm: 'your URL link',
     bing: null,  // Loaded dynamically
-    azure: `https://atlas.microsoft.com/map/imagery/png?subscription-key=${environment.azureKey}&api-version=1.0&style=road&zoom={z}&x={x}&y={y}`
+    azure: 'your URL link';
   };
   
   public currentProvider: string = 'osm';
@@ -782,7 +749,7 @@ export class MultiProviderComponent {
   }
   
   private loadBingMaps(): void {
-    const bingUrl = `https://dev.virtualearth.net/REST/V1/Imagery/Metadata/Road?output=json&uriScheme=https&key=${environment.bingKey}`;
+    const bingUrl = 'your URL link';
     
     this.mapObj.getBingUrlTemplate(bingUrl).then((url: string) => {
       this.providers.bing = url;
@@ -800,7 +767,7 @@ Combine tile maps with custom data overlays:
 
 ```typescript
 export class HybridMapComponent {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   
   // Base tile layer with custom data overlay
   public layers: object[] = [
@@ -838,7 +805,7 @@ Start with basic map, enhance with features:
 
 ```typescript
 export class ProgressiveMapComponent implements OnInit {
-  public urlTemplate: string = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  public urlTemplate: string = 'your URL link';
   public markersLoaded: boolean = false;
   public overlaysLoaded: boolean = false;
   
@@ -877,14 +844,6 @@ export class ProgressiveMapComponent implements OnInit {
 ```
 
 ---
-
-## Next Steps
-
-- **[User Interactions](./user-interactions.md)** - Implement zooming, panning, and tooltips
-- **[Data Visualization](./data-visualization.md)** - Add bubbles, color mapping, and legends
-- **[Customization](./customization.md)** - Customize map appearance and themes
-- **[Advanced Features](./advanced-features.md)** - Export maps and handle events
-- **[Markers](../markers.md)** - Add detailed location markers
 
 For complete API documentation, visit the [Syncfusion Angular Maps API Reference](https://ej2.syncfusion.com/angular/documentation/api/maps/).
 

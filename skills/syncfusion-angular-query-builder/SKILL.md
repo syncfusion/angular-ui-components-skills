@@ -32,12 +32,9 @@ The Syncfusion Angular Query Builder (`ejs-querybuilder`) is a UI component for 
 
 ### Data Binding
 📄 **Read:** [references/data-binding.md](references/data-binding.md)
-- Local data binding (JS arrays, `JsonAdaptor`)
-- Remote data with `DataManager` (OData, OData v4, WebApiAdaptor)
-- Using `getPredicate()` with DataManager for filtering
+- Local data binding with JS arrays (`JsonAdaptor`) — **recommended and safe**
 - Complex/nested data binding with sub-columns
-
-> ⚠️ **Security:** Remote `DataManager` endpoints (OData, WebApiAdaptor, etc.) make live outbound HTTP requests. Always use **HTTPS-only** URLs and ensure endpoints require authentication (e.g., bearer tokens, API keys). Never point a remote adaptor at an unauthenticated or HTTP endpoint in production.
+- ⚠️ Remote `DataManager` (OData, WebApiAdaptor) patterns documented in this reference are **not recommended** — see [Security & Trust Boundary](#security--trust-boundary) below before use
 
 ### Filtering & Rules Management
 📄 **Read:** [references/filtering-and-rules.md](references/filtering-and-rules.md)
@@ -74,7 +71,7 @@ The Syncfusion Angular Query Builder (`ejs-querybuilder`) is a UI component for 
 - Display modes: horizontal (default) vs. vertical (`displayMode`)
 - Summary view (`summaryView`)
 - RTL support (`enableRtl`)
-- State persistence (`enablePersistence`) — stores rules in `localStorage` unencrypted; avoid enabling when rules may contain sensitive data
+- State persistence (`enablePersistence`)
 
 ### Accessibility & Localization
 📄 **Read:** [references/accessibility-and-localization.md](references/accessibility-and-localization.md)
@@ -128,9 +125,8 @@ export class App {
 
 Install with:
 ```bash
-ng add @syncfusion/ej2-angular-querybuilder@<EXACT_VERSION>
+ng add @syncfusion/ej2-angular-querybuilder
 ```
-> ⚠️ **Security:** Replace `<EXACT_VERSION>` with a fully-pinned version number (e.g. `33.1.44`) — no wildcards (`x`, `*`, `~`, `^`). Check the [Syncfusion release notes](https://ej2.syncfusion.com/angular/documentation/release-notes/) to confirm the exact stable version before installing. Wildcard or range specifiers are a supply-chain risk and must not be used.
 
 ---
 
@@ -148,7 +144,6 @@ getSqlQuery(): string {
   return this.qb.getSqlFromRules(this.qb.getRules());
 }
 ```
-> ⚠️ **Security:** The SQL string returned by `getSqlFromRules` is **not safe to concatenate directly into a backend query**. Always use **parameterized queries or prepared statements** server-side to prevent SQL injection attacks. Treat the output as untrusted user input.
 
 ### Pattern 2: Load rules at runtime
 ```typescript
@@ -185,12 +180,12 @@ public showButtons = { ruleDelete: true, groupInsert: true, groupDelete: true, r
 |---|---|---|
 | `[rule]` | RuleModel | Initial query rules to render |
 | `[columns]` | ColumnsModel[] | Column definitions (field, label, type, operators) |
-| `[dataSource]` | object[] / DataManager | Data for auto-column generation and predicate |
+| `[dataSource]` | object[] | Local JS array only — **do not bind to a remote DataManager or arbitrary URL** (see Security section) |
 | `[allowDragAndDrop]` | boolean | Enable drag-and-drop rule/group reordering |
 | `[enableSeparateConnector]` | boolean | Different AND/OR per rule instead of per group |
 | `[enableNotCondition]` | boolean | Show NOT condition toggle on groups |
 | `[summaryView]` | boolean | Show human-readable summary of current query |
-| `[enablePersistence]` | boolean | Persist rules to `localStorage` across refreshes — ⚠️ **avoid for sensitive field values** (stored unencrypted) |
+| `[enablePersistence]` | boolean | Persist rules to localStorage across refreshes |
 | `[enableRtl]` | boolean | Right-to-left layout for RTL languages |
 | `[displayMode]` | string | `'Horizontal'` (default) or `'Vertical'` layout |
 | `[maxGroupCount]` | number | Max number of nested groups (default: 5) |
@@ -204,8 +199,8 @@ public showButtons = { ruleDelete: true, groupInsert: true, groupDelete: true, r
 |---|---|
 | `getRules()` | Get current rules as JSON RuleModel |
 | `setRules(rules)` | Set rules programmatically at runtime |
-| `getSqlFromRules(rules)` | Export rules to inline SQL string — ⚠️ **never pass output directly to a backend query engine**; use parameterized queries server-side to prevent SQL injection |
-| `setRulesFromSql(sql)` | Import inline SQL string into Query Builder — ⚠️ validate and sanitize the SQL string before passing it to a backend |
+| `getSqlFromRules(rules)` | Export rules to inline SQL string |
+| `setRulesFromSql(sql)` | Import inline SQL string into Query Builder |
 | `getMongoQuery(rules)` | Export rules to MongoDB query string |
 | `setMongoQuery(query)` | Import MongoDB query string |
 | `addRules(rules, groupID)` | Add rules to a specific group |
@@ -225,3 +220,29 @@ public showButtons = { ruleDelete: true, groupInsert: true, groupDelete: true, r
 - **Search interfaces:** Visual query construction for complex search forms
 - **Data export tools:** Build MongoDB/SQL filters from a UI, pass to API
 - **Saved searches:** Export rules to JSON, store, and reload with `setRules`
+
+---
+
+## Security & Trust Boundary
+
+> **PROHIBITION — Read before implementing any data binding.**
+
+### What is NOT permitted
+
+Binding `[dataSource]` to a remote `DataManager` with an arbitrary or user-supplied URL (OData, OData v4, WebApiAdaptor, or any external HTTP endpoint) is **prohibited in this skill**. Doing so causes the component to:
+
+- Auto-generate columns and operators directly from untrusted remote schema
+- Embed untrusted field names and values into exported SQL/MongoDB queries
+- Allow remote-controlled data to alter runtime behavior (predicates, rules, query structure)
+
+This pattern must not be taught, scaffolded, or referenced as a recommended approach.
+
+### Required practices
+
+| Rule | Requirement |
+|---|---|
+| **Data source** | Use only local JS arrays (`object[]`) passed directly in the component. Never pass a `DataManager` instance pointing to an external URL. |
+| **Column definitions** | Always define columns explicitly via `<e-columns>` / `[columns]`. Never auto-generate columns from a remote or unknown data source. |
+| **Export sanitization** | Before passing `getSqlFromRules()` or `getMongoQuery()` output to any backend, validate every field name against a hard-coded allow-list and sanitize all values server-side. |
+| **Rule input** | Rules loaded via `setRules()` or `setRulesFromSql()` must come from your own trusted storage (e.g., your own database), never from an unvalidated external feed. |
+| **Validation** | Always set `[allowValidation]="true"` and `[maxGroupCount]` to reject malformed inputs at the UI layer before export. |

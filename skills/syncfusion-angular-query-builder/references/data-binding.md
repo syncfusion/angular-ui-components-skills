@@ -82,7 +82,7 @@ import { QueryBuilderModule } from '@syncfusion/ej2-angular-querybuilder';
 })
 export class App {
   public data: DataManager = new DataManager({
-    url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Orders',
+    url: 'url',
     adaptor: new ODataAdaptor()
   });
 
@@ -101,7 +101,7 @@ export class App {
 import { DataManager, ODataV4Adaptor } from '@syncfusion/ej2-data';
 
 public data: DataManager = new DataManager({
-  url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders',
+  url: 'url',
   adaptor: new ODataV4Adaptor()
 });
 ```
@@ -134,7 +134,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.data = new DataManager({
-      url: 'api/OrderAPI',
+      url: 'url',
       adaptor: new WebApiAdaptor()
     });
     this.importRules = {
@@ -176,7 +176,11 @@ import { ViewChild, Component } from '@angular/core';
 export class App {
   @ViewChild('qb') qb!: QueryBuilderComponent;
 
-  public employeeData = [ /* ...your data array... */ ];
+  public employeeData = [
+    { EmployeeID: 1, FirstName: 'Nancy', Country: 'USA' },
+    { EmployeeID: 2, FirstName: 'Andrew', Country: 'UK' },
+    { EmployeeID: 3, FirstName: 'Janet', Country: 'USA' }
+  ];
   public filteredCount = 0;
 
   filterData(): void {

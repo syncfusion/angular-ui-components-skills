@@ -46,11 +46,10 @@ The **DataManager** is Syncfusion's universal data management module that acts a
 
 ---
 
-## ⚠️ Accepted Security Risk — Third‑Party Data Exposure
+## ⚠️ Security & Trust Boundary
 
-This skill intentionally functions as an integration boundary and interacts with third‑party APIs as part of its core design.
-
-This exposure is an accepted and documented architectural risk.
+- This skill generates code only, the agent does not execute data operations or fetch remote endpoints — all DataManager interactions occur solely within the user's application at runtime.
+- Generated code must treat all third-party API responses as untrusted input, never bind to unvalidated or user-provided URLs, and ensure authentication is enforced on all remote endpoints.
 
 ---
 

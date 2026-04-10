@@ -127,7 +127,7 @@ dataSource = [
 
 // Remote DataManager
 dataSource = new DataManager({ 
-  url: 'https://api.example.com/data', 
+  url: 'url', 
   adaptor: new ODataV4Adaptor() 
 });
 ```
