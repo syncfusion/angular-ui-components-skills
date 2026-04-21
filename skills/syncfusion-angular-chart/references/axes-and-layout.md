@@ -854,3 +854,4 @@ Refer to interactive-features for axis-based interactions like zooming and panni
 | AxisPosition | Label/title position (Inside, Outside) | [axisPosition.md](https://ej2.syncfusion.com/angular/documentation/api/chart/axisPosition) |
 | SkeletonType | DateTime skeleton types | [skeletonType.md](https://ej2.syncfusion.com/angular/documentation/api/chart/skeletonType) |
 | EdgeLabelPlacement | Edge label placement (None, Hide, Shift) | [edgeLabelPlacement.md](https://ej2.syncfusion.com/angular/documentation/api/chart/edgeLabelPlacement) |
+
