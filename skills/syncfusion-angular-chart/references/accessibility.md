@@ -118,9 +118,14 @@ The chart supports comprehensive keyboard navigation:
 **Basic Configuration:**
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { Component } from '@angular/core';
+import { DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts';
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
   selector: 'app-accessible-chart',
   template: `
     <ejs-chart 
@@ -252,7 +257,15 @@ export class KeyboardChartComponent {
 **ARIA Live Region:**
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-accessible-chart',
   template: `
     <div class="chart-wrapper">
       <ejs-chart #chart></ejs-chart>
@@ -275,6 +288,10 @@ export class KeyboardChartComponent {
     }
   `]
 })
+
+export class AccessibleChartComponent {
+ 
+}
 ```
 
 ## Screen Reader Support
@@ -299,7 +316,15 @@ The chart component uses appropriate ARIA attributes:
 **Implementation Example:**
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService, LegendService],
+  standalone: true,
+  selector: 'app-accessible-chart',
   template: `
     <ejs-chart
       role="img"
@@ -447,7 +472,15 @@ export class HighContrastChartComponent {
 Support high contrast themes:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-accessible-chart',
   template: `
     <ejs-chart 
       [theme]='currentTheme'
@@ -534,7 +567,9 @@ export class HighContrastComponent implements OnInit {
 Format numbers according to locale:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
 import { loadCldr, L10n, setCulture } from '@syncfusion/ej2-base';
 
 // Import CLDR data
@@ -546,6 +581,9 @@ import * as timeZoneNames from 'cldr-data/main/de/timeZoneNames.json';
 loadCldr(numberingSystems, gregorian, numbers, timeZoneNames);
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
   selector: 'app-intl-chart',
   template: `
     <select (change)="changeLocale($event.target.value)">
@@ -649,10 +687,15 @@ export class CurrencyChartComponent {
 Support right-to-left languages:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
 import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
 import { enableRtl } from '@syncfusion/ej2-base';
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
   selector: 'app-rtl-chart',
   template: `
     <div [dir]="direction">
@@ -690,6 +733,9 @@ export class RtlChartComponent {
 ### Translating Text Content
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
 import { L10n } from '@syncfusion/ej2-base';
 
 // Load German translations
@@ -721,6 +767,10 @@ L10n.load({
 });
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-accessible-chart',
   template: `
     <ejs-chart [locale]='locale' [zoomSettings]='zoomSettings'>
     </ejs-chart>

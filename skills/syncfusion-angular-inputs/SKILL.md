@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-inputs
-description: A comprehensive guide to implementing Syncfusion Angular Input components, including Uploader, NumericTextBox, TextBox, Signature, CheckBox, OTP Input, RangeSlider, and TextArea. This guide is intended for building Angular applications with file upload UIs supporting async and chunked uploads, drag‑and‑drop functionality, numeric inputs with validation and formatting, text inputs with floating labels and custom adornments, digital signature capture with undo, redo, and export capabilities, checkbox multi‑select and indeterminate states, seamless form integration, accessibility compliance, one‑time password (OTP) inputs, programmatic row adjustments, and slider tick customization and styling.
+description: A comprehensive guide to implementing Syncfusion Angular Input components, including Uploader, NumericTextBox, TextBox, Signature, CheckBox, OTP Input, RangeSlider, TextArea, ColorPicker, MaskedTextBox, and Rating. This guide is intended for building Angular applications with file upload UIs supporting async and chunked uploads, drag‑and‑drop functionality, numeric inputs with validation and formatting, text inputs with floating labels and custom adornments, digital signature capture with undo, redo, and export capabilities, checkbox multi‑select and indeterminate states, seamless form integration, accessibility compliance, one‑time password (OTP) inputs, programmatic row adjustments, slider tick customization and styling, visual color selection with HSV picker and palette support, masked text input for structured data entry, and interactive star rating components.
 metadata:
   author: "Syncfusion Inc"
   version: "33.1.44"
@@ -1798,3 +1798,653 @@ export class AppComponent {
 ```html
 <ejs-textarea floatLabelType="Auto" placeholder="Description"></ejs-textarea>
 ```
+
+## ColorPicker
+
+The Syncfusion Angular ColorPicker lets users pick colors via a visual picker (HSV + opacity) or a palette of swatches. It renders as a SplitButton by default (opens a popup) or inline, and supports RGB, HSV, and Hex color formats.
+
+**Package:** `@syncfusion/ej2-angular-inputs`  
+**Component:** `<ejs-input ejs-colorpicker type="color">`
+
+### Navigation Guide
+
+#### Getting Started
+📄 **Read:** [references/getting-started.md](references/colorpicker-getting-started.md)
+- Installation with Vite or Angular CLI
+- npm package setup
+- CSS theme imports
+- Minimal working example
+- Running the application
+
+#### Modes and Color Value
+📄 **Read:** [references/modes-and-value.md](references/colorpicker-modes-and-value.md)
+- Inline rendering vs popup (SplitButton)
+- Picker mode vs Palette mode
+- Setting initial color value (hex codes)
+- Opacity support
+- Rendering palette alone (locking mode)
+
+#### Palette Features
+📄 **Read:** [references/palette-features.md](references/colorpicker-palette-features.md)
+- Custom color palettes (`presetColors`)
+- Custom palette tile rendering (`beforeTileRender`)
+- No-color / clear color support (`noColor`)
+- Custom no-color option
+- Recent colors display (`showRecentColors`)
+- Palette column count (`columns`)
+
+#### UI Customization
+📄 **Read:** [references/ui-customization.md](references/colorpicker-ui-customization.md)
+- Hide the input value area
+- Custom picker handle
+- Custom primary button with icon
+- Display hex code in input element
+- Hide control buttons (Apply/Cancel)
+- CSS class overrides and Theme Studio
+- Excel-like custom UI with SplitButton and Dialog
+
+#### Integration and Advanced
+📄 **Read:** [references/integration-and-advanced.md](references/colorpicker-integration-and-advanced.md)
+- Embedding ColorPicker in a DropDownButton
+- Popup toggle control
+- State persistence across page reloads
+- Mode switcher visibility and events
+- Disabled state
+
+#### Localization and RTL
+📄 **Read:** [references/localization-and-rtl.md](references/colorpicker-localization-and-rtl.md)
+- Localizing Apply / Cancel / ModeSwitcher labels
+- Loading translation objects with `L10n`
+- Right-to-left rendering (`enableRtl`)
+
+#### Accessibility
+📄 **Read:** [references/accessibility.md](references/colorpicker-accessibility.md)
+- WCAG 2.2 / Section 508 compliance
+- WAI-ARIA attributes
+- Keyboard navigation shortcuts
+- Accessibility validation
+
+#### API Reference
+📄 **Read:** [references/api.md](references/colorpicker-api.md)
+- All properties with types and defaults
+- All methods with signatures
+- All events with payload types
+
+---
+
+### Quick Start
+
+```bash
+npm install @syncfusion/ej2-angular-inputs --save
+```
+
+```css
+/* src/styles.css */
+@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css";
+```
+
+```ts
+import { Component } from '@angular/core';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div id="container">
+      <div class="wrap">
+        <h4>Choose Color</h4>
+        <ejs-input ejs-colorpicker type="color" id="color-picker"></ejs-colorpicker>
+      </div>
+    </div>
+  `,
+  standalone: true,
+  imports: [ ColorPickerModule]
+})
+export class AppComponent {}
+```
+
+---
+
+### Common Patterns
+
+#### Inline picker (no popup)
+```html
+<ejs-input ejs-colorpicker type="color" [inline]="true" [showButtons]="false"></ejs-colorpicker>
+```
+
+#### Palette-only mode
+```html
+<ejs-input ejs-colorpicker type="color" mode="Palette" [modeSwitcher]="false" [showButtons]="false"></ejs-colorpicker>
+```
+
+#### Set initial color + handle changes
+```ts
+import { Component } from '@angular/core';
+import { ColorPickerEventArgs, ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ejs-input ejs-colorpicker type="color" [value]="colorValue" (change)="onChange($event)"></ejs-colorpicker>
+  `,
+  standalone: true,
+  imports: [ ColorPickerModule]
+})
+export class AppComponent {
+  public colorValue: string = '#ff5733';
+
+  public onChange(args: ColorPickerEventArgs): void {
+    console.log(args.currentValue.hex);  // e.g. "#ff5733"
+    console.log(args.currentValue.rgba); // e.g. "rgba(255,87,51,1)"
+  }
+}
+```
+
+#### Custom palette with preset colors
+```ts
+import { Component } from '@angular/core';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ejs-input ejs-colorpicker type="color"
+      mode="Palette"
+      [presetColors]="presets"
+      [columns]="4"
+      [modeSwitcher]="false"
+      [inline]="true"
+      [showButtons]="false"
+    ></ejs-colorpicker>
+  `,
+  standalone: true,
+  imports: [ ColorPickerModule]
+})
+export class AppComponent {
+  public presets: { [key: string]: string[] } = {
+    brand: ['#0078d4', '#106ebe', '#005a9e', '#004578'],
+    accents: ['#e81123', '#ff8c00', '#00b294', '#68217a']
+  };
+}
+```
+
+#### Disable opacity slider
+```html
+<ejs-input ejs-colorpicker type="color" [enableOpacity]="false"></ejs-colorpicker>
+```
+
+#### No-color support (clear selection)
+```html
+<ejs-input ejs-colorpicker type="color"
+  mode="Palette"
+  [noColor]="true"
+  [modeSwitcher]="false"
+  [showButtons]="false"
+></ejs-colorpicker>
+```
+
+#### Localization (German)
+```ts
+import { Component } from '@angular/core';
+import { L10n } from '@syncfusion/ej2-base';
+import { ColorPickerModule } from '@syncfusion/ej2-angular-inputs';
+
+L10n.load({
+  'de-DE': {
+    colorpicker: {
+      Apply: 'Anwenden',
+      Cancel: 'Abbrechen',
+      ModeSwitcher: 'Modus wechseln'
+    }
+  }
+});
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ejs-input ejs-colorpicker type="color" locale="de-DE"></ejs-colorpicker>
+  `,
+  standalone: true,
+  imports: [ ColorPickerModule]
+})
+export class AppComponent {}
+```
+
+---
+
+### Key Props
+
+| Prop | Type | Default | Purpose |
+|------|------|---------|---------|
+| `value` | `string` | `'#008000ff'` | Initial color (3/4/6/8 digit hex) |
+| `mode` | `'Picker' \| 'Palette'` | `'Picker'` | Which panel to show initially |
+| `inline` | `boolean` | `false` | Render component directly (no popup) |
+| `showButtons` | `boolean` | `true` | Show Apply/Cancel buttons |
+| `modeSwitcher` | `boolean` | `true` | Show mode switcher button |
+| `noColor` | `boolean` | `false` | Add a "no color" tile to palette |
+| `presetColors` | `object` | `null` | Custom color groups for palette |
+| `columns` | `number` | `10` | Palette columns count |
+| `enableOpacity` | `boolean` | `true` | Show opacity slider |
+| `showRecentColors` | `boolean` | `false` | Show recent color tiles (palette only) |
+| `disabled` | `boolean` | `false` | Disable the component |
+| `cssClass` | `string` | `''` | Custom CSS class on root element |
+| `enableRtl` | `boolean` | `false` | Right-to-left rendering |
+| `locale` | `string` | `''` | Locale string for localization |
+
+## MaskedTextBox
+
+The Syncfusion Angular MaskedTextBox component enforces a specific input format by applying a mask pattern, guiding users to enter data in the correct structure. It is ideal for phone numbers, postal codes, dates, IP addresses, product keys, and any scenario where input must follow a predefined format.
+
+### Navigation Guide
+
+#### Getting Started
+📄 **Read:** [references/getting-started.md](references/maskedtextbox-getting-started.md)
+- Installation via npm (`@syncfusion/ej2-angular-inputs`)
+- Angular module setup with `MaskedTextBoxModule`
+- CSS imports for theming
+- Rendering a basic MaskedTextBox
+- Setting the `mask` property for format enforcement
+
+#### Mask Configuration
+📄 **Read:** [references/mask-configuration.md](references/maskedtextbox-mask-configuration.md)
+- Standard mask element tokens (0, 9, #, L, ?, &, C, A, a, <, >, |, \)
+- Custom characters via `customCharacters` property
+- Regular expression masks for flexible patterns (e.g., IP addresses)
+- Prompt character customization via `promptChar`
+
+#### Adornments (Prepend / Append Elements)
+📄 **Read:** [references/adornments.md](references/maskedtextbox-adornments.md)
+- Adding icons or buttons before/after the input with ng-template
+- Entry guidance, quick actions, and context labels
+- Template binding examples
+
+#### Angular Integration
+📄 **Read:** [references/angular-integration.md](references/maskedtextbox-angular-integration.md)
+- Two-way binding with ngModel
+- Reactive forms with FormControl
+- Component lifecycle hooks (ngOnInit, ngOnDestroy)
+- Handling the `change` event in Angular components
+- Template reference variables for programmatic access
+
+#### Style, Appearance & Customization
+📄 **Read:** [references/style-and-customization.md](references/maskedtextbox-style-and-customization.md)
+- Custom styling with `cssClass`
+- CSS overrides for wrapper, hover, and focus states
+- Setting cursor position on focus using the `focus` event (`selectionStart`, `selectionEnd`)
+- Displaying numeric keypad on mobile with `type="tel"`
+- `floatLabelType` options (Never, Always, Auto)
+
+#### Form Validation
+📄 **Read:** [references/form-validation.md](references/maskedtextbox-form-validation.md)
+- Integrating with Syncfusion `FormValidator`
+- Defining custom validation rules
+- Custom error placement with `customPlacement`
+- Checking for incomplete masked values using `promptChar`
+
+#### API Reference
+📄 **Read:** [references/api.md](references/maskedtextbox-api.md)
+- All properties: `mask`, `value`, `placeholder`, `floatLabelType`, `promptChar`, `customCharacters`, `cssClass`, `enabled`, `readonly`, `showClearButton`, `enableRtl`, `enablePersistence`, `htmlAttributes`, `locale`, `width`
+- Methods: `focusIn()`, `focusOut()`, `getMaskedValue()`, `destroy()`, `getPersistData()`
+- Events: `change`, `focus`, `blur`, `created`, `destroyed`
+
+### Quick Start
+
+#### app.module.ts
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { MaskedTextBoxModule } from '@syncfusion/ej2-angular-inputs';
+
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, MaskedTextBoxModule],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+#### app.component.ts
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  mask: string = '000-000-0000';
+}
+```
+
+#### app.component.html
+
+```html
+<ejs-maskedtextbox
+  [mask]="mask"
+  placeholder="Enter phone number"
+  floatLabelType="Auto">
+</ejs-maskedtextbox>
+```
+
+### Common Patterns
+
+#### Phone Number Input
+```html
+<ejs-maskedtextbox
+  mask="000-000-0000"
+  placeholder="Phone"
+  floatLabelType="Always">
+</ejs-maskedtextbox>
+```
+
+#### IP Address with Regex Mask
+```html
+<ejs-maskedtextbox
+  mask="[0-2][0-9][0-9].[0-2][0-9][0-9].[0-2][0-9][0-9].[0-2][0-9][0-9]"
+  placeholder="IP Address (ex: 212.212.111.222)"
+  floatLabelType="Always">
+</ejs-maskedtextbox>
+```
+
+#### Custom AM/PM Time Input
+```typescript
+// app.component.ts
+export class AppComponent {
+  customChars: { [key: string]: string } = {
+    P: 'P,A,p,a',
+    M: 'M,m'
+  };
+}
+```
+
+```html
+<!-- app.component.html -->
+<ejs-maskedtextbox
+  mask="00:00 >PM"
+  [customCharacters]="customChars"
+  placeholder="Time (ex: 10:00 PM)"
+  floatLabelType="Always">
+</ejs-maskedtextbox>
+```
+
+#### Read Masked Value Programmatically
+```typescript
+// app.component.ts
+import { ViewChild } from '@angular/core';
+
+export class AppComponent {
+  @ViewChild('maskInput') maskInput: any;
+
+  getMaskedValue(): void {
+    const maskedVal = this.maskInput.getMaskedValue(); // e.g., "123-456-7890"
+    const rawVal = this.maskInput.value;               // e.g., "1234567890"
+  }
+}
+```
+
+```html
+<!-- app.component.html -->
+<ejs-maskedtextbox
+  #maskInput
+  mask="000-000-0000"
+  placeholder="Phone">
+</ejs-maskedtextbox>
+```
+
+#### Two-Way Binding with ngModel
+```typescript
+// app.component.ts
+export class AppComponent {
+  phone: string = '';
+
+  onPhoneChange(event: any): void {
+    console.log('Phone changed to:', this.phone);
+  }
+}
+```
+
+```html
+<!-- app.component.html -->
+<ejs-maskedtextbox
+  [(ngModel)]="phone"
+  mask="000-000-0000"
+  (change)="onPhoneChange($event)"
+  placeholder="Phone"
+  floatLabelType="Auto">
+</ejs-maskedtextbox>
+```
+
+## Rating
+
+The Syncfusion Angular `Rating` component lets users select a rating value from a set of visual symbols (stars by default). It supports **precision modes**, **custom templates**, **tooltips**, **labels**, **reset**, **read-only/disabled** states, full **accessibility** compliance, and rich CSS customization.
+
+**Package:** `@syncfusion/ej2-angular-inputs`
+
+---
+
+### Navigation Guide
+
+#### Getting Started
+📄 **Read:** [references/getting-started.md](references/rating-getting-started.md)
+- Installing `@syncfusion/ej2-angular-inputs`
+- CSS theme imports for Tailwind3
+- Minimal `Rating` component setup in AppModule
+- Setting the initial `value` property
+- Running the Angular app
+
+#### Selection and Reset
+📄 **Read:** [references/selection.md](references/rating-selection.md)
+- Setting a rating value with `value`
+- Minimum rating value with `min`
+- Single-selection mode with `enableSingleSelection`
+- Show/hide reset button with `allowReset`
+- Programmatic `reset()` method
+
+#### Precision Modes
+📄 **Read:** [references/precision-modes.md](references/rating-precision-modes.md)
+- `PrecisionType.Full` — whole number increments
+- `PrecisionType.Half` — 0.5 increments
+- `PrecisionType.Quarter` — 0.25 increments
+- `PrecisionType.Exact` — 0.1 increments
+- Combining precision with initial value
+
+#### Appearance and Customization
+📄 **Read:** [references/appearance.md](references/rating-appearance.md)
+- Controlling item count with `itemsCount`
+- Disabling the component with `disabled`
+- Hiding/showing the component with `visible`
+- Read-only mode with `readOnly`
+- CSS customization with `cssClass` (border color, fill color, item spacing, icon)
+- Changing rating icon via CSS
+
+#### Labels
+📄 **Read:** [references/labels.md](references/rating-labels.md)
+- Showing the current value label with `showLabel`
+- `labelPosition` options: Top, Bottom, Left, Right
+- Custom label content with `labelTemplate`
+
+#### Tooltip
+📄 **Read:** [references/tooltip.md](references/rating-tooltip.md)
+- Enabling tooltips with `showTooltip`
+- Custom tooltip content with `tooltipTemplate`
+- Tooltip appearance via `cssClass`
+
+#### Templates
+📄 **Read:** [references/templates.md](references/rating-templates.md)
+- `emptyTemplate` for unrated items
+- `fullTemplate` for rated items
+- Emoji rating symbols
+- SVG icon rating symbols
+- PNG image rating symbols
+- Precision support in templates via `--rating-value`
+
+#### Events
+📄 **Read:** [references/events.md](references/rating-events.md)
+- `beforeItemRender` — customize items before render
+- `created` — after component initialization
+- `onItemHover` — track hovered items
+- `valueChanged` — react to user rating changes
+
+#### Accessibility
+📄 **Read:** [references/accessibility.md](references/rating-accessibility.md)
+- WCAG 2.2 / Section 508 / ADA compliance
+- WAI-ARIA attributes (`role=slider`, `aria-valuemin/max/now`)
+- Keyboard navigation shortcuts
+- RTL support with `enableRtl`
+- Screen reader support
+
+#### API Reference
+📄 **Read:** [references/api.md](references/rating-api.md)
+- All properties, methods, and events with types and defaults
+- `RatingItemEventArgs`, `RatingHoverEventArgs`, `RatingChangedEventArgs`
+- `LabelPosition` and `PrecisionType` enums
+
+---
+
+### Quick Start
+
+```bash
+npm install @syncfusion/ej2-angular-inputs --save
+```
+
+```css
+/* src/styles.css */
+@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css";
+```
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RatingModule } from '@syncfusion/ej2-angular-inputs';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, RatingModule],
+  bootstrap: [AppComponent],
+})
+export class AppModule { }
+```
+
+```html
+<!-- src/app.component.html -->
+<input ejs-rating id="rating" [value]="3"></ejs-rating>
+```
+
+---
+
+### Common Patterns
+
+#### Rating with value change handler
+```typescript
+import { Component } from '@angular/core';
+import { RatingModule } from '@syncfusion/ej2-angular-inputs';
+import { RatingChangedEventArgs } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `<input ejs-rating id="rating" [value]="rating" (valueChanged)="onValueChanged($event)"></ejs-rating>`,
+  standalone: true,
+  imports: [RatingModule],
+})
+export class AppComponent {
+  rating: number = 3;
+
+  onValueChanged(args: RatingChangedEventArgs) {
+    this.rating = args.value;
+  }
+}
+```
+
+#### Half-precision rating with label
+```typescript
+import { Component } from '@angular/core';
+import { RatingModule, PrecisionType } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <input ejs-rating
+      id="rating"
+      [value]="3.5"
+      [precision]="precision"
+      [showLabel]="true"
+    ></ejs-rating>
+  `,
+  standalone: true,
+  imports: [RatingModule],
+})
+export class AppComponent {
+  precision = PrecisionType.Half;
+}
+```
+
+#### Read-only rating (display only)
+```typescript
+import { Component } from '@angular/core';
+import { RatingModule } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <input ejs-rating
+      id="rating"
+      [value]="4"
+      [readOnly]="true"
+      [showTooltip]="false"
+    ></ejs-rating>
+  `,
+  standalone: true,
+  imports: [RatingModule],
+})
+export class AppComponent { }
+```
+
+#### Rating with reset button
+```typescript
+import { Component } from '@angular/core';
+import { RatingModule } from '@syncfusion/ej2-angular-inputs';
+
+@Component({
+  selector: 'app-root',
+  template: `<input ejs-rating id="rating" [value]="3" [allowReset]="true"></ejs-rating>`,
+  standalone: true,
+  imports: [RatingModule],
+})
+export class AppComponent { }
+```
+
+---
+
+### Key Properties at a Glance
+
+| Property | Type | Default | Purpose |
+|----------|------|---------|---------|
+| `value` | `number` | `0.0` | Current rating value |
+| `itemsCount` | `number` | `5` | Number of rating items |
+| `min` | `number` | `0.0` | Minimum selectable value |
+| `precision` | `PrecisionType \| string` | `Full` | Rating granularity |
+| `allowReset` | `boolean` | `false` | Show reset button |
+| `readOnly` | `boolean` | `false` | Prevent user interaction |
+| `disabled` | `boolean` | `false` | Disable the component |
+| `visible` | `boolean` | `true` | Show/hide the component |
+| `showLabel` | `boolean` | `false` | Show current value label |
+| `labelPosition` | `LabelPosition \| string` | `Right` | Label placement |
+| `showTooltip` | `boolean` | `true` | Show hover tooltips |
+| `enableSingleSelection` | `boolean` | `false` | Only one item selected |
+| `enableAnimation` | `boolean` | `true` | Hover animation |
+| `enableRtl` | `boolean` | `false` | Right-to-left mode |
+| `cssClass` | `string` | `''` | Custom CSS class |
+
+---

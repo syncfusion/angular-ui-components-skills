@@ -193,7 +193,7 @@ export class ARIAChartComponent {
     { x: 'C', y: 20 }
   ];
 
-  onPointClick(args: any) {
+  onPointClick(args: IPointEventArgs) {
     this.screenReaderAnnouncement = 
       `Selected ${args.point.x}: ${args.point.y} units, 
        which is ${args.point.percentage.toFixed(1)}% of total`;
@@ -447,7 +447,7 @@ export class ResponsiveChartComponent {
 })
 export class ResponsiveLegendComponent {
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  onResize(event: IAccResizeEventArgs) {
     this.updateLegendPosition();
   }
 
@@ -488,7 +488,7 @@ export class MobileChartComponent {
     { x: 'C', y: 20 }
   ];
 
-  onTouchPoint(args: any) {
+  onTouchPoint(args: IPointEventArgs) {
     // Larger touch targets for mobile
     console.log('Touch/click detected:', args);
   }
@@ -667,7 +667,7 @@ export class AccessibleChartExampleComponent {
     }
   }
 
-  onPointSelected(args: any) {
+  onPointSelected(args: IPointEventArgs) {
     const item = this.chartData[args.pointIndex];
     this.announcement = `${item.region}: ${item.sales} in sales`;
   }

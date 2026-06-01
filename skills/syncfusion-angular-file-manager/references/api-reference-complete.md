@@ -16,13 +16,17 @@
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `ajaxSettings` | AjaxSettingsModel | - | Specifies the AJAX settings for server-side file operations (URLs for file operations, upload, download, getImage) |
-| `fileSystemData` | Object[] | - | Array of file/folder data for client-side binding (alternative to ajaxSettings) |
+| `fileSystemData` | { [key: string]: Object }[] | - | Array of file/folder data for client-side binding (alternative to ajaxSettings) |
 | `path` | string | `/` | Initial directory path to display |
-| `view` | ViewType | `Details` | Initial view mode: 'Details' or 'LargeIcons' |
-| `height` | string \| number | `100%` | Height of the file manager component |
+| `view` | ViewType | `LargeIcons` | Initial view mode: 'Details' or 'LargeIcons' |
+| `height` | string \| number | `400px` | Height of the file manager component |
 | `width` | string \| number | `100%` | Width of the file manager component |
-| `locale` | string | `en-US` | Localization culture (e.g., 'de-DE', 'ja-JP', 'es-ES') |
-| `cssClass` | string | - | Custom CSS class for theming and styling |
+| `locale` | string | `` | Localization culture (e.g., 'de-DE', 'ja-JP', 'es-ES') |
+| `cssClass` | string | `` | Custom CSS class for theming and styling |
+| `rootAliasName` | string | null | Specifies the root folder alias name in file manager |
+| `sortBy` | string | `name` | Specifies the field name being used as the sorting criteria |
+| `sortOrder` | SortOrder | `Ascending` | Specifies the file/folder sorting order ('None', 'Ascending', 'Descending') |
+| `popupTarget` | HTMLElement \| string | null | Specifies the target element in which File Manager's dialog will be displayed |
 
 ### Selection and Multi-Selection
 
@@ -30,13 +34,14 @@
 |----------|------|---------|-------------|
 | `allowMultiSelection` | boolean | `true` | Enable multiple file/folder selection with Ctrl+Click or Shift+Click |
 | `enableRangeSelection` | boolean | `false` | Allow drag-based multiple selection like Windows Explorer |
+| `showItemCheckBoxes` | boolean | `true` | Determines whether to display checkboxes in the file manager |
 | `selectedItems` | string[] | [] | (Read-only) Array of currently selected file/folder IDs or names |
 
 ### File Operations
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `allowDragAndDrop` | boolean | `true` | Enable drag-and-drop file/folder movement |
+| `allowDragAndDrop` | boolean | `false` | Enable drag-and-drop file/folder movement |
 | `uploadSettings` | UploadSettingsModel | - | Configuration for file upload (maxFileSize, minFileSize, autoUpload, allowedExtensions) |
 | `searchSettings` | SearchSettingsModel | - | Search configuration (filterType, allowSearchOnTyping, caseSensitive) |
 
@@ -45,6 +50,8 @@
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `showThumbnail` | boolean | `true` | Display thumbnails for image files |
+| `showFileExtension` | boolean | `true` | Shows or hides the file extension in file manager |
+| `showHiddenItems` | boolean | `false` | Determines whether to show or hide hidden files and folders |
 | `enablePersistence` | boolean | `false` | Persist view, path, and selected items across page reload |
 | `enableVirtualization` | boolean | `false` | Enable UI virtualization for large file sets (1000+ items) |
 | `enableRtl` | boolean | `false` | Enable right-to-left layout for RTL languages |
@@ -302,37 +309,161 @@ interface FileData {
 ### Example FileData Structure
 
 ```typescript
-// Flat structure with parentId
-const flatData: FileData[] = [
+// Basic flat structure with complete fields
+const flatData = [
+  {
+    id: '0',
+    name: 'Files',
+    isFile: false,
+    parentId: undefined,
+    hasChild: true,
+    size: 1779448,
+    type: 'folder',
+    dateCreated: new Date('2023-11-15T19:02:02.3419426+05:30'),
+    dateModified: new Date('2024-01-08T18:16:38.4384894+05:30'),
+    filterPath: ''
+  },
   {
     id: '1',
     name: 'Documents',
     isFile: false,
+    parentId: '0',
     hasChild: true,
-    dateModified: new Date('2024-01-15'),
-    size: 0
+    size: 680786,
+    type: 'folder',
+    dateCreated: new Date('2023-11-15T19:02:02.3419426+05:30'),
+    dateModified: new Date('2024-01-08T16:55:20.9464164+05:30'),
+    filterPath: '\\'
   },
   {
     id: '2',
     name: 'Resume.pdf',
     isFile: true,
     parentId: '1',
+    hasChild: false,
     size: 204800,
-    type: '.pdf',
-    dateModified: new Date('2024-01-10')
+    type: 'pdf',
+    dateCreated: new Date('2023-11-16T10:22:00.0000000+05:30'),
+    dateModified: new Date('2024-01-10T14:30:00.0000000+05:30'),
+    filterPath: '\\Files\\Documents\\'
   },
   {
     id: '3',
     name: 'Photo.jpg',
     isFile: true,
     parentId: '1',
+    hasChild: false,
     size: 2048000,
-    type: '.jpg',
-    imageUrl: '/assets/photo-thumb.jpg',
-    dateModified: new Date('2024-01-05')
+    type: 'jpg',
+    dateCreated: new Date('2023-11-17T08:15:00.0000000+05:30'),
+    dateModified: new Date('2024-01-11T11:45:00.0000000+05:30'),
+    filterPath: '\\Files\\Documents\\'
   }
 ];
 ```
+
+**Note:** All fileData items should include these core fields:
+- `id` - Unique identifier (string)
+- `name` - File/folder name (string)
+- `isFile` - Whether item is a file (boolean)
+- `parentId` - Parent folder ID or undefined for root (string | undefined)
+- `hasChild` - Whether folder has children (boolean)
+- `size` - Size in bytes (number)
+- `type` - File type or 'folder' (string)
+- `dateCreated` - Creation date (Date)
+- `dateModified` - Last modification date (Date)
+- `filterPath` - Hierarchical path (string)
+
+### Flat Data with Permissions (Advanced Example)
+
+```typescript
+// Comprehensive flat data structure with access control permissions
+export class FileManagerComponent {
+  // Define permission object for access control
+  public permission = {
+    copy: false,
+    download: false,
+    write: false,
+    writeContents: false,
+    read: true,
+    upload: false,
+    message: '',
+  };
+
+  public fileSystemData: { [key: string]: Object }[] = [
+    {
+      dateCreated: new Date('2023-11-15T19:02:02.3419426+05:30'),
+      dateModified: new Date('2024-01-08T18:16:38.4384894+05:30'),
+      filterPath: '',
+      hasChild: true,
+      id: '0',
+      isFile: false,
+      name: 'Files',
+      parentId: undefined,
+      size: 1779448,
+      type: 'folder',
+    },
+    {
+      dateCreated: new Date('2023-11-15T19:02:02.3419426+05:30'),
+      dateModified: new Date('2024-01-08T16:55:20.9464164+05:30'),
+      filterPath: '\\',
+      hasChild: true,
+      id: '1',
+      isFile: false,
+      name: 'Documents',
+      parentId: '0',
+      size: 680786,
+      type: 'folder',
+      permission: this.permission,
+    },
+    {
+      dateCreated: new Date('2023-11-16T10:22:00.0000000+05:30'),
+      dateModified: new Date('2024-01-09T14:30:00.0000000+05:30'),
+      filterPath: '\\Files\\Documents\\',
+      hasChild: false,
+      id: '2',
+      isFile: true,
+      name: 'ProjectProposal.pdf',
+      parentId: '1',
+      size: 256000,
+      type: 'pdf',
+    },
+    {
+      dateCreated: new Date('2023-11-17T08:15:00.0000000+05:30'),
+      dateModified: new Date('2024-01-10T11:45:00.0000000+05:30'),
+      filterPath: '\\Files\\Documents\\',
+      hasChild: false,
+      id: '3',
+      isFile: true,
+      name: 'Budget.xlsx',
+      parentId: '1',
+      size: 128000,
+      type: 'xlsx',
+    },
+    {
+      dateCreated: new Date('2023-11-18T14:30:00.0000000+05:30'),
+      dateModified: new Date('2024-01-11T09:20:00.0000000+05:30'),
+      filterPath: '\\Files\\',
+      hasChild: false,
+      id: '4',
+      isFile: true,
+      name: 'README.txt',
+      parentId: '0',
+      size: 4096,
+      type: 'txt',
+    }
+  ];
+}
+```
+
+**Permission Properties Used:**
+- `copy: false` - Disables copying files
+- `download: false` - Disables file downloads  
+- `write: false` - Disables file renaming/editing
+- `writeContents: false` - Disables content modification
+- `read: true` - Allows viewing files
+- `upload: false` - Disables file uploads
+- `message: ''` - Custom restriction message
 
 ---
 
@@ -401,13 +532,33 @@ ajaxSettings = {
 
 ### UploadSettingsModel
 
+Configures file upload behavior and validation for the File Manager component.
+
+**Properties:**
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `allowedExtensions` | `string` | `` | Specifies the extensions of the file types allowed in the file manager component. Pass extensions with comma separators (e.g., ".jpg,.png"). |
+| `autoClose` | `boolean` | `false` | Defines whether to close the upload dialog after uploading all the files. |
+| `autoUpload` | `boolean` | `true` | By default, the FileManager component initiates automatic upload when files are added to the upload queue. Disable this to manipulate files before uploading. The buttons "upload" and "clear" are hidden from the file list when autoUpload is true. |
+| `chunkSize` | `number` | - | Specifies the chunk size (in bytes) to split large files into chunks and upload sequentially. If specified, chunk upload is enabled by default. |
+| `directoryUpload` | `boolean` | `false` | Specifies whether folders (directories) can be browsed and uploaded. When enabled, all folder contents including hierarchy folders and files are uploaded. Supported for: Physical, NodeJS, Azure, and Amazon S3 providers. |
+| `maxFileSize` | `number` | `104857600` | Specifies the maximum allowed file size to be uploaded in bytes. Prevents uploading too large files. |
+| `minFileSize` | `number` | `0` | Specifies the minimum file size to be uploaded in bytes. Prevents uploading empty files and small files. |
+| `sequentialUpload` | `boolean` | `false` | Specifies whether files are uploaded sequentially (one at a time). When enabled, reduces network load for large files. |
+
+**Configuration Example:**
+
 ```typescript
 uploadSettings = {
   maxFileSize: 104857600,           // 100MB in bytes
   minFileSize: 0,
   autoUpload: true,
-  allowedExtensions: ['.jpg', '.png', '.pdf'],
-  directoryUpload: true            // Allow directory upload
+  autoClose: false,
+  allowedExtensions: '.jpg,.png,.pdf',
+  directoryUpload: false,
+  sequentialUpload: false,
+  chunkSize: 5242880                // 5MB chunks for large files
 };
 ```
 
@@ -451,17 +602,19 @@ toolbarSettings = {
   items: [
     'NewFolder', 
     'Upload', 
+    'Cut', 
+    'Copy', 
+    'Paste',
     'Delete', 
     'Download', 
     'Rename', 
     'SortBy', 
-    'View', 
     'Refresh',
-    'Cut', 
-    'Copy', 
-    'Paste',
+    'Selection',
+    'View', 
     'Details'
-  ]
+  ],
+  visible: true
 };
 ```
 
@@ -469,9 +622,10 @@ toolbarSettings = {
 
 ```typescript
 contextMenuSettings = {
-  file: ['Open', 'Download', '|', 'Cut', 'Copy', 'Delete', '|', 'Rename'],
-  folder: ['Open', 'Paste', '|', 'Cut', 'Copy', 'Delete', '|', 'Rename'],
-  layout: ['Refresh', '|', 'Paste', '|', 'NewFolder', 'Upload']
+  file: ['Open', '|', 'Cut', 'Copy', '|', 'Delete', 'Rename', '|', 'Details'],
+  folder: ['Open', '|', 'Cut', 'Copy', 'Paste', '|', 'Delete', 'Rename', '|', 'Details'],
+  layout: ['SortBy', 'View', 'Refresh', '|', 'Paste', '|', 'NewFolder', 'Upload', '|', 'Details', '|', 'SelectAll'],
+  visible: true
 };
 ```
 

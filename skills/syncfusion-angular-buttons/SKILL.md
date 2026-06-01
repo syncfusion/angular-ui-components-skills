@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-buttons
-description: Comprehensive guide for implementing Syncfusion Angular button components including Button, ButtonGroup, DropDownButton, Floating Action Button (FAB), ProgressButton, RadioButton, Switch, Speed Dial, SplitButtons. Use this when implementing and styling these components - covering visual styles (primary, outline, toggle, icon, round, block), grouping, dropdowns with popup items and animations, FAB positioning/scoping, Speed Dial linear/radial action items, progress-enabled buttons, and toggle/radio controls.
+description: Comprehensive guide for implementing Syncfusion Angular button components including Button, ButtonGroup, DropDownButton, Floating Action Button (FAB), ProgressButton, RadioButton, Switch, Speed Dial, SplitButtons, and Chips. Use this when implementing and styling these components - covering visual styles (primary, outline, toggle, icon, round, block), grouping, dropdowns with popup items and animations, FAB positioning/scoping, Speed Dial linear/radial action items, progress-enabled buttons, and toggle/radio controls.
 metadata:
   author: "Syncfusion Inc"
   version: "33.1.44"
@@ -1041,7 +1041,7 @@ The Syncfusion Angular RadioButton (`ejs-radiobutton`) is a form input component
 ### Navigation Guide
 
 #### Getting Started
-📄 **Read:** [references/getting-started.md](references/getting-started.md)
+📄 **Read:** [references/getting-started.md](references/radio-button-getting-started.md)
 - Angular 19+/21 standalone setup
 - Package installation via `ng add`
 - CSS/SCSS theme imports
@@ -1173,7 +1173,7 @@ For the full API, read [`references/api.md`](references/radio-button-api.md).
 
 A comprehensive guide for implementing the Syncfusion Essential JS 2 SplitButton component in Angular applications. Learn to create split buttons with dropdown menus, manage items, handle events, customize styling, and integrate with forms.
 
-## SplitButton Overview
+### SplitButton Overview
 
 The Syncfusion Angular SplitButton component is a versatile UI control that combines a primary button with a dropdown menu:
 
@@ -1190,11 +1190,11 @@ The Syncfusion Angular SplitButton component is a versatile UI control that comb
 
 **Package:** `@syncfusion/ej2-angular-splitbuttons`
 
-## Documentation Navigation
+### Documentation Navigation
 
 Read the following references based on your specific needs:
 
-### Getting Started
+#### Getting Started
 📄 **Read:** [references/getting-started.md](references/split-button-getting-started.md)
 - Package installation and module setup
 - CSS theme imports and dependencies
@@ -1203,7 +1203,7 @@ Read the following references based on your specific needs:
 - Event handler setup
 - Running and testing setup
 
-### Button Items Configuration
+#### Button Items Configuration
 📄 **Read:** [references/button-items-configuration.md](references/split-button-items-configuration.md)
 - ItemModel interface and properties
 - Text and icon configuration
@@ -1213,7 +1213,7 @@ Read the following references based on your specific needs:
 - Dynamic item management
 - Item click event handling
 
-### Events & Methods
+#### Events & Methods
 📄 **Read:** [references/events-and-methods.md](references/split-button-events-and-methods.md)
 - click event (primary button action)
 - select event (item selection from dropdown)
@@ -1224,7 +1224,7 @@ Read the following references based on your specific needs:
 - ViewChild access patterns
 - Event argument types and handling
 
-### Styling & Customization
+#### Styling & Customization
 📄 **Read:** [references/styling-and-customization.md](references/split-button-styling-and-customization.md)
 - CSS class customization (.e-split-button, .e-dropdown-popup)
 - Icon configuration (iconCss, prefix, suffix properties)
@@ -1234,7 +1234,7 @@ Read the following references based on your specific needs:
 - RTL (Right-to-Left) support
 - Custom CSS overrides and sizing
 
-### Templates & Icons
+#### Templates & Icons
 📄 **Read:** [references/templates-and-icons.md](references/split-button-templates-and-icons.md)
 - Icon font libraries (Material Design, Bootstrap, Font Awesome)
 - Icon positioning and sizing
@@ -1244,7 +1244,7 @@ Read the following references based on your specific needs:
 - Multiple icon combinations
 - Icon alignment and spacing
 
-### Popup Behavior & Target Customization
+#### Popup Behavior & Target Customization
 📄 **Read:** [references/popup-positioning.md](references/split-button-popup-positioning.md)
 - Default popup behavior (auto opens below button)
 - `popupWidth` property — fixed popup width
@@ -1254,7 +1254,7 @@ Read the following references based on your specific needs:
 - Grouped items with ListView as target
 - Edge cases: fixed toolbar, modal dialogs, scrollable containers
 
-### Accessibility & Globalization
+#### Accessibility & Globalization
 📄 **Read:** [references/accessibility-and-globalization.md](references/split-button-accessibility-and-globalization.md)
 - WCAG 2.2 and Section 508 compliance
 - ARIA roles and attributes (role="button", aria-haspopup, aria-expanded)
@@ -1264,7 +1264,7 @@ Read the following references based on your specific needs:
 - Localization and locale property usage
 - Language-specific formatting and translations
 
-### Reactive Forms Integration
+#### Reactive Forms Integration
 📄 **Read:** [references/reactive-forms-integration.md](references/split-button-reactive-forms-integration.md)
 - FormControl integration with SplitButton
 - FormGroup and form binding
@@ -1274,7 +1274,7 @@ Read the following references based on your specific needs:
 - Reset and submit patterns
 - Disabled state management
 
-### API Reference
+#### API Reference
 📄 **Read:** [references/api-reference.md](references/split-button-api-reference.md)
 - All 16 official properties: `content`, `items`, `iconCss`, `iconPosition`, `cssClass`, `disabled`, `enableRtl`, `target`, `popupWidth`, `animationSettings`, `closeActionEvents`, `createPopupOnClick`, `enableHtmlSanitizer`, `enablePersistence`, `locale`
 - Official methods: `toggle()`, `addItems()`, `removeItems()`, `focusIn()`, `getPersistData()`, `onPropertyChanged()`
@@ -1283,7 +1283,7 @@ Read the following references based on your specific needs:
 - `SplitButtonIconPosition` enum: `"Left"` | `"Top"`
 - Event arg interfaces: `BeforeOpenCloseMenuEventArgs`, `OpenCloseMenuEventArgs`, `MenuEventArgs`, `ClickEventArgs`
 
-## Quick Start Example
+### Quick Start Example
 
 ```typescript
 // app.component.ts
@@ -1340,9 +1340,9 @@ export class AppComponent {
 }
 ```
 
-## Common Patterns
+### Common Patterns
 
-### Pattern 1: Action Menu with Icons
+#### Pattern 1: Action Menu with Icons
 
 When you need a split button with icon-rich dropdown menu:
 
@@ -1364,7 +1364,7 @@ export class AppComponent {
 }
 ```
 
-### Pattern 2: Conditional Item Enable/Disable
+#### Pattern 2: Conditional Item Enable/Disable
 
 When you need to enable/disable menu items based on application state:
 
@@ -1395,7 +1395,7 @@ export class AppComponent {
 }
 ```
 
-### Pattern 3: Dynamic Item Management
+#### Pattern 3: Dynamic Item Management
 
 When you need to add/remove items at runtime:
 
@@ -1432,7 +1432,7 @@ export class AppComponent {
 }
 ```
 
-### Pattern 4: Item Navigation with URLs
+#### Pattern 4: Item Navigation with URLs
 
 When you need menu items to navigate to different URLs. Note: `ItemModel` only supports `url`; the open-target (`_blank`, `_self`) must be handled in `(select)`:
 
@@ -1456,7 +1456,7 @@ export class AppComponent {
 }
 ```
 
-### Pattern 5: Custom Popup Width and Target
+#### Pattern 5: Custom Popup Width and Target
 
 When you need a fixed popup width or a completely custom popup element:
 
@@ -1501,7 +1501,7 @@ export class AppComponent {
 }
 ```
 
-## Key Props Reference
+### Key Props Reference
 
 | Prop | Type | Description | Example |
 |------|------|-------------|---------|
@@ -1527,9 +1527,9 @@ export class AppComponent {
 | `(beforeItemRender)` | `EventEmitter` | Before each item renders | `(beforeItemRender)="onRender($event)"` |
 | `(created)` | `EventEmitter` | Component created | `(created)="onCreated()"` |
 
-> **⚠️ Note:** `position`, `title` and `open()`/`close()` methods do **not** exist in the official API. Use `toggle()` for programmatic open/close. See [`references/api-reference.md`](references/api-reference.md) for the full authoritative API.
+> **⚠️ Note:** `position`, `title` and `open()`/`close()` methods do **not** exist in the official API. Use `toggle()` for programmatic open/close. See [`references/api-reference.md`](references/split-button-api-reference.md) for the full authoritative API.
 
-## Common Use Cases
+### Common Use Cases
 
 **Use Case 1: Document Toolbar**
 - Primary action (Save), dropdown with Save As, Export, Print
@@ -1565,3 +1565,166 @@ export class AppComponent {
 - Touch-friendly spacing
 - Solution: Use dynamic positioning and responsive CSS
 - Reference: [Popup Positioning](references/split-button-popup-positioning.md) + [Styling & Customization](references/split-button-styling-and-customization.md)
+
+## Chips
+
+The Syncfusion Angular Chips (`ejs-chiplist`) component renders compact, interactive elements representing inputs, attributes, or actions. It supports single/multiple selection, deletion, drag-and-drop, avatars, icons, templates, and rich styling.
+
+### Navigation Guide
+
+#### Getting Started
+📄 **Read:** [references/getting-started.md](references/chips-getting-started.md)
+- Installation and package setup (`@syncfusion/ej2-angular-buttons`)
+- CSS/theme imports
+- Rendering a basic chip or chip list
+- Single chip vs. chip list with `e-chips` / `e-chip`
+- Running the application
+
+#### Types and Selection
+📄 **Read:** [references/types-and-selection.md](references/chips-types-and-selection.md)
+- Four chip types: Input, Choice, Filter, Action
+- Single selection (`selection="Single"`) — choice chips
+- Multiple selection (`selection="Multiple"`) — filter chips
+- Deletable chips (`[enableDelete]="true"`)
+- Pre-selecting chips with `[selectedChips]`
+- Click events (`(click)`) for action chips
+
+#### Customization
+📄 **Read:** [references/customization.md](references/chips-customization.md)
+- Predefined styles: `e-primary`, `e-success`, `e-info`, `e-warning`, `e-danger`
+- Leading icon (`leadingIconCss`, `leadingIconUrl`)
+- Avatar image (`avatarIconCss`) and avatar text (`avatarText`)
+- Trailing icon (`trailingIconCss`, `trailingIconUrl`)
+- Outline chip (`cssClass="e-outline"`)
+- Custom chip template (`template`)
+- `htmlAttributes` for custom HTML attributes
+
+#### Drag and Drop
+📄 **Read:** [references/drag-and-drop.md](references/chips-drag-and-drop.md)
+- Enabling drag and drop (`[allowDragAndDrop]="true"`)
+- Restricting drag area (`dragArea`)
+- Drag events: `dragStart`, `dragging`, `dragStop`
+- Cross-container drag and drop
+
+#### Style Customization
+📄 **Read:** [references/style.md](references/chips-style.md)
+- CSS overrides for chip text, icon, delete button
+- Outline chip border styling
+- Selected chip background and color
+- Avatar text background styling
+- Chip height/size customization
+
+#### Accessibility
+📄 **Read:** [references/accessibility.md](references/chips-accessibility.md)
+- WCAG 2.2, Section 508, ADA compliance
+- WAI-ARIA attributes (`role`, `aria-selected`, `aria-disabled`, etc.)
+- Keyboard navigation shortcuts
+- RTL support, screen reader support
+
+#### API Reference
+📄 **Read:** [references/api.md](references/chips-api.md)
+- All properties: `text`, `chips`, `selection`, `enableDelete`, `cssClass`, `selectedChips`, `enabled`, `enableRtl`, `enablePersistence`, `allowDragAndDrop`, `dragArea`, `htmlAttributes`, `leadingIconCss`, `leadingIconUrl`, `avatarIconCss`, `avatarText`, `trailingIconCss`, `trailingIconUrl`
+- Methods: `add()`, `remove()`, `find()`, `getSelectedChips()`, `select()`, `destroy()`
+- Events: `click`, `beforeClick`, `created`, `delete`, `deleted`, `dragStart`, `dragging`, `dragStop`
+
+### Quick Start
+
+```typescript
+import { Component } from '@angular/core';
+import { ChipListModule } from '@syncfusion/ej2-angular-buttons';
+import { enableRipple } from '@syncfusion/ej2-base';
+
+enableRipple(true);
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ChipListModule],
+  template: `
+    <ejs-chiplist id="chip-list">
+      <e-chips>
+        <e-chip text="Angular"></e-chip>
+        <e-chip text="Vue"></e-chip>
+        <e-chip text="Svelte"></e-chip>
+      </e-chips>
+    </ejs-chiplist>
+  `
+})
+export class AppComponent {}
+```
+
+CSS (`src/styles.css`):
+
+```css
+@import '~@syncfusion/ej2-base/styles/tailwind3.css';
+@import '~@syncfusion/ej2-angular-buttons/styles/tailwind3.css';
+```
+
+### Common Patterns
+
+#### Filter chips (multi-select)
+```html
+<ejs-chiplist selection="Multiple">
+  <e-chips>
+    <e-chip text="Angular"></e-chip>
+    <e-chip text="Vue"></e-chip>
+    <e-chip text="Svelte"></e-chip>
+  </e-chips>
+</ejs-chiplist>
+```
+
+#### Deletable chips with event
+```html
+<ejs-chiplist [enableDelete]="true" (delete)="onChipDelete($event)">
+  <e-chips>
+    <e-chip text="Tag One"></e-chip>
+    <e-chip text="Tag Two"></e-chip>
+  </e-chips>
+</ejs-chiplist>
+```
+
+#### Chips with avatar initials
+```html
+<ejs-chiplist>
+  <e-chips>
+    <e-chip text="Andrew" avatarText="A"></e-chip>
+    <e-chip text="Laura" avatarText="L"></e-chip>
+  </e-chips>
+</ejs-chiplist>
+```
+
+#### Programmatic control (add/remove chips via ViewChild)
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { ChipListComponent, ChipListModule } from '@syncfusion/ej2-angular-buttons';
+
+@Component({
+  selector: 'app-chip-demo',
+  standalone: true,
+  imports: [ChipListModule],
+  template: `
+    <ejs-chiplist #chipList id="chip-list">
+      <e-chips>
+        <e-chip text="Angular"></e-chip>
+        <e-chip text="Vue"></e-chip>
+      </e-chips>
+    </ejs-chiplist>
+  `
+})
+export class ChipDemoComponent {
+  @ViewChild('chipList') chipList?: ChipListComponent;
+
+  addChip() {
+    this.chipList?.add('New Tag');
+  }
+
+  removeFirstChip() {
+    this.chipList?.remove([0]);
+  }
+
+  getSelected() {
+    const selected = this.chipList?.getSelectedChips();
+    console.log(selected);
+  }
+}
+```

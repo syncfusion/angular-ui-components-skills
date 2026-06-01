@@ -29,22 +29,59 @@ The Syncfusion Chart supports four axis value types for mapping different data f
 For continuous numerical data (default type).
 
 **API Properties:**
-- [Axis.valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'Double' (default)
-- [Axis.minimum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minimum) (Object, default: null) - Minimum axis value
-- [Axis.maximum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximum) (Object, default: null) - Maximum axis value
-- [Axis.interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Label interval spacing
-- [Axis.rangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rangePadding) - [ChartRangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/chartRangePadding) enum (None, Normal, Additional, Round, Auto)
-- [Axis.desiredIntervals](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#desiredIntervals) (number, default: null) - Desired number of intervals
+- [valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'Double' (default)
+- [minimum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minimum) (Object, default: null) - Minimum axis value
+- [maximum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximum) (Object, default: null) - Maximum axis value
+- [interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Label interval spacing
+- [rangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rangePadding) - [ChartRangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/chartRangePadding) enum (None, Normal, Additional, Round, Auto)
+- [desiredIntervals](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#desiredIntervals) (number, default: null) - Desired number of intervals
 
 ```typescript
-public primaryYAxis = {
-  valueType: 'Double',  // Default, can be omitted
-  minimum: 0,
-  maximum: 100,
-  interval: 20,
-  rangePadding: 'Normal',
-  title: 'Sales (in USD)'
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { ColumnSeriesService, AreaSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { chartData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ ColumnSeriesService, AreaSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Area' xName='x' yName='y' name='England'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Double',  // Default, can be omitted
+            minimum: 1,
+            maximum: 20,
+            interval: 5,
+            title: 'Overs'
+        };
+        this.chartData = [
+             { x: 1, y: 7 }, { x: 2, y: 1 }, { x: 3, y: 1 },
+             { x: 4, y: 14 }, { x: 5, y: 1 }, { x: 6, y: 10 },
+             { x: 7, y: 8 }, { x: 8, y: 6 }, { x: 9, y: 10 },
+             { x: 10, y: 10 }, { x: 11, y: 16 }, { x: 12, y: 6 },
+             { x: 13, y: 14 }, { x: 14, y: 7 }, { x: 15, y: 5 },
+             { x: 16, y: 2 }, { x: 17, y: 14 }, { x: 18, y: 7 },
+             { x: 19, y: 7 }, { x: 20, y: 10 }
+        ];
+        this.title = 'England - Run Rate';
+    }
+
+}
 ```
 
 ### DateTime Axis
@@ -52,28 +89,55 @@ public primaryYAxis = {
 For time-series data with dates.
 
 **API Properties:**
-- [Axis.valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'DateTime'
-- [Axis.labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) (string, default: '') - Date/time format string
-- [Axis.intervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#intervalType) - [IntervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/intervalType) enum (Years, Months, Days, Hours, Minutes, Seconds, Auto)
-- [Axis.interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Number of intervals
-- [Axis.skeleton](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#skeleton) (string, default: '') - Skeleton format for date labels
-- [Axis.skeletonType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#skeletonType) - [SkeletonType](https://ej2.syncfusion.com/angular/documentation/api/chart/skeletonType) enum (DateTime, Date, Time)
+- [valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'DateTime'
+- [labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) (string, default: '') - Date/time format string
+- [intervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#intervalType) - [IntervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/intervalType) enum (Years, Months, Days, Hours, Minutes, Seconds, Auto)
+- [interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Number of intervals
+- [skeleton](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#skeleton) (string, default: '') - Skeleton format for date labels
+- [skeletonType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#skeletonType) - [SkeletonType](https://ej2.syncfusion.com/angular/documentation/api/chart/skeletonType) enum (DateTime, Date, Time)
 
 ```typescript
-public data = [
-  { date: new Date(2024, 0, 1), sales: 35 },
-  { date: new Date(2024, 1, 1), sales: 28 },
-  { date: new Date(2024, 2, 1), sales: 34 }
-];
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateTimeService, LineSeriesService, DateTimeCategoryService, StripLineService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
 
-public primaryXAxis = {
-  valueType: 'DateTime',
-  labelFormat: 'MMM yyyy',
-  intervalType: 'Months',
-  interval: 1,
-  skeleton: 'yMMM',
-  title: 'Date'
-};
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ DateTimeService, LineSeriesService, DateTimeCategoryService, StripLineService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                 { x: new Date(2000, 6, 11), y: 10 }, { x: new Date(2002, 3, 7), y: 30 },
+                 { x: new Date(2004, 3, 6), y: 15 }, { x: new Date(2006, 3, 30), y: 65 },
+                 { x: new Date(2008, 3, 8), y: 90 }, { x: new Date(2010, 3, 8), y: 85 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'DateTime',
+            title: 'Sales Across Years',
+            labelFormat: 'yMMM'
+        };
+        this.primaryYAxis = {
+           title: 'Sales Amount in millions(USD)'
+        };
+        this.title = 'Average Sales Comparison';
+    }
+
+}
 ```
 
 **Interval Types:** See [IntervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/intervalType)
@@ -89,16 +153,51 @@ public primaryXAxis = {
 For discrete categories (strings or numbers treated as categories).
 
 ```typescript
-public data = [
-  { category: 'Product A', sales: 35 },
-  { category: 'Product B', sales: 28 },
-  { category: 'Product C', sales: 34 }
-];
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
 
-public primaryXAxis = {
-  valueType: 'Category',
-  title: 'Products'
-};
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
 ```
 
 **Features:**
@@ -111,24 +210,56 @@ public primaryXAxis = {
 For data spanning multiple orders of magnitude.
 
 **API Properties:**
-- [Axis.valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'Logarithmic'
-- [Axis.logBase](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#logBase) (number, default: 10) - Base of logarithm (e.g., 2, 10, e)
-- [Axis.interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Interval in log scale
+- [valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType) = 'Logarithmic'
+- [logBase](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#logBase) (number, default: 10) - Base of logarithm (e.g., 2, 10, e)
+- [interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) (number, default: null) - Interval in log scale
 
 ```typescript
-public data = [
-  { x: 1, y: 10 },
-  { x: 2, y: 100 },
-  { x: 3, y: 1000 },
-  { x: 4, y: 10000 }
-];
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { LogarithmicService, DateTimeService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { logData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
 
-public primaryYAxis = {
-  valueType: 'Logarithmic',
-  logBase: 10,
-  interval: 1,
-  title: 'Value (log scale)'
-};
+providers: [ LogarithmicService, LineSeriesService, DateTimeService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='Product X'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: new Date(1995, 0, 1), y: 80 }, { x: new Date(1996, 0, 1), y: 200 },
+            { x: new Date(1997, 0, 1), y: 400 }, { x: new Date(1998, 0, 1), y: 600 },
+            { x: new Date(1999, 0, 1), y: 700 }, { x: new Date(2000, 0, 1), y: 1400 },
+            { x: new Date(2001, 0, 1), y: 2000 }, { x: new Date(2002, 0, 1), y: 4000 },
+            { x: new Date(2003, 0, 1), y: 6000 }, { x: new Date(2004, 0, 1), y: 8000 },
+            { x: new Date(2005, 0, 1), y: 11000 }
+    ];
+        this.primaryXAxis = {
+            valueType: 'DateTime',
+            title: 'Years',
+            labelFormat: 'y'
+        };
+        this.primaryYAxis = {
+           valueType: 'Logarithmic',
+           title: 'Profit',
+           logBase: 2
+        };
+        this.title = 'Product X Growth [1995-2005]';
+    }
+}
 ```
 
 **Use Cases:**
@@ -163,34 +294,109 @@ public primaryYAxis = {
 </ejs-chart>
 ```
 
+**Exmaple**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
+```
+
 ### Secondary Axes
 
 Display series with different scales on opposite sides.
 
 ```typescript
-public primaryYAxis = {
-  title: 'Sales (USD)',
-  minimum: 0,
-  maximum: 100
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { multipleData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
 
-public axes = [{
-  name: 'secondaryY',
-  opposedPosition: true,
-  title: 'Temperature (°C)',
-  minimum: 0,
-  maximum: 50
-}];
-```
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis rowIndex=0 name='yAxis1' opposedPosition='true' title='Temperature (Celsius)' [majorGridLines]='majorGridLines' labelFormat='{value}°C'
+                   [minimum]='24' [maximum]='36' [interval]='2' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' yAxisName='yAxis1' name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public marker?: Object;
+    primaryYAxis: any;
+    lineStyle: any;
+    majorGridLines: any;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+            { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+            { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+            { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
 
-```html
-<ejs-chart [primaryYAxis]="primaryYAxis" [axes]="axes">
-  <e-series-collection>
-    <e-series [dataSource]="salesData" type="Column" xName="month" yName="sales" name="Sales"></e-series>
-    <e-series [dataSource]="tempData" type="Line" xName="month" yName="temp" 
-              yAxisName="secondaryY" name="Temperature"></e-series>
-  </e-series-collection>
-</ejs-chart>
+}
+
 ```
 
 **Key Points:**
@@ -205,34 +411,56 @@ Create charts with more than two Y-axes for complex comparisons.
 ### Multiple Y-Axes
 
 ```typescript
-public primaryYAxis = {
-  name: 'yAxis1',
-  title: 'Revenue (USD)',
-  lineStyle: { width: 0 },
-  majorTickLines: { width: 0 }
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { multipleData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
 
-public axes = [
-  {
-    name: 'yAxis2',
-    opposedPosition: true,
-    title: 'Profit (%)',
-    lineStyle: { width: 0 },
-    majorTickLines: { width: 0 }
-  },
-  {
-    name: 'yAxis3',
-    rowIndex: 1,
-    title: 'Units Sold',
-    lineStyle: { width: 0 }
-  }
-];
-```
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis rowIndex=0 name='yAxis1' opposedPosition='true' title='Temperature (Celsius)' [majorGridLines]='majorGridLines' labelFormat='{value}°C'
+                   [minimum]='24' [maximum]='36' [interval]='2' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' yAxisName='yAxis1' name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public marker?: Object;
+    primaryYAxis: any;
+    lineStyle: any;
+    majorGridLines: any;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+            { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+            { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+            { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }]
+    ;
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
 
-```html
-<e-series [dataSource]="revenue" type="Column" xName="x" yName="y" yAxisName="yAxis1"></e-series>
-<e-series [dataSource]="profit" type="Line" xName="x" yName="y" yAxisName="yAxis2"></e-series>
-<e-series [dataSource]="units" type="Area" xName="x" yName="y" yAxisName="yAxis3"></e-series>
+}
+
 ```
 
 ### Multiple X-Axes
@@ -260,22 +488,69 @@ public axes = [{
 Customize label appearance, rotation, and formatting.
 
 **API Reference:**
-- [Axis.labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) - Label format string
-- [Axis.labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle) - [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel) for label styling
-- [Axis.labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) - Label rotation angle
-- [Axis.labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction) - [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) enum
-- [Axis.labelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPlacement) - [LabelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPlacement) enum
-- [Axis.labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPosition) - [AxisPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axisPosition) enum
+- [labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) - Label format string
+- [labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle) - [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel) for label styling
+- [labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) - Label rotation angle
+- [labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction) - [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) enum
+- [labelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPlacement) - [LabelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPlacement) enum
+- [labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPosition) - [AxisPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axisPosition) enum
 
 ### Label Formatting
 
-**API Property:** [Axis.labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) (string, default: '')
+**API Property:** [labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) (string, default: '')
 
 ```typescript
-public primaryYAxis = {
-  labelFormat: '${value}K',  // Format pattern
-  title: 'Sales'
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { categoryData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' ></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { country: "USA", gold: 50, silver: 70, bronze: 45 },
+            { country: "China", gold: 40, silver: 60, bronze: 55 },
+            { country: "Japan", gold: 70, silver: 60, bronze: 50 },
+            { country: "Australia", gold: 60, silver: 56, bronze: 40 },
+            { country: "France", gold: 50, silver: 45, bronze: 35 },
+            { country: "Germany", gold: 40, silver: 30, bronze: 22 },
+            { country: "Italy", gold: 40, silver: 35, bronze: 37 },
+            { country: "Sweden", gold: 30, silver: 25, bronze: 27 }
+    ];
+        this.primaryXAxis = {
+           valueType: 'Category',
+           title: 'Countries'
+        };
+        this.primaryYAxis = {
+           minimum: 0, maximum: 80,
+           interval: 20, title: 'Medals',
+           labelFormat: '${value}K',  // Format pattern
+           titleStyle: {
+            size: '16px', color: 'grey',
+            fontFamily : 'Segoe UI', fontWeight : 'bold'
+           }
+        };
+        this.title = 'Olympic Medals';
+    }
+
+}
 ```
 
 **Format Patterns:**
@@ -287,10 +562,46 @@ public primaryYAxis = {
 
 **For DateTime:**
 ```typescript
-public primaryXAxis = {
-  valueType: 'DateTime',
-  labelFormat: 'dd MMM'  // 01 Mar
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateTimeService, LineSeriesService, DateTimeCategoryService, StripLineService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ DateTimeService, LineSeriesService, DateTimeCategoryService, StripLineService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                 { x: new Date(2000, 6, 11), y: 10 }, { x: new Date(2002, 3, 7), y: 30 },
+                 { x: new Date(2004, 3, 6), y: 15 }, { x: new Date(2006, 3, 30), y: 65 },
+                 { x: new Date(2008, 3, 8), y: 90 }, { x: new Date(2010, 3, 8), y: 85 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'DateTime',
+            title: 'Sales Across Years',
+            labelFormat: 'yMMM'
+        };
+        this.primaryYAxis = {
+           title: 'Sales Amount in millions(USD)'
+        };
+        this.title = 'Average Sales Comparison';
+    }
+}
 ```
 
 ### Label Rotation
@@ -298,15 +609,57 @@ public primaryXAxis = {
 Rotate labels to fit long text or save space.
 
 **API Properties:**
-- [Axis.labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) (number, default: 0) - Rotation angle in degrees (-90 to 90)
-- [Axis.labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction) - [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) enum (default: 'Trim')
+- [labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) (number, default: 0) - Rotation angle in degrees (-90 to 90)
+- [labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction) - [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) enum (default: 'Trim')
 
 ```typescript
-public primaryXAxis = {
-  valueType: 'Category',
-  labelRotation: -45,  // Degrees (-90 to 90)
-  labelIntersectAction: 'Rotate45'
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries',
+            labelRotation: -45,  // Degrees (-90 to 90)
+            labelIntersectAction: 'Rotate45'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
 ```
 
 **labelIntersectAction Options:** See [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction)
@@ -320,28 +673,112 @@ public primaryXAxis = {
 
 ### Label Styling
 
-**API Property:** [Axis.labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle) - [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel)
+**API Property:** [labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle) - [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel)
 
 ```typescript
-public primaryXAxis = {
-  valueType: 'Category',
-  labelStyle: {
-    fontFamily: 'Arial',
-    size: '14px',
-    fontWeight: 'Bold',
-    color: '#333'
-  }
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries',
+            labelStyle: {
+              fontFamily: 'Arial',
+              size: '14px',
+              fontWeight: 'Bold',
+              color: '#333'
+            }
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
 ```
 
 ### Label Placement
 
 ```typescript
-public primaryYAxis = {
-  labelPlacement: 'OnTicks',  // BetweenTicks or OnTicks
-  labelPosition: 'Outside',  // Inside or Outside
-  title: 'Sales'
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries',
+            labelPlacement: 'OnTicks',  // BetweenTicks or OnTicks
+            labelPosition: 'Outside',  // Inside or Outside
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
 ```
 
 ### Multilevel Labels
@@ -349,27 +786,69 @@ public primaryYAxis = {
 Group categories hierarchically.
 
 ```typescript
-public primaryXAxis = {
-  valueType: 'Category',
-  multiLevelLabels: [
-    {
-      border: { type: 'Rectangle', color: '#333' },
-      categories: [
-        { start: 0, end: 2, text: 'Q1' },
-        { start: 3, end: 5, text: 'Q2' },
-        { start: 6, end: 8, text: 'Q3' },
-        { start: 9, end: 11, text: 'Q4' }
-      ]
-    },
-    {
-      border: { type: 'Brace', color: '#666' },
-      categories: [
-        { start: 0, end: 5, text: 'H1' },
-        { start: 6, end: 11, text: 'H2' }
-      ]
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries',
+            multiLevelLabels: [
+            {
+              border: { type: 'Rectangle', color: '#333' },
+              categories: [
+                { start: 0, end: 2, text: 'Q1' },
+                { start: 3, end: 5, text: 'Q2' },
+                { start: 6, end: 8, text: 'Q3' },
+                { start: 9, end: 11, text: 'Q4' }
+              ]
+            },
+            {
+              border: { type: 'Brace', color: '#666' },
+              categories: [
+                { start: 0, end: 5, text: 'H1' },
+                { start: 6, end: 11, text: 'H2' }
+              ]
+            }
+          ]
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
     }
-  ]
-};
+}
 ```
 
 **Border Types:**
@@ -377,17 +856,57 @@ public primaryXAxis = {
 
 ### Custom Label Template
 
-```html
-<ejs-chart [primaryXAxis]="primaryXAxis">
-  <ng-template #axisLabelTemplate let-data>
-    <div style="background: #f0f0f0; padding: 2px 5px; border-radius: 3px;">
-      {{data.value}}
-    </div>
-  </ng-template>
-  <e-series-collection>
-    <!-- series -->
-  </e-series-collection>
-</ejs-chart>
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+      <ng-template #axisLabelTemplate let-data>
+        <div style="background: #f0f0f0; padding: 2px 5px; border-radius: 3px;">
+          {{data.value}}
+        </div>
+      </ng-template>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
+}
 ```
 
 ## Gridlines and Tick Lines
@@ -406,6 +925,66 @@ public primaryYAxis = {
 };
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { tickData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', y: 60 }, { x: 'Feb', y: 50 }, { x: 'Mar', y: 64 },
+            { x: 'Apr', y: 63 }, { x: 'May', y: 81 }, { x: 'Jun', y: 64 },
+            { x: 'Jul', y: 82 }, { x: 'Aug', y: 96 }, { x: 'Sep', y: 78 },
+            { x: 'Oct', y: 60 }, { x: 'Nov', y: 58 }, { x: 'Dec', y: 56 }
+    ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            majorGridLines : {
+               color : 'blue',
+               width : 1
+            },
+            minorGridLines : {
+               color : 'red',
+               width : 0
+            }
+        };
+        this.primaryYAxis = {
+           title: 'Temperature (Fahrenheit)',
+           majorGridLines : {
+              color : 'blue',
+              width : 1
+           },
+           minorGridLines : {
+              color : 'red',
+              width : 0
+           }
+        };
+        this.title = 'Temperature flow over months';
+    }
+}
+```
+
 ### Minor Gridlines
 
 ```typescript
@@ -416,6 +995,66 @@ public primaryYAxis = {
   },
   minorTicksPerInterval: 4  // Number of minor ticks between major ticks
 };
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { tickData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', y: 60 }, { x: 'Feb', y: 50 }, { x: 'Mar', y: 64 },
+            { x: 'Apr', y: 63 }, { x: 'May', y: 81 }, { x: 'Jun', y: 64 },
+            { x: 'Jul', y: 82 }, { x: 'Aug', y: 96 }, { x: 'Sep', y: 78 },
+            { x: 'Oct', y: 60 }, { x: 'Nov', y: 58 }, { x: 'Dec', y: 56 }
+    ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            majorGridLines : {
+               color : 'blue',
+               width : 1
+            },
+            minorGridLines : {
+               color : 'red',
+               width : 0
+            }
+        };
+        this.primaryYAxis = {
+           title: 'Temperature (Fahrenheit)',
+           majorGridLines : {
+              color : 'blue',
+              width : 1
+           },
+           minorGridLines : {
+              color : 'red',
+              width : 0
+           }
+        };
+        this.title = 'Temperature flow over months';
+    }
+}
 ```
 
 ### Tick Lines
@@ -435,6 +1074,61 @@ public primaryYAxis = {
 };
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { tickData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = tickData;
+        this.primaryXAxis = {
+            valueType: 'Category',
+            majorTickLines : {
+               color : 'blue',
+               width : 5
+            },
+            minorTickLines : {
+               color : 'red',
+               width : 0
+            }
+        };
+        this.primaryYAxis = {
+           title: 'Temperature (Fahrenheit)',
+           majorTickLines : {
+              color : 'blue',
+              width : 5
+           },
+           minorTickLines : {
+              color : 'red',
+              width : 0
+           }
+        };
+        this.title = 'Temperature flow over months';
+    }
+
+}
+```
+
 ### Hide Gridlines
 
 ```typescript
@@ -443,6 +1137,55 @@ public primaryYAxis = {
   majorTickLines: { width: 0 }   // Hide tick lines
 };
 ```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { tickData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', y: 60 }, { x: 'Feb', y: 50 }, { x: 'Mar', y: 64 },
+            { x: 'Apr', y: 63 }, { x: 'May', y: 81 }, { x: 'Jun', y: 64 },
+            { x: 'Jul', y: 82 }, { x: 'Aug', y: 96 }, { x: 'Sep', y: 78 },
+            { x: 'Oct', y: 60 }, { x: 'Nov', y: 58 }, { x: 'Dec', y: 56 }
+    ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            majorGridLines: { width: 0 },  // Hide major gridlines
+            majorTickLines: { width: 0 }   // Hide tick lines
+        };
+        this.primaryYAxis = {
+           title: 'Temperature (Fahrenheit)',
+           majorGridLines: { width: 0 },  // Hide major gridlines
+          majorTickLines: { width: 0 }   // Hide tick lines
+        };
+        this.title = 'Temperature flow over months';
+    }
+}
+```
+
 
 ## Axis Crossing and Inversion
 
@@ -460,6 +1203,55 @@ public primaryYAxis = {
 };
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { categoryData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' ></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { country: "USA", gold: 50, silver: 70, bronze: 45 },
+            { country: "China", gold: 40, silver: 60, bronze: 55 },
+            { country: "Japan", gold: 70, silver: 60, bronze: 50 },
+            { country: "Australia", gold: 60, silver: 56, bronze: 40 },
+            { country: "France", gold: 50, silver: 45, bronze: 35 },
+            { country: "Germany", gold: 40, silver: 30, bronze: 22 },
+            { country: "Italy", gold: 40, silver: 35, bronze: 37 },
+            { country: "Sweden", gold: 30, silver: 25, bronze: 27 }
+    ];
+        this.primaryXAxis = {
+           valueType: 'Category',
+           crossesAt : 15
+        };
+        this.primaryYAxis = {
+          crossesAt : 5
+        };
+        this.title = 'Olympic Medals';
+    }
+
+}
+```
+
 **Use Cases:**
 - Zero-centered charts
 - Positive/negative data visualization
@@ -473,6 +1265,47 @@ Reverse axis direction (high to low).
 public primaryYAxis = {
   isInversed: true  // Invert Y-axis (top to bottom)
 };
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { inverseData } from './datasource';
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [title]='title' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'
+         [legendSettings]='legend'>
+            <e-series-collection>
+                <e-series [dataSource]='data' type='Column' xName='x' yName='y' name='Years' [marker]='marker'>
+                </e-series>
+           </e-series-collection>
+       </ejs-chart>`
+       })
+
+ export class AppComponent {
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public data?: Object[];
+    public title?: string
+    public legend: any;
+    public marker: any;
+
+    ngOnInit(): void {
+    this.primaryYAxis = {
+        isInversed: true
+    };
+    this.data= inverseData;
+    this.title= 'Exchange Rate';
+    }
+}
 ```
 
 **Use Cases:**
@@ -490,6 +1323,52 @@ public primaryYAxis = {
 };
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { tickData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: 'Jan', y: 60 }, { x: 'Feb', y: 50 }, { x: 'Mar', y: 64 },
+                { x: 'Apr', y: 63 }, { x: 'May', y: 81 }, { x: 'Jun', y: 64 },
+                { x: 'Jul', y: 82 }, { x: 'Aug', y: 96 }, { x: 'Sep', y: 78 },
+                { x: 'Oct', y: 60 }, { x: 'Nov', y: 58 }, { x: 'Dec', y: 56 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.primaryYAxis = {
+           title: 'Temperature (Fahrenheit)',
+           opposedPosition: true
+        };
+        this.title = 'Temperature flow over months';
+    }
+
+}
+```
+
 ## Multiple Panes
 
 Split chart area into multiple horizontal sections.
@@ -497,31 +1376,70 @@ Split chart area into multiple horizontal sections.
 ### Row Configuration
 
 ```typescript
-import { Component } from '@angular/core';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  // ...
-})
-export class AppComponent {
-  public rows = [
-    { height: '50%' },
-    { height: '50%' }
-  ];
-  
-  public axes = [
-    { name: 'yAxis1', rowIndex: 0, title: 'Revenue' },
-    { name: 'yAxis2', rowIndex: 1, title: 'Profit' }
-  ];
-}
-```
+imports: [
+         ChartModule
+    ],
 
-```html
-<ejs-chart [rows]="rows" [axes]="axes">
-  <e-series-collection>
-    <e-series [dataSource]="revenueData" type="Line" xName="x" yName="y" yAxisName="yAxis1"></e-series>
-    <e-series [dataSource]="profitData" type="Area" xName="x" yName="y" yAxisName="yAxis2"></e-series>
-  </e-series-collection>
-</ejs-chart>
+providers: [ CategoryService, ColumnSeriesService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis rowIndex=1 name='yAxis1' opposedPosition='true' title='Temperature (Celsius)' [majorGridLines]='majorGridLines' labelFormat='{value}°C'
+                   [minimum]='24' [maximum]='36' [interval]='2' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-rows>
+             <e-row height=50%></e-row>
+             <e-row height=50%></e-row>
+        </e-rows>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' name='Japan' yAxisName='yAxis1' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public majorGridLines?: Object;
+    public primaryYAxis?: Object;
+    public lineStyle?: Object;
+    public marker?: Object;
+    public rows?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+                { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+                { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+                { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }
+        ];
+        this.primaryXAxis = {
+            title: 'Months',
+            valueType: 'Category',
+            interval: 1
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 90, interval: 20,
+            lineStyle: { width: 0 },
+            title: 'Temperature (Fahrenheit)',
+            labelFormat: '{value}°F'
+        };
+        this.majorGridLines = { width: 0};
+        this.lineStyle = { width: 0};
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
+
+}
 ```
 
 ### Column Configuration
@@ -529,15 +1447,70 @@ export class AppComponent {
 Split vertically:
 
 ```typescript
-public columns = [
-  { width: '50%' },
-  { width: '50%' }
-];
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
 
-public axes = [
-  { name: 'xAxis1', columnIndex: 0 },
-  { name: 'xAxis2', columnIndex: 1 }
-];
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, ColumnSeriesService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis columnIndex=1 name='xAxis1' opposedPosition='true' [majorGridLines]='majorGridLines'
+                  valueType='Category' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-columns>
+             <e-column width=50%></e-column>
+             <e-column width=50%></e-column>
+        </e-columns>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' name='Japan' xAxisName='xAxis1' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public majorGridLines?: Object;
+    public primaryYAxis?: Object;
+    public lineStyle?: Object;
+    public marker?: Object;
+    public rows?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+                { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+                { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+                { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }
+        ];
+        this.primaryXAxis = {
+            title: 'Months',
+            valueType: 'Category',
+            interval: 1
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 90, interval: 20,
+            lineStyle: { width: 0 },
+            title: 'Temperature (Fahrenheit)',
+            labelFormat: '{value}°F'
+        };
+        this.majorGridLines = { width: 0};
+        this.lineStyle = { width: 0};
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
+
+}
 ```
 
 ### Grid Layout (Rows + Columns)
@@ -559,6 +1532,79 @@ public axes = [
   { name: 'yAxis3', rowIndex: 1, columnIndex: 0 },
   { name: 'yAxis4', rowIndex: 1, columnIndex: 1 }
 ];
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, ColumnSeriesService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis columnIndex=1 name='xAxis1' opposedPosition='true' [majorGridLines]='majorGridLines'
+                  valueType='Category' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-rows>
+             <e-row height=50%></e-row>
+             <e-row height=50%></e-row>
+        </e-rows>
+        <e-columns>
+             <e-column width=50%></e-column>
+             <e-column width=50%></e-column>
+        </e-columns>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' xAxisName='xAxis1' name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public majorGridLines?: Object;
+    public primaryYAxis?: Object;
+    public lineStyle?: Object;
+    public marker?: Object;
+    public rows?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+                { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+                { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+                { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }
+        ];
+        this.primaryXAxis = {
+            title: 'Months',
+            valueType: 'Category',
+            interval: 1,
+            span: 2
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 90, interval: 20,
+            lineStyle: { width: 0 },
+            title: 'Temperature (Fahrenheit)',
+            labelFormat: '{value}°F'
+        };
+        this.majorGridLines = { width: 0};
+        this.lineStyle = { width: 0};
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
+
+}
 ```
 
 ## Chart Title and Subtitle
@@ -584,6 +1630,74 @@ public titleStyle = {
 </ejs-chart>
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { TooltipService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ TooltipService, DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [titleStyle]='titleStyle'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y' width=2 name='China' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y1' width=2 name='Australia' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y2' width=2 name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    public marker?: Object;
+    public titleStyle?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: new Date(1975, 0, 1), y: 16, y1: 10, y2: 4.5 },
+                { x: new Date(1980, 0, 1), y: 12.5, y1: 7.5, y2: 5 },
+                { x: new Date(1985, 0, 1), y: 19, y1: 11, y2: 6.5 },
+                { x: new Date(1990, 0, 1), y: 14.4, y1: 7, y2: 4.4 },
+                { x: new Date(1995, 0, 1), y: 11.5, y1: 8, y2: 5 },
+                { x: new Date(2000, 0, 1), y: 14, y1: 6, y2: 1.5 },
+                { x: new Date(2005, 0, 1), y: 10, y1: 3.5, y2: 2.5 },
+                { x: new Date(2010, 0, 1), y: 16, y1: 7, y2: 3.7 }
+        ];
+        this.primaryXAxis = {
+            title: 'Years',
+            lineStyle: { width: 0 },
+            labelFormat: 'y',
+            intervalType: 'Years',
+            valueType: 'DateTime',
+            edgeLabelPlacement: 'Shift'
+        };
+        this.primaryYAxis = {
+            title: 'Percentage (%)',
+            minimum: 0, maximum: 20, interval: 2,
+            labelFormat: '{value}%'
+        };
+        this.marker = { visible: true, width: 10, height: 10 };
+        this.title = 'Unemployment Rates 1975-2010';
+        this.titleStyle = {
+            fontFamily: "Arial",
+            fontStyle: 'italic',
+            fontWeight: 'regular',
+            color: "#E27F2D",
+            size: '23px'
+        }
+    }
+
+}
+```
+
 ### Subtitle
 
 ```typescript
@@ -603,12 +1717,139 @@ public subTitleStyle = {
 </ejs-chart>
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { TooltipService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ TooltipService, DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [subTitle]='subTitle' [subTitleStyle]='subTitleStyle'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y' width=2 name='China' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y1' width=2 name='Australia' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y2' width=2 name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public subTitle?: string;
+    public primaryYAxis?: Object;
+    public marker?: Object;
+    public subTitleStyle?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: new Date(1975, 0, 1), y: 16, y1: 10, y2: 4.5 },
+                { x: new Date(1980, 0, 1), y: 12.5, y1: 7.5, y2: 5 },
+                { x: new Date(1985, 0, 1), y: 19, y1: 11, y2: 6.5 },
+                { x: new Date(1990, 0, 1), y: 14.4, y1: 7, y2: 4.4 },
+                { x: new Date(1995, 0, 1), y: 11.5, y1: 8, y2: 5 },
+                { x: new Date(2000, 0, 1), y: 14, y1: 6, y2: 1.5 },
+                { x: new Date(2005, 0, 1), y: 10, y1: 3.5, y2: 2.5 },
+                { x: new Date(2010, 0, 1), y: 16, y1: 7, y2: 3.7 }
+        ];
+        this.primaryXAxis = {
+            title: 'Years',
+            lineStyle: { width: 0 },
+            labelFormat: 'y',
+            intervalType: 'Years',
+            valueType: 'DateTime',
+            edgeLabelPlacement: 'Shift'
+        };
+        this.primaryYAxis = {
+            title: 'Percentage (%)',
+            minimum: 0, maximum: 20, interval: 2,
+            labelFormat: '{value}%'
+        };
+        this.marker = { visible: true, width: 10, height: 10 };
+        this.title = 'Unemployment Rates 1975-2010';
+        this.subTitle = '(1975-2010)';
+        this.subTitleStyle = {
+            fontFamily: "Arial",
+            fontStyle: 'italic',
+            fontWeight: 'regular',
+            color: "#E27F2D",
+            size: '20px'
+        }
+    }
+
+}
+```
+
 ### Title Position
 
 ```typescript
-public titleStyle = {
-  textAlignment: 'Near'  // Left-aligned title
-};
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { TooltipService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ TooltipService, DateTimeService, StepLineSeriesService, LegendService, CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [titleStyle]='titleStyle'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y' width=2 name='China' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y1' width=2 name='Australia' [marker]='marker'></e-series>
+            <e-series [dataSource]='chartData' type='StepLine' xName='x' yName='y2' width=2 name='Japan' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    public marker?: Object;
+    public titleStyle?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+            { x: new Date(1975, 0, 1), y: 16, y1: 10, y2: 4.5 },
+            { x: new Date(1980, 0, 1), y: 12.5, y1: 7.5, y2: 5 },
+            { x: new Date(1985, 0, 1), y: 19, y1: 11, y2: 6.5 },
+            { x: new Date(1990, 0, 1), y: 14.4, y1: 7, y2: 4.4 },
+            { x: new Date(1995, 0, 1), y: 11.5, y1: 8, y2: 5 },
+            { x: new Date(2000, 0, 1), y: 14, y1: 6, y2: 1.5 },
+            { x: new Date(2005, 0, 1), y: 10, y1: 3.5, y2: 2.5 },
+            { x: new Date(2010, 0, 1), y: 16, y1: 7, y2: 3.7 }
+        ];
+        this.primaryXAxis = {
+            title: 'Years',
+            lineStyle: { width: 0 },
+            labelFormat: 'y',
+            intervalType: 'Years',
+            valueType: 'DateTime',
+            edgeLabelPlacement: 'Shift'
+        };
+        this.primaryYAxis = {
+            title: 'Percentage (%)',
+            minimum: 0, maximum: 20, interval: 2,
+            labelFormat: '{value}%'
+        };
+        this.marker = { visible: true, width: 10, height: 10 };
+        this.title = 'Unemployment Rates 1975-2010';
+        this.titleStyle = {
+            position: 'Bottom'
+        }
+    }
+
+}
 ```
 
 ## Chart Dimensions
@@ -621,12 +1862,92 @@ public titleStyle = {
 </ejs-chart>
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' width='650' height='350'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='month' yName='sales' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    ngOnInit(): void {
+        this.chartData = [
+            { month: 'Jan', sales: 35 }, { month: 'Feb', sales: 28 },
+            { month: 'Mar', sales: 34 }, { month: 'Apr', sales: 32 },
+            { month: 'May', sales: 40 }, { month: 'Jun', sales: 32 },
+            { month: 'Jul', sales: 35 }, { month: 'Aug', sales: 55 },
+            { month: 'Sep', sales: 38 }, { month: 'Oct', sales: 30 },
+            { month: 'Nov', sales: 25 }, { month: 'Dec', sales: 32 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
+
+}
+```
+
 ### Responsive Dimensions
 
 ```html
 <ejs-chart width="100%" height="450px">
   <!-- series -->
 </ejs-chart>
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' width='80%' height='450px'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='month' yName='sales' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    ngOnInit(): void {
+        this.chartData = [
+            { month: 'Jan', sales: 35 }, { month: 'Feb', sales: 28 },
+            { month: 'Mar', sales: 34 }, { month: 'Apr', sales: 32 },
+            { month: 'May', sales: 40 }, { month: 'Jun', sales: 32 },
+            { month: 'Jul', sales: 35 }, { month: 'Aug', sales: 55 },
+            { month: 'Sep', sales: 38 }, { month: 'Oct', sales: 30 },
+            { month: 'Nov', sales: 25 }, { month: 'Dec', sales: 32 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
+
+}
 ```
 
 ### Container-based Sizing
@@ -637,6 +1958,48 @@ public titleStyle = {
     <!-- series -->
   </ejs-chart>
 </div>
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<div style="width:650px; height:350px;">
+        <ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'>
+            <e-series-collection>
+                <e-series [dataSource]='chartData' type='Line' xName='month' yName='sales' name='Sales'></e-series>
+            </e-series-collection>
+        </ejs-chart>
+    </div>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    ngOnInit(): void {
+        this.chartData = [
+            { month: 'Jan', sales: 35 }, { month: 'Feb', sales: 28 },
+            { month: 'Mar', sales: 34 }, { month: 'Apr', sales: 32 },
+            { month: 'May', sales: 40 }, { month: 'Jun', sales: 32 },
+            { month: 'Jul', sales: 35 }, { month: 'Aug', sales: 55 },
+            { month: 'Sep', sales: 38 }, { month: 'Oct', sales: 30 },
+            { month: 'Nov', sales: 25 }, { month: 'Dec', sales: 32 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
+
+}
 ```
 
 ### Aspect Ratio
@@ -678,6 +2041,66 @@ public margin = {
 </ejs-chart>
 ```
 
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateFormatOptions } from '@syncfusion/ej2-base'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' background='skyblue' [border]='border' [margin]='margin'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    public border?: Object;
+    public margin?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30 }
+        ];
+        this.primaryXAxis = {
+           valueType: 'Category',
+           title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+        this.border = { width: 2, color: '#FF0000'};
+        this.margin = { left: 40, right: 40, top: 40, bottom: 40 };
+    }
+
+}
+```
+
 ### Chart Border
 
 ```typescript
@@ -693,6 +2116,64 @@ public background = 'white';
 <ejs-chart [border]="border" [background]="background">
   <!-- series -->
 </ejs-chart>
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateFormatOptions } from '@syncfusion/ej2-base'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' background='skyblue' [border]='border'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    public border?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30 }
+        ];
+        this.primaryXAxis = {
+           valueType: 'Category',
+           title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+        this.border = { width: 2, color: '#FF0000'};
+    }
+
+}
 ```
 
 ### Chart Area Border
@@ -713,6 +2194,67 @@ public chartArea = {
 <ejs-chart [chartArea]="chartArea">
   <!-- series -->
 </ejs-chart>
+```
+
+**Example**
+```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { DateFormatOptions } from '@syncfusion/ej2-base'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
+import { IPointRenderEventArgs } from '@syncfusion/ej2-angular-charts';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'[chartArea]='chartArea'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' [border]='border'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    public border?: Object;
+    public chartArea?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30 }
+        ];
+        this.primaryXAxis = {
+           valueType: 'Category',
+           title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+        this.border = { width: 2, color: 'grey'};
+        this.chartArea = { background: 'skyblue', width: '80%'};
+    }
+
+}
 ```
 
 ## Best Practices
@@ -778,55 +2320,55 @@ Refer to interactive-features for axis-based interactions like zooming and panni
 | API | Description | Documentation |
 |-----|-------------|---------------|
 | AxisModel | Complete axis configuration interface with 50+ properties | [axisModel.md](https://ej2.syncfusion.com/angular/documentation/api/chart/axisModel) |
-| Axis | Axis class with methods and properties | [axis.md](https://ej2.syncfusion.com/angular/documentation/api/chart/axis) |
+| Axis | Axis class with methods and properties | [md](https://ej2.syncfusion.com/angular/documentation/api/chart/axis) |
 | AxisDirective | Axis directive for declaring multiple axes | [axisDirective.md](https://ej2.syncfusion.com/angular/documentation/api/chart/axisDirective) |
 
 ### Axis Configuration Properties
 
 | Property | Type | Default | Description | API Reference |
 |----------|------|---------|-------------|---------------|
-| valueType | ValueType | 'Double' | Axis value type: Double, DateTime, Category, Logarithmic | [Axis.valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType), [ValueType](https://ej2.syncfusion.com/angular/documentation/api/chart/valueType) |
-| name | string | '' | Unique identifier for the axis | [Axis.name](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#name) |
-| title | string | '' | Axis title text | [Axis.title](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#title) |
-| minimum | Object | null | Minimum axis value | [Axis.minimum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minimum) |
-| maximum | Object | null | Maximum axis value | [Axis.maximum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximum) |
-| interval | number | null | Axis label interval | [Axis.interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) |
-| intervalType | IntervalType | 'Auto' | DateTime interval type | [Axis.intervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#intervalType), [IntervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/intervalType) |
-| logBase | number | 10 | Logarithmic base value | [Axis.logBase](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#logBase) |
-| rangePadding | ChartRangePadding | 'Auto' | Padding at axis ends | [Axis.rangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rangePadding), [ChartRangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/chartRangePadding) |
-| opposedPosition | boolean | false | Place axis on opposite side | [Axis.opposedPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#opposedPosition) |
-| isInversed | boolean | false | Invert axis direction | [Axis.isInversed](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#isInversed) |
-| crossesAt | Object | null | Axis crossing point | [Axis.crossesAt](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#crossesAt) |
-| crossesInAxis | string | null | Cross at specific axis | [Axis.crossesInAxis](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#crossesInAxis) |
-| rowIndex | number | 0 | Row index for multiple rows | [Axis.rowIndex](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rowIndex) |
-| columnIndex | number | 0 | Column index for multiple columns | [Axis.columnIndex](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#columnIndex) |
-| span | number | 1 | Number of rows/columns to span | [Axis.span](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#span) |
+| valueType | ValueType | 'Double' | Axis value type: Double, DateTime, Category, Logarithmic | [valueType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#valueType), [ValueType](https://ej2.syncfusion.com/angular/documentation/api/chart/valueType) |
+| name | string | '' | Unique identifier for the axis | [name](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#name) |
+| title | string | '' | Axis title text | [title](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#title) |
+| minimum | Object | null | Minimum axis value | [minimum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minimum) |
+| maximum | Object | null | Maximum axis value | [maximum](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximum) |
+| interval | number | null | Axis label interval | [interval](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#interval) |
+| intervalType | IntervalType | 'Auto' | DateTime interval type | [intervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#intervalType), [IntervalType](https://ej2.syncfusion.com/angular/documentation/api/chart/intervalType) |
+| logBase | number | 10 | Logarithmic base value | [logBase](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#logBase) |
+| rangePadding | ChartRangePadding | 'Auto' | Padding at axis ends | [rangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rangePadding), [ChartRangePadding](https://ej2.syncfusion.com/angular/documentation/api/chart/chartRangePadding) |
+| opposedPosition | boolean | false | Place axis on opposite side | [opposedPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#opposedPosition) |
+| isInversed | boolean | false | Invert axis direction | [isInversed](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#isInversed) |
+| crossesAt | Object | null | Axis crossing point | [crossesAt](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#crossesAt) |
+| crossesInAxis | string | null | Cross at specific axis | [crossesInAxis](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#crossesInAxis) |
+| rowIndex | number | 0 | Row index for multiple rows | [rowIndex](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#rowIndex) |
+| columnIndex | number | 0 | Column index for multiple columns | [columnIndex](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#columnIndex) |
+| span | number | 1 | Number of rows/columns to span | [span](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#span) |
 
 ### Label Configuration
 
 | Property | Type | Default | Description | API Reference |
 |----------|------|---------|-------------|---------------|
-| labelFormat | string | '' | Label format string | [Axis.labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) |
-| labelStyle | FontModel | - | Label font styling | [Axis.labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle), [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel) |
-| labelRotation | number | 0 | Label rotation angle (-90 to 90) | [Axis.labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) |
-| labelIntersectAction | LabelIntersectAction | 'Trim' | Action for overlapping labels | [Axis.labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction), [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) |
-| labelPlacement | LabelPlacement | 'BetweenTicks' | Label placement relative to ticks | [Axis.labelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPlacement), [LabelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPlacement) |
-| labelPosition | AxisPosition | 'Outside' | Label position (Inside/Outside) | [Axis.labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPosition), [AxisPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axisPosition) |
-| labelPadding | number | 5 | Space between labels and axis | [Axis.labelPadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPadding) |
-| maximumLabelWidth | number | 34 | Maximum label width in pixels | [Axis.maximumLabelWidth](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximumLabelWidth) |
-| enableTrim | boolean | false | Trim labels to fit | [Axis.enableTrim](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#enableTrim) |
-| enableWrap | boolean | false | Wrap labels to multiple lines | [Axis.enableWrap](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#enableWrap) |
-| labelTemplate | string/Function | null | Custom label template | [Axis.labelTemplate](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelTemplate) |
+| labelFormat | string | '' | Label format string | [labelFormat](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelFormat) |
+| labelStyle | FontModel | - | Label font styling | [labelStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelStyle), [FontModel](https://ej2.syncfusion.com/angular/documentation/api/chart/fontModel) |
+| labelRotation | number | 0 | Label rotation angle (-90 to 90) | [labelRotation](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelRotation) |
+| labelIntersectAction | LabelIntersectAction | 'Trim' | Action for overlapping labels | [labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelIntersectAction), [LabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) |
+| labelPlacement | LabelPlacement | 'BetweenTicks' | Label placement relative to ticks | [labelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPlacement), [LabelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPlacement) |
+| labelPosition | AxisPosition | 'Outside' | Label position (Inside/Outside) | [labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPosition), [AxisPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/axisPosition) |
+| labelPadding | number | 5 | Space between labels and axis | [labelPadding](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelPadding) |
+| maximumLabelWidth | number | 34 | Maximum label width in pixels | [maximumLabelWidth](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#maximumLabelWidth) |
+| enableTrim | boolean | false | Trim labels to fit | [enableTrim](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#enableTrim) |
+| enableWrap | boolean | false | Wrap labels to multiple lines | [enableWrap](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#enableWrap) |
+| labelTemplate | string/Function | null | Custom label template | [labelTemplate](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#labelTemplate) |
 
 ### Gridlines and Tick Lines
 
 | Feature | API Reference |
 |---------|---------------|
-| Major Gridlines | [MajorGridLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/majorGridLinesModel), [Axis.majorGridLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#majorGridLines) |
-| Minor Gridlines | [MinorGridLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/minorGridLinesModel), [Axis.minorGridLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minorGridLines) |
-| Major Tick Lines | [MajorTickLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/majorTickLinesModel), [Axis.majorTickLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#majorTickLines) |
-| Minor Tick Lines | [MinorTickLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/minorTickLinesModel), [Axis.minorTickLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minorTickLines) |
-| Axis Line | [AxisLineModel](https://ej2.syncfusion.com/angular/documentation/api/chart/axisLineModel), [Axis.lineStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#lineStyle) |
+| Major Gridlines | [MajorGridLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/majorGridLinesModel), [majorGridLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#majorGridLines) |
+| Minor Gridlines | [MinorGridLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/minorGridLinesModel), [minorGridLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minorGridLines) |
+| Major Tick Lines | [MajorTickLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/majorTickLinesModel), [majorTickLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#majorTickLines) |
+| Minor Tick Lines | [MinorTickLinesModel](https://ej2.syncfusion.com/angular/documentation/api/chart/minorTickLinesModel), [minorTickLines](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#minorTickLines) |
+| Axis Line | [AxisLineModel](https://ej2.syncfusion.com/angular/documentation/api/chart/axisLineModel), [lineStyle](https://ej2.syncfusion.com/angular/documentation/api/chart/axis#lineStyle) |
 
 ### Chart Layout
 

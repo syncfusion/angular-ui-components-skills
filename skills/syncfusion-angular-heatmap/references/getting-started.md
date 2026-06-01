@@ -4,11 +4,8 @@
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Package Installation](#package-installation)
-  - [Install via npm](#install-via-npm)
-  - [Package Versions](#package-versions)
-  - [Verify Installation](#verify-installation)
+- [When to Use This Skill](#when-to-use-this-skill)
+- [Installation](#installation)
 - [Module Setup](#module-setup)
   - [Option 1: Standalone Component (Angular 14+, Recommended)](#option-1-standalone-component-angular-14-recommended)
   - [Option 2: NgModule (Traditional, Backward Compatible)](#option-2-ngmodule-traditional-backward-compatible)
@@ -20,46 +17,29 @@
   - [Check if HeatMap Renders](#check-if-heatmap-renders)
   - [Common Setup Issues](#common-setup-issues)
 
-## Prerequisites
+## When to Use This Skill
 
-Before creating an Angular HeatMap, ensure you have:
+Use this skill when you need to:
+- **Set up Angular HeatMap** — Install and configure Syncfusion HeatMap in Angular projects
+- **Install packages** — Add required npm packages
+- **Configure modules** — Import HeatMapModule in Angular modules
+- **Data Matrix Visualization:** Display 2D data arrays with color-coded cells
+- **Correlation Analysis:** Visualize relationships between multiple variables
+- **Time-Series Heatmaps:** Show patterns over time (e.g., hourly/daily activity)
+- **Category Comparison:** Compare performance across categories and metrics
+- **Intensity Mapping:** Display heatmaps with gradient colors representing value intensity
+- **Interactive Selection:** Enable user selection of cells with tooltips and event handling
+- **Accessibility Requirements:** Implement WCAG-compliant heatmaps with ARIA support
+- **Custom Styling:** Apply themes, palettes, and custom rendering (SVG/Canvas)
+- **Bubble Heatmaps:** Visualize data as bubbles with size and color encoding
+- **Large Datasets:** Handle auto-switching between SVG and Canvas rendering modes
 
-- **Node.js & npm:** LTS version installed (use `node --version` to verify)
-- **Angular CLI:** Installed globally with `npm install -g @angular/cli`
-- **Angular Project:** Created with `ng new my-app` and `cd my-app`
-- **Angular Version:** 12+ (recommended 18+)
+## Installation
 
-## Package Installation
-
-### Install via npm
-
-Syncfusion packages are published under the `@syncfusion` scope. Install the HeatMap package with:
+Install Syncfusion Angular HeatMap component via npm:
 
 ```bash
-npm install @syncfusion/ej2-angular-heatmap --save
-```
-
-### Package Versions
-
-- **Ivy (Recommended):** `@syncfusion/ej2-angular-heatmap` (version 20.2.36+)
-  - Supports Angular 21+
-  - Modern Ivy rendering engine
-  - Better tree-shaking and performance
-
-- **Legacy ngcc:** `@syncfusion/ej2-angular-heatmap@ngcc` (Angular <12)
-  - Use only for older Angular versions
-  - Compatibility compiler mode
-
-### Verify Installation
-
-Check `package.json` to confirm the package was added:
-
-```json
-{
-  "dependencies": {
-    "@syncfusion/ej2-angular-heatmap": "^32.1.19"
-  }
-}
+npm install @syncfusion/ej2-angular-heatmap
 ```
 
 ## Module Setup

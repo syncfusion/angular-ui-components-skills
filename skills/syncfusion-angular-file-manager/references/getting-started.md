@@ -146,12 +146,12 @@ export class AppComponent {
 To use advanced features (Navigation Pane, Toolbar, Details View), inject their service providers:
 
 ```typescript
-import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewService } from '@syncfusion/ej2-angular-filemanager';
+import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewService, VirtualizationService } from '@syncfusion/ej2-angular-filemanager';
 import { Component } from '@angular/core';
 
 @Component({
   imports: [FileManagerModule],
-  providers: [NavigationPaneService, ToolbarService, DetailsViewService],
+  providers: [NavigationPaneService, ToolbarService, DetailsViewService, VirtualizationService],
   standalone: true,
   selector: 'app-root',
   template: `<ejs-filemanager id='file-manager' [ajaxSettings]='ajaxSettings' height="375px">
@@ -164,6 +164,16 @@ export class AppComponent {
   };
 }
 ```
+
+**Available Services:**
+| Service | Description |
+|---------|-------------|
+| `DetailsViewService` | Grid view with sortable columns (Name, Date Modified, Type, Size) |
+| `NavigationPaneService` | Left sidebar with folder hierarchy tree |
+| `ToolbarService` | Top toolbar with action buttons (New Folder, Upload, Delete, etc.) |
+| `VirtualizationService ` | Virtual scrolling for large file lists (use with ` [enableVirtualization]='true'`) |
+
+> **Important:** At least `DetailsViewService`, `NavigationPaneService`, and `ToolbarService` are required for full functionality. `VirtualizationService` is optional for performance optimization with large datasets.
 
 ## AJAX Settings Configuration
 
@@ -227,7 +237,7 @@ The File Manager can start in either Details view or Large Icons view:
   </ejs-filemanager>`
 })
 export class AppComponent {
-  public view: string = 'Details';  // or 'LargeIcons'
+  public view: string = 'LargeIcons';  // Default: 'LargeIcons' or 'Details'
   
   public ajaxSettings: object = {
     url: '/api/FileManager/FileOperations',

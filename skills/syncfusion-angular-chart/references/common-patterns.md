@@ -28,10 +28,16 @@ Create a comprehensive dashboard showing trends across multiple metrics with com
 ```typescript
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent } from '@syncfusion/ej2-angular-charts';
+import { ChartModule, LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService } from '@syncfusion/ej2-angular-charts';
 import { ILoadedEventArgs, IPointRenderEventArgs } from '@syncfusion/ej2-charts';
 
 @Component({
   selector: 'app-trend-dashboard',
+  standalone: true,
+  imports: [ChartModule],
+  providers: [
+    LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService
+  ],
   template: `
     <div class="dashboard-container">
       <div class="dashboard-header">
@@ -446,9 +452,16 @@ Implement a professional stock chart with candlestick patterns and technical ind
 ```typescript
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent } from '@syncfusion/ej2-angular-charts';
+import { ChartModule, LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService } from '@syncfusion/ej2-angular-charts';
+import { ILoadedEventArgs, IPointRenderEventArgs } from '@syncfusion/ej2-charts';
 
 @Component({
   selector: 'app-stock-chart',
+  standalone: true,
+  imports: [ChartModule],
+  providers: [
+    LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService
+  ],
   template: `
     <div class="stock-container">
       <div class="stock-header">
@@ -759,9 +772,16 @@ Create a live dashboard that updates with real-time data streams.
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ChartComponent } from '@syncfusion/ej2-angular-charts';
 import { interval, Subscription } from 'rxjs';
+import { ChartModule, LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService } from '@syncfusion/ej2-angular-charts';
+import { ILoadedEventArgs, IPointRenderEventArgs } from '@syncfusion/ej2-charts';
 
 @Component({
   selector: 'app-realtime-monitor',
+  standalone: true,
+  imports: [ChartModule],
+  providers: [
+    LineSeriesService, ColumnSeriesService, CategoryService, LegendService, TooltipService, DataLabelService, ZoomService, ScrollBarService, DateTimeService, AreaSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, SplineSeriesService
+  ],
   template: `
     <div class="monitor-container">
       <div class="monitor-header">
@@ -1137,100 +1157,69 @@ export class RealtimeMonitorComponent implements OnInit, OnDestroy {
 Compare different metrics with different scales on the same chart.
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService, LineSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+
 @Component({
-  selector: 'app-multi-axis',
-  template: `
-    <ejs-chart 
-      [primaryXAxis]='primaryXAxis'
-      [primaryYAxis]='primaryYAxis'
-      [title]='"Sales vs Temperature Analysis"'
-      [tooltip]='tooltip'
-      [legendSettings]='legendSettings'>
-      
-      <e-series-collection>
-        <!-- Sales on primary Y-axis -->
-        <e-series 
-          [dataSource]='salesData' 
-          xName='month' 
-          yName='sales'
-          name='Sales'
-          type='Column'
-          fill='#4CAF50'>
-        </e-series>
+imports: [
+         ChartModule
+    ],
 
-        <!-- Temperature on secondary Y-axis -->
-        <e-series 
-          [dataSource]='temperatureData' 
-          xName='month' 
-          yName='temp'
-          name='Temperature'
-          type='Line'
-          yAxisName='tempAxis'
-          width='3'
-          fill='#FF5722'
-          [marker]='marker'>
-        </e-series>
-
-        <!-- Humidity on tertiary Y-axis -->
-        <e-series 
-          [dataSource]='humidityData' 
-          xName='month' 
-          yName='humidity'
-          name='Humidity'
-          type='SplineArea'
-          yAxisName='humidityAxis'
-          opacity='0.5'
-          fill='#2196F3'>
-        </e-series>
-      </e-series-collection>
-
-      <e-axes>
-        <e-axis 
-          name='tempAxis'
-          opposedPosition='true'
-          title='Temperature (°F)'
-          labelFormat='{value}°F'
-          minimum='0'
-          maximum='100'
-          interval='20'>
-        </e-axis>
-        
-        <e-axis 
-          name='humidityAxis'
-          opposedPosition='false'
-          rowIndex='1'
-          title='Humidity (%)'
-          labelFormat='{value}%'
-          minimum='0'
-          maximum='100'
-          interval='20'>
-        </e-axis>
-      </e-axes>
-
-      <e-rows>
-        <e-row height='60%'></e-row>
-        <e-row height='40%'></e-row>
-      </e-rows>
-    </ejs-chart>
-  `
+providers: [ CategoryService, ColumnSeriesService, LineSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-axes>
+            <e-axis rowIndex=1 name='yAxis1' opposedPosition='true' title='Temperature (Celsius)' [majorGridLines]='majorGridLines' labelFormat='{value}°C'
+                   [minimum]='24' [maximum]='36' [interval]='2' [lineStyle]='lineStyle'>
+            </e-axis>
+        </e-axes>
+        <e-rows>
+             <e-row height=50%></e-row>
+             <e-row height=50%></e-row>
+        </e-rows>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Germany'></e-series>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' name='Japan' yAxisName='yAxis1' [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
 })
-export class MultiAxisComponent {
-  public primaryXAxis: Object = {
-    valueType: 'Category',
-    title: 'Month'
-  };
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public majorGridLines?: Object;
+    public primaryYAxis?: Object;
+    public lineStyle?: Object;
+    public marker?: Object;
+    public rows?: Object;
+    ngOnInit(): void {
+        this.chartData = [
+                { x: 'Jan', y: 15, y1: 33 }, { x: 'Feb', y: 20, y1: 31 }, { x: 'Mar', y: 35, y1: 30 },
+                { x: 'Apr', y: 40, y1: 28 }, { x: 'May', y: 80, y1: 29 }, { x: 'Jun', y: 70, y1: 30 },
+                { x: 'Jul', y: 65, y1: 33 }, { x: 'Aug', y: 55, y1: 32 }, { x: 'Sep', y: 50, y1: 34 },
+                { x: 'Oct', y: 30, y1: 32 }, { x: 'Nov', y: 35, y1: 32 }, { x: 'Dec', y: 35, y1: 31 }
+        ];
+        this.primaryXAxis = {
+            title: 'Months',
+            valueType: 'Category',
+            interval: 1
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 90, interval: 20,
+            lineStyle: { width: 0 },
+            title: 'Temperature (Fahrenheit)',
+            labelFormat: '{value}°F'
+        };
+        this.majorGridLines = { width: 0};
+        this.lineStyle = { width: 0};
+        this.marker = {
+            visible: true, width: 10, height: 10, border: { width: 2, color: '#F8AB1D' }
+        }
+        this.title = 'Weather Condition';
+    }
 
-  public primaryYAxis: Object = {
-    title: 'Sales ($K)',
-    labelFormat: '${value}K',
-    rowIndex: 0
-  };
-
-  public marker: Object = {
-    visible: true,
-    height: 10,
-    width: 10
-  };
 }
 ```
 
@@ -1301,5 +1290,113 @@ onResize() {
 // EJ2
 (loaded)="chartLoaded($event)"
 ```
+
+---
+
+## Critical: Data Label API Hierarchy Pattern
+
+### ⚠️ Common Mistake to Avoid
+
+**INCORRECT:** Creating `dataLabel` as independent series property
+```typescript
+❌ WRONG
+public dataLabelSettings = {
+  visible: true,
+  position: 'Top',
+  format: '${point.y}K'
+};
+
+// Template:
+<e-series [dataLabel]="dataLabelSettings"></e-series> <!-- ❌ Property doesn't exist -->
+```
+
+**CORRECT:** `dataLabel` must be NESTED inside `marker`
+```typescript
+✅ CORRECT
+public markerSettings = {
+  visible: false,  // Hide marker dots
+  dataLabel: {     // ← NESTED INSIDE MARKER
+    visible: true,
+    position: 'Top',
+    format: '${point.y}K',
+    font: { size: '12px', fontWeight: '600' }
+  }
+};
+
+// Template:
+<e-series [marker]="markerSettings"></e-series> <!-- ✅ Correct binding -->
+```
+
+### API Hierarchy Structure
+
+```
+marker (root property on series)
+  ├─ visible: boolean (show/hide marker dot)
+  ├─ width: number
+  ├─ height: number
+  ├─ shape: string
+  ├─ fill: string
+  ├─ border: { ... }
+  └─ dataLabel (NESTED OBJECT) ← Key point
+      ├─ visible: boolean
+      ├─ position: string
+      ├─ format: string
+      ├─ font: { size, color, fontWeight }
+      └─ alignment: string
+```
+
+### Code Example: Stacked Column Chart
+
+```typescript
+import { MarkerSettingsModel } from '@syncfusion/ej2-angular-charts';
+
+export class StackedColumnChartComponent {
+  // ✅ CORRECT STRUCTURE
+  public markerSettings: MarkerSettingsModel = {
+    visible: false,                    // Don't show marker dots
+    dataLabel: {                       // ← NESTED
+      visible: true,
+      position: 'Top',
+      format: '${point.y}K',
+      font: {
+        size: '12px',
+        fontWeight: '600',
+        color: '#1f2937'
+      }
+    }
+  };
+}
+```
+
+```html
+<ejs-chart>
+  <e-series-collection>
+    <e-series
+      [dataSource]="quarterlyData"
+      type="StackingColumn"
+      xName="month"
+      yName="q1"
+      [marker]="markerSettings">  <!-- ✅ Bind [marker] not [dataLabel] -->
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+```
+
+### Verification Checklist
+
+- [ ] Property name is `marker`, not `dataLabel`
+- [ ] `dataLabel` is nested INSIDE `marker` object
+- [ ] Template uses `[marker]="markerSettings"` binding
+- [ ] NOT using `[dataLabel]` binding
+- [ ] Refer to `chart-elements.md` for complete examples
+
+### Key Lesson
+
+**Always read complete code examples from skill file, not just keyword search.** Syncfusion's API hierarchy is:
+- `marker` = root property
+- `dataLabel` = nested configuration
+- `[marker]="..."` = template binding
+
+This pattern applies to many Syncfusion components where nested objects contain feature-specific settings.
 
 ---

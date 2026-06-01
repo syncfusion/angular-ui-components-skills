@@ -104,12 +104,13 @@ The Accumulation Chart supports multiple series types within a single component:
 
 ```typescript
 import { Component } from '@angular/core';
-import { AccumulationChartModule } from '@syncfusion/ej2-angular-charts';
+import { AccumulationChartModule, PieSeriesService, AccumulationTooltipService } from '@syncfusion/ej2-angular-charts';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationTooltipService],
   template: `
     <ejs-accumulationchart id="container" [tooltip]="{ enable: true }">
       <e-accumulation-series-collection>
@@ -174,7 +175,7 @@ updateData() {
 ### Pattern 2: Handling Selection Events
 
 ```typescript
-onPointSelected(args: any) {
+onPointSelected(args: IPointEventArgs) {
   console.log('Selected point:', args.pointIndex);
   console.log('Selected value:', args.series.dataSource[args.pointIndex].y);
 }
@@ -182,18 +183,66 @@ onPointSelected(args: any) {
 
 ### Pattern 3: Custom Color Palette
 
+Two strict-template-safe approaches — pick the one that fits your data model:
+
+**Option A — `[palettes]` on the series (color array, applied cyclically):**
+
 ```typescript
 @Component({
   template: `
-    <ejs-accumulationchart 
-      [palette]="customPalette">
-      ...
+    <ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          [palettes]="palette">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
 export class ChartComponent {
-  customPalette = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A'];
+  data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 },
+    { x: 'C', y: 20 },
+    { x: 'D', y: 15 }
+  ];
+  palette = ['#E94649', '#F6B53F', '#6FAAB0', '#FF33F3'];
 }
+```
+
+**Option B — `pointColorMapping` on the series (color embedded in each data point):**
+
+```typescript
+@Component({
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          pointColorMapping="fill">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class ChartComponent {
+  data = [
+    { x: 'A', y: 30, fill: '#FF6B6B' },
+    { x: 'B', y: 25, fill: '#4ECDC4' },
+    { x: 'C', y: 20, fill: '#45B7D1' },
+    { x: 'D', y: 15, fill: '#FFA07A' }
+  ];
+}
+```
+
+> ⚠️ **Do NOT use `[palette]` (singular) on `<ejs-accumulationchart>`** — it is not a typed
+> `@Input()` and causes **NG8002** in Angular strict mode. Both options above go on
+> `<e-accumulation-series>` and are fully strict-mode safe.
 ```
 
 ### Pattern 4: Legend with Position
@@ -218,10 +267,86 @@ export class ChartComponent {
 | `yName` | string | Field name for value data |
 | `dataLabel` | object | Label configuration (position, formatting) |
 | `tooltip` | object | Tooltip settings (enable, template, formatting) |
-| `palette` | string[] | Custom color array for series points |
+| `palettes` | string[] | **Series property** — array of hex/named colors applied cyclically to points. Use `[palettes]="palette"` on `<e-accumulation-series>`. ✅ Strict-mode safe. |
+| `pointColorMapping` | string | **Series property** — field name in each data object holding the point color (e.g. `"fill"`). Use `pointColorMapping="fill"` on `<e-accumulation-series>`. ✅ Strict-mode safe. |
 | `animation` | object | Animation configuration (enable, duration) |
 | `startAngle` | number | Starting angle for pie/doughnut (0-360) |
 | `explode` | boolean | Enable point separation effect |
+
+## Troubleshooting
+
+### ❌ NG8002: Can't bind to 'palette' since it isn't a known property of 'ejs-accumulationchart'
+
+**Cause:** `[palette]` is not a typed `@Input()` in the Syncfusion Angular wrapper for
+`AccumulationChartComponent`. Angular's strict template checker (`"strictTemplates": true`)
+raises NG8002 and the build fails.
+
+**Wrong — causes NG8002:**
+```html
+<!-- ❌ DO NOT DO THIS — [palette] on chart element is not a typed @Input() -->
+<ejs-accumulationchart [palette]="chartPalette">
+  <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+  </e-accumulation-series>
+</ejs-accumulationchart>
+```
+
+**Correct — Option A: `[palettes]` on the series (color array):**
+```html
+<!-- ✅ [palettes] is a typed @Input() on AccumulationSeriesDirective -->
+<ejs-accumulationchart>
+  <e-accumulation-series-collection>
+    <e-accumulation-series
+      [dataSource]="data"
+      xName="x"
+      yName="y"
+      [palettes]="palette">
+    </e-accumulation-series>
+  </e-accumulation-series-collection>
+</ejs-accumulationchart>
+```
+
+```typescript
+palette = ['#E94649', '#F6B53F', '#6FAAB0', '#FF33F3', '#228B22', '#3399FF'];
+// data points need no fill field — palette colors apply cyclically
+```
+
+**Correct — Option B: `pointColorMapping` on the series (color per data point):**
+```html
+<!-- ✅ Also strict-mode safe — color stored in each data object -->
+<ejs-accumulationchart>
+  <e-accumulation-series-collection>
+    <e-accumulation-series
+      [dataSource]="data"
+      xName="x"
+      yName="y"
+      pointColorMapping="fill">
+    </e-accumulation-series>
+  </e-accumulation-series-collection>
+</ejs-accumulationchart>
+```
+
+```typescript
+data = [
+  { x: 'Electronics', y: 108310, fill: '#0ea5e9' },
+  { x: 'Clothing',    y: 68280,  fill: '#6366f1' },
+  { x: 'Grocery',     y: 51210,  fill: '#10b981' },
+  { x: 'Furniture',   y: 34140,  fill: '#f59e0b' },
+  { x: 'Others',      y: 22760,  fill: '#94a3b8' }
+];
+```
+
+**Key rule:** Both `[palettes]` and `pointColorMapping` belong on `<e-accumulation-series>`, not on the chart element.
+
+---
+
+### ❌ NG8002: Other unknown property errors
+
+If you see similar NG8002 errors for any `<ejs-accumulationchart>` binding, check that:
+1. `AccumulationChartModule` is listed in the component's `imports: [...]`
+2. The property name matches the typed `@Input()` exactly (camelCase)
+3. Services (`PieSeriesService`, etc.) are listed in `providers: [...]`
+
+---
 
 ## Next Steps
 

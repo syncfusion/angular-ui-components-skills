@@ -47,7 +47,7 @@ import { SmithchartModule, TooltipRenderService } from '@syncfusion/ej2-angular-
   imports: [SmithchartModule],
   providers: [TooltipRenderService],
   standalone: true,
-  template = `
+  template : `
     <ejs-smithchart
       [series]="series"
       style="display:block;height:350px">
@@ -75,13 +75,13 @@ Customize tooltip content:
 ```typescript
 tooltip = {
   visible: true,
-  template: 'template:'<div style="color: red; border: 1px solid #000; padding: 4px; border-radius: 3px;">Value: ${resistance} - ${reactance}</div>',',
+  template: '<div style="color: red; border: 1px solid #000; padding: 4px; border-radius: 3px;">Value: ${resistance} - ${reactance}</div>'
 }
 ```
 
 **Template tokens:**
-- `{resistance}` - X-axis value
-- `{reactance}` - Y-axis value
+- `${resistance}` - X-axis value
+- `${reactance}` - Y-axis value
 
 **Example Template:**
 ```typescript
@@ -763,7 +763,7 @@ Create responsive smith charts that adapt to mobile, tablet, and desktop devices
 
 ### Mobile-Optimized Layout
 
-\\\	ypescript
+```	typescript
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SmithchartModule } from '@syncfusion/ej2-angular-charts';
@@ -772,14 +772,13 @@ import { Browser } from '@syncfusion/ej2-base';
 @Component({
   standalone: true,
   imports: [CommonModule, SmithchartModule],
-  template: \
+  template: 
     <ejs-smithchart
-      [width]=\"chartWidth\"
-      [height]=\"chartHeight\"
-      [series]=\"series\"
-      [legendSettings]=\"legendSettings\">
+      [width]="chartWidth"
+      [height]="chartHeight"
+      [series]="series"
+      [legendSettings]="legendSettings">
     </ejs-smithchart>
-  \
 })
 export class AppComponent {
   series = [{ name: 'Device A', points: [...] }];
@@ -799,7 +798,7 @@ export class AppComponent {
     };
   }
 }
-\\\
+```
 
 ## Performance Optimization
 
@@ -807,15 +806,15 @@ Optimize charts for better performance with large datasets.
 
 ### Large Dataset Pagination
 
-\\\	ypescript
+```	typescript
 @Component({
-  template: \
-    <button (click)=\"loadMore()\" [disabled]=\"loadedCount >= totalSeries\">
+  template: 
+    <button (click)="loadMore()" [disabled]="loadedCount >= totalSeries">
       Load More ({{ loadedCount }}/{{ totalSeries }})
     </button>
-    <ejs-smithchart [series]=\"displayedSeries\" style=\"display:block; height:500px\">
+    <ejs-smithchart [series]="displayedSeries" style="display:block; height:500px">
     </ejs-smithchart>
-  \
+  
 })
 export class AppComponent {
   displayedSeries: any[] = [];
@@ -829,7 +828,7 @@ export class AppComponent {
 
     for (let i = startIndex; i < endIndex; i++) {
       this.displayedSeries.push({
-        name: \Device \\,
+        name: Device,
         points: Array.from({ length: 10 }, (_, j) => ({
           resistance: Math.random() * 2,
           reactance: Math.random() * 2
@@ -840,7 +839,7 @@ export class AppComponent {
     this.loadedCount = endIndex;
   }
 }
-\\\
+```
 
 ## Best Practices Summary
 

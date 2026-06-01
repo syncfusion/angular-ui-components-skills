@@ -75,24 +75,7 @@ containerConfig = {
 
 ```
 
-## Color Schemes and Themes
-
-### Built-in Themes
-
-Apply predefined CSS themes:
-
-```css
-/* In styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-gauges/styles/material.css';
-```
-
-**Available themes:**
-- `material.css` - Material Design
-- `fabric.css` - Microsoft Fabric
-- `bootstrap.css` - Bootstrap 5
-- `tailwind.css` - Tailwind CSS
-- `highcontrast.css` - High contrast for accessibility
+## Color Schemes
 
 ### Custom Color Palette
 

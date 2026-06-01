@@ -109,15 +109,16 @@ layout: {
 
 ```typescript
 // Parent/child relationship via parentId
-dataSourceSettings: {
-  id: 'id',
-  parentId: 'parentId',
-  dataManager: [
+let item = [
     { id: 'ceo', parentId: null, name: 'CEO' },
     { id: 'cto', parentId: 'ceo', name: 'CTO' },
     { id: 'dev1', parentId: 'cto', name: 'Developer 1' },
     { id: 'dev2', parentId: 'cto', name: 'Developer 2' }
   ]
+let dataSourceSettings = {
+  id: 'id',
+  parentId: 'parentId',
+  dataManager: new DataManager(item)
 }
 ```
 
@@ -344,15 +345,15 @@ export class OrgChartComponent {
     horizontalSpacing: 100,
     verticalSpacing: 80
   };
-
+  data  = [
+    { id: 'ceo', parentId: null, name: 'CEO' },
+    { id: 'cto', parentId: 'ceo', name: 'CTO' },
+    { id: 'dev1', parentId: 'cto', name: 'Developer 1' }
+  ];
   dataSourceSettings = {
     id: 'id',
     parentId: 'parentId',
-    dataManager: [
-      { id: 'ceo', parentId: null, name: 'CEO' },
-      { id: 'cto', parentId: 'ceo', name: 'CTO' },
-      { id: 'dev1', parentId: 'cto', name: 'Developer 1' }
-    ]
+    dataManager: new DataManager(data)
   };
 
   getNodeDefaults = (node:NodeModel) => ({

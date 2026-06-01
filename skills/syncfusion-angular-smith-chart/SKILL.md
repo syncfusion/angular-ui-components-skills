@@ -215,7 +215,8 @@ Switch to Admittance rendering and customize axes with gridlines:
 ```typescript
 @Component({
   template: `
-    <ejs-smithchart 
+    <ejs-smithchart
+      renderType: 'Admittance'
       [series]="series"
       [horizontalAxis]="hAxis"
       [radialAxis]="rAxis">
@@ -226,19 +227,18 @@ export class AppComponent {
   series = [
     {
       points: [...],
-      renderType: 'Admittance'
     }
   ];
 
   hAxis = {
     labelPosition: 'Outside',
-    majorGridlines: { visible: true, width: 1, opacity: 0.8 },
-    minorGridlines: { visible: true, count: 4, opacity: 0.4 }
+    majorGridLines: { visible: true, width: 1, opacity: 0.8 },
+    minorGridLines: { visible: true, count: 4, opacity: 0.4 }
   };
 
   rAxis = {
-    majorGridlines: { visible: true, width: 1, opacity: 0.8 },
-    minorGridlines: { visible: true, count: 4, opacity: 0.4 }
+    majorGridLines: { visible: true, width: 1, opacity: 0.8 },
+    minorGridLines: { visible: true, count: 4, opacity: 0.4 }
   };
 }
 ```

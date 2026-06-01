@@ -41,7 +41,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
 }
 ```
 
@@ -123,7 +123,7 @@ import { usa_map } from './usa-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = usa_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };
   
   public shapeSettings: object = {
     fill: '#E5E5E5',
@@ -224,7 +224,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   // External data source
   public dataSource: object[] = [
@@ -309,9 +309,9 @@ import { california } from './california';
   `
 })
 export class AppComponent {
-  public usaMap: object = usa_map;
-  public texasMap: object = texas;
-  public californiaMap: object = california;
+  public usaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };
+  public texasMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/texas.json' } };;
+  public californiaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/california.json' } };;
   
   public baseSettings: object = {
     fill: '#E5E5E5',
@@ -383,8 +383,8 @@ import { usa_map } from './usa-map';
   `
 })
 export class AppComponent {
-  public worldMap: object = world_map;
-  public usaMap: object = usa_map;
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };;
+  public usaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };;
   public baseLayerIndex: number = 0; // Start with world map
   
   showWorldMap() {
@@ -561,7 +561,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public dataSource: object[] = [
     {

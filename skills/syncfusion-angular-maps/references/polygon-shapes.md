@@ -33,7 +33,7 @@ import { MapsModule, PolygonService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // Your GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } }; // Your GeoJSON data
   
   public polygonSettings: object = {
     polygons: [
@@ -149,6 +149,7 @@ import { MapsTooltipService, PolygonService } from '@syncfusion/ej2-angular-maps
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public polygonSettings: object = {
     polygons: [
       {
@@ -208,6 +209,7 @@ Use custom HTML templates for rich tooltip content:
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public polygonSettings: object = {
     polygons: [
       {

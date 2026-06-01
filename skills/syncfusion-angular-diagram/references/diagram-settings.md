@@ -425,7 +425,7 @@ import '@syncfusion/ej2-angular-theme-default/styles/highcontrast.css';
 // Ensure sufficient contrast
 style: {
   fill: '#FFFFFF',     // Light background
-  stroke: '#000000',   // Dark border
+  strokeColor: '#000000',   // Dark border
   color: '#000000'     // Dark text
 }
 

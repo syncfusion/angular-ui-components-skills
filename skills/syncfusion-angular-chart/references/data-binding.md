@@ -55,32 +55,40 @@ Bind JSON data directly to chart series using the `dataSource` property. Map JSO
 **Basic Example:**
 
 ```typescript
-import { Component } from '@angular/core';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-chart',
-  template: `
-    <ejs-chart>
-      <e-series-collection>
-        <e-series 
-          [dataSource]='chartData' 
-          xName='month' 
-          yName='sales'
-          type='Column'>
-        </e-series>
-      </e-series-collection>
-    </ejs-chart>
-  `
+    imports: [ ChartModule ],
+    providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+            ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+    standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='month' yName='sales' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
 })
-export class ChartComponent {
-  public chartData: Object[] = [
-    { month: 'Jan', sales: 35 },
-    { month: 'Feb', sales: 28 },
-    { month: 'Mar', sales: 34 },
-    { month: 'Apr', sales: 32 },
-    { month: 'May', sales: 40 },
-    { month: 'Jun', sales: 32 }
-  ];
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    ngOnInit(): void {
+        this.chartData = [
+            { month: 'Jan', sales: 35 }, { month: 'Feb', sales: 28 },
+            { month: 'Mar', sales: 34 }, { month: 'Apr', sales: 32 },
+            { month: 'May', sales: 40 }, { month: 'Jun', sales: 32 },
+            { month: 'Jul', sales: 35 }, { month: 'Aug', sales: 55 },
+            { month: 'Sep', sales: 38 }, { month: 'Oct', sales: 30 },
+            { month: 'Nov', sales: 25 }, { month: 'Dec', sales: 32 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
 }
 ```
 
@@ -89,27 +97,48 @@ export class ChartComponent {
 Share a single data source across multiple series by setting `dataSource` at the chart level instead of the series level.
 
 ```typescript
-import { Component } from '@angular/core';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-chart',
-  template: `
-    <ejs-chart [dataSource]='commonData'>
-      <e-series-collection>
-        <e-series xName='x' yName='y1' type='Line' name='Product A'></e-series>
-        <e-series xName='x' yName='y2' type='Line' name='Product B'></e-series>
-        <e-series xName='x' yName='y3' type='Line' name='Product C'></e-series>
-      </e-series-collection>
-    </ejs-chart>
-  `
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [dataSource]='chartData'>
+        <e-series-collection>
+            <e-series type='Column' xName='month' yName='sales' name='Sales'></e-series>
+            <e-series type='Column' xName='month' yName='sales1' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
 })
-export class ChartComponent {
-  public commonData: Object[] = [
-    { x: 'Jan', y1: 35, y2: 28, y3: 34 },
-    { x: 'Feb', y1: 28, y2: 35, y3: 32 },
-    { x: 'Mar', y1: 34, y2: 32, y3: 40 },
-    { x: 'Apr', y1: 32, y2: 40, y3: 32 }
-  ];
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public chartData?: Object[];
+    ngOnInit(): void {
+        this.chartData = [
+      { month: 'Jan', sales: 35, sales1: 28 }, { month: 'Feb', sales: 28, sales1: 35 },
+      { month: 'Mar', sales: 34, sales1: 32 }, { month: 'Apr', sales: 32, sales1: 34 },
+      { month: 'May', sales: 40, sales1: 32 }, { month: 'Jun', sales: 32, sales1: 40 },
+      { month: 'Jul', sales: 35, sales1: 55 }, { month: 'Aug', sales: 55, sales1: 35 },
+      { month: 'Sep', sales: 38, sales1: 30 }, { month: 'Oct', sales: 30, sales1: 38 },
+      { month: 'Nov', sales: 25, sales1: 32 }, { month: 'Dec', sales: 32, sales1: 25 }
+
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
+
 }
 ```
 
@@ -157,32 +186,48 @@ The `DataManager` class simplifies communication with REST APIs, OData services,
 **Basic Remote Data Example:**
 
 ```typescript
-import { Component } from '@angular/core';
-import { DataManager, Query, ODataAdaptor } from '@syncfusion/ej2-data';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
+import { DataManager, Query } from '@syncfusion/ej2-data';
 
 @Component({
-  selector: 'app-chart',
-  template: `
-    <ejs-chart>
-      <e-series-collection>
-        <e-series 
-          [dataSource]='remoteData' 
-          [query]='query'
-          xName='OrderDate' 
-          yName='Freight'
-          type='Line'>
-        </e-series>
-      </e-series-collection>
-    </ejs-chart>
-  `
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis'>
+        <e-series-collection>
+            <e-series [dataSource]='dataManager' type='Column' [query]='query' xName='CustomerID' yName='Freight' name='Sales'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
 })
-export class ChartComponent {
-  public remoteData: DataManager = new DataManager({
-    url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
-    adaptor: new ODataAdaptor()
-  });
-  
-  public query: Query = new Query().take(10).where('EmployeeID', 'equal', 3);
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public dataManager: DataManager = new DataManager({
+    url: 'https://services.syncfusion.com/angular/production/api/orders'
+    });
+    public query: Query = new Query().take(5).where('Estimate', 'lessThan', 3, false);
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            rangePadding: 'Additional',
+            valueType: 'Category',
+            title: 'Assignee'
+        };
+        this.primaryYAxis = {
+            title: 'Estimate'
+        };
+    }
+
 }
 ```
 
@@ -191,18 +236,41 @@ export class ChartComponent {
 OData (Open Data Protocol) is a standardized protocol for creating and consuming data APIs.
 
 ```typescript
-import { ODataAdaptor } from '@syncfusion/ej2-data';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { DataManager, Query, ODataAdaptor } from '@syncfusion/ej2-data';
+@Component({
+imports: [
+        ChartModule
+    ],
 
-public odataManager: DataManager = new DataManager({
-  url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
-  adaptor: new ODataAdaptor(),
-  crossDomain: true
-});
+providers: [ CategoryService, ColumnSeriesService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='dataManager' type='Column' [query]='query' xName='CustomerID' yName='Freight'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public title?: string;
+    public dataManager: DataManager = new DataManager({
+        url: 'https://services.odata.org/V3/Northwind/Northwind.svc/Orders/',
+        adaptor: new ODataAdaptor(),
+        crossDomain: true
+    });
+    public query: Query = new Query();
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.title = 'Order Details';
+    }
 
-public query: Query = new Query()
-  .select(['OrderID', 'CustomerID', 'Freight', 'OrderDate'])
-  .take(100)
-  .sortBy('OrderDate', 'descending');
+}
 ```
 
 **Query Operations:**
@@ -217,18 +285,40 @@ public query: Query = new Query()
 ODataV4 is the latest version with enhanced query capabilities:
 
 ```typescript
-import { ODataV4Adaptor } from '@syncfusion/ej2-data';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { DataManager, Query, ODataV4Adaptor } from '@syncfusion/ej2-data';
+@Component({
+imports: [
+        ChartModule
+    ],
 
-public odataV4Manager: DataManager = new DataManager({
-  url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders/',
-  adaptor: new ODataV4Adaptor()
-});
+providers: [ CategoryService, ColumnSeriesService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='dataManager' type='Column' [query]='query' xName='CustomerID' yName='Freight'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public title?: string;
+    public dataManager: DataManager = new DataManager({
+        url: 'https://services.odata.org/V4/Northwind/Northwind.svc/Orders',
+        adaptor: new ODataV4Adaptor()
+    });
+    public query: Query = new Query();
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.title = 'Order Details';
+    }
 
-public advancedQuery: Query = new Query()
-  .select(['OrderID', 'ShipCountry', 'Freight'])
-  .where('Freight', 'greaterthan', 50)
-  .take(20)
-  .expand('Customer');  // ODataV4 specific
+}
 ```
 
 ### Web API Adaptor
@@ -236,12 +326,40 @@ public advancedQuery: Query = new Query()
 For custom REST APIs that don't follow OData conventions:
 
 ```typescript
-import { WebApiAdaptor } from '@syncfusion/ej2-data';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { DataManager, Query, WebApiAdaptor } from '@syncfusion/ej2-data';
+@Component({
+imports: [
+        ChartModule
+    ],
 
-public webApiManager: DataManager = new DataManager({
-  url: 'https://your-api.com/api/sales',
-  adaptor: new WebApiAdaptor()
-});
+providers: [ CategoryService, ColumnSeriesService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='dataManager' type='Column' [query]='query' xName='CustomerID' yName='Freight'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public title?: string;
+    public dataManager: DataManager = new DataManager({
+        url: 'https://services.syncfusion.com/angular/production/api/orders',
+        adaptor: new WebApiAdaptor()
+    });
+    public query: Query = new Query();
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+        this.title = 'Order Details';
+    }
+
+}
 ```
 
 **Expected Response Format:**
@@ -261,41 +379,53 @@ public webApiManager: DataManager = new DataManager({
 Create custom adaptors for specialized data transformations:
 
 ```typescript
-import { ODataAdaptor } from '@syncfusion/ej2-data';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
+import { Component, OnInit } from '@angular/core';
+import { DataManager, Query, ODataAdaptor } from '@syncfusion/ej2-data';
+@Component({
+imports: [
+        ChartModule
+    ],
 
-export class CustomAdaptor extends ODataAdaptor {
-  processResponse(): Object {
-    let result: any = super.processResponse.apply(this, arguments);
-    
-    // Add serial numbers
-    result.forEach((item: any, index: number) => {
-      item.serialNo = index + 1;
-    });
-    
-    // Transform dates
-    result.forEach((item: any) => {
-      if (item.date) {
-        item.formattedDate = new Date(item.date).toLocaleDateString();
-      }
-    });
-    
-    // Calculate computed fields
-    result.forEach((item: any) => {
-      if (item.revenue && item.cost) {
-        item.profit = item.revenue - item.cost;
-        item.margin = ((item.profit / item.revenue) * 100).toFixed(2);
-      }
-    });
-    
-    return result;
-  }
+providers: [ CategoryService, ColumnSeriesService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='data' type='Column' [query]='query' xName='CustomerID' yName='Sno'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+
+export class AppComponent implements OnInit {
+    public primaryXAxis?: Object;
+    public title?: string;
+    public data?: DataManager;
+    public query: Query = new Query();
+    ngOnInit(): void {
+        class SerialNoAdaptor extends ODataAdaptor {
+            public override processResponse(): Object[] {
+                let i: number = 0;
+                // calling base class processResponse function
+                let original: Object[] | any = super.processResponse.apply(this, arguments as any);
+                // adding serial number
+                original.forEach((item: Object | any) => (item['Sno'] = ++i));
+                return original;
+            }
+        }
+        this.data = new DataManager({
+            url: 'https://services.syncfusion.com/angular/production/api/orders',
+            adaptor: new SerialNoAdaptor(),
+            offline: true
+        });
+        this.primaryXAxis = {
+            valueType: 'Category',
+        };
+        this.title = 'Order Details';
+    }
+
 }
-
-// Usage
-public customData: DataManager = new DataManager({
-  url: 'https://your-api.com/data',
-  adaptor: new CustomAdaptor()
-});
 ```
 
 ## Lazy Loading
@@ -303,84 +433,123 @@ public customData: DataManager = new DataManager({
 Lazy loading enables on-demand data retrieval for large datasets, loading only visible data ranges.
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent } from '@syncfusion/ej2-angular-charts';
+import { Internationalization } from '@syncfusion/ej2-base';
+import { NumericTextBoxComponent } from '@syncfusion/ej2-angular-inputs';
 import { IScrollEventArgs } from '@syncfusion/ej2-charts';
 
 @Component({
-  selector: 'app-chart',
-  template: `
-    <ejs-chart #chart
-      [primaryXAxis]='primaryXAxis'
-      [zoomSettings]='zoomSettings'
-      (scrollEnd)='scrollEnd($event)'>
-      <e-series-collection>
-        <e-series 
-          [dataSource]='chartData' 
-          xName='x' 
-          yName='y'
-          type='Line'>
-        </e-series>
-      </e-series-collection>
-    </ejs-chart>
-  `
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart style='display:block;' #chart [legendSettings]='legend' id='container' [primaryXAxis]='primaryXAxis'
+            [tooltip]='tooltip' [height]='height' [width]='width' (scrollEnd)='scrollEnd($event)'
+            [primaryYAxis]='primaryYAxis' [crosshair]='crosshair' [chartArea]='chartArea' [title]='title'>
+            <e-series-collection>
+                <e-series [dataSource]='data' [animation]='animation' type='Line' xName='x' yName='y'>
+                </e-series>
+            </e-series-collection>
+        </ejs-chart>`
 })
-export class LazyLoadChartComponent {
-  @ViewChild('chart') chart: ChartComponent;
-  
-  public chartData: Object[] = this.getInitialData();
-  
-  public primaryXAxis: Object = {
-    valueType: 'DateTime',
-    scrollbarSettings: {
-      enable: true
+export class AppComponent implements OnInit {
+    ngOnInit(): void {
     }
-  };
-  
-  public zoomSettings: Object = {
-    enableScrollbar: true,
-    enableSelectionZooming: true
-  };
-  
-  getInitialData(): Object[] {
-    let data: Object[] = [];
-    let startDate = new Date(2024, 0, 1);
-    for (let i = 0; i < 100; i++) {
-      data.push({
-        x: new Date(startDate.getTime() + i * 24 * 60 * 60 * 1000),
-        y: Math.random() * 100
-      });
+    public intl: Internationalization = new Internationalization();
+    @ViewChild('point')
+    private pointslength?: NumericTextBoxComponent;
+    public value: number = 1000;
+    public step: number = 100;
+    public enabled: boolean = false;
+    public format: string = 'n';
+    public dropValue: string = 'Range';
+    public minValue: Date = new Date(2009, 0, 1);
+    public maxValue: Date = new Date(2014, 0, 1);
+    public dropDownData: Object = [
+        { value: 'Range' },
+        { value: 'Points Length' }
+
+    ];
+    public fields: Object = { text: 'value', value: 'value' };
+    public data: Object[] = this.GetNumericData(new Date(2009, 0, 1));
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    // Initializing Primary X Axis
+    public primaryXAxis: Object = {
+        title: 'Day',
+        valueType: 'DateTime',
+        edgeLabelPlacement: 'Shift',
+        skeleton: 'yMMM',
+        skeletonType: 'Date',
+        scrollbarSettings: {
+            range: {
+                minimum: new Date(2009, 0, 1),
+                maximum: new Date(2014, 0, 1)
+            },
+            enable: true,
+            pointsLength: 1000
+        }
+    };
+    public height: string = '450';
+    public width: string = '100%';
+    //Initializing Primary Y Axis
+    public primaryYAxis: Object = {
+        title: 'Server Load',
+        labelFormat: '{value}MB'
+    };
+    public tooltip: Object = {
+        enable: true, shared: true,
+        header : "<b>${point.x}</b>", format : "Server load : <b>${point.y}</b>"
+    };
+    public legend: Object = {
+        visible: false
+    };
+    public title: string = 'Network Load';
+    public animation: Object = { enable: false };
+    public chartArea: Object = {
+        border: {
+            width: 0
+        }
+    };
+crosshair: any;
+    public scrollEnd(args: IScrollEventArgs | any): void {
+        (this.chart as ChartComponent).series[0].dataSource = this.GetNumericData(new Date(args.currentRange.maximum));
+        (this.chart as ChartComponent).dataBind();
+    };
+    public GetNumericData(date: Date): {x: Date, y: number}[] {
+        var series1 = [];
+        var value = 30;
+        for (var i = 0; i <= 60; i++) {
+            if (Math.random() > .5) {
+                value += (Math.random() * 10 - 5);
+            }
+            else {
+                value -= (Math.random() * 10 - 5);
+            }
+            if (value < 0) {
+                value = this.getRandomInt(20, 40);
+            }
+            date = new Date(date.setMinutes(date.getMinutes() + 1));
+            var point = { x: date, y: Math.round(value) };
+            series1.push(point);
+        }
+        return series1;
     }
-    return data;
-  }
-  
-  scrollEnd(args: IScrollEventArgs): void {
-    if (args.currentRange) {
-      let min = args.currentRange.minimum;
-      let max = args.currentRange.maximum;
-      
-      // Fetch data for the visible range
-      this.fetchDataForRange(min, max).then(newData => {
-        // Append new data
-        this.chartData = [...this.chartData, ...newData];
-        this.chart.refresh();
-      });
+    public getRandomInt(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-  }
-  
-  async fetchDataForRange(min: number, max: number): Promise<Object[]> {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        let data: Object[] = [];
-        let minDate = new Date(min);
-        let maxDate = new Date(max);
-        // Generate data for range
-        resolve(data);
-      }, 500);
-    });
-  }
-}
+};
 ```
 
 ## Dynamic Data Updates
@@ -390,32 +559,78 @@ export class LazyLoadChartComponent {
 Use the `addPoint` method to append new data points:
 
 ```typescript
-import { Component, ViewChild } from '@angular/core';
-import { ChartComponent } from '@syncfusion/ej2-angular-charts';
-
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { ChartComponent, SplineSeriesService, CategoryService, LegendService, DataLabelService } from '@syncfusion/ej2-angular-charts';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { Component, OnInit, ViewChild } from '@angular/core';
 @Component({
-  selector: 'app-chart',
-  template: `
-    <button (click)="addNewPoint()">Add Point</button>
-    <ejs-chart #chart>
-      <e-series-collection>
-        <e-series [dataSource]='chartData' xName='x' yName='y'></e-series>
-      </e-series-collection>
+imports: [
+         ChartModule, ButtonModule
+    ],
+
+providers: [ SplineSeriesService, CategoryService, LegendService, DataLabelService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings' [chartArea]='chartArea'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Spline' xName='x' yName='y' name='Users' width=2 [marker]='marker'></e-series>
+        </e-series-collection>
     </ejs-chart>
-  `
+    <button ej-button id='add' (click)='click()'>Add Point</button>`
 })
-export class DynamicChartComponent {
-  @ViewChild('chart') chart: ChartComponent;
-  
-  public chartData: Object[] = [
-    { x: 'Jan', y: 35 },
-    { x: 'Feb', y: 28 }
-  ];
-  
-  addNewPoint(): void {
-    let newPoint = { x: 'Mar', y: Math.floor(Math.random() * 50) };
-    this.chart.series[0].addPoint(newPoint, 500); // 500ms animation
-  }
+export class AppComponent implements OnInit {
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public chartData?: Object[] = [
+        { x: "Germany", y: 72 },
+        { x: "Russia", y: 103.1 },
+        { x: "Brazil", y: 139.1 },
+        { x: "India", y: 462.1 },
+        { x: "China", y: 721.4 },
+        { x: "USA", y: 286.9 },
+        { x: "Great Britain", y: 115.1 },
+        { x: "Nigeria", y: 97.2 }
+    ];
+    public title?: string;
+    public marker?: Object;
+    public legendSettings?: Object;
+    public chartArea?: Object;
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category',
+            enableTrim: false,
+            majorTickLines: { width: 0 },
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            minimum: 0,
+            maximum: 800,
+            labelFormat: '{value}M',
+            edgeLabelPlacement: 'Shift'
+        };
+        this.title = 'Internet Users - 2016';
+        this.marker = {
+            visible: true,
+            dataLabel: {
+                visible: true,
+                position: 'Top',
+                font: { fontWeight: '600' }
+            }
+        };
+        this.legendSettings = { visible: false };
+        this.chartArea = {
+            border: { width: 1 }
+        };
+    }
+    click() {
+        if (this.chart?.series?.length) {
+            if (typeof this.chart.series[0].addPoint === 'function') {
+            this.chart?.series[0].addPoint({ x: 'Japan', y: 118.2 });
+            }
+        }
+    }
 }
 ```
 
@@ -424,10 +639,78 @@ export class DynamicChartComponent {
 Use `removePoint` to delete data points by index:
 
 ```typescript
-removePointAtIndex(index: number): void {
-  if (index >= 0 && index < this.chartData.length) {
-    this.chart.series[0].removePoint(index, 500);
-  }
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { ChartComponent, SplineSeriesService, CategoryService, LegendService, DataLabelService } from '@syncfusion/ej2-angular-charts';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { Component, OnInit, ViewChild } from '@angular/core';
+@Component({
+imports: [
+         ChartModule, ButtonModule
+    ],
+
+providers: [ SplineSeriesService, CategoryService, LegendService, DataLabelService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings' [chartArea]='chartArea'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Spline' xName='x' yName='y' name='Users' width=2 [marker]='marker'></e-series>
+        </e-series-collection>
+    </ejs-chart>
+    <button ej-button id='remove' (click)='click()'>Remove Point</button>`
+})
+export class AppComponent implements OnInit {
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public chartData?: Object[] = [
+        { x: "Germany", y: 72 },
+        { x: "Russia", y: 103.1 },
+        { x: "Brazil", y: 139.1 },
+        { x: "India", y: 462.1 },
+        { x: "China", y: 721.4 },
+        { x: "USA", y: 286.9 },
+        { x: "Great Britain", y: 115.1 },
+        { x: "Nigeria", y: 97.2 }
+    ];
+    public title?: string;
+    public marker?: Object;
+    public legendSettings?: Object;
+    public chartArea?: Object;
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category',
+            enableTrim: false,
+            majorTickLines: { width: 0 },
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            minimum: 0,
+            maximum: 800,
+            labelFormat: '{value}M',
+            edgeLabelPlacement: 'Shift'
+        };
+        this.title = 'Internet Users - 2016';
+        this.marker = {
+            visible: true,
+            dataLabel: {
+                visible: true,
+                position: 'Top',
+                font: { fontWeight: '600' }
+            }
+        };
+        this.legendSettings = { visible: false };
+        this.chartArea = {
+            border: { width: 1 }
+        };
+    }
+    click() {
+        if (this.chart?.series?.length) {
+            if (typeof this.chart.series[0].removePoint === 'function') {
+        this.chart?.series[0].removePoint(0);
+            }
+        }
+    }
 }
 ```
 
@@ -436,9 +719,90 @@ removePointAtIndex(index: number): void {
 Use `setData` for complete data refresh:
 
 ```typescript
-refreshData(): void {
-  let newData = this.fetchNewDataSet();
-  this.chart.series[0].setData(newData, 1000); // 1000ms animation
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { ChartComponent, ColumnSeriesService, CategoryService, IAxisRangeCalculatedEventArgs } from '@syncfusion/ej2-angular-charts';
+import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { Component, OnInit, ViewChild } from '@angular/core';
+@Component({
+imports: [
+         ChartModule, ButtonModule
+    ],
+
+providers: [ ColumnSeriesService, CategoryService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [chartArea]='chartArea' (axisRangeCalculated)="axisRangeCalculated($event)">
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' columnWidth=0.5 [cornerRadius]='cornerRadius'></e-series>
+        </e-series-collection>
+    </ejs-chart>
+    <button ej-button id='update' (click)='click()'>Update Data</button>`
+})
+export class AppComponent implements OnInit {
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public chartData?: Object[] = [
+        { x: 'Jewellery', y: 75 },
+        { x: 'Shoes', y: 45 },
+        { x: 'Footwear', y: 73 },
+        { x: 'Pet Services', y: 53 },
+        { x: 'Business Clothing', y: 85 },
+        { x: 'Office Supplies', y: 68 },
+        { x: 'Food', y: 45 }
+    ];
+    public title?: string;
+    public cornerRadius?: Object;
+    public chartArea?: Object;
+    public getRandomInt(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            valueType: 'Category',
+            majorGridLines: { width: 0 },
+            labelStyle: { size: '12px' },
+            labelIntersectAction: 'Rotate90'
+        };
+        this.primaryYAxis = {
+            title: 'Sales (in percentage)',
+            labelFormat: '{value}%',
+            lineStyle: { width: 0 },
+            majorTickLines: { width: 0 },
+            interval: 5,
+            minimum: 0,
+            maximum: 100
+        };
+        this.title = 'Sales by product';
+        this.cornerRadius = { topLeft: 15, topRight: 15 };
+        this.chartArea = {
+            border: { width: 0 }
+        };
+    }
+    click() {
+        if (this.chart && this.chart.series && this.chart.series.length > 0 && this.chart.series[0].dataSource) {
+            const newData = (
+                this.chart.series[0].dataSource as { x: string; y: number }[]
+            ).map((item) => {
+                const value: number = this.getRandomInt(10, 90);
+                return { x: item.x, y: value };
+            });
+            if (typeof this.chart.series[0].setData === 'function') {
+                this.chart.series[0].setData(newData, 500);
+            }
+        }
+    }
+    public axisRangeCalculated (args: IAxisRangeCalculatedEventArgs): void {
+        if (args.axis.name === 'primaryYAxis') {
+            args.maximum = args.maximum as number > 100 ? 100 : args.maximum;
+            if (args.maximum > 80) {
+                args.interval = 20;
+            } else if(args.maximum > 40){
+                args.interval = 10;
+            }
+        }
+    }
 }
 ```
 
@@ -447,27 +811,114 @@ refreshData(): void {
 Enable users to add/remove points by clicking:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { ChartComponent, LineSeriesService, CategoryService, TooltipService, DataLabelService, IAxisRangeCalculatedEventArgs, Series, IMouseEventArgs } from '@syncfusion/ej2-angular-charts';
+import { Component, OnInit, ViewChild } from '@angular/core';
 @Component({
-  template: `
-    <ejs-chart (chartMouseClick)='chartMouseClick($event)'>
-      <!-- chart configuration -->
+imports: [
+         ChartModule
+    ],
+
+providers: [ LineSeriesService, CategoryService, TooltipService, DataLabelService ],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart #chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [chartArea]='chartArea' [tooltip]='tooltip' (chartMouseClick)='chartMouseClick($event)' (axisRangeCalculated)="axisRangeCalculated($event)">
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' width=3 [marker]='marker'></e-series>
+        </e-series-collection>
     </ejs-chart>
-  `
+   `
 })
-export class InteractiveChartComponent {
-  chartMouseClick(args: IMouseEventArgs): void {
-    if (args.target.includes('Point')) {
-      // Remove clicked point
-      let pointIndex = args.pointIndex;
-      this.chart.series[0].removePoint(pointIndex);
-    } else {
-      // Add point at clicked location
-      let xValue = args.axisData['primaryXAxis'];
-      let yValue = args.axisData['primaryYAxis'];
-      let newPoint = { x: xValue, y: yValue };
-      this.chart.series[0].addPoint(newPoint);
+export class AppComponent implements OnInit {
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public chartData?: Object[] = [
+        { x: 20, y: 20 },
+        { x: 80, y: 80 }
+    ];
+    public title?: string;
+    public marker?: Object;
+    public chartArea?: Object;
+    public tooltip?: Object;
+    ngOnInit(): void {
+        this.primaryXAxis = {
+            edgeLabelPlacement: 'Shift',
+            rangePadding: 'Additional',
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            title: 'Value',
+            interval: 20,
+            lineStyle: { width: 0 },
+            majorTickLines: { width: 0 }
+        };
+        this.title = 'User supplied data';
+        this.marker = {
+            visible: true,
+            isFilled: true,
+            border: {
+                width: 2,
+                color: 'White'
+            },
+            width: 13,
+            height: 13
+        };
+        this.chartArea = {
+            border: { width: 0 }
+        };
+        this.tooltip = { enable: true };
     }
-  }
+    public chartMouseClick(args: IMouseEventArgs): void {
+        let isRemoved: boolean = false;
+        if (args.axisData && this.chart?.series) {
+            for (let i: number = 0; i < (this.chart.series[0] as Series).points.length; i++) {
+                let markerWidth: number = (this.chart.series[0] as Series).marker?.width ?? 0 / 2;
+                let roundedX: number = Math.round(args.axisData['primaryXAxis']) + markerWidth;
+                let roundedY: number = Math.round(args.axisData['primaryYAxis']) + markerWidth;
+                let pointX: number = Math.round((this.chart.series[0] as Series).points[i].x as number) + markerWidth;
+                let pointY: number = Math.round((this.chart.series[0] as Series).points[i].y as number) + markerWidth;
+                if ((roundedX === pointX || roundedX + 1 === pointX || roundedX - 1 === pointX) &&
+                    (roundedY === pointY || roundedY + 1 === pointY || roundedY - 1 === pointY)) {
+                    if ((this.chart.series[0] as Series).points.length > 1) {
+                        const points = (this.chart.series[0] as Series).points;
+                        const duration: number = i === 0 || i === points[points.length - 1].index ? 500 : 0;
+                        if (this.chart?.series?.length) {
+                            if (typeof this.chart.series[0].removePoint === 'function') {
+                                this.chart.series[0].removePoint(i, duration);
+                            }
+                        }
+                    }
+                    isRemoved = true;
+                }
+            }
+            if (!isRemoved) {
+                if (this.chart?.series?.length) {
+                    if (typeof this.chart.series[0].addPoint === 'function') {
+                        this.chart.series[0].addPoint({
+                            x: Math.round(args.axisData['primaryXAxis']),
+                            y: Math.round(args.axisData['primaryYAxis'])
+                        });
+                    }
+                }
+            }
+        }
+    };
+    public axisRangeCalculated(args: IAxisRangeCalculatedEventArgs): void {
+        if (args.axis.name === 'primaryXAxis') {
+            if (args.interval < 10) {
+                args.maximum = args.maximum + 10;
+                args.minimum = args.minimum - 10;
+                args.interval = 10;
+            }
+        }
+        if (args.axis.name === 'primaryYAxis') {
+            if (args.maximum <= 60) {
+                args.interval = 10;
+            }
+        }
+    };
 }
 ```
 
@@ -476,28 +927,52 @@ export class InteractiveChartComponent {
 Data points with `null` or `undefined` values are treated as empty points.
 
 ```typescript
-public dataWithEmptyPoints: Object[] = [
-  { x: 'Jan', y: 35 },
-  { x: 'Feb', y: null },    // Empty point
-  { x: 'Mar', y: 34 },
-  { x: 'Apr', y: undefined }, // Empty point
-  { x: 'May', y: 40 }
-];
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, LineSeriesService, StepLineSeriesService, SplineSeriesService, StackingLineSeriesService, DateTimeService,
+    SplineAreaSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
 
-// Configure empty point behavior
-<e-series 
-  [dataSource]='dataWithEmptyPoints'
-  [emptyPointSettings]='emptyPointSettings'>
-</e-series>
 
-public emptyPointSettings: Object = {
-  mode: 'Average',  // 'Gap', 'Zero', 'Average', 'Drop'
-  fill: '#ff6347',  // Custom color for empty points
-  border: {
-    width: 2,
-    color: '#000000'
-  }
-};
+import { Component, OnInit } from '@angular/core';
+import { lineData } from './datasource';
+
+@Component({
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, LineSeriesService, StepLineSeriesService, SplineSeriesService, StackingLineSeriesService, DateTimeService,
+        SplineAreaSeriesService, MultiColoredLineSeriesService, ParetoSeriesService, ColumnSeriesService],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis'
+    [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' [emptyPointSettings]='emptyPointSettings'></e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public chartData?: Object[];
+    public title?: string;
+     public primaryXAxis?: Object;
+      public primaryYAxis?: Object;
+      public emptyPointSettings?: Object;
+    ngOnInit(): void {
+        this.chartData = lineData;
+        this.primaryXAxis = {
+            interval: 1, valueType: 'Category'
+        };
+        this.primaryYAxis =
+        {
+            title: 'Expense',
+        },
+        this.title = 'Efficiency of oil-fired power production';
+        this.emptyPointSettings = {
+            mode: 'Zero'
+        }
+    }
+
+}
 ```
 
 **Empty Point Modes:**
@@ -536,29 +1011,69 @@ public offlineData: DataManager = new DataManager({
 Display custom content when no data is available:
 
 ```typescript
+import { ViewChild } from '@angular/core'
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, DateTimeService, ScrollBarService, ColumnSeriesService, LineSeriesService,
+    ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService,LegendService, TooltipService
+ } from '@syncfusion/ej2-angular-charts'
+
+
+import { Component, OnInit } from '@angular/core';
+import { ChartComponent } from '@syncfusion/ej2-angular-charts'
+
 @Component({
-  template: `
-    <ejs-chart [noDataTemplate]='noDataTemplate'>
-      <e-series-collection>
-        <e-series [dataSource]='emptyData'></e-series>
-      </e-series-collection>
-    </ejs-chart>
-    
-    <ng-template #noDataTemplate>
-      <div style="text-align: center; padding: 50px;">
-        <h3>No Data Available</h3>
-        <p>Please load data to view the chart</p>
-        <button (click)="loadData()">Load Data</button>
-      </div>
-    </ng-template>
-  `
+imports: [
+         ChartModule
+    ],
+
+providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesService, ColumnSeriesService,
+        ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
+standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="chart-container" [noDataTemplate]='noDataTemplate' #chart [primaryXAxis]='primaryXAxis'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Sales'></e-series>
+        </e-series-collection>
+        <ng-template #noDataTemplate>
+                <div id="noDataTemplateContainer">
+                    <div class="template-align">
+                        <img src="./no-data.png" alt="No Data"/>
+                    </div>
+                    <div class="template-align">
+                        <p style="font-size: 15px; margin: 10px 0 0;"><strong>No data available to display.</strong></p>
+                    </div>
+                    <div class="template-align" style="margin-top: 15px;">
+                        <button ejs-button class="load-data-btn" (click)="loadData()" iconCss="e-icons e-refresh">Load Data</button>
+                    </div>
+                </div>
+            </ng-template>
+    </ejs-chart>`
 })
-export class NoDataChartComponent {
-  public emptyData: Object[] = [];
-  
-  loadData(): void {
-    this.emptyData = this.fetchData();
-  }
+export class AppComponent implements OnInit {
+    @ViewChild('chart')
+    public chart?: ChartComponent;
+    public primaryXAxis?: Object;
+    public data: Object[] = [];
+    public chartData?: Object[];
+
+    ngOnInit(): void {
+        this.chartData = [];
+        this.primaryXAxis = {
+            valueType: 'Category'
+        };
+    }
+
+    public loadData(): void {
+        this.chartData = [
+            { x: 'January', y: 19173 },
+            { x: 'February', y: 17726 },
+            { x: 'March', y: 19874 },
+            { x: 'April', y: 19391 },
+            { x: 'May', y: 20072 },
+            { x: 'June', y: 19233 }
+        ];
+        this.chart?.refresh();
+    }
 }
 ```
 

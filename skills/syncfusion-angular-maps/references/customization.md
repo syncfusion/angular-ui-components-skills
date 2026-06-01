@@ -56,7 +56,7 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // Your GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// Your GeoJSON data
   
   // Fixed pixel dimensions
   public width: string = '800px';
@@ -102,7 +102,7 @@ Create responsive maps that adapt to container size:
   `]
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
 }
 ```
 
@@ -132,7 +132,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public titleSettings: object = {
     text: 'World Population Distribution',
@@ -177,102 +177,6 @@ public titleSettings: object = {
 
 ---
 
-## Themes
-
-Apply pre-built themes to change the overall appearance.
-
-### Built-in Themes
-
-Syncfusion Maps supports 13 themes:
-
-```typescript
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [MapsModule],
-  template: `
-    <div>
-      <select (change)="changeTheme($event.target.value)">
-        <option value="Material">Material</option>
-        <option value="Fabric">Fabric</option>
-        <option value="Bootstrap">Bootstrap</option>
-        <option value="Bootstrap4">Bootstrap 4</option>
-        <option value="HighContrast">High Contrast</option>
-        <option value="MaterialDark">Material Dark</option>
-        <option value="FabricDark">Fabric Dark</option>
-        <option value="BootstrapDark">Bootstrap Dark</option>
-        <option value="HighContrastLight">High Contrast Light</option>
-        <option value="Tailwind">Tailwind</option>
-        <option value="TailwindDark">Tailwind Dark</option>
-        <option value="Bootstrap5">Bootstrap 5</option>
-        <option value="Bootstrap5Dark">Bootstrap 5 Dark</option>
-      </select>
-      
-      <ejs-maps [theme]="selectedTheme">
-        <e-layers>
-          <e-layer [shapeData]="worldMap"></e-layer>
-        </e-layers>
-      </ejs-maps>
-    </div>
-  `
-})
-export class AppComponent {
-  public worldMap: object = // GeoJSON data
-  public selectedTheme: string = 'Material';
-  
-  public changeTheme(theme: string): void {
-    this.selectedTheme = theme;
-  }
-}
-```
-
-**Theme Characteristics:**
-- **Material**: Clean, modern Google Material Design
-- **Fabric**: Microsoft Fluent Design System
-- **Bootstrap**: Twitter Bootstrap styling
-- **HighContrast**: Accessibility-focused high contrast
-- **Tailwind**: Tailwind CSS design system
-- **Dark Variants**: Dark mode versions of each theme
-
-### Theme Switching
-
-Dynamically switch themes based on user preference:
-
-```typescript
-export class ThemeSwitcherComponent implements OnInit {
-  @ViewChild('maps') public mapObj!: MapsComponent;
-  public selectedTheme: string = 'Material';
-  
-  ngOnInit(): void {
-    // Load theme from localStorage
-    const savedTheme = localStorage.getItem('mapTheme');
-    if (savedTheme) {
-      this.selectedTheme = savedTheme;
-    }
-  }
-  
-  public changeTheme(theme: string): void {
-    this.selectedTheme = theme;
-    localStorage.setItem('mapTheme', theme);
-    this.mapObj.refresh();
-  }
-  
-  public toggleDarkMode(): void {
-    const isDark = this.selectedTheme.includes('Dark');
-    if (isDark) {
-      this.selectedTheme = this.selectedTheme.replace('Dark', '');
-    } else {
-      this.selectedTheme = this.selectedTheme + 'Dark';
-    }
-    this.mapObj.refresh();
-  }
-}
-```
-
----
-
 ## Container Customization
 
 Style the outer map container.
@@ -299,7 +203,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public background: string = '#F5F5F5';  // Light gray background
   
@@ -343,7 +247,7 @@ public margin: object = {
 })
 export class AppComponent {
   public background: string = '#FFFFFF';
-  
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public border: object = {
     color: '#E0E0E0',
     width: 1,
@@ -385,7 +289,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public mapsArea: object = {
     background: '#E3F2FD',  // Light blue background for ocean
@@ -442,7 +346,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public shapeSettings: object = {
     fill: '#81C784',     // Green fill color
@@ -568,7 +472,7 @@ import { ProjectionType } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   public projectionType: ProjectionType = 'Mercator';
   
   public changeProjection(projection: string): void {

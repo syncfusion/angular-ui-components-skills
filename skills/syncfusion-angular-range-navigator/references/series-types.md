@@ -25,6 +25,8 @@ The Range Navigator supports multiple series types for different data visualizat
 - [Series Styling](#series-styling)
   - [Color and Fill](#color-and-fill)
   - [Gradient Fill](#gradient-fill)
+- [Range Navigator with Chart](#range-navigator-with-chart)
+  - [Basic Chart Synchronization](#basic-chart-synchronization)
 - [Best Practices](#best-practices)
 - [Service Provider Reference](#service-provider-reference)
 
@@ -424,6 +426,110 @@ export class ColoredSeriesComponent { }
 })
 export class GradientSeriesComponent {
   gradientFill = 'url(#gradient)';
+}
+```
+
+## Range Navigator with Chart
+
+Range Navigator can be used together with a Chart to provide interactive range-based filtering for time-series data. **Range Navigator** is used to control the visible range of a **Chart** by updating the chart axis `zoomFactor` and `zoomPosition` whenever the selected range changes.
+
+### Basic Chart Synchronization
+
+In this pattern:
+- The **Range Navigator** displays the overview of the dataset and allows users to select a specific range.
+- The **Chart** displays the detailed view of the selected data range.
+- The Range Navigator’s `changed` event is used to update the Chart by applying the selected `zoomFactor` and `zoomPosition`.
+
+```typescript
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChartModule,
+  RangeNavigatorModule,
+  AreaSeriesService,
+  DateTimeService,
+  RangeTooltipService
+} from '@syncfusion/ej2-angular-charts';
+import { Chart, IChangedEventArgs } from '@syncfusion/ej2-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [CommonModule, ChartModule, RangeNavigatorModule],
+  providers: [AreaSeriesService, DateTimeService, RangeTooltipService],
+  template: `
+    <ejs-rangenavigator
+      id="rn-container"
+      valueType="DateTime"
+      [value]="value"
+      [tooltip]="tooltip"
+      [labelFormat]="labelFormat"
+      (changed)="changed($event)">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="chartData"
+          type="Area"
+          xName="x"
+          yName="y"
+          width="2">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+
+    <div align="center">
+      <ejs-chart
+        #chart
+        id="chart"
+        [primaryXAxis]="primaryXAxis">
+        <e-series-collection>
+          <e-series
+            [dataSource]="chartData"
+            type="Area"
+            xName="x"
+            yName="y"
+            width="2">
+          </e-series>
+        </e-series-collection>
+      </ejs-chart>
+    </div>
+  `
+})
+export class AppComponent implements OnInit {
+  public value?: Object[];
+  public chartData?: Object[];
+  public tooltip?: Object[];
+  public labelFormat?: string;
+  public primaryXAxis?: Object;
+
+  @ViewChild('chart') public chartObj?: Chart;
+
+  ngOnInit(): void {
+    this.value = [new Date('2017-09-01'), new Date('2018-02-01')];
+    this.chartData = [
+      { x: new Date('2017-05-01'), y: 30 },
+      { x: new Date('2017-06-01'), y: 28 },
+      { x: new Date('2017-07-01'), y: 35 },
+      { x: new Date('2017-08-01'), y: 40 },
+      { x: new Date('2017-09-01'), y: 32 },
+      { x: new Date('2017-10-01'), y: 38 },
+      { x: new Date('2017-11-01'), y: 42 },
+      { x: new Date('2017-12-01'), y: 36 },
+      { x: new Date('2018-01-01'), y: 44 },
+      { x: new Date('2018-02-01'), y: 48 },
+      { x: new Date('2018-03-01'), y: 46 }
+    ];
+    this.tooltip = [{ enable: true, displayMode: 'Always' }];
+    this.labelFormat = 'MMM-yy';
+    this.primaryXAxis = { valueType: 'DateTime' };
+  }
+
+  public changed(args: IChangedEventArgs): void {
+    if (this.chartObj) {
+      this.chartObj.primaryXAxis.zoomFactor = args.zoomFactor;
+      this.chartObj.primaryXAxis.zoomPosition = args.zoomPosition;
+      this.chartObj.dataBind();
+    }
+  }
 }
 ```
 

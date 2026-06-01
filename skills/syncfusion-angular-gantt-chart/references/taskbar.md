@@ -54,14 +54,33 @@ Use template string syntax `'${fieldName}'` to reference data fields.
 
 ## Label Templates
 
-Use Angular templates for rich label content:
+Use label templates when you need richer content than plain text labels. Templates let you display task metadata, formatted values, icons, or multiple data points inside `leftLabel`, `rightLabel`, or `taskLabel`.
+
+- `leftLabel`: Best for identifiers or supporting details shown before the taskbar
+- `rightLabel`: Best for status or summary values shown after the taskbar
+- `taskLabel`: Best for content rendered on top of the taskbar
+
+Use template syntax with `ng-template` and reference it from `labelSettings`.
 
 ```typescript
 @Component({
   template: `
     <ejs-gantt [labelSettings]="labelSettings">
       <ng-template #leftLabelTemplate let-data>
-        <b>{{ data.TaskName }}</b> [{{ data.Progress }}%]
+        <span class="priority-high" *ngIf="data.Priority === 'High'">🔴</span>
+        <span class="priority-medium" *ngIf="data.Priority === 'Medium'">🟡</span>
+        <span class="priority-low" *ngIf="data.Priority === 'Low'">🟢</span>
+        {{ data.TaskName }}
+      </ng-template>
+
+      <ng-template #rightLabelTemplate let-data>
+        <span class="progress-text">{{ data.Progress }}%</span>
+        <span class="duration-text" *ngIf="data.Duration">{{ data.Duration }} days</span>
+      </ng-template>
+
+      <ng-template #taskLabelTemplate let-data>
+        <strong>{{ data.TaskName }}</strong>
+        <small>{{ data.StartDate | date:'MMM dd' }} - {{ data.EndDate | date:'MMM dd' }}</small>
       </ng-template>
     </ejs-gantt>
   `
@@ -70,9 +89,13 @@ Use Angular templates for rich label content:
 
 ```typescript
 public labelSettings: object = {
-  leftLabel: '#leftLabelTemplate'
+  leftLabel: '#leftLabelTemplate',
+  rightLabel: '#rightLabelTemplate',
+  taskLabel: '#taskLabelTemplate'
 };
 ```
+
+For text-based labels, you can also use template literals such as `${Progress}%` and ensure your `taskFields` map the correct data properties.
 
 ---
 

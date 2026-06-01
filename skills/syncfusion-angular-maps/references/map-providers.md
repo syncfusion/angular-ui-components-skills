@@ -538,7 +538,7 @@ import { usaMap } from './usa-map';  // Your GeoJSON data
 })
 export class AppComponent {
   public urlTemplate: string = 'your URL link';
-  public usaMap: object = usaMap;
+  public usaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };
   
   public zoomSettings: object = {
     enable: true,

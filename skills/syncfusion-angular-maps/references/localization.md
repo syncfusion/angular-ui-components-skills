@@ -33,7 +33,7 @@ import { L10n, setCulture } from '@syncfusion/ej2-base';
   `
 })
 export class AppComponent implements OnInit {
-  public worldMap: object = // Your GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public zoomSettings: object = {
     enable: true,
@@ -176,6 +176,7 @@ import * as currencies from 'cldr-data/main/de/currencies.json';
   `
 })
 export class AppComponent implements OnInit {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public format: string = 'n';  // Number format
   public useGroupingSeparator: boolean = true;
   
@@ -279,6 +280,7 @@ import { setCulture } from '@syncfusion/ej2-base';
   `
 })
 export class AppComponent implements OnInit {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public format: string = 'n0';  // Number format, no decimals
   
   public countryData: object[] = [
@@ -326,6 +328,7 @@ import { enableRtl } from '@syncfusion/ej2-base';
   `
 })
 export class AppComponent implements OnInit {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public titleSettings: object = {
     text: 'خريطة العالم',  // "World Map" in Arabic
     alignment: 'Center',

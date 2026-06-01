@@ -323,7 +323,7 @@ import { FileData } from '@syncfusion/ej2-filemanager';
   </ejs-filemanager>`
 })
 export class AppComponent {
-  public fileData: FileData[] = [
+  public fileData: { [key: string]: Object }[] = [
     {
       id: '1',
       name: 'Documents',

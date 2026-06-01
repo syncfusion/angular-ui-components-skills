@@ -612,9 +612,9 @@ onLegendItemClick(args: any) {
 
 **CORRECT:**
 ```html
-<e-seriesCollection>
+<e-series-collection>
   <e-series></e-series>
-</e-seriesCollection>
+</e-series-collection>
 ```
 
 **Key Points:**

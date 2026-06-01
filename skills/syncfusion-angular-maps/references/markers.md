@@ -81,7 +81,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public markerSettings: object[] = [{
     visible: true,
@@ -205,7 +205,7 @@ import { world_map } from './world-map';
 export class AppComponent {
   @ViewChild('markerTemplate', { static: true }) markerTemplate: any;
   
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public markerSettings: object[] = [];
   
   ngAfterViewInit() {
@@ -316,7 +316,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   // Multiple marker groups
   public markerSettings: object[] = [
@@ -433,7 +433,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public markerSettings: object[] = [{
     visible: true,
@@ -566,7 +566,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public markerSettings: object[] = [{
     visible: true,
@@ -632,7 +632,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public markerSettings: object[] = [{
     visible: true,
@@ -685,7 +685,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public markerSettings: object[] = [{
     visible: true,

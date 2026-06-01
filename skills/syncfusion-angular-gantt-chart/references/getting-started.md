@@ -6,6 +6,7 @@
 - [CSS Imports](#css-imports)
 - [Add the Component](#add-the-component)
 - [Bind Data](#bind-data)
+- [Configure Task Fields](#configure-task-fields)
 - [Inject Feature Modules](#inject-feature-modules)
 - [Configure Timeline](#configure-timeline)
 - [Enable Toolbar](#enable-toolbar)
@@ -19,9 +20,10 @@
 
 ## Prerequisites
 
-- Angular 19+ (standalone architecture is the default)
-- Node.js 18+
+- Node.js **18.19 or later**
 - Angular CLI installed globally
+- npm or yarn package manager
+- Basic knowledge of Angular framework
 
 ```bash
 npm install -g @angular/cli
@@ -31,11 +33,23 @@ npm install -g @angular/cli
 
 ## Installation
 
-Use `ng add` for automated setup (recommended). It installs the package, imports the module, and registers the default theme:
+Create a new Angular application:
 
 ```bash
+ng new syncfusion-angular-app
+```
+
+Install the Gantt Chart package using `ng add` (recommended):
+
+```bash
+cd syncfusion-angular-app
 ng add @syncfusion/ej2-angular-gantt
 ```
+
+This command performs the following:
+- Installs required dependencies
+- Imports the Gantt module
+- Registers default theme styles in `angular.json`
 
 Or install manually:
 
@@ -43,36 +57,36 @@ Or install manually:
 npm install @syncfusion/ej2-angular-gantt --save
 ```
 
-**Dependencies automatically installed:**
-- `@syncfusion/ej2-angular-base`
-- `@syncfusion/ej2-gantt`
-- `@syncfusion/ej2-grids`, `ej2-treegrid`, `ej2-data`
-- `@syncfusion/ej2-calendars`, `ej2-dropdowns`, `ej2-inputs`, `ej2-buttons`, `ej2-popups`
-
 ---
 
 ## CSS Imports
 
-Add theme styles to `styles.css`. Material3 is commonly used:
+The Gantt component requires specific CSS files for proper rendering. Add to `src/styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-layouts/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-notifications/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-grids/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-treegrid/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-gantt/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-gantt/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-treegrid/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-layouts/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
 ```
 
-Import order matters — follow the dependency sequence above. Other available themes: `bootstrap5`, `fluent2`, `tailwind3`.
+> **Note:** Additional styles are required when enabling advanced features such as editing, toolbar, or dialogs:
+> ```css
+> /* For editing, toolbar, and dialog features */
+> @import '../node_modules/@syncfusion/ej2-calendars/styles/tailwind3.css';
+> @import '../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
+> @import '../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
+> @import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
+> @import '../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
+> @import '../node_modules/@syncfusion/ej2-notifications/styles/tailwind3.css';
+> 
+> /* For rich text editor in dialog notes tab */
+> @import '../node_modules/@syncfusion/ej2-richtexteditor/styles/tailwind3.css';
+> ```
+
+Other available themes: `material3`, `bootstrap5`, `fluent2`.
 
 ---
 
@@ -81,67 +95,54 @@ Import order matters — follow the dependency sequence above. Other available t
 Modify `src/app/app.ts` (Angular 20+) or `src/app/app.component.ts` (Angular 19 and below):
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { GanttModule } from '@syncfusion/ej2-angular-gantt';
 
 @Component({
-  imports: [GanttModule],
-  standalone: true,
-  selector: 'app-root',
-  template: `<ejs-gantt></ejs-gantt>`
+    imports: [GanttModule],
+    standalone: true,
+    selector: 'app-root',
+    template: `<ejs-gantt [dataSource]="data" [taskFields]="taskSettings"></ejs-gantt>`,
+    encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
-  ngOnInit(): void {}
+export class App {
+    public data = [
+        {TaskID: 1, TaskName: 'Project initiation', StartDate: new Date('2024-04-01'), EndDate: new Date('2024-04-15')},
+        {TaskID: 2, TaskName: 'Identify site location', StartDate: new Date('2024-04-01'), Duration: 4, ParentID: 1},
+        {TaskID: 3, TaskName: 'Perform site survey', StartDate: new Date('2024-04-01'), Duration: 4, ParentID: 1},
+        {TaskID: 4, TaskName: 'Soil testing', StartDate: new Date('2024-04-01'), Duration: 3, ParentID: 1},
+        {TaskID: 5, TaskName: 'Project estimation', StartDate: new Date('2024-04-08'), EndDate: new Date('2024-04-18')},
+        {TaskID: 6, TaskName: 'Develop floor plan', StartDate: new Date('2024-04-08'), Duration: 5, ParentID: 5},
+        {TaskID: 7, TaskName: 'Estimate project cost', StartDate: new Date('2024-04-08'), Duration: 5, ParentID: 5},
+    ];
+    public taskSettings = {
+        id: 'TaskID',
+        name: 'TaskName',
+        startDate: 'StartDate',
+        duration: 'Duration',
+        parentID: 'ParentID'
+    };
 }
 ```
 
-This renders an empty Gantt chart. Configure `dataSource` and `taskFields` to show tasks.
+This renders a Gantt chart with task hierarchy. Two data patterns are supported:
+- **Self-referential** (shown above): Flat array with `id` + `parentID` — use this by default
+- **Hierarchical**: Nested `subtasks` array — only when user explicitly requests nested/tree structure
 
 ---
 
-## Bind Data
+## Configure Task Fields
 
-The `dataSource` property accepts a JavaScript object array or `DataManager`. The `taskFields` property maps data fields to Gantt attributes:
+The `taskFields` property maps data fields to Gantt properties:
 
 ```typescript
-import { Component } from '@angular/core';
-import { GanttModule } from '@syncfusion/ej2-angular-gantt';
-
-@Component({
-  imports: [GanttModule],
-  standalone: true,
-  selector: 'app-root',
-  template: `
-    <ejs-gantt
-      [dataSource]="data"
-      [taskFields]="taskFields"
-      [height]="'450px'">
-    </ejs-gantt>
-  `
-})
-export class AppComponent {
-  public data: object[] = [
-    {
-      TaskID: 1, TaskName: 'Project Initiation',
-      StartDate: new Date('04/02/2024'), EndDate: new Date('04/21/2024'),
-      subtasks: [
-        { TaskID: 2, TaskName: 'Identify Site location', StartDate: new Date('04/02/2024'), Duration: 4, Progress: 50 },
-        { TaskID: 3, TaskName: 'Perform Soil test', StartDate: new Date('04/02/2024'), Duration: 4, Progress: 50 },
-        { TaskID: 4, TaskName: 'Soil test approval', StartDate: new Date('04/02/2024'), Duration: 4, Progress: 50, Predecessor: '3FS' }
-      ]
-    }
-  ];
-  public taskFields: object = {
+public taskSettings = {
     id: 'TaskID',
     name: 'TaskName',
     startDate: 'StartDate',
-    endDate: 'EndDate',
     duration: 'Duration',
-    progress: 'Progress',
-    dependency: 'Predecessor',
-    child: 'subtasks'
-  };
-}
+    parentID: 'ParentID'
+};
 ```
 
 **Essential `taskFields` mappings:**
@@ -152,7 +153,7 @@ export class AppComponent {
 | `startDate` | Start date | Yes |
 | `endDate` / `duration` | End date or duration | One required |
 | `progress` | Completion % | Optional |
-| `dependency` | Predecessor IDs | Optional |
+| `dependency` | Predecessor IDs (e.g., `'3FS'`) | Optional |
 | `child` | Child tasks array | For hierarchical data |
 | `parentID` | Parent task ID | For self-referential data |
 

@@ -41,21 +41,29 @@ This reference covers all advanced features with practical examples and implemen
 Triggered before the chart begins rendering. Use this to configure properties programmatically.
 
 ```typescript
-import { Component } from '@angular/core';
+import { ChartModule } from '@syncfusion/ej2-angular-charts'
+import { CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService, LegendService, DataLabelService, MultiLevelLabelService, SelectionService } from '@syncfusion/ej2-angular-charts'
 import { ILoadedEventArgs } from '@syncfusion/ej2-charts';
 
 @Component({
+  imports: [ ChartModule ],
+  providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
+  standalone: true,
   selector: 'app-chart',
   template: `
-    <ejs-chart (load)='onLoad($event)'>
-      <e-series-collection>
-        <e-series [dataSource]='data'></e-series>
-      </e-series-collection>
+    <ejs-chart id="chart-container" (load)='onLoad($event)' [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+        <e-series-collection>
+            <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
+        </e-series-collection>
     </ejs-chart>
   `
 })
 export class ChartComponent {
-  onLoad(args: ILoadedEventArgs): void {
+  public primaryXAxis?: Object;
+    public chartData?: Object[];
+    public title?: string;
+    public primaryYAxis?: Object;
+    onLoad(args: ILoadedEventArgs): void {
     // Set theme based on user preference
     let savedTheme = localStorage.getItem('chartTheme');
     if (savedTheme) {
@@ -67,7 +75,28 @@ export class ChartComponent {
     
     // Configure locale
     args.chart.locale = this.getCurrentLocale();
-  }
+  };
+    ngOnInit(): void {
+        this.chartData = [
+             { country: "USA", gold: 50 },
+             { country: "China", gold: 40 },
+             { country: "Japan", gold: 70 },
+             { country: "Australia", gold: 60 },
+             { country: "France", gold: 50 },
+             { country: "Germany", gold: 40 },
+             { country: "Italy", gold: 40 },
+             { country: "Sweden", gold: 30, silver: 25 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Countries'
+        };
+        this.primaryYAxis = {
+            minimum: 0, maximum: 80,
+            interval: 20, title: 'Medals'
+        };
+        this.title = 'Olympic Medals';
+    }
 }
 ```
 
@@ -371,8 +400,12 @@ Export chart as PNG, JPEG, or SVG:
 ```typescript
 import { Component, ViewChild } from '@angular/core';
 import { ChartComponent, ExportType } from '@syncfusion/ej2-angular-charts';
+import { data } from './datasource';
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
   selector: 'app-chart',
   template: `
     <button (click)="exportChart('PNG')">Export PNG</button>
@@ -506,8 +539,15 @@ Export chart data to Excel:
 
 ```typescript
 import { IExportEventArgs } from '@syncfusion/ej2-charts';
+import { ChartModule, ChartComponent } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <button (click)="exportToExcel('XLSX')">Export to Excel</button>
     <button (click)="exportToExcel('CSV')">Export to CSV</button>
@@ -571,8 +611,8 @@ onBeforeExport(args: IExportEventArgs): void {
       dataSource: this.customDataFormat(),
       columns: [
         { field: 'month', headerText: 'Month', width: 120 },
-        { field: 'sales', headerText: 'Sales ($)', width: 150, format: 'C2' },
-        { field: 'growth', headerText: 'Growth (%)', width: 120, format: 'N2' }
+        { field: 'sales', headerText: 'Sales ($)', width: 150 },
+        { field: 'growth', headerText: 'Growth (%)', width: 120 }
       ],
       header: {
         headerRows: 3,
@@ -601,8 +641,15 @@ Export chart as base64 string for embedding or transmission:
 
 ```typescript
 import { Component, ViewChild } from '@angular/core';
+import { ChartModule, ChartComponent } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
 
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <button (click)="getBase64()">Get Base64</button>
     <img [src]="base64Image" *ngIf="base64Image" />
@@ -654,7 +701,15 @@ export class Base64ExportComponent {
 Print charts directly from the browser:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, ChartComponent, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <button (click)="printChart()">Print Chart</button>
     <button (click)="printMultiple()">Print All Charts</button>
@@ -748,7 +803,16 @@ SVG is the default rendering mode. Best for:
 Enable canvas for better performance with large datasets:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
+import { largeDataset } from './datasource';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <ejs-chart [enableCanvas]='true'>
       <e-series-collection>
@@ -917,7 +981,16 @@ export class AnimationComponent {
 Enable data point and series selection:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ColumnSeriesService, LegendService, SelectionService } from '@syncfusion/ej2-angular-charts';
+import { ISelectionCompleteEventArgs } from '@syncfusion/ej2-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService, LegendService, SelectionService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <ejs-chart 
       [selectionMode]='selectionMode'
@@ -1015,7 +1088,16 @@ export class CrosshairComponent {
 Synchronize interactions across multiple charts:
 
 ```typescript
+import { ChartModule } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import { CategoryService, DateTimeService, ChartComponent, ColumnSeriesService, LegendService } from '@syncfusion/ej2-angular-charts';
+import { IMouseEventArgs } from '@syncfusion/ej2-charts';
+
 @Component({
+  imports: [ChartModule],
+  providers: [ CategoryService, DateTimeService, ColumnSeriesService],
+  standalone: true,
+  selector: 'app-chart',
   template: `
     <ejs-chart #chart1 
       (chartMouseMove)='synchronizeCharts($event)'

@@ -481,7 +481,7 @@ Adds documentation:
   height: 50,
   annotations: [{
     content: 'This is a note about the process'
-  }]
+  }],
   shape: {
     type: 'Bpmn',
     shape: 'TextAnnotation',
@@ -540,7 +540,7 @@ nodes = [
 // Define gateway correctly
 {
   id: 'xor_gate',
-  shape: { type: 'Bpmn', shape: 'Gateway', bpmnShape: 'ExclusiveGateway' }
+  shape: { type: 'Bpmn', shape: 'Gateway',  gateway: { type: 'Exclusive' } }
 }
 
 // Use labeled connectors for decision paths

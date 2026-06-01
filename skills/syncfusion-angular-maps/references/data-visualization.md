@@ -57,7 +57,7 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // Your GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public bubbleSettings: object[] = [{
     visible: true,
@@ -197,7 +197,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public populationDensity: object[] = [
     { name: 'United States', density: 33 },
@@ -314,17 +314,21 @@ public bubbleSettings: object[] = [{
 
 Data labels display text information about map shapes, making data more readable and accessible.
 
+**Important:** To render data labels, you must import and inject `DataLabelService` in the component `providers`.
+
 ### Adding Data Labels
 
 Enable data labels and specify the field to display:
 
 ```typescript
 import { Component } from '@angular/core';
+import { MapsModule, DataLabelService } from '@syncfusion/ej2-angular-maps';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [MapsModule],
+  providers: [DataLabelService],
   template: `
     <ejs-maps>
       <e-layers>
@@ -337,7 +341,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public usaMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };// GeoJSON data
   
   public dataLabelSettings: object = {
     visible: true,
@@ -449,6 +453,7 @@ Use custom HTML templates for advanced label layouts:
   `
 })
 export class AppComponent {
+  public usaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };
   public dataLabelSettings: object = {
     visible: true,
     template: '#labelTemplate'
@@ -491,7 +496,7 @@ export class AppComponent {
     mode: 'Interactive',  // 'Default' or 'Interactive'
     invertedPointer: true
   };
-  
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public shapeSettings: object = {
     colorValuePath: 'population',
     colorMapping: [
@@ -678,7 +683,7 @@ import { NavigationLine } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };// GeoJSON data
   
   public navigationLineSettings: object[] = [{
     visible: true,
@@ -794,10 +799,11 @@ import { Annotations } from '@syncfusion/ej2-angular-maps';
         <p style="margin: 5px 0;">Population: 331 Million</p>
       </div>
     </div>
+    <div id="custom-annotation1" style="color: red; font-size: 20px;">📍 Major City</div>
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } }; // GeoJSON data
   
   public annotations: object[] = [
     {
@@ -807,7 +813,7 @@ export class AppComponent {
       zIndex: 1
     },
     {
-      content: '<div style="color: red; font-size: 20px;">📍 Major City</div>',
+      content: '#custom-annotation1',
       x: 200,  // Absolute pixel position
       y: 150
     }
@@ -837,18 +843,23 @@ Layer annotations by controlling their z-index:
 ```typescript
 public annotations: object[] = [
   {
-    content: '<div class="background-annotation">Background Layer</div>',
+    content: '#annotation',
     x: '50%',
     y: '50%',
     zIndex: 0  // Lowest layer
   },
   {
-    content: '<div class="foreground-annotation">Foreground Layer</div>',
+    content: '#annotation1',
     x: '50%',
     y: '55%',
     zIndex: 100  // Highest layer
   }
 ];
+```
+
+```html
+<div id="annotation" class="background-annotation">Background Layer</div>
+<div id="annotation1" class="foreground-annotation">Foreground Layer</div>
 ```
 
 ### Multiple Annotations
@@ -858,26 +869,32 @@ Add multiple annotations for complex layouts:
 ```typescript
 public annotations: object[] = [
   {
-    content: '<div class="title">World Population Map</div>',
+    content: '#annotation',
     x: '50%',
     y: '5%',
     horizontalAlignment: 'Center',
     zIndex: 1
   },
   {
-    content: '<div class="legend-info">Legend: Population in millions</div>',
+    content: '#annotation1',
     x: '10%',
     y: '90%',
     zIndex: 1
   },
   {
-    content: '<div class="source">Data Source: UN Statistics 2024</div>',
+    content: '#annotation2',
     x: '90%',
     y: '95%',
     horizontalAlignment: 'Far',
     zIndex: 1
   }
 ];
+```
+
+```html
+<div id="annotation" class="title">World Population Map</div>
+<div id="annotation1" class="legend-info">Legend: Population in millions</div>
+<div id="annotation2" class="source">Data Source: UN Statistics 2024</div>
 ```
 
 ---

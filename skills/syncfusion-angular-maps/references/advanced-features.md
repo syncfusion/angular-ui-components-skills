@@ -43,7 +43,7 @@ import { world_map } from './world-map';
 })
 export class AppComponent {
   @ViewChild('maps') maps: Maps;
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   printMap() {
     this.maps.print();
@@ -84,7 +84,7 @@ import { world_map } from './world-map';
 })
 export class AppComponent {
   @ViewChild('maps') maps: Maps;
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   exportPNG() {
     this.maps.export('PNG', 'map-export');
@@ -127,7 +127,7 @@ import { world_map } from './world-map';
 })
 export class AppComponent {
   @ViewChild('maps') maps: Maps;
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   exportPDF() {
     this.maps.export('PDF', 'map-export', 'Portrait');  // or 'Landscape'
@@ -171,7 +171,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
 }
 ```
 
@@ -215,7 +215,7 @@ import { world_map } from './world-map';
 })
 export class AppComponent {
   @ViewChild('maps') maps: Maps;
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   getBounds() {
     const bounds = this.maps.getMinMaxLatitudeLongitude();
@@ -287,6 +287,7 @@ Triggered before rendering:
   `
 })
 export class AppComponent {
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   onLoad(args: any) {
     console.log('Map is loading...');
     // Modify map settings before render
@@ -319,6 +320,7 @@ Triggered on map click:
   `
 })
 export class AppComponent {
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   onClick(args: any) {
     console.log('Clicked at:', args.latitude, args.longitude);
     console.log('Target:', args.target);
@@ -344,6 +346,7 @@ Handle element-specific interactions:
   `
 })
 export class AppComponent {
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   onShapeSelected(args: any) {
     console.log('Shape selected:', args.data);
   }
@@ -373,6 +376,7 @@ export class AppComponent {
   `
 })
 export class AppComponent {
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   onZoom(args: any) {
     console.log('Zoom level:', args.scale);
     console.log('Type:', args.type);  // 'ZoomIn', 'ZoomOut', 'Reset'
@@ -411,7 +415,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   // Cities to connect
   public cities = [
@@ -508,7 +512,7 @@ import { world_map } from './world-map';
   `
 })
 export class AppComponent {
-  public shapeData: object = world_map;
+  public shapeData: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   // Multi-point path
   public navigationLineSettings: object[] = [{
@@ -573,9 +577,9 @@ import { california_map } from './california-map';
   `
 })
 export class AppComponent {
-  public worldMap: object = world_map;
-  public usaMap: object = usa_map;
-  public californiaMap: object = california_map;
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };;
+  public usaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/usa.json' } };;
+  public californiaMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/california.json' } };;
   
   public baseLayerIndex: number = 0;  // Start with world map
   

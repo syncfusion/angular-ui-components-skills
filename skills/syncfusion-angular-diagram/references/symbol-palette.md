@@ -156,7 +156,7 @@ diagram.drop((args) => {
   height: 60,
   style: {
     fill: '#90EE90',
-    stroke: '#228B22'
+    strokeColor: '#228B22'
   },
   annotations: [
     {

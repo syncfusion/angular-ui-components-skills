@@ -173,10 +173,10 @@ Use this skill when you need to:
 📄 **Read:** [references/rows.md](references/rows.md)
 - `rowDataBound` / `queryCellInfo` — dynamic row/cell styling
 - `rowHeight` — uniform row height in pixels (must exceed `taskbarHeight`)
-- `enableAltRow` — alternate row background (default `true`)
-- `rowTemplate` — fully custom row layout in TreeGrid pane
-- `queryRowInfo` with `rowSpan` — vertical cell spanning
-- `allowRowDragAndDrop` — drag rows to reorder/reparent; `rowDragStartHelper` / `rowDrop` events
+- `rowSpan` via `queryCellInfo` — vertical cell spanning
+- `allowRowDragAndDrop` — drag rows to reorder/reparent; `rowDrop` events
+- `indent()` / `outdent()` — change hierarchy level for the selected row
+- `autoFocusTasks` — focus the matching taskbar when a row is selected
 
 ### Selection
 📄 **Read:** [references/selection.md](references/selection.md)
@@ -225,7 +225,7 @@ Use this skill when you need to:
 - Lifecycle: `load`, `created`, `dataBound`, `destroyed`
 - Edit lifecycle: `actionBegin` (cancel with `args.cancel = true`), `actionComplete`, `actionFailure`
 - Taskbar: `taskbarEditing`, `taskbarEdited`, `onTaskbarClick`, `queryTaskbarInfo`
-- Row/cell: `rowDataBound`, `queryCellInfo`, `queryRowInfo`, `rowSelected`, `rowDeselected`, `cellSelected`
+- Row/cell: `rowDataBound`, `queryCellInfo`, `rowSelected`, `rowDeselected`, `cellSelected`
 - Expand/collapse: `expanding`, `expanded`, `collapsing`, `collapsed`
 - Export: `beforeExcelExport`, `excelExportComplete`, `beforePdfExport`, `pdfExportComplete`, `pdfQueryTaskbarInfo`
 - `recordDoubleClick` — open custom edit on double click
@@ -433,7 +433,6 @@ export class AppComponent {
 | `highlightWeekends` | `boolean` | `false` | Shade weekend columns in timeline |
 | `gridLines` | `string` | `'Both'` | Grid lines: `'Both'` \| `'Horizontal'` \| `'Vertical'` \| `'None'` |
 | `rowHeight` | `number` | `36` | Height of each row in pixels |
-| `enableAltRow` | `boolean` | `true` | Alternate row background color |
 | `allowRowDragAndDrop` | `boolean` | `false` | Drag rows to reorder or reparent |
 | `showColumnMenu` | `boolean` | `false` | Column header context menu — requires `ColumnMenuService` |
 | `timelineSettings` | `TimelineSettingsModel` | — | `topTier`, `bottomTier`, `timelineUnitSize`, `weekStartDay` |

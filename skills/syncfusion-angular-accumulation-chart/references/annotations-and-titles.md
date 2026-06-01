@@ -232,13 +232,14 @@ export class DynamicCenterComponent implements OnInit {
     this.totalValue = this.data.reduce((sum, item) => sum + item.y, 0);
   }
 
-  onPointRender(args: any) {
+  onPointRender(args: IAccPointRenderEventArgs) {
     // Optional: customize point rendering
   }
 }
 ```
 
 ### Chart Center Positioning
+
 You can reposition the chart using center coordinates.
 
 **APIs:**
@@ -286,54 +287,92 @@ interface TextAnnotation {
 ### Simple Text Annotation
 
 ```typescript
-<ejs-accumulationchart>
-  <e-accumulation-annotations>
-    <e-annotation 
-      content="Peak Sales"
-      x="50%"
-      y="25%"
-      coordinateUnits="Pixel"
-      horizontalAlignment="Center">
-    </e-annotation>
-  </e-accumulation-annotations>
-  
-  <e-accumulation-series [dataSource]="data">
-  </e-accumulation-series>
-</ejs-accumulationchart>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-simple-text-annotation',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-annotations>
+        <e-accumulation-annotation 
+          content="Peak Sales"
+          x="50%"
+          y="25%"
+          coordinateUnits="Pixel"
+          horizontalAlignment="Center">
+        </e-accumulation-annotation>
+      </e-accumulation-annotations>
+      
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class SimpleTextAnnotationComponent {
+  data = [
+    { x: 'A', y: 25 },
+    { x: 'B', y: 65 },
+    { x: 'C', y: 40 }
+  ];
+}
 ```
 
 ### Styled Text Annotation
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-annotated-chart',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
   template: `
     <ejs-accumulationchart>
       <e-accumulation-annotations>
-        <e-annotation 
+        <e-accumulation-annotation 
           [content]="annotationContent"
           x="50%"
           y="30%"
-          [textStyle]="annotationStyle"
           horizontalAlignment="Center">
-        </e-annotation>
+        </e-accumulation-annotation>
       </e-accumulation-annotations>
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
 export class AnnotatedChartComponent {
-  annotationContent = '⭐ Q4 Peak';
-  
-  annotationStyle = {
-    color: '#FF6B6B',
-    fontFamily: 'Segoe UI',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    backgroundColor: '#FFFFCC',
-    padding: { top: 5, bottom: 5, left: 10, right: 10 },
-    borderRadius: 5
-  };
+  annotationContent = `
+    <div style="
+      color:#FF6B6B;
+      font-family:'Segoe UI';
+      font-size:14px;
+      font-weight:bold;
+      background:#FFFFCC;
+      padding:5px 10px;
+      border-radius:5px;">
+      ⭐ Q4 Peak
+    </div>
+  `;
 
   data = [
     { x: 'Q1', y: 30000 },
@@ -347,40 +386,74 @@ export class AnnotatedChartComponent {
 ### Add Image Annotation
 
 ```typescript
-<ejs-accumulationchart>
-  <e-accumulation-annotations>
-    <e-annotation 
-      content="<img src='assets/star.png' width='30' height='30'>"
-      x="50%"
-      y="20%"
-      coordinateUnits="Pixel"
-      horizontalAlignment="Center">
-    </e-annotation>
-  </e-accumulation-annotations>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-image-annotation',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-annotations>
+        <e-accumulation-annotation 
+          content="<img src='image.png' width='30' height='30'/>"
+        </e-accumulation-annotation>
+      </e-accumulation-annotations>
   
-  <e-accumulation-series [dataSource]="data">
-  </e-accumulation-series>
-</ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class ImageAnnotationComponent {
+  data = [
+    { x: 'A', y: 25 },
+    { x: 'B', y: 65 },
+    { x: 'C', y: 40 }
+  ];
+}
 ```
 
 ### Image Annotation Component
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-annotated-image-chart',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
   template: `
     <ejs-accumulationchart>
       <e-accumulation-annotations>
-        <e-annotation 
+        <e-accumulation-annotation 
           *ngFor="let ann of annotations"
           [content]="ann.content"
           [x]="ann.x"
           [y]="ann.y"
           coordinateUnits="Pixel"
           horizontalAlignment="Center">
-        </e-annotation>
+        </e-accumulation-annotation>
       </e-accumulation-annotations>
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
@@ -413,24 +486,27 @@ export class AnnotatedImageChartComponent {
 **Pixel:** Position relative to chart container
 
 ```typescript
-<e-annotation 
+<e-accumulation-annotation 
   content="Pixel Positioned"
   x="100"
   y="150"
   coordinateUnits="Pixel">
-</e-annotation>
+</e-accumulation-annotation>
 ```
 
 **Point:** Position relative to data coordinates (if applicable)
 
 ```typescript
-<e-annotation 
+<e-accumulation-annotation 
   content="Point Positioned"
-  x="2"
-  y="1500"
-  coordinateUnits="Point">
-</e-annotation>
+  x="Jan"
+  y="3"
+  coordinateUnits="Point"
+  region="Series">
+</e-accumulation-annotation>
 ```
+
+**Note** -  For `coordinateUnits="Point"`, use `region="Series"` and ensure the `x` and `y` values match an actual point in the series data. If point-based placement does not render reliably as expected in your environment, use `coordinateUnits="Pixel"` with `region="Chart"` as a fallback.
 
 ### Alignment Options
 
@@ -447,42 +523,66 @@ export class AnnotatedImageChartComponent {
 ### Combined Positioning Example
 
 ```typescript
-<ejs-accumulationchart>
-  <e-accumulation-annotations>
-    <!-- Top-left -->
-    <e-annotation 
-      content="Top Left"
-      x="10"
-      y="10"
-      coordinateUnits="Pixel"
-      horizontalAlignment="Left"
-      verticalAlignment="Top">
-    </e-annotation>
-    
-    <!-- Center -->
-    <e-annotation 
-      content="Center"
-      x="50%"
-      y="50%"
-      coordinateUnits="Pixel"
-      horizontalAlignment="Center"
-      verticalAlignment="Middle">
-    </e-annotation>
-    
-    <!-- Bottom-right -->
-    <e-annotation 
-      content="Bottom Right"
-      x="95%"
-      y="95%"
-      coordinateUnits="Pixel"
-      horizontalAlignment="Right"
-      verticalAlignment="Bottom">
-    </e-annotation>
-  </e-accumulation-annotations>
-  
-  <e-accumulation-series [dataSource]="data">
-  </e-accumulation-series>
-</ejs-accumulationchart>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-annotation-positioning',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-annotations>
+        <!-- Top-left -->
+        <e-accumulation-annotation 
+          content="Top Left"
+          x="10"
+          y="10"
+          coordinateUnits="Pixel"
+          horizontalAlignment="Left"
+          verticalAlignment="Top">
+        </e-accumulation-annotation>
+        
+        <!-- Center -->
+        <e-accumulation-annotation 
+          content="Center"
+          x="50%"
+          y="50%"
+          coordinateUnits="Pixel"
+          horizontalAlignment="Center"
+          verticalAlignment="Middle">
+        </e-accumulation-annotation>
+        
+        <!-- Bottom-right -->
+        <e-accumulation-annotation 
+          content="Bottom Right"
+          x="95%"
+          y="95%"
+          coordinateUnits="Pixel"
+          horizontalAlignment="Right"
+          verticalAlignment="Bottom">
+        </e-accumulation-annotation>
+      </e-accumulation-annotations>
+      
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class AnnotationPositioningComponent {
+  data = [
+    { x: 'A', y: 25 },
+    { x: 'B', y: 65 },
+    { x: 'C', y: 40 }
+  ];
+}
 ```
 
 ## Advanced Annotation Examples
@@ -490,8 +590,23 @@ export class AnnotatedImageChartComponent {
 ### Example 1: KPI Dashboard with Annotations
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
   selector: 'app-kpi-chart',
+  imports: [AccumulationChartModule],
+  providers: [
+    PieSeriesService,
+    AccumulationAnnotationService,
+    AccumulationDataLabelService
+  ],
   template: `
     <ejs-accumulationchart 
       id="container"
@@ -499,28 +614,30 @@ export class AnnotatedImageChartComponent {
       [subTitle]="'Quarterly Comparison'">
       
       <e-accumulation-annotations>
-        <e-annotation 
+        <e-accumulation-annotation 
           content="<div class='kpi-annotation'><span>$450K</span></div>"
           x="30%"
           y="10%"
           coordinateUnits="Pixel">
-        </e-annotation>
+        </e-accumulation-annotation>
         
-        <e-annotation 
+        <e-accumulation-annotation 
           content="<div class='kpi-annotation success'>↑ 23%</div>"
           x="70%"
           y="10%"
           coordinateUnits="Pixel">
-        </e-annotation>
+        </e-accumulation-annotation>
       </e-accumulation-annotations>
       
-      <e-accumulation-series
-        [dataSource]="kpiData"
-        xName="quarter"
-        yName="sales"
-        type="Pie"
-        [dataLabel]="{ visible: true }">
-      </e-accumulation-series>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="kpiData"
+          xName="quarter"
+          yName="sales"
+          type="Pie"
+          [dataLabel]="{ visible: true }">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `,
   styles: [`
@@ -550,36 +667,57 @@ export class KPIDashboardComponent {
 ### Example 2: Trend Annotation on Doughnut
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-trend-annotation',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationAnnotationService],
   template: `
     <div class="chart-container">
       <ejs-accumulationchart id="container">
         <e-accumulation-annotations>
-          <e-annotation 
+          <e-accumulation-annotation 
             *ngIf="showTrendAnnotation"
             [content]="trendContent"
             x="50%"
             y="40%"
-            coordinateUnits="Pixel"
-            [textStyle]="trendStyle">
-          </e-annotation>
+            coordinateUnits="Pixel">
+          </e-accumulation-annotation>
         </e-accumulation-annotations>
         
-        <e-accumulation-series
-          [dataSource]="monthlyData"
-          xName="month"
-          yName="revenue"
-          type="Doughnut">
-        </e-accumulation-series>
+        <e-accumulation-series-collection>
+          <e-accumulation-series
+            [dataSource]="monthlyData"
+            xName="month"
+            yName="revenue"
+            type="Doughnut">
+          </e-accumulation-series>
+        </e-accumulation-series-collection>
       </ejs-accumulationchart>
     </div>
   `
 })
 export class TrendAnnotationComponent {
   showTrendAnnotation = true;
-  trendContent = '📈 Uptrend';
-  trendStyle = { color: '#28A745', fontSize: '16px', fontWeight: 'bold' };
-  
+  trendContent = `
+    <div style="
+      color: #28A745;
+      font-weight: bold;
+      background: #EAF8EE;
+      border: 1px solid #28A745;
+      border-radius: 8px;
+    ">
+      <span>📈 Uptrend</span>
+    </div>
+  `;
+
   monthlyData = [
     { month: 'Jan', revenue: 45000 },
     { month: 'Feb', revenue: 52000 },

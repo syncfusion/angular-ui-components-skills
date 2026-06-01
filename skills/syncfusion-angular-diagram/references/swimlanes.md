@@ -110,15 +110,13 @@ shape: {
       id: 'phase1',
       header: {
         annotation: { content: 'Phase 1' }
-      },
-      width: 150
+      }
     },
     {
       id: 'phase2',
       header: {
         annotation: { content: 'Phase 2' }
-      },
-      width: 150
+      }
     }
   ]
 }

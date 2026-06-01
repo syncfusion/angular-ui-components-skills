@@ -114,7 +114,7 @@ diagram.exportDiagram({format: 'JPG', fileName: 'diagram'});
 
 ```typescript
 const options = {
-  type: 'PNG',          // PNG, SVG, JPG
+  format: 'PNG',          // PNG, SVG, JPG
   fileName: 'diagram',
   orientation: 'Portrait',  // Portrait, Landscape
   scale: 1.0,

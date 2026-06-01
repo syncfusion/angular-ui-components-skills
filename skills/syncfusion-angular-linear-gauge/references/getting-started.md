@@ -24,7 +24,7 @@ This guide will help you install, import, and create your first Linear Gauge com
 ### Step 1: Install via NPM
 
 ```bash
-npm install @syncfusion/ej2-angular-gauges
+npm install @syncfusion/ej2-angular-lineargauge
 ```
 
 ### Step 2: Register the Module
@@ -34,7 +34,7 @@ In your `app.module.ts`, import and register the Linear Gauge module:
 ```typescript
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { LinearGaugeAllModule } from '@syncfusion/ej2-angular-gauges';
+import { LinearGaugeAllModule } from '@syncfusion/ej2-angular-lineargauge';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -45,22 +45,6 @@ import { AppComponent } from './app.component';
 })
 export class AppModule { }
 ```
-
-### Step 3: Add CSS Theme
-
-Choose a theme and add it to your `styles.css`:
-
-```css
-/* Material theme */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-gauges/styles/material.css';
-```
-
-**Available themes:**
-- `material.css` - Default Material Design
-- `fabric.css` - Microsoft Fabric theme
-- `bootstrap.css` - Bootstrap 5 theme
-- `tailwind.css` - Tailwind CSS theme
 
 ## Creating Your First Gauge
 

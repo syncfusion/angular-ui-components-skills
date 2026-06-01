@@ -6,16 +6,25 @@ UI virtualization optimizes performance when displaying large numbers of files. 
 
 ## When to Use Virtualization
 
-**Enable when:**
+Virtualization is particularly beneficial in the following scenarios:
+
+- **File systems with hundreds or thousands of files** in a single directory
+- **Applications where File Manager needs to load quickly** without performance degradation
+- **Environments with limited memory resources** where rendering large collections could impact performance
+- **Slow network connections** where only rendering visible items saves bandwidth
+
+**Enable virtualization when:**
 - Displaying 500+ files in a single folder
 - Scrolling performance is slow
 - Memory usage is high
 - Working with large directories
+- Performance optimization is critical
 
-**Skip when:**
+**Skip virtualization when:**
 - Fewer than 100 files
 - Using flat data structure without backend
 - Performance is already acceptable
+- Custom templates are complex and heavy
 
 ## Module Injection
 
@@ -306,6 +315,58 @@ export class AppComponent {
 }
 ```
 
+## Limitations for Virtualization
+
+When implementing virtualization in the File Manager, be aware of these limitations:
+
+### 1. Programmatic Selection
+❌ **Programmatic selection using the selectAll method is not supported with virtual scrolling.**
+
+The `selectAll()` method cannot select all files when virtualization is enabled because only visible items are rendered in the DOM.
+
+```typescript
+// This will NOT work properly with virtualization enabled
+onSelectAll() {
+  this.fileManager.selectAll();  // Only selects visible items
+}
+```
+
+### 2. Keyboard Shortcut (Ctrl+A)
+❌ **The keyboard shortcut CTRL+A will only select the files and directories that are currently visible within the viewport, rather than selecting all files and directories in the entire directory tree.**
+
+When users press Ctrl+A with virtualization enabled, only the visible items in the current viewport are selected, not the entire directory contents.
+
+**Workaround:**
+```typescript
+// Implement custom selection logic for all items
+selectAllItems() {
+  // Disable virtualization temporarily
+  this.fileManager.enableVirtualization = false;
+  this.fileManager.selectAll();
+  // Re-enable virtualization
+  this.fileManager.enableVirtualization = true;
+}
+```
+
+### 3. Selection State During Scrolling
+❌ **Selected file items are not maintained while scrolling to optimize component performance.**
+
+When virtualization is enabled, the selection state may be lost when scrolling to items that are not currently visible, as the component unmounts and remounts items to optimize rendering.
+
+**Workaround:**
+```typescript
+// Store selected items manually
+private selectedItems: string[] = [];
+
+onFileSelect(args: any) {
+  this.selectedItems.push(args.fileDetails.id);
+}
+
+onFileUnselect(args: any) {
+  this.selectedItems = this.selectedItems.filter(id => id !== args.fileDetails.id);
+}
+```
+
 ## Best Practices
 
 ### ✅ Do's
@@ -314,6 +375,8 @@ export class AppComponent {
 - Use with server-based data for best results
 - Combine with Details view for large datasets
 - Test performance with expected data volume
+- Implement custom selection tracking for critical workflows
+- Monitor memory usage in production
 
 ### ❌ Don'ts
 
@@ -321,6 +384,8 @@ export class AppComponent {
 - Don't combine with complex custom templates
 - Don't enable if scrolling performance is already good
 - Don't use without proper backend pagination
+- Don't rely on programmatic selectAll() with virtualization
+- Don't expect multi-select with Ctrl+A to work on all items
 
 ## Troubleshooting
 

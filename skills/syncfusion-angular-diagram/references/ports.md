@@ -145,7 +145,7 @@ Ports use **normalized coordinates** (0-1):
   offset: { x: 0.5, y: 0 },
   style: {
     fill: '#FF0000',        // Red port
-    stroke: '#000000',      // Black border
+    strokeColor: '#000000',      // Black border
     strokeWidth: 2,
     opacity: 0.8
   }
@@ -245,7 +245,7 @@ Example:
   visibility: 'Hover',
   style: {
     fill: '#0066CC',
-    stroke: '#000000'
+    strokeColor: '#000000'
   },
   constraints: PortConstraints.Default | PortConstraints.Draw
 }

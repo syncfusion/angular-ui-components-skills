@@ -228,6 +228,45 @@ export class AppComponent {
 - When `autoUpload: false`, users must click upload button
 - Default is `true`
 
+### Auto Close Upload Dialog
+
+Control whether the upload dialog automatically closes after successful upload:
+
+```typescript
+import { Component } from '@angular/core';
+import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewService } from '@syncfusion/ej2-angular-filemanager';
+
+@Component({
+  selector: 'app-root',
+  imports: [FileManagerModule],
+  providers: [NavigationPaneService, ToolbarService, DetailsViewService],
+  template: `<ejs-filemanager 
+    id='file-manager' 
+    [ajaxSettings]='ajaxSettings' 
+    [uploadSettings]='uploadSettings'>
+  </ejs-filemanager>`
+})
+export class AppComponent {
+  public ajaxSettings = {
+    url: 'https://your-server.com/api/FileManager/FileOperations',
+    uploadUrl: 'https://your-server.com/api/FileManager/Upload',
+    downloadUrl: 'https://your-server.com/api/FileManager/Download',
+    getImageUrl: 'https://your-server.com/api/FileManager/GetImage'
+  };
+
+  // Auto close upload dialog after upload completes
+  public uploadSettings = {
+    autoClose: false  // Set to true to auto-close the upload dialog
+  };
+}
+```
+
+### Default Behavior
+
+- When `autoClose: true`, upload dialog closes automatically after successful upload
+- When `autoClose: false`, upload dialog remains open
+- Default is `false`
+
 ---
 
 ## File Size Validation

@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-notifications
-description: Comprehensive guide for implementing Syncfusion Angular notification components including Message, Skeleton and Toast. Use this when displaying informational, success, warning, or error alerts with severity levels, customizing message variants (Text, Outlined, Filled), handling close events, or showing content skeletons with shimmer/pulse animations during data loading. Covers MessageModule, SkeletonModule, accessibility, RTL, and custom CSS in Angular applications.
+description: Comprehensive guide for implementing Syncfusion Angular notification components including Message, Skeleton, Toast, and Badge. Use this when displaying informational, success, warning, or error alerts with severity levels, customizing message variants (Text, Outlined, Filled), handling close events, showing content skeletons with shimmer/pulse animations during data loading, or adding status badges with 8 color variants and shape types (circle, pill, notification, dot, overlap). Covers MessageModule, SkeletonModule, ToastModule, CSS-based Badge implementation, accessibility, RTL, and custom styling in Angular applications.
 metadata:
   author: "Syncfusion Inc"
   version: "33.1.44"
@@ -205,20 +205,6 @@ The Skeleton component provides a visual placeholder for content that is loading
 **Package:** `@syncfusion/ej2-angular-notifications`  
 **Module:** `SkeletonModule`  
 **Selector:** `ejs-skeleton`
-
----
-
-### When to Use This Skill
-
-- **Loading placeholders**: Display skeleton layouts while fetching data from APIs
-- **Shimmer animations**: Add Wave, Pulse, or Fade effects to loading states
-- **Multiple shapes**: Build complex layouts using Circle, Square, Rectangle, and Text shapes
-- **Accessibility**: Ensure loading states are accessible with ARIA attributes and screen reader support
-- **Custom styling**: Apply custom CSS classes and themes to match your design system
-- **Conditional rendering**: Show/hide skeletons based on data loading states
-- **RTL support**: Implement right-to-left layouts with the Skeleton component
-
----
 
 > 📋 All files linked under `references/` are read-only documentation and comply with the same security policy as this skill.
 
@@ -622,3 +608,102 @@ public buttons = [
 | Prevent duplicate messages | Cancel in `beforeOpen` event if same title already visible |
 | Mobile-friendly (no swipe dismiss) | Cancel `beforeClose` when `args.type === 'swipe'` |
 | Progress indicator | `showProgressBar: true`, customize via `beforeOpen` event |
+
+## Badge
+
+The Syncfusion Angular Badge is a pure CSS component — no Angular component class to import. Badges are applied by adding CSS modifier classes to a `<span>` (or `<a>`) element nested inside the target UI element.
+
+**Package:** `@syncfusion/ej2-angular-notifications`
+
+### Key Features
+
+- **8 color variants** — primary, secondary, success, danger, warning, info, light, dark
+- **Shape types** — circle, pill, link, notification, dot, overlap
+- **Positioning** — top (default) and bottom placement on parent elements
+- **Customization** — custom colors, sizes, and arbitrary positions via CSS
+- **ListView integration** — embed badges in list items with dynamic content
+
+### Navigation Guide
+
+#### Getting Started
+📄 **Read:** [references/getting-started.md](references/badge-getting-started.md)
+- Package installation and CSS imports
+- Adding the first badge to an Angular component
+- Minimal working example
+- Running the application
+
+#### Badge Types and Shapes
+📄 **Read:** [references/types-and-shapes.md](references/badge-types-and-shapes.md)
+- 8 predefined color variants and their semantic purpose
+- Circle, pill, link, notification, dot, overlap shape types
+- Badge positioning (top vs bottom)
+- When to combine modifier classes (e.g., overlap + notification + circle)
+
+#### Customization
+📄 **Read:** [references/customization.md](references/badge-customization.md)
+- Custom color overrides with CSS classes
+- Adjusting badge size via `font-size`
+- Custom positioning (left-top, left-bottom) with CSS overrides
+- When to use custom CSS vs built-in modifier classes
+
+#### How-To Guides
+📄 **Read:** [references/how-to.md](references/badge-how-to.md)
+- Integrate badges into a ListView component
+- Update badge content dynamically (increment counts)
+- Angular pattern for badge state management using DOM updates
+
+### Quick Start
+
+**1. Install the package:**
+```bash
+npm install @syncfusion/ej2-angular-notifications --save
+```
+
+**2. Add CSS to `src/styles.css`:**
+```css
+@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-notifications/styles/tailwind3.css";
+```
+
+**3. Add a badge in your component:**
+```html
+<!-- src/app/app.component.html -->
+<h1>Badge Component <span class="e-badge e-badge-primary">New</span></h1>
+```
+
+### Common Patterns
+
+#### Notification badge on an icon
+```html
+<!-- Parent must have position: relative -->
+<div class="badge-block">
+  <div class="skype svg_icons"></div>
+  <span class="e-badge e-badge-success e-badge-overlap e-badge-notification">99+</span>
+</div>
+```
+
+#### Dot status indicator (bottom position)
+```html
+<div class="badge-block">
+  <div class="firefox svg_icons"></div>
+  <span class="e-badge e-badge-success e-badge-overlap e-badge-dot e-badge-bottom"></span>
+</div>
+```
+
+#### Pill-shaped label
+```html
+<h1>Messages <span class="e-badge e-badge-primary e-badge-pill">New</span></h1>
+```
+
+### CSS Class Reference
+
+| Class | Purpose |
+|---|---|
+| `e-badge` | Required base class for all badges |
+| `e-badge-primary` / `e-badge-{color}` | Color variant |
+| `e-badge-pill` | Pill (rounded rectangle) shape |
+| `e-badge-circle` | Circle shape |
+| `e-badge-notification` | Notification counter badge |
+| `e-badge-dot` | Minimalist dot badge (no text) |
+| `e-badge-overlap` | Overlaps the parent element edge |
+| `e-badge-bottom` | Positions badge at bottom instead of top |

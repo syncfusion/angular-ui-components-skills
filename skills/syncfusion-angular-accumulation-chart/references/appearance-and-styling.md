@@ -12,78 +12,173 @@
 
 ## Color Palettes
 
-### Predefined Palettes
+> ⚠️ **NG8002 Error — Do NOT use `[palette]` on `<ejs-accumulationchart>`**  
+> In Angular strict template mode (`"strictTemplates": true` in `tsconfig.json`), binding
+> `[palette]="myColors"` on the chart element triggers:  
+> ```
+> NG8002: Can't bind to 'palette' since it isn't a known property of 'ejs-accumulationchart'
+> ```  
+> **Use `pointColorMapping` on the series with a `fill` field in your data instead.**
+> See [Custom Colors](#custom-colors) for the correct pattern.
 
-Use Syncfusion's built-in color palettes to quickly style your chart:
+### Built-in Theme Palettes
 
-```typescript
-<ejs-accumulationchart [palette]="'Tableau'">
-  <e-accumulation-series [dataSource]="data">
-  </e-accumulation-series>
+Apply Syncfusion's built-in color palettes via the `theme` attribute:
+
+```html
+<ejs-accumulationchart theme="Tailwind">
+  <e-accumulation-series-collection>
+    <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+    </e-accumulation-series>
+  </e-accumulation-series-collection>
 </ejs-accumulationchart>
 ```
 
-### Available Palette Options
+### Available Theme Options
 
-| Palette | Use Case | Style |
-|---------|----------|-------|
+| Theme | Use Case | Style |
+|-------|----------|-------|
 | `Material` | Modern, professional | Material Design colors |
 | `Bootstrap` | Web applications | Bootstrap palette |
 | `Fabric` | Microsoft Office style | Fabric UI colors |
 | `Bootstrap4` | Bootstrap 4 theme | Bootstrap 4 colors |
 | `Tailwind` | Tailwind CSS | Tailwind palette |
-| `Tableau` | Business analytics | Tableau colors |
 | `Highcontrast` | Accessibility | High contrast colors |
 
-### Apply Palette
+### Apply Theme
 
 ```typescript
 @Component({
   template: `
-    <ejs-accumulationchart [palette]="selectedPalette">
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+    <ejs-accumulationchart [theme]="selectedTheme">
+      <e-accumulation-series-collection>
+        <e-accumulation-series [dataSource]="data" xName="x" yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
 export class ChartComponent {
-  selectedPalette = 'Tableau'; // Material, Bootstrap, Fabric, etc.
+  selectedTheme = 'Tailwind'; // Material, Bootstrap, Fabric, etc.
+  data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 }
+  ];
 }
 ```
 
 ## Custom Colors
 
-### Custom Color Array
+There are two valid, strict-template-safe ways to apply custom colors to accumulation chart segments.
 
-Define your own color scheme for chart segments:
+---
+
+### Option A — `[palettes]` on the series (array of colors)
+
+Pass a `string[]` to the `[palettes]` input on `<e-accumulation-series>`. Colors are
+applied to points cyclically — the simplest approach when your data objects don't carry
+color information:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationLegendService,
+  AccumulationTooltipService,
+  AccumulationDataLabelService,
+  AccumulationAnnotationService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [AccumulationChartModule],
+  providers: [
+    PieSeriesService, AccumulationLegendService, AccumulationTooltipService,
+    AccumulationDataLabelService, AccumulationAnnotationService
+  ],
+  template: `
+    <ejs-accumulationchart id="chart-container" [legendSettings]="legendSettings">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="piedata"
+          xName="x"
+          yName="y"
+          type="Pie"
+          [palettes]="palette">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class AppComponent implements OnInit {
+  piedata: object[] = [];
+  legendSettings: object = { visible: false };
+  palette: string[] = ['#E94649', '#F6B53F', '#6FAAB0', '#FF33F3', '#228B22', '#3399FF'];
+
+  ngOnInit(): void {
+    this.piedata = [
+      { x: 'Chrome',  y: 37 },
+      { x: 'Firefox', y: 28 },
+      { x: 'Safari',  y: 18 },
+      { x: 'Edge',    y: 10 },
+      { x: 'IE',      y: 4  },
+      { x: 'Others',  y: 3  }
+    ];
+  }
+}
+```
+
+> ✅ `[palettes]` is a typed `@Input()` on `AccumulationSeriesDirective` — no NG8002 in strict mode.
+
+---
+
+### Option B — `pointColorMapping` on the series (color per data point)
+
+Embed a `fill` field in each data object and reference it via `pointColorMapping="fill"`.
+Use this when each data point needs an individually chosen color:
 
 ```typescript
 @Component({
   template: `
-    <ejs-accumulationchart [palette]="customColors">
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+    <ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          pointColorMapping="fill">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
 export class ChartComponent {
-  customColors = [
-    '#FF6B6B',  // Red
-    '#4ECDC4',  // Teal
-    '#45B7D1',  // Blue
-    '#FFA07A',  // Light Salmon
-    '#98D8C8'   // Mint
-  ];
-
   data = [
-    { x: 'A', y: 30 },
-    { x: 'B', y: 25 },
-    { x: 'C', y: 20 },
-    { x: 'D', y: 15 },
-    { x: 'E', y: 10 }
+    { x: 'A', y: 30, fill: '#FF6B6B' },  // Red
+    { x: 'B', y: 25, fill: '#4ECDC4' },  // Teal
+    { x: 'C', y: 20, fill: '#45B7D1' },  // Blue
+    { x: 'D', y: 15, fill: '#FFA07A' },  // Light Salmon
+    { x: 'E', y: 10, fill: '#98D8C8' }   // Mint
   ];
 }
 ```
+
+---
+
+### Comparison
+
+| Approach | Where | When to use |
+|---|---|---|
+| `[palettes]="palette"` | on `<e-accumulation-series>` | Fixed set of colors applied cyclically to all points |
+| `pointColorMapping="fill"` | on `<e-accumulation-series>` | Different color per data point, stored in the data |
+| ~~`[palette]` on chart~~ | ~~on `<ejs-accumulationchart>`~~ | ❌ Not a typed `@Input()` — causes **NG8002** in strict mode |
+
+> **Why not `[palette]` on the chart element?**  
+> `[palette]` (singular) is **not** a typed `@Input()` on the Syncfusion Angular chart wrapper.
+> Angular's strict template checker raises **NG8002** and the build fails. Use `[palettes]`
+> on the series or `pointColorMapping` instead.
 
 ### Per-Point Custom Color
 
@@ -392,34 +487,73 @@ Adds a border around the entire chart area.
 
 ## Export and Print
 
+### Imports and Providers
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService,
+  ExportService
+} from '@syncfusion/ej2-angular-charts';
+```
+
+```typescript
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService, ExportService],
+  template: ``
+})
+export class AppComponent {}
+```
+
 ### Export to Image
 
 Export chart as PNG, JPEG, SVG, or PDF:
 
 ```typescript
+import { Component, ViewChild } from '@angular/core';
+import {
+  AccumulationChartComponent,
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService,
+  ExportService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-export-chart',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService, ExportService],
   template: `
     <button (click)="exportChart()">Export as PNG</button>
-    <ejs-accumulationchart #chart>
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+
+    <ejs-accumulationchart #chart id="container">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
-export class ExportChartComponent implements ViewChild {
-  @ViewChild('chart') chart!: any;
-
-  exportChart() {
-    this.chart.nativeElement.ej2_instances[0].export(
-      'PNG',
-      'accumulation-chart'
-    );
-  }
+export class ExportChartComponent {
+  @ViewChild('chart') chart!: AccumulationChartComponent;
 
   data = [
     { x: 'A', y: 30 },
     { x: 'B', y: 25 }
   ];
+
+  exportChart() {
+    this.chart?.export('PNG', 'accumulation-chart');
+  }
 }
 ```
 
@@ -442,23 +576,72 @@ chart.export('PDF', 'chart-name');
 ### Print Chart
 
 ```typescript
-printChart() {
-  const chartElement = document.getElementById('container');
-  const printWindow = window.open('', '', 'height=500,width=500');
-  printWindow!.document.write(chartElement!.innerHTML);
-  printWindow!.print();
+import { Component, ViewChild } from '@angular/core';
+import {
+  AccumulationChartComponent,
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService,
+  ExportService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-print-chart',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService, ExportService],
+  template: `
+    <button (click)="printChart()">Print</button>
+
+    <ejs-accumulationchart #chart id="container">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class PrintChartComponent {
+  @ViewChild('chart') chart!: AccumulationChartComponent;
+
+  data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 }
+  ];
+
+  printChart() {
+    this.chart?.print();
+  }
 }
 ```
 
 ### Export Button Component
 
 ```typescript
+import { Component, ViewChild } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService,
+  ExportService,
+  AccumulationChartComponent
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
   selector: 'app-export-buttons',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService, ExportService],
   template: `
     <div class="export-buttons">
       <button (click)="exportPNG()" class="btn btn-primary">
         📥 Export PNG
+      </button>
+      <button (click)="exportJPEG()" class="btn btn-secondary">
+        📥 Export JPEG
       </button>
       <button (click)="exportSVG()" class="btn btn-secondary">
         📥 Export SVG
@@ -471,9 +654,14 @@ printChart() {
       </button>
     </div>
     
-    <ejs-accumulationchart #chart>
-      <e-accumulation-series [dataSource]="data">
-      </e-accumulation-series>
+    <ejs-accumulationchart #chart id="container">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `,
   styles: [`
@@ -482,7 +670,7 @@ printChart() {
   `]
 })
 export class ExportButtonsComponent {
-  @ViewChild('chart') chart!: any;
+  @ViewChild('chart') chart!: AccumulationChartComponent;
 
   data = [
     { x: 'Q1', y: 40 },
@@ -492,27 +680,23 @@ export class ExportButtonsComponent {
   ];
 
   exportPNG() {
-    this.chart.ej2_instances[0].export('PNG', 'quarterly-sales');
+    this.chart?.export('PNG', 'quarterly-sales');
+  }
+
+  exportJPEG() {
+    this.chart?.export('JPEG', 'quarterly-sales');
   }
 
   exportSVG() {
-    this.chart.ej2_instances[0].export('SVG', 'quarterly-sales');
+    this.chart?.export('SVG', 'quarterly-sales');
   }
 
   exportPDF() {
-    this.chart.ej2_instances[0].export('PDF', 'quarterly-sales');
+    this.chart?.export('PDF', 'quarterly-sales');
   }
 
   printChart() {
-    const chartHtml = document.getElementById('container')!.innerHTML;
-    const printWindow = window.open('', '', 'height=500,width=800');
-    printWindow!.document.write(`
-      <html>
-        <head><title>Chart</title></head>
-        <body>${chartHtml}</body>
-      </html>
-    `);
-    printWindow!.print();
+    this.chart?.print();
   }
 }
 ```
@@ -528,17 +712,31 @@ export class ExportButtonsComponent {
     <div class="dashboard-container">
       <div class="chart-card">
         <h3>Sales by Region</h3>
-        <ejs-accumulationchart [palette]="['#FF6B6B', '#4ECDC4']">
-          <e-accumulation-series [dataSource]="regionData" type="Pie">
-          </e-accumulation-series>
+        <!-- Use pointColorMapping="fill" — NOT [palette] on the chart element -->
+        <ejs-accumulationchart>
+          <e-accumulation-series-collection>
+            <e-accumulation-series
+              [dataSource]="regionData"
+              xName="x" yName="y"
+              type="Pie"
+              pointColorMapping="fill">
+            </e-accumulation-series>
+          </e-accumulation-series-collection>
         </ejs-accumulationchart>
       </div>
       
       <div class="chart-card">
         <h3>Product Distribution</h3>
-        <ejs-accumulationchart [palette]="['#45B7D1', '#FFA07A', '#98D8C8']">
-          <e-accumulation-series [dataSource]="productData" type="Doughnut">
-          </e-accumulation-series>
+        <ejs-accumulationchart>
+          <e-accumulation-series-collection>
+            <e-accumulation-series
+              [dataSource]="productData"
+              xName="x" yName="y"
+              type="Pie"
+              innerRadius="40%"
+              pointColorMapping="fill">
+            </e-accumulation-series>
+          </e-accumulation-series-collection>
         </ejs-accumulationchart>
       </div>
     </div>
@@ -566,14 +764,14 @@ export class ExportButtonsComponent {
 })
 export class StyledDashboardComponent {
   regionData = [
-    { x: 'North', y: 45 },
-    { x: 'South', y: 55 }
+    { x: 'North', y: 45, fill: '#FF6B6B' },
+    { x: 'South', y: 55, fill: '#4ECDC4' }
   ];
 
   productData = [
-    { x: 'Product A', y: 35 },
-    { x: 'Product B', y: 30 },
-    { x: 'Product C', y: 35 }
+    { x: 'Product A', y: 35, fill: '#45B7D1' },
+    { x: 'Product B', y: 30, fill: '#FFA07A' },
+    { x: 'Product C', y: 35, fill: '#98D8C8' }
   ];
 }
 ```
@@ -635,11 +833,12 @@ export class InteractiveStyledComponent {
 
 | API | Description | Documentation Link |
 |-----|-------------|-------------------|
-| `theme` | Built-in theme selection | [theme](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#theme) |
-| `background` | Chart background color | [background](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#background) |
-| `palettes` | Custom color palette | [palettes](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationSeries#palettes) |
-| `border` | Chart border styling | [border](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#border) |
-| `opacity` | Series opacity (0-1) | [opacity](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationSeries#opacity) |
+| `theme` | Built-in theme selection (on chart element) | [theme](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#theme) |
+| `background` | Chart background color (on chart element) | [background](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#background) |
+| `palettes` | **Series property** — `string[]` of hex/named colors applied cyclically to points. Use `[palettes]="palette"` on `<e-accumulation-series>`. ✅ Strict-mode safe. | [palettes](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationSeries#palettes) |
+| `pointColorMapping` | **Series property** — field name in each data object that holds the point color (e.g., `"fill"`). Use `pointColorMapping="fill"` on `<e-accumulation-series>`. ✅ Strict-mode safe. | [pointColorMapping](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationSeries#pointcolormapping) |
+| `border` | Chart border styling (on chart element) | [border](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#border) |
+| `opacity` | Series opacity 0–1 (on series element) | [opacity](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationSeries#opacity) |
 
 ### Animation APIs
 

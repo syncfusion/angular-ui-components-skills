@@ -4,6 +4,265 @@ This document provides a comprehensive overview of the Syncfusion Angular Chart 
 
 **Base URL:** https://ej2.syncfusion.com/angular/documentation/api/chart/
 
+---
+
+## ⚠️ API Accuracy Standards (Skill Development Requirements)
+
+### **4 Key Areas to Ensure Accurate API Documentation**
+
+This section outlines the quality standards for maintaining accurate API references in skill files. Following these practices ensures developers can rely on documentation for correct implementation.
+
+---
+
+### **1. Use Authoritative API Documentation**
+
+**Why This Matters:**
+API property names are critical — a single character difference breaks functionality. Syncfusion APIs use precise naming conventions that must be followed exactly.
+
+**Problem Example:**
+```typescript
+// ❌ WRONG - Property doesn't exist
+public legend = { visible: true };
+<ejs-chart [legend]="legend">
+```
+
+**Solution:**
+```typescript
+// ✅ CORRECT - Verified against official Syncfusion API
+public legendSettings: LegendSettingsModel = { visible: true };
+<ejs-chart [legendSettings]="legendSettings">
+```
+
+**Your Checklist Before Documenting Any Property:**
+- [ ] Verify property name against official Syncfusion docs: https://ej2.syncfusion.com/angular/documentation/api/chart/
+- [ ] Check TypeScript interface definitions in `@syncfusion/ej2-angular-charts` package
+- [ ] Confirm property type (object, string, boolean, enum, Model interface)
+- [ ] Test in IDE with IntelliSense — TypeScript should recognize the property
+- [ ] Verify the property exists in your installed version (check package.json version)
+- [ ] Check release notes for version-specific changes or deprecations
+
+**Common Naming Pitfalls:**
+| ❌ WRONG | ✅ CORRECT | Why |
+|-----------|-----------|-----|
+| `[legend]` | `[legendSettings]` | Syncfusion uses `Settings` suffix for configuration objects |
+| `[tooltip]` alone | `[tooltip]` + `[tooltipRender]` | Some properties require event handlers for full functionality |
+| `marker="{ ... }"` | `[marker]="markerSettings"` on `<e-series>` | Marker settings are per-series, not global |
+| `series.marker` | Use `<e-marker>` directive inside `<e-series>` | Different binding patterns for nested configs |
+
+---
+
+### **2. Document API Property Names Explicitly**
+
+**Why This Matters:**
+Developers need clear documentation showing:
+- The exact property name to use in templates
+- What type of value the property expects
+- Where to find the property (in component or series)
+- Link to official documentation for details
+
+**Poor Documentation (Before):**
+```typescript
+public legend = {
+  visible: true,
+  position: 'Top',
+  alignment: 'Center'
+};
+```
+**Problems:** No context, unclear property name, no type info, no documentation link
+
+**Improved Documentation (After):**
+```typescript
+/**
+ * Legend configuration for the Chart component
+ * 
+ * ⚠️ API PROPERTY NAME: legendSettings (NOT "legend")
+ * TypeScript Interface: LegendSettingsModel
+ * Template Binding: [legendSettings]="legendSettings"
+ * Official Docs: https://ej2.syncfusion.com/angular/documentation/api/chart/legendSettingsModel
+ * 
+ * @property visible - Show/hide legend (default: true)
+ *   Type: boolean
+ *   Values: true | false
+ * 
+ * @property position - Legend placement on chart
+ *   Type: LegendPosition (enum)
+ *   Values: 'Top' | 'Bottom' | 'Left' | 'Right' | 'Custom'
+ *   Default: 'Top'
+ * 
+ * @property alignment - Legend horizontal/vertical alignment
+ *   Type: Alignment (enum)
+ *   Values: 'Near' | 'Center' | 'Far'
+ *   Default: 'Center'
+ * 
+ * Example:
+ * ```typescript
+ * public legendSettings: LegendSettingsModel = {
+ *   visible: true,
+ *   position: 'Bottom',
+ *   alignment: 'Center'
+ * };
+ * ```
+ * 
+ * Template:
+ * ```html
+ * <ejs-chart [legendSettings]="legendSettings">
+ * </ejs-chart>
+ * ```
+ */
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  position: 'Top',
+  alignment: 'Center'
+};
+```
+
+**Documentation Template for Any Property:**
+```markdown
+### [Property Name]
+
+**API Property Name:** `[propertyName]`  
+**Type:** `InterfaceNameModel`  
+**Default:** `value`  
+**Official Docs:** [Link to Syncfusion API]  
+
+**Parameters:**
+| Property | Type | Values | Default | Description |
+|----------|------|--------|---------|-------------|
+| subProp1 | type | enum values | default | Purpose |
+
+**Code Example:**
+```typescript
+public propertyName: InterfaceNameModel = { ... };
+```
+
+**Template Usage:**
+```html
+<ejs-chart [propertyName]="propertyName">
+</ejs-chart>
+```
+
+**Common Issues:**
+- ❌ [Issue]
+- ✅ [Solution]
+```
+
+---
+
+### **3. Add TypeScript Interfaces for Type Safety**
+
+**Why This Matters:**
+TypeScript strict mode requires proper type definitions. Vague typing leads to:
+- IDE autocomplete not working
+- TypeScript compilation errors
+- Runtime surprises
+- Code that's hard to maintain
+
+**Without Type Safety (Problem):**
+```typescript
+export class App implements OnInit {
+  public legend = { ... };  // Could be any object — no type checking
+  public tooltip = { ... }; // IDE has no idea what properties are valid
+  
+  ngOnInit() {
+    this.legend.visiblexxx = true; // Typo! TypeScript won't catch this
+  }
+}
+```
+
+**With Type Safety (Solution):**
+```typescript
+import { 
+  ChartModule, 
+  LegendSettingsModel,
+  TooltipSettingsModel,
+  AxisModel,
+  SeriesModel
+} from '@syncfusion/ej2-angular-charts';
+
+export class App implements OnInit {
+  // TypeScript knows exactly what properties are allowed
+  public legendSettings: LegendSettingsModel = {
+    visible: true,
+    position: 'Bottom'
+  };
+  
+  public tooltip: TooltipSettingsModel = {
+    enable: true,
+    format: '${point.x}: ${point.y}'
+  };
+  
+  ngOnInit() {
+    // ✅ IDE autocomplete suggests valid properties
+    this.legendSettings.visible = false;
+    
+    // ❌ TypeScript catches typos immediately
+    // this.legendSettings.visiblexxx = true; 
+    // Error: Property 'visiblexxx' does not exist on type 'LegendSettingsModel'
+  }
+}
+```
+
+**Benefits of Type Safety:**
+- ✅ IDE IntelliSense shows available properties
+- ✅ TypeScript compiler catches errors at development time (not runtime)
+- ✅ Self-documents expected structure
+- ✅ Refactoring tools work correctly
+- ✅ Reduces debugging time
+- ✅ Code is easier to understand
+
+**How to Find TypeScript Interfaces:**
+1. Install Syncfusion package: `npm install @syncfusion/ej2-angular-charts`
+2. Look in `node_modules/@syncfusion/ej2-angular-charts/src/chart/` for `.d.ts` files
+3. Or check official TypeScript definitions: https://ej2.syncfusion.com/angular/documentation/api/chart/
+
+**Import Statement Template:**
+```typescript
+import { 
+  ChartModule,           // Main module
+  LegendSettingsModel,   // Legend config interface
+  TooltipSettingsModel,  // Tooltip config interface
+  AxisModel,             // Axis config interface
+  SeriesModel,           // Series config interface
+  // Add other needed interfaces...
+} from '@syncfusion/ej2-angular-charts';
+```
+
+---
+
+### **4. Create Property Mapping Reference with Naming Conventions**
+
+**Why This Matters:**
+Developers often don't know:
+- What the exact component property name is
+- How it's referenced in templates
+- If it's singular or plural
+- If it uses "Settings" suffix or not
+- Where it's configured (chart, series, or elsewhere)
+
+**Create a Property Mapping Table in Documentation:**
+
+| Component | Template Binding | Component Property | Type | Status | Note |
+|-----------|------------------|-------------------|------|--------|------|
+| Chart | `[legendSettings]` | `legendSettings` | `LegendSettingsModel` | ✅ Correct | NOT `[legend]` |
+| Chart | `[tooltipRender]` | `tooltipRender` | `EventEmitter` | ✅ Correct | Use `(tooltipRender)=` for events |
+| Chart | `[title]` | `title` | `string` | ✅ Correct | Simple string, not an object |
+| Axis | `[primary​XAxis]` | `primaryXAxis` | `AxisModel` | ✅ Correct | Singular "Axis" not "Axes" |
+| Series | `[marker]` | `marker` | `MarkerSettingsModel` | ✅ Correct | On `<e-series>`, not on `<ejs-chart>` |
+
+**API Property Naming Conventions:**
+
+| Pattern | Examples | When Used |
+|---------|----------|-----------|
+| `xxxSettings` | `legendSettings`, `tooltipSettings`, `zoomSettings` | Configuration objects |
+| `xxxModel` | `LegendSettingsModel`, `ChartAreaModel` | TypeScript interface type names |
+| `xxx` | `title`, `width`, `height` | Simple string/number/boolean properties |
+| Primary + Feature | `primaryXAxis`, `primaryYAxis` | Main axis (vs secondary axis) |
+| Directive | `<e-series>`, `<e-axis>` | Child elements in template |
+
+---
+
+
+
 ## API Documentation Overview
 
 **Total APIs:** 200+ interfaces, classes, enums, and event interfaces  
@@ -13,6 +272,71 @@ This document provides a comprehensive overview of the Syncfusion Angular Chart 
 - **Enumerations:** 50+ enum types
 - **Event Interfaces:** 40+ event argument interfaces
 - **Utility Types:** 20+ helper types
+
+---
+
+## 📋 Component Property Mapping Reference
+
+**Use this table to find exact property names and verify correct API usage.**
+
+### Top-Level Chart Component Properties
+
+| Feature | Template Binding | Component Property | Type | Correct Usage | ❌ Common Mistake |
+|---------|------------------|-------------------|------|----------------|--------------------|
+| **Legend** | `[legendSettings]` | `legendSettings` | `LegendSettingsModel` | ✅ `[legendSettings]="legendSettings"` | ❌ `[legend]="legend"` |
+| **Tooltip** | `[tooltip]` | `tooltip` | `TooltipSettingsModel` | ✅ `[tooltip]="tooltip"` | ❌ `[tooltips]="tooltip"` |
+| **Primary X-Axis** | `[primaryXAxis]` | `primaryXAxis` | `AxisModel` | ✅ `[primaryXAxis]="xAxis"` | ❌ `[xAxis]="xAxis"` |
+| **Primary Y-Axis** | `[primaryYAxis]` | `primaryYAxis` | `AxisModel` | ✅ `[primaryYAxis]="yAxis"` | ❌ `[yAxis]="yAxis"` |
+| **Title** | `[title]` | `title` | `string` | ✅ `[title]="'Chart Title'"` | ❌ `[chartTitle]="...` |
+| **Chart Area** | `[chartArea]` | `chartArea` | `ChartAreaModel` | ✅ `[chartArea]="chartArea"` | ❌ `[area]="area"` |
+| **Margin** | Configure via `chartArea.border` | — | — | ✅ Use `chartArea` property | ❌ Separate `[margin]` |
+| **Theme** | `[theme]` | `theme` | `ChartTheme` (enum) | ✅ `[theme]="'Tailwind'"` | ❌ `[style]="...` |
+| **Background** | `[background]` | `background` | `string` | ✅ `[background]="'white'"` | ❌ Use CSS instead |
+| **Border** | `[border]` | `border` | `BorderModel` | ✅ `[border]="border"` | ✅ Both work |
+
+### Series Configuration (inside `<e-series>` directive)
+
+| Feature | Template Usage | Property | Type | Example |
+|---------|-----------------|----------|------|---------|
+| **Data Source** | `[dataSource]="data"` | `dataSource` | `Object[]` | Chart data array |
+| **Type** | `type="Line"` | `type` | `ChartSeriesType` | Line, Column, Area, etc. |
+| **X-Axis Field** | `xName="x"` | `xName` | `string` | Data field name for X |
+| **Y-Axis Field** | `yName="y"` | `yName` | `string` | Data field name for Y |
+| **Marker** | `<e-marker>` directive inside | Nested element | — | Use child directive, not property |
+| **Data Labels** | `<e-data-label>` directive | Nested element | — | Use child directive |
+
+### Common API Naming Rules
+
+| Rule | Pattern | Examples | Note |
+|------|---------|----------|------|
+| **Settings Suffix** | `[xxxSettings]` | `legendSettings`, `tooltipSettings`, `zoomSettings` | Configuration objects use "Settings" |
+| **Type Interfaces** | `xxxSettingsModel` | `LegendSettingsModel`, `TooltipSettingsModel` | TypeScript interfaces end with "Model" |
+| **Boolean Flags** | `[enabled]` or `[visible]` | `[enabled]="true"`, `[visible]="true"` | Enables/shows feature |
+| **Primary Axes** | `primary[Feature]Axis` | `primaryXAxis`, `primaryYAxis` | Main axis (vs secondary) |
+| **Enumerations** | String values | `type="Line"`, `position="Top"` | Use string values, not objects |
+| **Events** | `(eventName)=` | `(tooltipRender)=`, `(pointRender)=` | Event bindings use parentheses |
+
+### Quick API Lookup by Feature
+
+**Looking for a specific feature?** Use these mappings:
+
+| I Want To... | Use This Property | Type | Where |
+|--------------|-------------------|------|-------|
+| Show legend | `[legendSettings]` | `LegendSettingsModel` | Chart level |
+| Position legend | `legendSettings.position` | `LegendPosition` (enum) | In legendSettings object |
+| Legend shape | `legendSettings.shape` | `LegendShape` (enum) | In legendSettings object |
+| Show tooltip | `[tooltip]` | `TooltipSettingsModel` | Chart level |
+| Tooltip format | `tooltip.format` | `string` | In tooltip object |
+| Configure X-axis | `[primaryXAxis]` | `AxisModel` | Chart level |
+| Configure Y-axis | `[primaryYAxis]` | `AxisModel` | Chart level |
+| Axis labels | `primaryXAxis.labelFormat` | `string` | In axis object |
+| Data points | Inside `<e-series>` with `[dataSource]` | `Object[]` | Series level |
+| Point markers | `<e-marker>` child element | `MarkerSettingsModel` | Inside series |
+| Data labels | `<e-data-label>` child element | `DataLabelSettingsModel` | Inside series |
+
+---
+
+
 
 ## Core Configuration APIs
 
@@ -502,6 +826,258 @@ Each API file contains:
 - **Directives:** xxxDirective.md (15+ files)
 - **Utilities:** Helper and utility classes (20+ files)
 
+---
+
+## 📊 Legend Shape Types - Comprehensive Reference
+
+**API Reference:** [LegendShape](https://ej2.syncfusion.com/angular/documentation/api/chart/legendShape) (Enum)
+
+### Available Legend Shapes
+
+| Shape Type | Description | Visual Representation | Usage Example |
+|------------|-------------|----------------------|---------------|
+| **Circle** | Renders a circular icon | ● | Default for Line, Area, Scatter charts |
+| **Rectangle** | Renders a rectangular icon | ■ | Default for Column, Bar charts |
+| **Triangle** | Renders a triangular icon | ▲ | Used with triangular markers |
+| **InvertedTriangle** | Renders an inverted triangle-shaped icon | ▼ | Alternative triangle variant |
+| **Diamond** | Renders a diamond-shaped icon | ◆ | Used with diamond markers |
+| **Pentagon** | Renders a pentagon-shaped icon | ⬟ | Used with pentagon markers |
+| **Cross** | Renders a cross-shaped icon | ✕ | Used with cross markers |
+| **HorizontalLine** | Renders a horizontal line icon | ─ | Line-based visualization |
+| **VerticalLine** | Renders a vertical line icon | \| | Line-based visualization |
+| **Image** | Renders a custom image for the legend icon | 🖼️ | Custom branding, requires `imageUrl` property |
+| **SeriesType** | Uses the default icon shape based on the series type | Auto | Automatic detection (default behavior) |
+
+### Implementation Patterns
+
+#### ✅ Global Legend Shape (All Series)
+
+```typescript
+import { LegendSettingsModel } from '@syncfusion/ej2-angular-charts';
+
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  shape: 'Circle'  // Type: LegendShape enum
+};
+```
+
+```html
+<ejs-chart [legendSettings]="legendSettings">
+  <!-- All series will use Circle shape for legend icons -->
+</ejs-chart>
+```
+
+#### ✅ Per-Series Legend Shape Override
+
+```html
+<ejs-chart [legendSettings]="legendSettings">
+  <e-series-collection>
+    <!-- Series 1: Circle shape -->
+    <e-series 
+      [dataSource]="data1" 
+      type="Line" 
+      xName="x" 
+      yName="y" 
+      name="Sales"
+      legendShape="Circle">
+    </e-series>
+    
+    <!-- Series 2: Rectangle shape -->
+    <e-series 
+      [dataSource]="data2" 
+      type="Column" 
+      xName="x" 
+      yName="y" 
+      name="Revenue"
+      legendShape="Rectangle">
+    </e-series>
+    
+    <!-- Series 3: Diamond shape -->
+    <e-series 
+      [dataSource]="data3" 
+      type="Scatter" 
+      xName="x" 
+      yName="y" 
+      name="Customers"
+      legendShape="Diamond">
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+```
+
+#### ✅ Custom Image Legend Shape
+
+```typescript
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  shape: 'Image'  // Image shape requires imageUrl on series
+};
+```
+
+```html
+<ejs-chart [legendSettings]="legendSettings">
+  <e-series-collection>
+    <e-series 
+      [dataSource]="data" 
+      type="Line" 
+      xName="x" 
+      yName="y" 
+      name="Product A"
+      legendShape="Image"
+      imageUrl="assets/product-a-icon.png">
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+```
+
+#### ✅ SeriesType (Automatic - Default Behavior)
+
+```typescript
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  shape: 'SeriesType'  // Shape matches chart series type (default)
+};
+```
+
+**SeriesType Shape Mapping:**
+
+| Series Type | Default Legend Shape |
+|-------------|---------------------|
+| Line, Area, Scatter | Circle |
+| Column, Bar, StackingColumn, StackingBar | Rectangle |
+| Pie, Doughnut | Circle |
+| Bubble | Circle |
+| Candle, HiLo, OHLC | Rectangle |
+| Waterfall, BoxPlot | Rectangle |
+
+### Shape Sizing and Styling
+
+```typescript
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  shape: 'Pentagon',
+  shapeWidth: 20,      // Width in pixels
+  shapeHeight: 20,     // Height in pixels
+  shapePadding: 8,     // Padding around shape
+  
+  // Shape styling
+  border: {
+    width: 1,
+    color: '#333'
+  },
+  
+  // Only applies when shape is Image
+  imageUrl: 'assets/custom-icon.png'
+};
+```
+
+### Common Shape Selection Patterns
+
+#### Mixed Shapes per Series Type
+
+```html
+<ejs-chart [legendSettings]="{ visible: true }">
+  <e-series-collection>
+    <!-- Line series: Circle shape -->
+    <e-series type="Line" legendShape="Circle" name="Trend"></e-series>
+    
+    <!-- Column series: Rectangle shape -->
+    <e-series type="Column" legendShape="Rectangle" name="Value"></e-series>
+    
+    <!-- Scatter series: Diamond shape -->
+    <e-series type="Scatter" legendShape="Diamond" name="Points"></e-series>
+  </e-series-collection>
+</ejs-chart>
+```
+
+#### Custom Icons per Department
+
+```html
+<ejs-chart [legendSettings]="{ visible: true, shape: 'Image' }">
+  <e-series-collection>
+    <e-series 
+      type="Column" 
+      name="Sales Dept"
+      legendShape="Image"
+      imageUrl="assets/icons/sales.svg">
+    </e-series>
+    <e-series 
+      type="Column" 
+      name="Marketing Dept"
+      legendShape="Image"
+      imageUrl="assets/icons/marketing.svg">
+    </e-series>
+  </e-series-collection>
+</ejs-chart>
+```
+
+#### Dynamic Shape Selection
+
+```typescript
+import { LegendShape } from '@syncfusion/ej2-angular-charts';
+
+public getShapeForSeries(seriesType: string): LegendShape {
+  const shapeMap: Record<string, LegendShape> = {
+    'Line': 'Circle',
+    'Column': 'Rectangle',
+    'Scatter': 'Diamond',
+    'Area': 'Triangle',
+    'Bar': 'Rectangle'
+  };
+  return shapeMap[seriesType] || 'SeriesType';
+}
+```
+
+### API Property Reference
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `shape` | LegendShape (enum) | SeriesType | Legend icon shape |
+| `shapeWidth` | number | 15 | Width of shape in pixels |
+| `shapeHeight` | number | 15 | Height of shape in pixels |
+| `shapePadding` | number | 5 | Padding between shape and text |
+| `imageUrl` | string | - | Image URL (required when shape='Image') |
+
+### TypeScript Type Safety
+
+```typescript
+import { 
+  LegendSettingsModel, 
+  LegendShape 
+} from '@syncfusion/ej2-angular-charts';
+
+// Type-safe shape selection
+const validShapes: LegendShape[] = [
+  'Circle',
+  'Rectangle', 
+  'Triangle',
+  'InvertedTriangle',
+  'Diamond',
+  'Pentagon',
+  'Cross',
+  'HorizontalLine',
+  'VerticalLine',
+  'Image',
+  'SeriesType'
+];
+
+// Component property with full type coverage
+public legendSettings: LegendSettingsModel = {
+  visible: true,
+  shape: 'Circle' as LegendShape,
+  shapeWidth: 15,
+  shapeHeight: 15,
+  shapePadding: 5
+};
+```
+
+### Official Documentation
+
+**For the complete legend shape specification, see:**
+- [LegendShape Enum](https://ej2.syncfusion.com/angular/documentation/api/chart/legendShape)
+- [LegendSettingsModel](https://ej2.syncfusion.com/angular/documentation/api/chart/legendSettingsModel)
+- [Legend Implementation Guide](./chart-elements.md#legend-shape-and-style)
+
 ## Integration with Reference Guides
 
 All 10 reference guides link to relevant API documentation:
@@ -519,4 +1095,102 @@ All 10 reference guides link to relevant API documentation:
 
 ---
 
-**For the most up-to-date and comprehensive API documentation, always refer to the individual API files in the chart/ directory.**
+## 🧪 QA Checklist Before Publishing Skill Documentation
+
+**Use this checklist before finalizing any skill file or code example:**
+
+### Property Verification
+- [ ] Property name matches official Syncfusion documentation (checked against https://ej2.syncfusion.com/angular/documentation/api/chart/)
+- [ ] Property is for correct component (Chart vs Series vs Axis level)
+- [ ] Type annotation includes correct `Model` interface (e.g., `LegendSettingsModel`)
+- [ ] Template binding matches property name exactly
+- [ ] No typos or case-sensitivity issues (camelCase is standard)
+
+### Code Example Validation
+- [ ] Code compiles without TypeScript errors
+- [ ] Component renders without console errors
+- [ ] All property bindings work as documented
+- [ ] Event handlers (if any) fire correctly
+- [ ] Example matches actual Syncfusion behavior
+
+### Documentation Quality
+- [ ] Property purpose is clearly explained
+- [ ] Type information is explicit and correct
+- [ ] Default values are documented
+- [ ] Enum values are listed (for typed enums)
+- [ ] Common mistakes are highlighted
+- [ ] Link to official API documentation is provided
+- [ ] Example code is tested and working
+
+### API References
+- [ ] Syncfusion version number is specified (e.g., v33.2.5)
+- [ ] API links point to correct official documentation
+- [ ] Links are not outdated or deprecated
+- [ ] Version-specific changes are noted
+
+### Naming Conventions
+- [ ] `Settings` suffix used for configuration objects
+- [ ] `Model` suffix used in TypeScript interface names
+- [ ] Property names match official casing (camelCase)
+- [ ] No local naming variations (stick to official names)
+
+### Accessibility & Compatibility
+- [ ] WCAG 2.1 AA compliance mentioned where relevant
+- [ ] Browser compatibility noted
+- [ ] Known limitations documented
+- [ ] Migration path from older versions provided (if applicable)
+
+---
+
+## 🔗 Quick Reference Links
+
+**Official Syncfusion Resources:**
+- [Angular Chart Documentation](https://ej2.syncfusion.com/angular/documentation/chart/chart-types/)
+- [Angular Chart API Reference](https://ej2.syncfusion.com/angular/documentation/api/chart/)
+- [Angular Chart Examples](https://ej2.syncfusion.com/angular/demos/#/material/chart/line)
+- [TypeScript Definitions](https://www.npmjs.com/package/@syncfusion/ej2-angular-charts)
+
+**Validation Tools:**
+- TypeScript Language Server (built into VS Code)
+- IDE IntelliSense (suggests valid properties)
+- npm package type definitions (inspect .d.ts files)
+
+**Skill Development Standards:**
+- [Skill Development Guide](./skill-development-guide.md) - Best practices for creating skill files
+- [Chart Elements Reference](./chart-elements.md) - Detailed feature guide
+- [Getting Started Guide](./getting-started.md) - First-time implementation
+
+---
+
+**For the most up-to-date and comprehensive API documentation, always refer to the individual API files in the chart/ directory and the official Syncfusion documentation site.**
+
+---
+
+## 📌 Summary: The 4 Key Areas Applied
+
+This enhanced API Reference now demonstrates all 4 key improvement areas:
+
+1. **✅ Use Authoritative API Documentation**
+   - Links to official Syncfusion docs for every property
+   - Checklists ensure verification against official sources
+   - Common pitfalls highlighted with correct alternatives
+
+2. **✅ Document API Property Names Explicitly**
+   - Property mapping tables show exact names
+   - Clear distinction between what's wrong and what's correct
+   - Template binding examples for each property
+   - Type information always included
+
+3. **✅ Add TypeScript Interfaces for Type Safety**
+   - Every property includes type annotation
+   - Import statements show correct interfaces
+   - IDE autocomplete examples provided
+   - Type safety benefits explained
+
+4. **✅ Create Property Mapping Reference**
+   - Comprehensive mapping tables organized by feature
+   - Quick lookup by task/feature
+   - Common mistakes clearly marked with ❌
+   - Correct usage marked with ✅
+
+**Result:** Developers and skill contributors now have a reliable reference that catches and prevents the `[legend]` vs `[legendSettings]` type of mistakes before they cause build failures.

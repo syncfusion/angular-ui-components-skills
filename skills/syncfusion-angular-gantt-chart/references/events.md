@@ -284,9 +284,9 @@ public queryCellInfo(args: QueryCellInfoEventArgs): void {
 }
 ```
 
-### queryRowInfo / rowDataBound
+### rowDataBound / row spanning
 
-`rowDataBound` fires for each row; `queryRowInfo` is used for row spanning.
+`rowDataBound` fires for each row. Use `queryCellInfo` with `rowSpan` when you need to merge cells vertically.
 
 ```typescript
 public rowDataBound(args: any): void {

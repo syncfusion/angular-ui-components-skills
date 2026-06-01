@@ -325,6 +325,26 @@ export class AppComponent implements OnInit {
 
 ## Troubleshooting
 
+### Issue: Multiple BulletChart Not Rendering
+
+**Cause:** When multiple Bullet Chart components are rendered on the same page, each chart should use a **unique container `id`** to avoid DOM rendering conflicts.
+
+
+```html
+<!-- Correct: unique IDs -->
+<ejs-bulletchart id="bullet-sales" [dataSource]="salesData"></ejs-bulletchart>
+<ejs-bulletchart id="bullet-revenue" [dataSource]="revenueData"></ejs-bulletchart>
+<ejs-bulletchart id="bullet-profit" [dataSource]="profitData"></ejs-bulletchart>
+
+<!-- ✗ WRONG - No IDs -->
+<ejs-bulletchart [dataSource]="salesData"></ejs-bulletchart>
+<ejs-bulletchart [dataSource]="revenueData"></ejs-bulletchart>
+
+<!-- ✗ WRONG: duplicate IDs -->
+<ejs-bulletchart id="bulletchart" [dataSource]="salesData"></ejs-bulletchart>
+<ejs-bulletchart id="bulletchart" [dataSource]="revenueData"></ejs-bulletchart>
+```
+
 **Package not found?**
 ```bash
 npm install @syncfusion/ej2-angular-charts

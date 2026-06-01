@@ -147,7 +147,20 @@ Or freeze at column level:
 { field: 'TaskID', isFrozen: true }
 ```
 
-The frozen section and scrollable section behave as independent scroll areas.
+Use the `column.freeze` property to freeze columns in specific directions:
+
+```typescript
+public columns: object[] = [
+  { field: 'TaskID', headerText: 'ID', freeze: 'Left' },
+  { field: 'TaskName', headerText: 'Task Name' },
+  { field: 'Progress', headerText: 'Progress', freeze: 'Fixed' },
+  { field: 'Status', headerText: 'Status', freeze: 'Right' }
+];
+```
+
+The `freeze` property supports: `Left` | `Right` | `Fixed`. The frozen column and scrollable section behave as independent scroll areas.
+
+**Note:** The `freeze` property is not compatible with `isFrozen` and `frozenColumns`.
 
 ---
 

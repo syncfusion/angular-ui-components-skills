@@ -1,478 +1,587 @@
 # Interactive Features
 
+This guide explains how to add interactive behavior to the **Syncfusion Angular Accumulation Chart** (Pie / Doughnut / Funnel / Pyramid), including:
+
+---
+
 ## Table of Contents
+
+- [Required Imports and Providers](#required-imports-and-providers)
 - [Tooltips](#tooltips)
 - [Selection](#selection)
+- [Highlight and Hover](#highlight-and-hover)
 - [Events](#events)
 - [Point and Series Interactions](#point-and-series-interactions)
-- [Highlight and Hover](#highlight-and-hover)
 - [Interactive Example](#interactive-example)
+- [Key Takeaways](#key-takeaways)
+- [Source Links](#source-links)
+
+---
 
 ## Tooltips
 
-### Enable Tooltips
+Tooltips display additional information when hovering over chart segments.
 
-Display information when hovering over chart segments:
-
-```typescript
-<ejs-accumulationchart [tooltip]="{ enable: true }">
-  <e-accumulation-series-collection>
-    <e-accumulation-series [dataSource]="data">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
-```
-
-### Tooltip Properties
+### Required imports/providers for tooltip
 
 ```typescript
-interface TooltipProperties {
-  enable: boolean;                  // Show/hide tooltips
-  visible: boolean;                 // Control visibility
-  template?: string;                // Custom HTML template
-  format?: string;                  // Format string with placeholders
-  duration: number;                 // Display duration in ms
-  opacity: number;                  // Tooltip opacity (0-1)
-  border: object;                   // Border configuration
-  backgroundColor: string;          // Background color
-  textStyle: object;               // Font styling
-  position: 'Top' | 'Bottom' | 'Right' | 'Left'; // Tooltip position
-}
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationTooltipService
+} from '@syncfusion/ej2-angular-charts';
 ```
-
-### Tooltip with Format String
-
-```typescript
-<ejs-accumulationchart 
-  [tooltip]="{ 
-    enable: true, 
-    format: '${point.x}: ${point.y} units' 
-  }">
-  <e-accumulation-series-collection>
-    <e-accumulation-series [dataSource]="data">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
-```
-
-### Tooltip Placeholders
-
-| Placeholder | Description | Example |
-|-------------|-------------|---------|
-| `${point.x}` | Category name | "Product A" |
-| `${point.y}` | Y-axis value | 3500 |
-| `${point.percentage}` | Percentage | 35% |
-| `${series.name}` | Series name | "Sales" |
-| `${custom_field}` | Custom field | Any field from data |
-
-### Custom Tooltip Template
 
 ```typescript
 @Component({
+  standalone: true,
+  selector: 'app-tooltip-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationTooltipService],
   template: `
-    <ejs-accumulationchart 
-      [tooltip]="tooltipConfig"
-      (tooltipRender)="onTooltipRender($event)">
+    <ejs-accumulationchart [tooltip]="tooltip">
       <e-accumulation-series-collection>
-        <e-accumulation-series [dataSource]="data">
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
         </e-accumulation-series>
       </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
-export class ChartComponent {
-  tooltipConfig = {
-    enable: true,
-    opacity: 0.9
-  };
+export class TooltipExampleComponent {
+  public data = [
+    { x: 'North', y: 120000 },
+    { x: 'South', y: 95000 },
+    { x: 'East', y: 150000 }
+  ];
 
-  data = [
+  public tooltip = {
+    enable: true
+  };
+}
+```
+
+### Tooltip properties
+
+```typescript
+public tooltip = {
+  enable: true,
+  header: 'Sales',
+  format: '${point.x}: ${point.y}',
+  fill: '#333333',
+  opacity: 0.9,
+  border: { color: '#111111', width: 1 },
+  textStyle: {
+    color: '#FFFFFF',
+    fontFamily: 'Segoe UI',
+    size: '12px'
+  },
+  location: { x: 120, y: 20 },
+  followPointer: true,
+  shared: false
+};
+```
+
+### Tooltip placeholders
+
+You can use placeholders inside `format` such as:
+
+- `${point.x}`
+- `${point.y}`
+- `${point.percentage}`
+- `${series.name}`
+- `${point.tooltip}` (when using `tooltipMappingName`)
+
+### Tooltip with format string
+
+```typescript
+public tooltip = {
+  enable: true,
+  format: '${point.x}: ${point.y} units'
+};
+```
+
+### Tooltip mapping name
+
+```typescript
+@Component({
+  standalone: true,
+  selector: 'app-tooltip-mapping-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationTooltipService],
+  template: `
+    <ejs-accumulationchart [tooltip]="tooltip">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          tooltipMappingName="text">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class TooltipMappingExampleComponent {
+  public data = [
+    { x: 'Jan', y: 13, text: 'January: 13' },
+    { x: 'Feb', y: 18, text: 'February: 18' },
+    { x: 'Mar', y: 22, text: 'March: 22' }
+  ];
+
+  public tooltip = {
+    enable: true,
+    format: '${point.tooltip}'
+  };
+}
+```
+
+### Custom tooltip using `tooltipRender`
+
+```typescript
+@Component({
+  standalone: true,
+  selector: 'app-tooltip-render-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationTooltipService],
+  template: `
+    <ejs-accumulationchart
+      [tooltip]="tooltip"
+      (tooltipRender)="onTooltipRender($event)">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class TooltipRenderExampleComponent {
+  public data = [
     { x: 'North', y: 120000, region: 'Americas' },
     { x: 'South', y: 95000, region: 'Americas' },
     { x: 'East', y: 150000, region: 'Europe' }
   ];
 
-  onTooltipRender(args: ITooltipRenderEventArgs) {
-    // Customize tooltip content and styling
-    args.text = `
-      <b>${args.point.x}</b><br/>
-      Sales: ${args.point.y.toLocaleString()}<br/>
-      Region: ${args.point.region}<br/>
-      Share: ${args.point.percentage.toFixed(1)}%
-    `;
-    args.textStyle = { color: '#FFF', fontSize: '12px' };
+  public tooltip = {
+    enable: true,
+    opacity: 0.9
+  };
+
+  onTooltipRender(args: ITooltipRenderEventArgs): void {
+    args.text =
+      `${args.point.x}<br/>` +
+      `Sales: ${args.point.y}<br/>` +
+      `Share: ${args.point.percentage.toFixed(1)}%`;
   }
 }
 ```
 
-### Styled Tooltip
-
-```typescript
-tooltipConfig = {
-  enable: true,
-  border: { color: '#333', width: 1 },
-  backgroundColor: '#333',
-  textStyle: {
-    color: '#FFFFFF',
-    fontFamily: 'Segoe UI',
-    fontSize: '12px'
-  },
-  position: 'Top',
-  duration: 2000
-};
-```
-
-### Shared Tooltip
-Displays tooltip content for all series at once when hovering over shared points.
-
-**API:**  
-- `shared: boolean` inside `TooltipSettings`
-
-```html
-<ejs-accumulationchart
-  [tooltip]="{ enable: true, shared: true }">
-</ejs-accumulationchart>
-```
-
-Use shared tooltips when multiple accumulation series are rendered together.
+---
 
 ## Selection
 
-### Enable Selection
+Selection allows users to click and select chart points.
 
-Allow users to select chart segments:
+**Important:**  
+For accumulation charts, valid `selectionMode` values are:
+  - `'None'`
+  - `'Point'`
 
-```typescript
-<ejs-accumulationchart 
-  [selectionMode]="'Point'">
-  <e-accumulation-series-collection>
-    <e-accumulation-series [dataSource]="data">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
-```
-
-### Selection Modes
+### Required imports/providers for selection
 
 ```typescript
-// Select individual points
-[selectionMode]="'Point'"
-
-// Select entire series
-[selectionMode]="'Series'"
-
-// No selection
-[selectionMode]="'None'"
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationSelectionService
+} from '@syncfusion/ej2-angular-charts';
 ```
 
-### Selection Colors
-
-Customize appearance of selected segments:
+### Enable selection
 
 ```typescript
 @Component({
+  standalone: true,
+  selector: 'app-selection-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationSelectionService],
   template: `
-    <ejs-accumulationchart 
+    <ejs-accumulationchart
       selectionMode="Point"
-      (pointSelected)="onPointSelected($event)">
+      [selectionPattern]="'DiagonalForward'"
+      (selectionComplete)="onSelectionComplete($event)">
       <e-accumulation-series-collection>
-        <e-accumulation-series 
+        <e-accumulation-series
           [dataSource]="data"
-          (selectionComplete)="onSelectionComplete($event)">
+          xName="x"
+          yName="y">
         </e-accumulation-series>
       </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
-export class SelectionComponent {
-  data = [
+export class SelectionExampleComponent {
+  public data = [
     { x: 'A', y: 30 },
     { x: 'B', y: 25 },
     { x: 'C', y: 20 }
   ];
 
-  onPointSelected(args: any) {
-    console.log('Selected point:', args.pointIndex);
-    // Change styling based on selection
-  }
-
-  onSelectionComplete(args: any) {
+  onSelectionComplete(args: IAccSelectionCompleteEventArgs): void {
     console.log('Selection complete:', args);
   }
 }
 ```
 
-### Multiple Selection
+### Multiple selection
 
 ```typescript
-<ejs-accumulationchart 
+<ejs-accumulationchart
   selectionMode="Point"
   [isMultiSelect]="true">
-  <e-accumulation-series-collection>
-    <e-accumulation-series [dataSource]="data">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
 </ejs-accumulationchart>
 ```
 
-With multi-select enabled, users can hold Ctrl/Cmd while clicking to select multiple segments.
-
-## Events
-
-### Chart Events
-
-Respond to various chart interactions:
+### Preselect selected points
 
 ```typescript
-@Component({
-  template: `
-    <ejs-accumulationchart
-      (chartMouseClick)="onChartClick($event)"
-      (pointRender)="onPointRender($event)"
-      (seriesRender)="onSeriesRender($event)"
-      (chartMouseLeave)="onChartLeave($event)">
-      <e-accumulation-series-collection>
-        <e-accumulation-series [dataSource]="data">
-        </e-accumulation-series>
-      </e-accumulation-series-collection>
-    </ejs-accumulationchart>
-  `
-})
-export class ChartEventsComponent {
-  data = [{ x: 'A', y: 30 }, { x: 'B', y: 25 }];
-
-  onChartClick(args: IChartMouseEventArgs) {
-    console.log('Chart clicked:', args);
-  }
-
-  onPointRender(args: IAccumulationEventArgs) {
-    console.log('Point rendering:', args.pointIndex);
-  }
-
-  onSeriesRender(args: ISeriesRenderEventArgs) {
-    console.log('Series rendering');
-  }
-
-  onChartLeave(args: IChartMouseEventArgs) {
-    console.log('Mouse left chart');
-  }
-}
+public selectedDataIndexes = [
+  { series: 0, point: 1 }
+];
 ```
-
-### Point Events
-
-Handle point-specific interactions:
-
-```typescript
-@Component({
-  template: `
-    <ejs-accumulationchart
-      (pointClick)="onPointClick($event)"
-      (pointMove)="onPointMove($event)"
-      (chartMouseMove)="onChartMouseMove($event)">
-      <e-accumulation-series-collection>
-        <e-accumulation-series [dataSource]="data">
-        </e-accumulation-series>
-      </e-accumulation-series-collection>
-    </ejs-accumulationchart>
-  `
-})
-export class PointEventsComponent {
-  data = [
-    { x: 'A', y: 30 },
-    { x: 'B', y: 25 },
-    { x: 'C', y: 20 }
-  ];
-
-  onPointClick(args: IPointEventArgs) {
-    console.log('Point clicked:', {
-      index: args.pointIndex,
-      value: args.data.y,
-      category: args.data.x
-    });
-  }
-
-  onPointMove(args: IPointEventArgs) {
-    // Handle point hover
-    console.log('Hovering point:', args.pointIndex);
-  }
-
-  onChartMouseMove(args: IChartMouseEventArgs) {
-    // Handle general mouse movement
-  }
-}
-```
-
-### Pointer Events
-The following pointer events allow granular interaction control:
-
-**APIs:**
-- `(chartMouseDown)`  
-- `(chartMouseUp)`  
-- `(chartMouseMove)`  
-- `(chartMouseLeave)`  
 
 ```html
 <ejs-accumulationchart
-  (chartMouseDown)="onMouseDown($event)"
-  (chartMouseUp)="onMouseUp($event)"
-  (chartMouseMove)="onMouseMove($event)"
-  (chartMouseLeave)="onMouseLeave($event)">
+  selectionMode="Point"
+  [selectedDataIndexes]="selectedDataIndexes">
 </ejs-accumulationchart>
 ```
 
-
-### Legend Events
-
-```typescript
-@Component({
-  template: `
-    <ejs-accumulationchart (legendItemClick)="onLegendClick($event)">
-      <e-accumulation-legend [visible]="true">
-      </e-accumulation-legend>
-      <e-accumulation-series-collection>
-        <e-accumulation-series [dataSource]="data">
-        </e-accumulation-series>
-      </e-accumulation-series-collection>
-    </ejs-accumulationchart>
-  `
-})
-export class LegendEventsComponent {
-  data = [
-    { x: 'A', y: 30 },
-    { x: 'B', y: 25 }
-  ];
-
-  onLegendClick(args: IAccumulationLegendClickEventArgs) {
-    console.log('Legend clicked:', args.data);
-  }
-}
-```
-
-## Point and Series Interactions
-
-### Get Selected Points
-
-Access selected points programmatically:
+### Get selected points programmatically
 
 ```typescript
+import { Component, ViewChild } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationSelectionService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-get-selected-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationSelectionService],
   template: `
     <button (click)="getSelectedPoints()">Get Selected</button>
-    <ejs-accumulationchart 
+
+    <ejs-accumulationchart
       #chart
       selectionMode="Point">
       <e-accumulation-series-collection>
-        <e-accumulation-series [dataSource]="data">
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
         </e-accumulation-series>
       </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `
 })
-export class SelectPointComponent {
+export class GetSelectedExampleComponent {
   @ViewChild('chart') chart!: any;
 
-  data = [
+  public data = [
     { x: 'Q1', y: 40 },
     { x: 'Q2', y: 50 },
     { x: 'Q3', y: 60 }
   ];
 
-  getSelectedPoints() {
+  getSelectedPoints(): void {
     const chartInstance = this.chart.ej2_instances[0];
-    const selectedIndexes = chartInstance.selectedDataIndexes;
-    console.log('Selected points:', selectedIndexes);
+    console.log('Selected points:', chartInstance.selectedDataIndexes);
   }
 }
 ```
 
-### Point-Specific Styling
-
-```typescript
-onPointRender(args: IAccumulationEventArgs) {
-  // Style based on value
-  if (args.point.y > 50) {
-    args.fill = '#28A745'; // Green for high values
-  } else if (args.point.y < 30) {
-    args.fill = '#DC3545'; // Red for low values
-  } else {
-    args.fill = '#FFC107'; // Yellow for medium values
-  }
-}
-```
-
-### Series-Level Interactions
-
-```typescript
-onSeriesRender(args: ISeriesRenderEventArgs) {
-  // Apply series-wide styling
-  const seriesData = args.data;
-  console.log('Series data:', seriesData);
-}
-```
+---
 
 ## Highlight and Hover
 
-### Enable Point Highlight
+Highlight shows visual feedback when hovering over a segment.
 
-Highlight segments on hover:
+**Important:**  
+For accumulation charts, valid `highlightMode` values are:
+ - `'None'`
+ - `'Point'`
 
-```typescript
-<e-accumulation-series-collection>
-  <e-accumulation-series
-    [dataSource]="data"
-    [highlightMode]="'Point'">
-  </e-accumulation-series>
-</e-accumulation-series-collection>
-```
-
-### Highlight Options
+### Required imports/providers for highlight
 
 ```typescript
-// Highlight single point on hover
-[highlightMode]="'Point'"
-
-// Highlight entire series
-[highlightMode]="'Series'"
-
-// No highlight
-[highlightMode]="'None'"
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationHighlightService
+} from '@syncfusion/ej2-angular-charts';
 ```
 
-### Custom Highlight Styling
-
-```typescript
-onPointRender(args: IAccumulationEventArgs) {
-  // Store original fill for highlighting
-  args.fill = args.fill || this.getColorForPoint(args.pointIndex);
-}
-
-getColorForPoint(index: number): string {
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1'];
-  return colors[index % colors.length];
-}
-```
-
-### Border Highlight on Hover
-Highlights segment borders dynamically based on pointer movement.
-
-**API:**  
-`enableBorderOnMouseMove: boolean`
-
-```html
-<ejs-accumulationchart
-  [enableBorderOnMouseMove]="true">
-</ejs-accumulationchart>
-```
-``
-
-## Interactive Example
-
-### Complete Interactive Dashboard
+### Enable point highlight
 
 ```typescript
 @Component({
+  standalone: true,
+  selector: 'app-highlight-example',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationHighlightService],
+  template: `
+    <ejs-accumulationchart
+      highlightMode="Point"
+      [enableBorderOnMouseMove]="true">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class HighlightExampleComponent {
+  public data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 },
+    { x: 'C', y: 20 }
+  ];
+}
+```
+
+### Highlight via tooltip
+
+Tooltip settings also support `enableHighlight`:
+
+```typescript
+public tooltip = {
+  enable: true,
+  enableHighlight: true
+};
+```
+
+### Custom point styling on render
+
+```typescript
+onPointRender(args: IAccPointRenderEventArgs): void {
+  if (args.point.y > 50) {
+    args.fill = '#28A745';
+  } else if (args.point.y < 30) {
+    args.fill = '#DC3545';
+  } else {
+    args.fill = '#FFC107';
+  }
+}
+```
+
+---
+
+## Events
+
+The accumulation chart supports events for clicks, hover, rendering, tooltips, legends, and selection.
+
+### Commonly used events
+
+- `pointClick`
+- `pointMove`
+- `tooltipRender`
+- `selectionComplete`
+- `pointRender`
+- `seriesRender`
+- `legendClick`
+- `chartMouseClick`
+- `chartMouseMove`
+- `chartMouseDown`
+- `chartMouseUp`
+- `chartMouseLeave`
+
+### Event example
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationTooltipService,
+  AccumulationSelectionService,
+  AccumulationLegendService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-events-example',
+  imports: [AccumulationChartModule],
+  providers: [
+    PieSeriesService,
+    AccumulationTooltipService,
+    AccumulationSelectionService,
+    AccumulationLegendService
+  ],
+  template: `
+    <ejs-accumulationchart
+      [tooltip]="{ enable: true }"
+      selectionMode="Point"
+      (pointClick)="onPointClick($event)"
+      (pointMove)="onPointMove($event)"
+      (tooltipRender)="onTooltipRender($event)"
+      (selectionComplete)="onSelectionComplete($event)"
+      (legendClick)="onLegendClick($event)"
+      (chartMouseClick)="onChartClick($event)"
+      (chartMouseMove)="onChartMove($event)"
+      (chartMouseDown)="onChartMouseDown($event)"
+      (chartMouseUp)="onChartMouseUp($event)"
+      (chartMouseLeave)="onChartLeave($event)">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class EventsExampleComponent {
+  public data = [
+    { x: 'Q1', y: 40 },
+    { x: 'Q2', y: 50 },
+    { x: 'Q3', y: 60 }
+  ];
+
+  onPointClick(args: IPointEventArgs): void {
+    console.log('Point clicked:', args);
+  }
+
+  onPointMove(args: IPointEventArgs): void {
+    console.log('Point hovered:', args);
+  }
+
+  onTooltipRender(args: ITooltipRenderEventArgs): void {
+    console.log('Tooltip render:', args);
+  }
+
+  onSelectionComplete(args: IAccSelectionCompleteEventArgs): void {
+    console.log('Selection complete:', args);
+  }
+
+  onLegendClick(args: IAccLegendClickEventArgs): void {
+    console.log('Legend clicked:', args);
+  }
+
+  onChartClick(args: IMouseEventArgs): void {
+    console.log('Chart clicked:', args);
+  }
+
+  onChartMove(args: IMouseEventArgs): void {
+    console.log('Chart moved:', args);
+  }
+
+  onChartMouseDown(args: IMouseEventArgs): void {
+    console.log('Mouse down:', args);
+  }
+
+  onChartMouseUp(args: IMouseEventArgs): void {
+    console.log('Mouse up:', args);
+  }
+
+  onChartLeave(args: IMouseEventArgs): void {
+    console.log('Mouse left chart:', args);
+  }
+}
+```
+
+---
+
+## Point and Series Interactions
+
+### Point click details
+
+```typescript
+onPointClick(args: IPointEventArgs): void {
+  console.log({
+    index: args.pointIndex,
+    x: args.point.x,
+    y: args.point.y,
+    percentage: args.point.percentage
+  });
+}
+```
+
+### Series render hook
+
+```typescript
+onSeriesRender(args: IAccSeriesRenderEventArgs): void {
+  console.log('Series render:', args);
+}
+```
+
+### Point render hook
+
+```typescript
+onPointRender(args: IAccPointRenderEventArgs): void {
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
+  args.fill = colors[args.pointIndex % colors.length];
+}
+```
+
+---
+
+## Interactive Example
+
+This example combines:
+
+- Tooltip
+- Selection
+- Highlight
+- Point click handling
+- Type switching for Pie / Doughnut / Funnel / Pyramid
+
+```typescript
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  FunnelSeriesService,
+  PyramidSeriesService,
+  CategoryService,
+  AccumulationLegendService,
+  AccumulationTooltipService,
+  AccumulationSelectionService,
+  AccumulationHighlightService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
   selector: 'app-interactive-chart',
+  imports: [AccumulationChartModule, CommonModule],
+  providers: [
+    PieSeriesService,
+    FunnelSeriesService,
+    PyramidSeriesService,
+    CategoryService,
+    AccumulationLegendService,
+    AccumulationTooltipService,
+    AccumulationSelectionService,
+    AccumulationHighlightService,
+    AccumulationDataLabelService
+  ],
   template: `
     <div class="dashboard">
       <div class="controls">
@@ -494,25 +603,22 @@ Highlights segment borders dynamically based on pointer movement.
       </div>
 
       <div class="chart-container">
-        <ejs-accumulationchart 
-          id="container"
+        <ejs-accumulationchart
           [tooltip]="tooltipConfig"
           selectionMode="Point"
+          highlightMode="Point"
+          [enableBorderOnMouseMove]="true"
           (pointClick)="onPointClick($event)"
-          (tooltipRender)="onTooltipRender($event)">
-          
-          <e-accumulation-legend 
-            [visible]="true"
-            position="Right"
-            [enableHighlight]="true">
-          </e-accumulation-legend>
-          
+          (tooltipRender)="onTooltipRender($event)"
+          (selectionComplete)="onSelectionComplete($event)">
+
           <e-accumulation-series-collection>
             <e-accumulation-series
               [dataSource]="chartData"
               xName="category"
               yName="value"
-              [type]="chartType"
+              [type]="chartType === 'Doughnut' ? 'Pie' : chartType"
+              [innerRadius]="chartType === 'Doughnut' ? '60%' : '0%'"
               [dataLabel]="labelConfig"
               (pointRender)="onPointRender($event)">
             </e-accumulation-series>
@@ -523,8 +629,8 @@ Highlights segment borders dynamically based on pointer movement.
       <div class="info-panel" *ngIf="selectedPoint">
         <h4>Selected Point Details</h4>
         <p>Category: {{ selectedPoint.x }}</p>
-        <p>Value: {{ selectedPoint.y | number }}</p>
-        <p>Percentage: {{ selectedPoint.percentage | number: '1.1-2' }}%</p>
+        <p>Value: {{ selectedPoint.y }}</p>
+        <p>Percentage: {{ selectedPoint.percentage }}%</p>
       </div>
     </div>
   `,
@@ -533,37 +639,45 @@ Highlights segment borders dynamically based on pointer movement.
       padding: 20px;
       font-family: Segoe UI, Arial, sans-serif;
     }
+
     .controls {
       margin-bottom: 20px;
     }
+
     .button-group {
       display: flex;
       gap: 10px;
       margin-top: 10px;
+      flex-wrap: wrap;
     }
+
     .button-group button {
       padding: 8px 16px;
       border: 1px solid #ddd;
       background: #fff;
       cursor: pointer;
       border-radius: 4px;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
     }
+
     .button-group button.active {
       background: #333;
       color: #fff;
       border-color: #333;
     }
+
     .chart-container {
       margin: 20px 0;
       height: 450px;
     }
+
     .info-panel {
       margin-top: 20px;
       padding: 15px;
       background: #f5f5f5;
       border-radius: 4px;
     }
+
     .info-panel h4 {
       margin-top: 0;
       color: #333;
@@ -571,10 +685,10 @@ Highlights segment borders dynamically based on pointer movement.
   `]
 })
 export class InteractiveChartComponent {
-  chartType = 'Pie';
-  selectedPoint: any = null;
+  public chartType: 'Pie' | 'Doughnut' | 'Pyramid' | 'Funnel' = 'Pie';
+  public selectedPoint: any = null;
 
-  chartData = [
+  public chartData = [
     { category: 'Product A', value: 35000 },
     { category: 'Product B', value: 28000 },
     { category: 'Product C', value: 34000 },
@@ -582,75 +696,89 @@ export class InteractiveChartComponent {
     { category: 'Product E', value: 40000 }
   ];
 
-  tooltipConfig = {
+  public tooltipConfig = {
     enable: true,
-    format: '${point.x}: ${point.y | number}',
+    format: '${point.x}: ${point.y}',
     opacity: 0.9
   };
 
-  labelConfig = {
+  public labelConfig = {
     visible: true,
-    position: 'Inside',
-    format: '${point.percentage}%'
+    position: 'Inside'
   };
 
-  changeChartType(type: string) {
+  changeChartType(type: 'Pie' | 'Doughnut' | 'Pyramid' | 'Funnel'): void {
     this.chartType = type;
   }
 
-  onPointClick(args: any) {
+  onPointClick(args: IPointEventArgs): void {
     this.selectedPoint = args.point;
   }
 
-  onTooltipRender(args: ITooltipRenderEventArgs) {
-    const pct = args.point.percentage.toFixed(2);
-    args.text = `${args.point.x}<br/>Value: ${args.point.y}<br/>Share: ${pct}%`;
+  onSelectionComplete(args: IAccSelectionCompleteEventArgs): void {
+    console.log('Selection complete:', args);
   }
 
-  onPointRender(args: IAccumulationEventArgs) {
+  onTooltipRender(args: ITooltipRenderEventArgs): void {
+    args.text =
+      `${args.point.x}<br/>` +
+      `Value: ${args.point.y}<br/>` +
+      `Share: ${args.point.percentage.toFixed(2)}%`;
+  }
+
+  onPointRender(args: IAccPointRenderEventArgs): void {
     const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'];
     args.fill = colors[args.pointIndex % colors.length];
   }
 }
 ```
 
+---
+
 ## Key Takeaways
 
-- **Tooltips**: Show detailed info on hover with custom formatting
-- **Selection**: Allow users to interact with and select chart segments
-- **Events**: Respond to clicks, hovers, and rendering events
-- **Multi-Select**: Enable Ctrl/Cmd+click for multiple selections
-- **Highlighting**: Visual feedback for hovered/selected elements
-- **User Experience**: Combine events and styling for interactive dashboards
+- Always add the correct **providers** for the interactive feature you use.
+- For **tooltip**, include `AccumulationTooltipService`.
+- For **selection**, include `AccumulationSelectionService`.
+- For **highlight**, include `AccumulationHighlightService`.
+- For **Pie / Doughnut**, use `PieSeriesService`.
+- For **Funnel**, use `FunnelSeriesService`.
+- For **Pyramid**, use `PyramidSeriesService`.
+- `selectionMode` for accumulation charts supports only:
+  - `'None'`
+  - `'Point'`
+- `highlightMode` for accumulation charts supports only:
+  - `'None'`
+  - `'Point'`
+- A doughnut chart is created by using a pie series with `innerRadius > 0`.
+- Correct event names for accumulation chart include:
+  - `pointClick`
+  - `pointMove`
+  - `tooltipRender`
+  - `selectionComplete`
+  - `legendClick`
+  - `chartMouseClick`
+  - `chartMouseMove`
+  - `chartMouseDown`
+  - `chartMouseUp`
+  - `chartMouseLeave`
 
 ---
 
-## API Reference Summary
+## Source Links
 
-### Tooltip APIs
+**Syncfusion Accumulation Chart Tooltip**: https://ej2.syncfusion.com/angular/documentation/accumulation-chart/tool-tip
 
-| API | Description | Documentation Link |
-|-----|-------------|-------------------|
-| `TooltipSettings` | Tooltip configuration model | [TooltipSettings](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/tooltipSettings) |
-| `enable` | Enable/disable tooltip | [enable](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/tooltipSettings#enable) |
-| `format` | Tooltip text format | [format](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/tooltipSettings#format) |
-| `template` | Custom tooltip template | [template](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/tooltipSettings#template) |
+**Syncfusion Pie / Doughnut**: https://ej2.syncfusion.com/angular/documentation/accumulation-chart/pie-dough-nut
 
-### Selection APIs
+**Syncfusion Funnel**: https://ej2.syncfusion.com/angular/documentation/accumulation-chart/funnel
 
-| API | Description | Documentation Link |
-|-----|-------------|-------------------|
-| `selectionMode` | Selection mode (None/Point) | [selectionMode](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#selectionmode) |
-| `isMultiSelect` | Enable multiple selection | [isMultiSelect](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#ismultiselect) |
-| `highlightMode` | Highlight interaction mode | [highlightMode](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#highlightmode) |
+**Syncfusion Pyramid**: https://ej2.syncfusion.com/angular/documentation/accumulation-chart/pyramid
 
-### Interactive Events
+**Accumulation Chart API**: https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/index-default
 
-| Event | Description | Documentation Link |
-|-------|-------------|-------------------|
-| `pointClick` | Fires on point click | [pointClick](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#pointclick) |
-| `pointMove` | Fires on point hover | [pointMove](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#pointmove) |
-| `chartMouseClick` | Fires on chart click | [chartMouseClick](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#chartmouseclick) |
-| `tooltipRender` | Fires before tooltip renders | [tooltipRender](https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationChart#tooltiprender) |
+**Tooltip Settings API**: https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/tooltipSettings
 
-**For complete API documentation, see:** [api-reference.md](references/api-reference.md)
+**Selection Mode API**: https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationselectionmode
+
+**Highlight Mode API**: https://ej2.syncfusion.com/angular/documentation/api/accumulation-chart/accumulationhighlightmode

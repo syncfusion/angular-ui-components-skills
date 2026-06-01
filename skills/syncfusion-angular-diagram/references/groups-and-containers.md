@@ -146,7 +146,7 @@ const nodes = [
   height: 300,
   style: {
     fill: 'transparent',
-    stroke: '#999999',
+    strokeColor: '#999999',
     strokeWidth: 2,
     dashArray: '5,5'  // Dashed border
   }

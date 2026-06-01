@@ -17,24 +17,27 @@
 ### Basic DataSourceSettings
 
 ```typescript
+let dataSource = [
+      { id: 'node1', parentId: null, label: 'Node 1' },
+      { id: 'node2', parentId: 'node1', label: 'Node 2' },
+      { id: 'node3', parentId: 'node1', label: 'Node 3' }
+    ]
 @Component({
   template: `
     <ejs-diagram 
+      width="1000px" height="600px"
       [dataSourceSettings]="dataSourceSettings"
       [getNodeDefaults]="getNodeDefaults"
       [getConnectorDefaults]="getConnectorDefaults">
     </ejs-diagram>
   `
 })
+
 export class DataBoundDiagramComponent {
   dataSourceSettings = {
     id: 'id',              // Property name for node ID
     parentId: 'parentId',  // Property name for parent relationship
-    dataSource: [
-      { id: 'node1', parentId: null, label: 'Node 1' },
-      { id: 'node2', parentId: 'node1', label: 'Node 2' },
-      { id: 'node3', parentId: 'node1', label: 'Node 3' }
-    ]
+    dataSource: new DataManager(dataSource)
   };
 
   getNodeDefaults = (node: NodeModel): NodeModel => {
@@ -71,12 +74,12 @@ dataSourceSettings = {
 ### Custom Mapping
 
 ```typescript
-dataSource: [
+let dataSource = [
   { nodeId: 'emp1', managerId: null, name: 'CEO' },
   { nodeId: 'emp2', managerId: 'emp1', name: 'Manager' }
 ],
 
-dataSourceSettings = {
+let dataSourceSettings = {
   id: 'nodeId',              // Maps to nodeId field
   parentId: 'managerId',     // Maps to managerId field
   dataSource: new DataManager(dataSource)
@@ -114,7 +117,7 @@ setNodeTemplate = (node: NodeModel): Container => {
 
     // Create a inner text element for displaying employee details
     let text = new TextElement();
-    text.content = 'Name: ' + (node.data as any).Name;
+     text.content = 'Name: ' + (node.data as any).Name;
     text.margin = { left: 10, top: 5 };
     text.id = (node.data as any).Name + '_textContent';
     text.style.fill = 'green';

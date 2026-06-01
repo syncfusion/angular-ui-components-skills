@@ -26,43 +26,22 @@
   - [Issue: "Cannot read property 'setPointerValue' of undefined"](#issue-cannot-read-property-setpointervalue-of-undefined)
   - [Issue: Styles not applying](#issue-styles-not-applying)
 
+## When to Use This Skill
+
+Use this skill when you need to:
+- **Set up Angular CircularGauge** — Install and configure Syncfusion circulargauge in Angular projects
+- **Install packages** — Add required npm packages
+- **Configure modules** — Import CircularGaugeModule in Angular modules
+- **Initialize circulargauge** — Create first working circulargauge component
+- **Basic column setup** — Define and configure columns
+
 ## Installation
 
-### Prerequisites
-Ensure you have the following installed:
-- Node.js (LTS) and npm
-- Angular CLI for project scaffolding
-
-### Install Circular Gauge Package
-
-**Option 1: Ivy Library (Angular 12+, Recommended)**
-
-For Angular versions 20.2.36 and later, use the Ivy package format:
+Install Syncfusion Angular Grid component via npm:
 
 ```bash
-npm install @syncfusion/ej2-angular-circulargauge --save
+npm install @syncfusion/ej2-angular-circulargauge
 ```
-
-This is the modern distribution format compatible with Angular 21+ and latest versions.
-
-**Option 2: Legacy ngcc Package (Angular 11 and Earlier)**
-
-For older Angular versions (before Angular 12), use the ngcc (Angular Compatibility Compiler) package:
-
-```bash
-npm install @syncfusion/ej2-angular-circulargauge@ngcc --save
-```
-
-Update `package.json` with the version suffix:
-```json
-{
-  "dependencies": {
-    "@syncfusion/ej2-angular-circulargauge": "32.1.19-ngcc"
-  }
-}
-```
-
-**Note:** If the `-ngcc` suffix is omitted, the Ivy package will install and may trigger compatibility warnings with older Angular versions.
 
 ## Module Setup
 
@@ -268,35 +247,6 @@ Template:
 
 Each pointer shows independently on the same axis.
 
-## Import Styles
-
-### Syncfusion Styles
-
-Add the Circular Gauge styles to `styles.scss` or `styles.css`:
-
-```scss
-@import '@syncfusion/ej2-angular-circulargauge/styles/material.css';
-```
-
-**Available themes:**
-- `material.css` - Material Design theme
-- `bootstrap4.css` - Bootstrap 4 theme
-- `bootstrap5.css` - Bootstrap 5 theme
-- `tailwind.css` - Tailwind CSS theme
-- `fabric.css` - Fabric Design theme
-- `highcontrast.css` - High contrast theme
-
-Choose the theme matching your application style.
-
-### Tailwind Configuration (if using Tailwind)
-
-If using Tailwind CSS:
-
-```scss
-@import 'tailwindcss/tailwind';
-@import '@syncfusion/ej2-angular-circulargauge/styles/tailwind.css';
-```
-
 ## Common Setup Issues
 
 ### Issue: "CircularGaugeModule not found"
@@ -318,12 +268,7 @@ import { CircularGaugeModule } from '@syncfusion/ej2-angular-circulargauge';
 **Cause:** Missing styles or ViewEncapsulation issue
 
 **Solution:**
-1. Import CSS theme in `styles.css`:
-```css
-@import '@syncfusion/ej2-angular-circulargauge/styles/material.css';
-```
-
-2. Set ViewEncapsulation:
+1. Set ViewEncapsulation:
 ```typescript
 @Component({
   encapsulation: ViewEncapsulation.None

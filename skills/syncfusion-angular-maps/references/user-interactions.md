@@ -57,7 +57,7 @@ import { MapsModule, ZoomService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // Your GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public zoomSettings: object = {
     enable: true,
@@ -234,6 +234,7 @@ export class AppComponent {
     mouseWheelZoom: true,
     enablePanning: true
   };
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public animationDuration: number = 500;  // Zoom animation duration in ms
 }
@@ -272,6 +273,8 @@ export class AppComponent {
     latitude: 40.7128,   // Center latitude
     longitude: -74.0060  // Center longitude
   };
+
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public zoomSettings: object = {
     enable: true,
@@ -344,7 +347,7 @@ import { MapsComponent } from '@syncfusion/ej2-angular-maps';
 })
 export class AppComponent {
   @ViewChild('maps') public mapObj!: MapsComponent;
-  
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public panToCenter(): void {
     this.mapObj.centerPosition = { latitude: 0, longitude: 0 };
     this.mapObj.refresh();
@@ -382,7 +385,7 @@ import { MapsModule } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public selectionSettings: object = {
     enable: true,
@@ -490,6 +493,7 @@ import { PolygonService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public polygonSettings: object = {
     polygons: [{
       points: [
@@ -570,7 +574,7 @@ import { MapsComponent } from '@syncfusion/ej2-angular-maps';
 })
 export class AppComponent {
   @ViewChild('maps') public mapObj!: MapsComponent;
-  
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public selectionSettings: object = {
     enable: true,
     fill: '#FF5722'
@@ -612,7 +616,7 @@ import { Component } from '@angular/core';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public highlightSettings: object = {
     enable: true,
@@ -668,6 +672,7 @@ import { MarkerService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public markerSettings: object[] = [{
     visible: true,
     dataSource: this.cities,
@@ -702,6 +707,7 @@ import { PolygonService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public polygonSettings: object = {
     polygons: [{
       points: this.polygonCoordinates,
@@ -750,7 +756,7 @@ import { MapsTooltipService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
-  public worldMap: object = // GeoJSON data
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   
   public populationData: object[] = [
     { country: 'United States', population: 331000000 },
@@ -834,6 +840,7 @@ import { MapsTooltipService } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public tooltipSettings: object = {
     visible: true,
     template: '#tooltipTemplate'
@@ -907,6 +914,7 @@ import { IMouseEventArgs } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onMapClick(args: IMouseEventArgs): void {
     console.log('Map clicked at:', args.x, args.y);
     console.log('Target:', args.target);
@@ -952,6 +960,7 @@ import { IShapeSelectedEventArgs } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onShapeSelected(args: IShapeSelectedEventArgs): void {
     console.log('Shape selected:', args.data);
     console.log('Shape name:', args.shapeName);
@@ -991,12 +1000,13 @@ import { IMarkerClickEventArgs } from '@syncfusion/ej2-angular-maps';
   template: `
     <ejs-maps (markerClick)="onMarkerClick($event)">
       <e-layers>
-        <e-layer [markerSettings]="markerSettings"></e-layer>
+        <e-layer [shapeData]="worldMap" [markerSettings]="markerSettings"></e-layer>
       </e-layers>
     </ejs-maps>
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onMarkerClick(args: IMarkerClickEventArgs): void {
     console.log('Marker clicked:', args.data);
     console.log('Marker index:', args.markerIndex);
@@ -1033,6 +1043,7 @@ import { IShapeRenderingEventArgs } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onShapeRendering(args: IShapeRenderingEventArgs): void {
     // Customize shape appearance during rendering
     if (args.data['name'] === 'United States') {
@@ -1112,6 +1123,7 @@ import { ILoadEventArgs } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onLoad(args: ILoadEventArgs): void {
     console.log('Maps component loading');
     // Perform initialization tasks
@@ -1148,6 +1160,7 @@ import { IMapZoomEventArgs } from '@syncfusion/ej2-angular-maps';
   `
 })
 export class AppComponent {
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public onZoom(args: IMapZoomEventArgs): void {
     console.log('Zoom level:', args.scale);
     console.log('Type:', args.type);  // 'ZoomIn' or 'ZoomOut'
@@ -1252,7 +1265,7 @@ export class InteractiveDashboardComponent {
       }
     }
   };
-  
+  public worldMap: object = { dataOptions: { type: 'GET', url: 'https://cdn.syncfusion.com/maps/map-data/world-map.json' } };
   public selectionSettings: object = {
     enable: true,
     enableMultiSelect: true,

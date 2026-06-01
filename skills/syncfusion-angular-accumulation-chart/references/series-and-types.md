@@ -1,6 +1,7 @@
 # Series Types and Configuration
 
 ## Table of Contents
+- [Required Imports and Providers](#required-imports-and-providers)
 - [Series Type Overview](#series-type-overview)
 - [Pie Chart](#pie-chart)
 - [Doughnut Chart](#doughnut-chart)
@@ -9,6 +10,75 @@
 - [Comparing Chart Types](#comparing-chart-types)
 - [Multiple Series](#multiple-series)
 - [Series Properties](#series-properties)
+
+## Required Imports and Providers
+
+### Pie / Doughnut
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService],
+  template: ``
+})
+export class AppComponent {}
+```
+
+### Pyramid
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PyramidSeriesService,
+  CategoryService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [AccumulationChartModule],
+  providers: [
+    PyramidSeriesService,
+    CategoryService,
+    AccumulationDataLabelService
+  ],
+  template: ``
+})
+export class AppComponent {}
+```
+
+### Funnel
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  FunnelSeriesService,
+  CategoryService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-container',
+  imports: [AccumulationChartModule],
+  providers: [
+    FunnelSeriesService,
+    CategoryService,
+    AccumulationDataLabelService
+  ],
+  template: ``
+})
+export class AppComponent {}
+```
 
 ## Series Type Overview
 
@@ -28,16 +98,37 @@ Accumulation charts support four primary series types, each suited for different
 The pie chart displays data as circular slices, where each slice's size represents its proportional value.
 
 ```typescript
-<ejs-accumulationchart id="container">
-  <e-accumulation-series-collection>
-    <e-accumulation-series
-      [dataSource]="data"
-      xName="x"
-      yName="y"
-      type="Pie">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-pie-basic',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService],
+  template: `
+    <ejs-accumulationchart id="container">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          type="Pie">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class PieBasicComponent {
+  public data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 },
+    { x: 'C', y: 20 }
+  ];
+}
 ```
 
 ### Pie Chart with Start Angle
@@ -76,14 +167,13 @@ Separate a slice from the pie center:
 Explode all slices on hover:
 
 ```typescript
-<ejs-accumulationchart 
-  [pointRender]="onPointRender">
+<ejs-accumulationchart (pointRender)="onPointRender($event)">
   <e-accumulation-series-collection>
     <!-- series defined here -->
   </e-accumulation-series-collection>
 </ejs-accumulationchart>
 
-onPointRender(args: IAccumulationTextRenderEventArgs) {
+onPointRender(args: IAccPointRenderEventArgs) {
   // Dynamically set explode based on interaction
 }
 ```
@@ -118,7 +208,18 @@ Defines the outward offset distance for exploded slices.
 ### Pie Chart Complete Example
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-pie-chart',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService],
   template: `
     <ejs-accumulationchart id="container" [title]="'Sales Distribution'">
       <e-accumulation-series-collection>
@@ -127,10 +228,10 @@ Defines the outward offset distance for exploded slices.
           xName="product"
           yName="sales"
           type="Pie"
-          [dataLabel]="{ 
-            visible: true, 
-            position: 'Inside', 
-            name: 'text' 
+          [dataLabel]="{
+            visible: true,
+            position: 'Inside',
+            name: 'text'
           }">
         </e-accumulation-series>
       </e-accumulation-series-collection>
@@ -139,7 +240,7 @@ Defines the outward offset distance for exploded slices.
   styles: [`#container { height: 420px; }`]
 })
 export class PieChartComponent {
-  salesData = [
+  public salesData = [
     { product: 'Product A', sales: 35, text: 'A-35%' },
     { product: 'Product B', sales: 28, text: 'B-28%' },
     { product: 'Product C', sales: 18, text: 'C-18%' },
@@ -148,30 +249,24 @@ export class PieChartComponent {
 }
 ```
 
-## Doughnut (Pie with innerRadius)
+## Doughnut Chart
 
 ### Basic Doughnut
 
 There is no separate "Doughnut" chart type. To create a doughnut, use `type="Pie"` and set an `innerRadius` (for example `'40%'`) to create the hollow center.
 
 ```typescript
-<e-accumulation-series-collection>
-  <e-accumulation-series
-    [dataSource]="data"
-    xName="x"
-    yName="y"
-    type="Pie"
-    [innerRadius]="'40%'">
-  </e-accumulation-series>
-</e-accumulation-series-collection>
-```
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService
+} from '@syncfusion/ej2-angular-charts';
 
-### Doughnut with Center Label (Pie + innerRadius)
-
-Use the hollow center to display a key metric or label. Implement this with `type="Pie"` and an `innerRadius`:
-
-```typescript
 @Component({
+  standalone: true,
+  selector: 'app-doughnut-basic',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService],
   template: `
     <ejs-accumulationchart id="container">
       <e-accumulation-series-collection>
@@ -180,67 +275,92 @@ Use the hollow center to display a key metric or label. Implement this with `typ
           xName="x"
           yName="y"
           type="Pie"
-          [innerRadius]="'40%'"
-          [dataLabel]="{ visible: true, position: 'Inside' }">
+          innerRadius="40%">
         </e-accumulation-series>
       </e-accumulation-series-collection>
-      <!-- Center content rendered separately -->
+    </ejs-accumulationchart>
+  `
+})
+export class DoughnutBasicComponent {
+  public data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 },
+    { x: 'C', y: 20 }
+  ];
+}
+```
+
+### Doughnut with Center Label
+
+Use the hollow center to display a key metric or label.
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-doughnut-center',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService, AccumulationDataLabelService],
+  template: `
+    <div class="chart-wrapper">
+      <ejs-accumulationchart id="container">
+        <e-accumulation-series-collection>
+          <e-accumulation-series
+            [dataSource]="data"
+            xName="x"
+            yName="y"
+            type="Pie"
+            innerRadius="40%"
+            [dataLabel]="{ visible: true, position: 'Inside' }">
+          </e-accumulation-series>
+        </e-accumulation-series-collection>
+      </ejs-accumulationchart>
+
       <div class="center-label">
         <div class="metric">$45,000</div>
         <div class="label">Total Revenue</div>
       </div>
-    </ejs-accumulationchart>
+    </div>
   `,
   styles: [`
-    #container { height: 420px; position: relative; }
-    .center-label { 
-      position: absolute; 
-      top: 50%; 
-      left: 50%; 
+    .chart-wrapper {
+      position: relative;
+      height: 420px;
+    }
+    #container {
+      height: 420px;
+    }
+    .center-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
     }
-    .metric { font-size: 24px; font-weight: bold; }
-    .label { font-size: 14px; color: #666; }
+    .metric {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .label {
+      font-size: 14px;
+      color: #666;
+    }
   `]
 })
 export class DoughnutComponent {
-  data = [
+  public data = [
     { x: 'North', y: 12000 },
     { x: 'South', y: 15000 },
     { x: 'East', y: 10000 },
     { x: 'West', y: 8000 }
   ];
 }
-```
-
-### Hollow Doughnut with Multiple Rings
-
-Create nested doughnut charts for hierarchical data by using multiple `Pie` series with `radius` and `innerRadius` values:
-
-```typescript
-<ejs-accumulationchart id="container">
-  <e-accumulation-series-collection>
-    <!-- Outer ring -->
-    <e-accumulation-series
-      [dataSource]="outerData"
-      xName="x"
-      yName="y"
-      type="Pie"
-      [radius]="'60%'"
-      [innerRadius]="'40%'>
-    </e-accumulation-series>
-    <!-- Inner ring -->
-    <e-accumulation-series
-      [dataSource]="innerData"
-      xName="x"
-      yName="y"
-      type="Pie"
-      [radius]="'35%'"
-      [innerRadius]="'15%'>
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
 ```
 
 ## Pyramid Chart
@@ -250,14 +370,38 @@ Create nested doughnut charts for hierarchical data by using multiple `Pie` seri
 Pyramid charts display hierarchical data in descending order from top to bottom.
 
 ```typescript
-<e-accumulation-series-collection>
-  <e-accumulation-series
-    [dataSource]="pyramidData"
-    xName="x"
-    yName="y"
-    type="Pyramid">
-  </e-accumulation-series>
-</e-accumulation-series-collection>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PyramidSeriesService,
+  CategoryService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-pyramid-basic',
+  imports: [AccumulationChartModule],
+  providers: [PyramidSeriesService, CategoryService],
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="pyramidData"
+          xName="x"
+          yName="y"
+          type="Pyramid">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class PyramidBasicComponent {
+  public pyramidData = [
+    { x: 'Leads', y: 5000 },
+    { x: 'Qualified', y: 3500 },
+    { x: 'Proposal', y: 2100 }
+  ];
+}
 ```
 
 ### Pyramid Configuration
@@ -269,22 +413,9 @@ Pyramid charts display hierarchical data in descending order from top to bottom.
     xName="stage"
     yName="count"
     type="Pyramid"
-    [pyramidMode]="'Linear'"
-    [neckWidth]="'20%']">
+    pyramidMode="Linear">
   </e-accumulation-series>
 </e-accumulation-series-collection>
-```
-
-#### neckHeight
-Defines the height of the pyramid neck region.
-
-**API:** `neckHeight: string`
-
-```html
-<e-accumulation-series
-  type="Pyramid"
-  neckHeight="30%">
-</e-accumulation-series>
 ```
 
 **Pyramid Mode Options:**
@@ -294,22 +425,44 @@ Defines the height of the pyramid neck region.
 ### Pyramid Chart Example
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PyramidSeriesService,
+  CategoryService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-pyramid-chart',
+  imports: [AccumulationChartModule],
+  providers: [
+    PyramidSeriesService,
+    CategoryService,
+    AccumulationDataLabelService
+  ],
   template: `
     <ejs-accumulationchart id="container" [title]="'Sales Funnel'">
-      <e-accumulation-series
-        [dataSource]="funnelData"
-        xName="stage"
-        yName="leads"
-        type="Pyramid"
-        [dataLabel]="{ visible: true, position: 'Inside', name: 'stage' }">
-      </e-accumulation-series>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="funnelData"
+          xName="stage"
+          yName="leads"
+          type="Pyramid"
+          [dataLabel]="{
+            visible: true,
+            position: 'Inside',
+            name: 'stage'
+          }">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
     </ejs-accumulationchart>
   `,
   styles: [`#container { height: 420px; }`]
 })
 export class PyramidComponent {
-  funnelData = [
+  public funnelData = [
     { stage: 'Total Leads', leads: 5000 },
     { stage: 'Qualified', leads: 3500 },
     { stage: 'Proposal', leads: 2100 },
@@ -326,14 +479,38 @@ export class PyramidComponent {
 Funnel charts are similar to pyramids but typically used for conversion/drop-off data.
 
 ```typescript
-  <e-accumulation-series-collection>
-    <e-accumulation-series
-      [dataSource]="conversionData"
-      xName="stage"
-      yName="users"
-      type="Funnel">
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  FunnelSeriesService,
+  CategoryService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-funnel-basic',
+  imports: [AccumulationChartModule],
+  providers: [FunnelSeriesService, CategoryService],
+  template: `
+    <ejs-accumulationchart>
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="conversionData"
+          xName="stage"
+          yName="users"
+          type="Funnel">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class FunnelBasicComponent {
+  public conversionData = [
+    { stage: 'Users Visited', users: 10000 },
+    { stage: 'Product Viewed', users: 7500 },
+    { stage: 'Added to Cart', users: 4200 }
+  ];
+}
 ```
 
 ### Funnel vs Pyramid
@@ -345,7 +522,23 @@ Funnel charts are similar to pyramids but typically used for conversion/drop-off
 ### Funnel Chart Example
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  FunnelSeriesService,
+  CategoryService,
+  AccumulationDataLabelService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  standalone: true,
+  selector: 'app-funnel-chart',
+  imports: [AccumulationChartModule],
+  providers: [
+    FunnelSeriesService,
+    CategoryService,
+    AccumulationDataLabelService
+  ],
   template: `
     <ejs-accumulationchart id="container" [title]="'User Conversion Funnel'">
       <e-accumulation-series-collection>
@@ -354,10 +547,10 @@ Funnel charts are similar to pyramids but typically used for conversion/drop-off
           xName="stage"
           yName="users"
           type="Funnel"
-          [dataLabel]="{ 
-            visible: true, 
-            position: 'Inside', 
-            format: '${users}' 
+          [dataLabel]="{
+            visible: true,
+            position: 'Inside',
+            name: 'stage'
           }">
         </e-accumulation-series>
       </e-accumulation-series-collection>
@@ -366,7 +559,7 @@ Funnel charts are similar to pyramids but typically used for conversion/drop-off
   styles: [`#container { height: 420px; }`]
 })
 export class FunnelComponent {
-  conversionData = [
+  public conversionData = [
     { stage: 'Users Visited', users: 10000 },
     { stage: 'Product Viewed', users: 7500 },
     { stage: 'Added to Cart', users: 4200 },
@@ -380,7 +573,7 @@ export class FunnelComponent {
 
 ### Type Selection Guide
 
-```
+```text
 Need part-to-whole? → Pie or Doughnut
 ├─ Want center label/metric? → Doughnut
 └─ Simple 2D pie? → Pie
@@ -407,28 +600,55 @@ Need hierarchical flow? → Pyramid or Funnel
 Render multiple accumulation series in one chart:
 
 ```typescript
-<ejs-accumulationchart id="container">
-  <e-accumulation-series-collection>
-    <!-- Series 1: This Year (Pie with innerRadius) -->
-    <e-accumulation-series
-      [dataSource]="thisYearData"
-      xName="product"
-      yName="sales"
-      type="Pie"
-      [radius]="'40%'>
-    </e-accumulation-series>
-    
-    <!-- Series 2: Last Year (Pie with innerRadius) -->
-    <e-accumulation-series
-      [dataSource]="lastYearData"
-      xName="product"
-      yName="sales"
-      type="Pie"
-      [radius]="'100%'"
-      [innerRadius]="'50%']>
-    </e-accumulation-series>
-  </e-accumulation-series-collection>
-</ejs-accumulationchart>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-multiple-series',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService],
+  template: `
+    <ejs-accumulationchart id="container">
+      <e-accumulation-series-collection>
+        <!-- Series 1 -->
+        <e-accumulation-series
+          [dataSource]="thisYearData"
+          xName="product"
+          yName="sales"
+          type="Pie"
+          radius="40%">
+        </e-accumulation-series>
+
+        <!-- Series 2 -->
+        <e-accumulation-series
+          [dataSource]="lastYearData"
+          xName="product"
+          yName="sales"
+          type="Pie"
+          radius="100%"
+          innerRadius="50%">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class MultipleSeriesComponent {
+  public thisYearData = [
+    { product: 'A', sales: 35 },
+    { product: 'B', sales: 28 },
+    { product: 'C', sales: 18 }
+  ];
+
+  public lastYearData = [
+    { product: 'A', sales: 30 },
+    { product: 'B', sales: 32 },
+    { product: 'C', sales: 20 }
+  ];
+}
 ```
 
 **Use Cases:**
@@ -481,19 +701,42 @@ interface AccumulationSeriesProperties {
 ### Styling Series
 
 ```typescript
-<e-accumulation-series
-  [dataSource]="data"
-  xName="x"
-  yName="y"
-  type="Pie"
-  [pointRender]="onPointRender">
-</e-accumulation-series>
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService
+} from '@syncfusion/ej2-angular-charts';
 
-onPointRender(args: IAccumulationEventArgs) {
-  // Customize color, border, etc. per point
-  if (args.pointIndex === 0) {
-    args.fill = '#FF6B6B';
-    args.border = { color: '#C92A2A', width: 2 };
+@Component({
+  standalone: true,
+  selector: 'app-series-style',
+  imports: [AccumulationChartModule],
+  providers: [PieSeriesService],
+  template: `
+    <ejs-accumulationchart (pointRender)="onPointRender($event)">
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          [dataSource]="data"
+          xName="x"
+          yName="y"
+          type="Pie">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class SeriesStyleComponent {
+  public data = [
+    { x: 'A', y: 30 },
+    { x: 'B', y: 25 },
+    { x: 'C', y: 20 }
+  ];
+
+  onPointRender(args: IAccPointRenderEventArgs): void {
+    if (args.point.index === 0) {
+      args.fill = '#FF6B6B';
+      args.border = { color: '#C92A2A', width: 2 };
+    }
   }
 }
 ```

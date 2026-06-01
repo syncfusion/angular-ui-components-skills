@@ -138,7 +138,6 @@ For drawing and customizing polygons:
 📄 **Read:** [references/customization.md](references/customization.md)
 
 For theming and visual customization:
-- Built-in themes (Material, Bootstrap, Fabric, Tailwind, etc.)
 - CSS customization and theme overrides
 - Shape styling (fill, border, color schemes)
 - Responsive design patterns

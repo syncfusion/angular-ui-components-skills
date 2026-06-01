@@ -26,7 +26,7 @@ interface Node {
   offsetY: number;                     // Y position of center
   shape: { type: string; shape?: string };  // Shape definition
   annotations?: Annotation[];          // Labels on node
-  style?: NodeStyle;                   // Fill, stroke, colors
+  style?: NodeStyle;                   // Fill, strokeColor, colors
   constraints?: NodeConstraints;       // Allow/disable interactions
   // ...many more properties in NodeModel
 }
@@ -188,7 +188,7 @@ shape: {
   id: 'node1',
   style: {
     fill: '#90EE90',           // Light green
-    stroke: '#228B22',         // Dark green
+    strokeColor: '#228B22',         // Dark green
     strokeWidth: 2,
     opacity: 0.8
   }
@@ -220,7 +220,7 @@ shape: {
 {
   id: 'node1',
   style: {
-    stroke: '#000000',
+    strokeColor: '#000000',
     strokeDashArray: '5,5',  // 5px dash, 5px gap
     strokeWidth: 2
   }
@@ -383,7 +383,7 @@ getNodeDefaults = (node: NodeModel): NodeModel => {
     shape: { type: 'Flow', shape: 'Process' },
     style: {
       fill: '#90EE90',
-      stroke: '#228B22',
+      strokeColor: '#228B22',
       strokeWidth: 2
     },
     height: 80,
@@ -423,7 +423,7 @@ getNodeDefaults = (node: NodeModel): NodeModel => {
   return {
     style: {
       fill: isDecision ? '#FFD700' : '#90EE90',
-      stroke: '#333333',
+      strokeColor: '#333333',
       strokeWidth: 1
     },
     annotations: [{

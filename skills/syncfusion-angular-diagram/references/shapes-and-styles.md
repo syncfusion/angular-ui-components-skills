@@ -132,7 +132,7 @@ shape: {
   id: 'node1',
   style: {
     fill: '#90EE90',          // Light green background
-    stroke: '#228B22',        // Dark green border
+    strokeColor: '#228B22',        // Dark green border
     strokeWidth: 2,           // Border thickness
     opacity: 0.8              // Transparency (0-1)
   }
@@ -145,7 +145,7 @@ shape: {
 {
   id: 'node1',
   style: {
-    stroke: '#000000',
+    strokeColor: '#000000',
     strokeWidth: 2,
     dashArray: '5,5'          // 5px dash, 5px gap (dashed)
   }
@@ -253,13 +253,13 @@ fill: 'rgba(255, 0, 0, 0.5)'        // Semi-transparent red
 // In global styles.css
 :root {
   --diagram-fill: #90EE90;
-  --diagram-stroke: #228B22;
+  --diagram-strokeColor: #228B22;
 }
 
 // In component
 style: {
   fill: 'var(--diagram-fill)',
-  stroke: 'var(--diagram-stroke)'
+  strokeColor: 'var(--diagram-strokeColor)'
 }
 ```
 
