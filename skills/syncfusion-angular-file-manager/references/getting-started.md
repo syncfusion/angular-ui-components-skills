@@ -165,6 +165,16 @@ export class AppComponent {
 }
 ```
 
+**Available Services:**
+| Service | Description |
+|---------|-------------|
+| `DetailsViewService` | Grid view with sortable columns (Name, Date Modified, Type, Size) |
+| `NavigationPaneService` | Left sidebar with folder hierarchy tree |
+| `ToolbarService` | Top toolbar with action buttons (New Folder, Upload, Delete, etc.) |
+| `VirtualizationService ` | Virtual scrolling for large file lists (use with ` [enableVirtualization]='true'`) |
+
+> **Important:** At least `DetailsViewService`, `NavigationPaneService`, and `ToolbarService` are required for full functionality. `VirtualizationService` is optional for performance optimization with large datasets.
+
 ## AJAX Settings Configuration
 
 ### Basic AJAX Configuration
