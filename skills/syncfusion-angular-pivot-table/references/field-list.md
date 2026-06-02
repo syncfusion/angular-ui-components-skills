@@ -50,15 +50,23 @@ export class AppComponent {
 Displays permanently alongside the pivot table:
 
 ```typescript
-<ejs-pivotfieldlist 
-  [dataSourceSettings]=dataSourceSettings
-  renderMode="Fixed"
-  (enginePopulated)="onEnginePopulated($event)">
-</ejs-pivotfieldlist>
-<ejs-pivotview 
-  [dataSourceSettings]=dataSourceSettings
-  (enginePopulated)="onEnginePopulated($event)">
-</ejs-pivotview>
+import { PivotViewAllModule, PivotFieldListModule } from '@syncfusion/ej2-angular-pivotview';
+
+@Component({
+  imports: [PivotViewModule, PivotFieldListModule],
+  standalone: true,
+  selector: 'app-root',
+  template: `<div>
+    <ejs-pivotfieldlist 
+    [dataSourceSettings]=dataSourceSettings
+    renderMode="Fixed"
+    (enginePopulated)="onEnginePopulated($event)">
+    </ejs-pivotfieldlist>
+    <ejs-pivotview 
+    [dataSourceSettings]=dataSourceSettings
+    (enginePopulated)="onEnginePopulated($event)">
+    </ejs-pivotview></div>`
+})
 ```
 
 **Synchronization:**

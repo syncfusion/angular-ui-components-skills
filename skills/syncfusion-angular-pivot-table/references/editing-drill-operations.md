@@ -190,7 +190,7 @@ import { PivotChartService, CalculatedFieldService } from '@syncfusion/ej2-angul
   providers: [PivotChartService, CalculatedFieldService],
   template: `<ejs-pivotview 
     [dataSourceSettings]="dataSourceSettings"
-    [pivotChartSettings]="chartSettings"
+    [chartSettings]="chartSettings"
     [editSettings]="editSettings">
   </ejs-pivotview>`
 })
@@ -448,7 +448,7 @@ import { PivotChartService, DrillThroughService } from '@syncfusion/ej2-angular-
   providers: [PivotChartService, DrillThroughService],
   template: `<ejs-pivotview 
     [dataSourceSettings]="dataSourceSettings"
-    [pivotChartSettings]="chartSettings"
+    [chartSettings]="chartSettings"
     [allowDrillThrough]="true"
     (drillThrough)="onDrillThrough($event)">
   </ejs-pivotview>`

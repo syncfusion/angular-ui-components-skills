@@ -33,12 +33,20 @@ Syncfusion provides built-in BPMN shape libraries and styling.
 ### Enable BPMN Module
 
 ```typescript
-import { Inject, BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
+import { Component } from '@angular/core';
+import {
+  Diagram,
+  DiagramModule,
+} from '@syncfusion/ej2-angular-diagrams';
+Diagram.Inject(BpmnDiagrams);
+
+import { BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
 
 @Component({
   selector: 'app-bpmn',
-  template: `<ejs-diagram #diagram></ejs-diagram>`,
-  viewProviders: [Inject(BpmnDiagrams)]  // Enable BPMN shapes
+  template: `<ejs-diagram #diagram id="diagram" width="100%" height="500px"></ejs-diagram>`,
+  standalone:true,
+  imports:[DiagramModule]
 })
 export class BpmnComponent {}
 ```
@@ -500,34 +508,8 @@ Adds documentation:
 **Solution:** Ensure BpmnDiagrams module is injected:
 
 ```typescript
-import { Inject, BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
-
-@Component({
-  viewProviders: [Inject(BpmnDiagrams)]  // ← REQUIRED for BPMN shapes
-})
-```
-
-### ❌ Swimlanes Not Appearing
-
-**Problem:** Swimlanes defined but not visible in diagram.
-
-**Solution:** Inject Swimlane module AND use proper swimlane structure:
-
-```typescript
-import { Inject, BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
-
-@Component({
-  viewProviders: [Inject(BpmnDiagrams)]  // ← Both required
-})
-
-// Define swimlanes correctly:
-nodes = [
-  {
-    id: 'swimlane1',
-    shape: { type: 'SwimLane', orientation: 'Horizontal' },
-    children: [/* task nodes here */]
-  }
-];
+import { Diagram, BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
+Diagram.Inject(BpmnDiagrams);
 ```
 
 ### ❌ Gateway Logic Not Working

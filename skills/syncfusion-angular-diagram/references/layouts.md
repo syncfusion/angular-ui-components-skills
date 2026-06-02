@@ -37,7 +37,7 @@ Arranges nodes in top-to-bottom, bottom-to-top, left-to-right, or right-to-left 
 ### Enable Module
 
 ```typescript
-import { Inject, HierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, HierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
 
 Diagram.Inject(HierarchicalTree);
 ```
@@ -90,7 +90,7 @@ Specialized hierarchical layout for organizational structures with swimlanes sho
 ### Enable Module
 
 ```typescript
-import { Inject, HierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, HierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
 
 Diagram.Inject(HierarchicalTree);
 ```
@@ -135,7 +135,7 @@ Arranges nodes radially around a central topic with branches representing sub-to
 ### Enable Module
 
 ```typescript
-import { Inject, MindMap } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, MindMap } from '@syncfusion/ej2-angular-diagrams';
 
 Diagram.Inject(MindMap);
 ```
@@ -190,7 +190,7 @@ Arranges nodes in concentric circles around a central node.
 ### Enable Module
 
 ```typescript
-import { Inject, RadialTree } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, RadialTree } from '@syncfusion/ej2-angular-diagrams';
 
 Diagram.Inject(RadialTree);
 ```
@@ -216,7 +216,7 @@ Arranges nodes left-to-right or top-to-bottom for sequential processes.
 ### Enable Module
 
 ```typescript
-import { Inject, FlowchartLayout} from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, FlowchartLayout} from '@syncfusion/ej2-angular-diagrams';
 Diagram.Inject(FlowchartLayout);
 // No separate module needed, but swimlanes recommended
 ```
@@ -243,7 +243,7 @@ Handles multiple root nodes or non-standard hierarchies (e.g., dependency graphs
 ### Enable Module
 
 ```typescript
-import { Inject, ComplexHierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, ComplexHierarchicalTree } from '@syncfusion/ej2-angular-diagrams';
 
 Diagram.Inject(ComplexHierarchicalTree);
 ```
@@ -322,7 +322,7 @@ diagram.positionChange((args) => {
 
 ```typescript
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { DiagramComponent, Inject, HierarchicalTree,ConnectorModel,NodeModel } from '@syncfusion/ej2-angular-diagrams';
+import { DiagramComponent,Diagram, HierarchicalTree,ConnectorModel,NodeModel } from '@syncfusion/ej2-angular-diagrams';
 import { DataManager, Query } from '@syncfusion/ej2-data';
 
 Diagram.Inject(HierarchicalTree);

@@ -144,7 +144,7 @@ diagram.exportDiagram({format: 'PNG', fileName: 'large-diagram.png'});
 ### Print to Printer
 
 ```typescript
-diagram.print();
+diagram.print({region:'Content'});
 ```
 
 ### Print with Options
@@ -166,22 +166,77 @@ diagram.print(pageOrientation);
 ### Import Visio (.vsdx)
 
 ```typescript
-import { BpmnDiagrams } from '@syncfusion/ej2-angular-diagrams';
+import { Component, ViewChild } from '@angular/core';
+import {
+  Diagram,
+  ImportAndExportVisio,
+  BpmnDiagrams,
+  DiagramModule,
+  DiagramComponent,
+} from '@syncfusion/ej2-angular-diagrams';
+import {
+  UploaderModule,
+  UploaderComponent,
+  FileInfo,
+} from '@syncfusion/ej2-angular-inputs';
+
+// Inject required modules
+Diagram.Inject(ImportAndExportVisio, BpmnDiagrams);
 
 @Component({
-  viewProviders: [Inject(BpmnDiagrams)]
+  selector: 'app-root',
+  standalone: true,
+  imports: [DiagramModule, UploaderModule],
+  styleUrls: ['app.component.css'],
+  template: `
+    <ejs-uploader
+      #defaultupload
+      id="fileupload"
+      [asyncSettings]="asyncSettings"
+      [multiple]="false"
+      [allowedExtensions]="'.vsdx'"
+      (success)="onUploadSuccess($event)"
+    >
+    </ejs-uploader>
+
+    <ejs-diagram
+      #diagram
+      id="diagram"
+      width="100%"
+      height="600px"
+    >
+    </ejs-diagram>
+  `,
 })
-export class VisioImportComponent {
-  importVisio = (file: File) => {
-    const fileReader = new FileReader();
-    fileReader.onload = (e: any) => {
-      const data = e.target.result;
-      // Parse and load Visio data
-      diagram.loadDiagram(data);
-    };
-    fileReader.readAsArrayBuffer(file);
+export class AppComponent {
+  @ViewChild('diagram', { static: true })
+  public diagram!: DiagramComponent;
+
+  @ViewChild('defaultupload', { static: true })
+  public uploadObject!: UploaderComponent;
+
+  public asyncSettings: object = {
+    saveUrl:
+      'https://services.syncfusion.com/angular/production/api/FileUploader/Save',
+    removeUrl:
+      'https://services.syncfusion.com/angular/production/api/FileUploader/Remove',
   };
+  public async onUploadSuccess(args: any): Promise<void> {
+    if (args.operation === 'upload') {
+      const fileObj: FileInfo = args.file;
+      const rawFile: File = fileObj.rawFile as File;
+      if (this.diagram) {
+        await this.diagram.importFromVisio(rawFile);
+        this.diagram.width = '100%';
+        this.diagram.height = '700px';
+      }
+      if (this.uploadObject) {
+        this.uploadObject.clearAll();
+      }
+    }
+  }
 }
+
 ```
 
 ---

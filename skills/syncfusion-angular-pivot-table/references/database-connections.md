@@ -327,20 +327,7 @@ public List<dynamic> GetElasticsearchData()
   
   var response = client.Search<dynamic>(s => s
     .Index("sales-*")
-    .Size(0)  // Only aggregations
-    .Aggregations(a => a
-      .Terms("by_region", t => t
-        .Field("region.keyword")
-        .Aggregations(aa => aa
-          .Terms("by_year", tt => tt
-            .Field("year")
-            .Aggregations(aaa => aaa
-              .Sum("total_sales", sum => sum.Field("amount"))
-            )
-          )
-        )
-      )
-    )
+    .Size(1000)
   );
   
   return ExtractAggregationResults(response);

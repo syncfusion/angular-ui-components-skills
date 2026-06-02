@@ -27,25 +27,22 @@ npm install @syncfusion/ej2-angular-diagrams
 
 ### Step 1: Import CSS Theme
 
-In your `main.ts` or `styles.css`:
+In your `styles.css`:
 
-```typescript
-// main.ts
-import '@syncfusion/ej2-angular-theme-default/styles/material.css';
+```css
+@import '@syncfusion/ej2-base/styles/tailwind3.css';
+@import '@syncfusion/ej2-popups/styles/tailwind3.css';
+@import '@syncfusion/ej2-navigations/styles/tailwind3.css';
+@import '@syncfusion/ej2-angular-diagrams/styles/tailwind3.css';
+
 ```
 
 **Available themes:**
 - `material.css` - Material Design (recommended)
 - `bootstrap5.css` - Bootstrap 5 theme
 - `fabric.css` - Microsoft Fabric theme
-- `tailwind.css` - Tailwind CSS theme
+- `tailwind3.css` - Tailwind 3 CSS theme
 - `highcontrast.css` - High contrast for accessibility
-
-### Step 2: Import Base Bundle
-
-```typescript
-import '@syncfusion/ej2-base';
-```
 
 ## Basic Setup
 
@@ -53,16 +50,15 @@ import '@syncfusion/ej2-base';
 
 ```typescript
 import { Component } from '@angular/core';
-import { DiagramComponent, Inject } from '@syncfusion/ej2-angular-diagrams';
+import { DiagramComponent,DiagramModule } from '@syncfusion/ej2-angular-diagrams';
 
 @Component({
   selector: 'app-diagram',
   template: '<ejs-diagram #diagram></ejs-diagram>',
   standalone: true,
-  imports: [DiagramComponent],
-  viewProviders: [Inject(DiagramComponent)]
+  imports: [DiagramModule],
 })
-export class DiagramComponent {}
+export class AppComponent {}
 ```
 
 ### Using NgModule (Angular <14)
@@ -83,26 +79,21 @@ export class AppModule {}
 Syncfusion uses **opt-in feature loading** via the Inject directive:
 
 ```typescript
-import { 
-  DiagramComponent, 
-  Inject, 
-  BpmnDiagrams,
-  SymbolPalette,
-  HierarchicalTree
-} from '@syncfusion/ej2-angular-diagrams';
+import { Component } from '@angular/core';
+import { DiagramComponent } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, BpmnDiagrams, SymbolPalette, HierarchicalTree } from '@syncfusion/ej2-diagrams';
+
+Diagram.Inject(BpmnDiagrams, HierarchicalTree);
 
 @Component({
-  selector: 'app-diagram',
-  template: `<ejs-diagram #diagram></ejs-diagram>`,
+  selector: 'app-root',
+  template: `<ejs-diagram #diagram id="diagram"width="100%" height="600px"></ejs-diagram>`,
   standalone: true,
-  imports: [DiagramComponent],
-  viewProviders: [
-    Inject(BpmnDiagrams),
-    Inject(SymbolPalette),
-    Inject(HierarchicalTree)
-  ]
+  styleUrls: ['app.component.css'],
+  imports: [DiagramModule]
 })
-export class DiagramComponent {}
+export class AppComponent {}
+
 ```
 
 **Why Inject?**
@@ -115,13 +106,28 @@ export class DiagramComponent {}
 | Module | Purpose |
 |--------|---------|
 | `BpmnDiagrams` | BPMN shapes and notation |
-| `Swimlane` | Swimlane support |
-| `SymbolPalette` | Draggable symbol library |
 | `HierarchicalTree` | Hierarchical auto-layout |
 | `OrganizationalChart` | Org-chart layout |
 | `MindMap` | Mindmap layout |
 | `RadialTree` | Radial layout |
 | `ComplexHierarchicalTree` | Complex hierarchical layout |
+| `DataBinding` | Bind external data sources to diagram elements |
+| `Snapping` | Enables grid snapping and alignment support |
+| `PrintAndExport` | Print and export diagram (PNG, SVG, JPG) |
+| `SymmetricLayout` | Symmetric/force-directed graph layout |
+| `ConnectorBridging` | Renders bridge arcs when connectors overlap |
+| `UndoRedo` | Enables undo and redo operations |
+| `DiagramCollaboration` | Real-time diagram collaboration support |
+| `LayoutAnimation` | Animates layout transitions |
+| `DiagramContextMenu` | Adds right-click context menu support |
+| `LineRouting` | Automatic routing of connectors |
+| `AvoidLineOverlapping` | Prevents connector overlaps |
+| `ConnectorEditing` | Allows interactive editing of connectors |
+| `LineDistribution` | Distributes connectors evenly |
+| `Ej1Serialization` | Supports EJ1 diagram data serialization |
+| `FlowchartLayout` | Provides flowchart layout arrangement |
+| `ImportAndExportVisio` | Import/export Microsoft Visio diagrams |
+
 
 ## Basic Diagram Component
 
@@ -129,7 +135,14 @@ export class DiagramComponent {}
 
 ```typescript
 import { Component } from '@angular/core';
-import { DiagramComponent, Inject } from '@syncfusion/ej2-angular-diagrams';
+import {
+  Diagram,
+  DiagramComponent,
+  DiagramModule,
+  UndoRedo,
+} from '@syncfusion/ej2-angular-diagrams';
+
+Diagram.Inject(UndoRedo);
 
 @Component({
   selector: 'app-root',
@@ -142,18 +155,15 @@ import { DiagramComponent, Inject } from '@syncfusion/ej2-angular-diagrams';
     </ejs-diagram>
   `,
   standalone: true,
-  imports: [DiagramComponent],
-  viewProviders: [Inject(DiagramComponent)]
+  imports: [DiagramModule],
 })
 export class AppComponent {
   nodes = [
     { id: 'node1', width: 100, height: 100, offsetX: 100, offsetY: 100 },
-    { id: 'node2', width: 100, height: 100, offsetX: 300, offsetY: 100 }
+    { id: 'node2', width: 100, height: 100, offsetX: 300, offsetY: 100 },
   ];
 
-  connectors = [
-    { id: 'connector1', sourceID: 'node1', targetID: 'node2' }
-  ];
+  connectors = [{ id: 'connector1', sourceID: 'node1', targetID: 'node2' }];
 }
 ```
 
@@ -163,6 +173,7 @@ Add the diagram component to your Angular templates:
 
 ```html
 <ejs-diagram #diagram
+  id="diagram"
   [width]="'100%'"
   [height]="'600px'"
   [nodes]="nodes"
@@ -193,8 +204,7 @@ To verify setup is working:
     </ejs-diagram>
   `,
   standalone: true,
-  imports: [DiagramComponent],
-  viewProviders: [Inject(DiagramComponent)]
+  imports: [DiagramModule],
 })
 export class TestComponent {}
 ```

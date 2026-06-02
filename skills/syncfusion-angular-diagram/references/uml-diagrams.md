@@ -2,7 +2,6 @@
 
 ## Table of Contents
 - [Overview](#overview)
-- [UML Setup](#uml-setup)
 - [Class Diagrams](#class-diagrams)
 - [Classifiers](#classifiers)
 - [UML Relationships](#uml-relationships)
@@ -15,21 +14,6 @@
 Syncfusion supports:
 - **Class Diagrams** - Show classes, attributes, methods, and relationships
 - **Sequence Diagrams** - Show message interactions over time
-
----
-
-## UML Setup
-
-### Enable UML Module
-
-```typescript
-import { Inject, UmlDiagrams } from '@syncfusion/ej2-angular-diagrams';
-
-@Component({
-  viewProviders: [Inject(UmlDiagrams)]  // Enable UML shapes
-})
-export class UmlComponent {}
-```
 
 ---
 

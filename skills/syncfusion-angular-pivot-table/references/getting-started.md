@@ -146,15 +146,14 @@ Setting up the Pivot Table component in your Angular application is straightforw
 Add the following code to your **src/app/app.ts** file:
 
 ```typescript
-import { PivotViewAllModule, PivotFieldListAllModule } from '@syncfusion/ej2-angular-pivotview'
+import { PivotViewAllModule } from '@syncfusion/ej2-angular-pivotview'
 import { Component, OnInit } from '@angular/core';
 import { IDataSet } from '@syncfusion/ej2-angular-pivotview';
 import { DataSourceSettingsModel } from '@syncfusion/ej2-pivotview/src/model/datasourcesettings-model';
 
 @Component({
   imports: [        
-    PivotViewAllModule,
-    PivotFieldListAllModule
+    PivotViewAllModule
   ],
   standalone: true,
   selector: 'app-root',
@@ -178,15 +177,14 @@ Providing appropriate data to the Pivot Table component enables users to perform
 For demonstration, we'll use a collection of objects containing sales details for various products across different periods and regions:
 
 ```typescript
-import { PivotViewAllModule, PivotFieldListAllModule } from '@syncfusion/ej2-angular-pivotview'
+import { PivotViewAllModule } from '@syncfusion/ej2-angular-pivotview'
 import { Component, OnInit } from '@angular/core';
 import { IDataSet } from '@syncfusion/ej2-angular-pivotview';
 import { DataSourceSettingsModel } from '@syncfusion/ej2-pivotview/src/model/datasourcesettings-model';
 
 @Component({
   imports: [        
-    PivotViewAllModule,
-    PivotFieldListAllModule
+    PivotViewAllModule
   ],
   standalone: true,
   selector: 'app-root',
@@ -228,4 +226,116 @@ this.dataSourceSettings = {
     values: [{ name: 'Amount', type: 'Sum' }],
     filters: []
 };
+```
+
+## Module Injection
+
+Angular Pivot View features are modular and require service injection to enable them. This approach reduces bundle size by loading only the features you need.
+
+### Importing Specific Services
+
+Inject only the services required for your features. Services must be added to the component's `providers` array:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { PivotViewModule, GroupingBarService, FieldListService } from '@syncfusion/ej2-angular-pivotview';
+
+@Component({
+  imports: [PivotViewModule],
+  standalone: true,
+  selector: 'app-root',
+  providers: [GroupingBarService, FieldListService],
+  template: `<ejs-pivotview #pivotview id='PivotView' height='350' 
+    [dataSourceSettings]=dataSourceSettings
+    [showGroupingBar]='true'
+    [showFieldList]='true'>
+  </ejs-pivotview>`
+})
+export class App implements OnInit {
+    public dataSourceSettings!: DataSourceSettingsModel;
+
+    ngOnInit(): void {
+        // Configuration
+    }
+}
+```
+
+### Common Services
+
+| Service | Purpose | Import |
+|---------|---------|--------|
+| `GroupingBarService` | Enable grouping bar | `import { GroupingBarService } from '@syncfusion/ej2-angular-pivotview'` |
+| `FieldListService` | Enable popup field list | `import { FieldListService } from '@syncfusion/ej2-angular-pivotview'` |
+| `ConditionalFormattingService` | Enable conditional formatting | `import { ConditionalFormattingService } from '@syncfusion/ej2-angular-pivotview'` |
+| `NumberFormattingService` | Enable number formatting | `import { NumberFormattingService } from '@syncfusion/ej2-angular-pivotview'` |
+| `CalculatedFieldService` | Enable calculated field creation | `import { CalculatedFieldService } from '@syncfusion/ej2-angular-pivotview'` |
+| `ToolbarService` | Enable toolbar with action buttons | `import { ToolbarService } from '@syncfusion/ej2-angular-pivotview'` |
+| `ExcelExportService` | Enable Excel export functionality | `import { ExcelExportService } from '@syncfusion/ej2-angular-pivotview'` |
+| `PDFExportService` | Enable PDF export functionality | `import { PDFExportService } from '@syncfusion/ej2-angular-pivotview'` |
+| `VirtualScrollService` | Enable virtual scrolling for large datasets | `import { VirtualScrollService } from '@syncfusion/ej2-angular-pivotview'` |
+| `PagerService` | Enable paging functionality | `import { PagerService } from '@syncfusion/ej2-angular-pivotview'` |
+| `PivotChartService` | Enable pivot chart visualization | `import { PivotChartService } from '@syncfusion/ej2-angular-pivotview'` |
+| `DrillThroughService` | Enable drill-through functionality | `import { DrillThroughService } from '@syncfusion/ej2-angular-pivotview'` |
+
+> **Note:** For a static field list component (`ejs-pivotfieldlist`), use `PivotFieldListAllModule` as a separate component. Refer to [Field List documentation](./field-list.md) for details.
+
+### Using All Services (Simplified)
+
+For quick development or when you need all features, import `PivotViewAllModule`:
+
+```typescript
+import { PivotViewAllModule } from '@syncfusion/ej2-angular-pivotview';
+
+@Component({
+  imports: [PivotViewAllModule],
+  standalone: true,
+  selector: 'app-root',
+  template: `<ejs-pivotview #pivotview id='PivotView' height='350' [dataSourceSettings]=dataSourceSettings [showGroupingBar]='true' [showFieldList]='true'></ejs-pivotview>`
+})
+export class App implements OnInit {
+    // Component logic
+}
+```
+
+### Example with GroupingBar and Popup FieldList
+
+This example demonstrates selective service injection for a feature-rich Pivot Table with grouping bar and popup field list:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { PivotViewModule, GroupingBarService, FieldListService } from '@syncfusion/ej2-angular-pivotview';
+import { IDataSet, DataSourceSettingsModel } from '@syncfusion/ej2-angular-pivotview';
+
+@Component({
+  imports: [PivotViewModule],
+  standalone: true,
+  selector: 'app-root',
+  providers: [GroupingBarService, FieldListService],
+  template: `<ejs-pivotview #pivotview id='PivotView' height='400'
+    [dataSourceSettings]=dataSourceSettings
+    [showGroupingBar]='true'
+    [showFieldList]='true'>
+  </ejs-pivotview>`
+})
+export class App implements OnInit {
+    public pivotData!: IDataSet[];
+    public dataSourceSettings!: DataSourceSettingsModel;
+
+    ngOnInit(): void {
+        this.pivotData = [
+            { Country: 'USA', Region: 'North', Product: 'Laptops', Sales: 5000, Year: 2020 },
+            { Country: 'USA', Region: 'South', Product: 'Desktops', Sales: 3000, Year: 2020 },
+            { Country: 'Canada', Region: 'East', Product: 'Laptops', Sales: 2500, Year: 2020 },
+            { Country: 'Canada', Region: 'West', Product: 'Mobiles', Sales: 1500, Year: 2020 }
+        ];
+
+        this.dataSourceSettings = {
+            dataSource: this.pivotData,
+            rows: [{ name: 'Country' }],
+            columns: [{ name: 'Product' }],
+            values: [{ name: 'Sales', caption: 'Total Sales' }],
+            expandAll: false
+        };
+    }
+}
 ```

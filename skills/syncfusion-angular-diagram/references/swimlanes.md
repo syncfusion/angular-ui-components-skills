@@ -162,9 +162,8 @@ diagram.removeChildFromLane('lane1', 'newTask');
 ### Symbol Palette Integration
 
 ```typescript
-import { Inject, SymbolPalette } from '@syncfusion/ej2-angular-diagrams';
+import { SymbolPalette } from '@syncfusion/ej2-angular-diagrams';
 
-viewProviders: [Inject(SymbolPalette)]
 ```
 
 ### Define Swimlane Symbols

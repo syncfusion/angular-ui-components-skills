@@ -8,17 +8,6 @@
 
 ## Symbol Palette Setup
 
-### Enable Module
-
-```typescript
-import { Inject, SymbolPalette } from '@syncfusion/ej2-angular-diagrams';
-
-@Component({
-  viewProviders: [Inject(SymbolPalette)]
-})
-export class PaletteComponent {}
-```
-
 ### Component Template
 
 ```typescript
