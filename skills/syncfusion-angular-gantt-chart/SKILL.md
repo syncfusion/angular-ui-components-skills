@@ -111,6 +111,7 @@ Use this skill when you need to:
 - `taskFields.resourceInfo` to link resources to tasks
 - Resource view mode (`viewType: 'ResourceView'`) with row-per-resource display
 - `showOverAllocationAsMultiTaskbar` — stacked taskbars for over-allocated resources
+- `allowTaskbarOverlap` — controls overlapping vs stacked taskbars in resource rows (and affects same-resource dependency rendering)
 - Work-based scheduling: `work` field, `taskType` (`'FixedWork'`, `'FixedDuration'`, `'FixedUnit'`)
 - Work unit: `workUnit: 'Hour'` | `'Day'` | `'Minute'`
 
@@ -139,6 +140,7 @@ Use this skill when you need to:
 - Automatic timescale update (`updateTimescaleView`)
 - Weekend highlighting (`timelineSettings.showWeekend`)
 - Timeline cells tooltip (`showTooltip`)
+- `timelineTemplate` — custom HTML in tier header cells (via `<ng-template #timelineTemplate let-data>` using `data.date`, `data.value`, `data.tier`)
 - Navigate timeline (`previousTimeSpan()` / `nextTimeSpan()`)
 - Zooming in and out
 

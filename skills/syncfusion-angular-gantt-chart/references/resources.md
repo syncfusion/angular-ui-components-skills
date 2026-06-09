@@ -6,6 +6,7 @@
 - [Display Resources in Labels and Columns](#display-resources-in-labels-and-columns)
 - [Resource View Mode](#resource-view-mode)
 - [Multi-Taskbar for Resource View](#multi-taskbar-for-resource-view)
+- [Configure taskbar overlap](#configure-taskbar-overlap)
 - [Work Units and Resource Units](#work-units-and-resource-units)
 - [Over-Allocation Indicators](#over-allocation-indicators)
 - [Edit Resources via Dialog](#edit-resources-via-dialog)
@@ -118,6 +119,34 @@ Show multiple taskbars per resource row when tasks overlap:
 When `showOverAllocationAsMultiTaskbar: true`, overlapping tasks for a resource stack vertically within the same row instead of being shown on separate rows.
 
 **Note:** Multi-taskbar is not compatible with split tasks.
+
+---
+
+## Configure taskbar overlap
+
+The [allowTaskbarOverlap](https://ej2.syncfusion.com/angular/documentation/api/gantt#allowtaskbaroverlap) property controls how multiple taskbars are rendered inside a single resource row when multi-taskbar is enabled in Resource view.
+
+- **Overlapping mode (true, default)**: taskbars overlap within the standard row height. This supports dependency connections between tasks of the same resource.
+- **Non-overlapping mode (false)**: taskbars are vertically stacked and the row height is increased to avoid overlap. Dependencies between tasks of the same resource are not supported (inter-resource dependencies still work).
+
+Disable taskbar overlap:
+
+```html
+<ejs-gantt
+  viewType="ResourceView"
+  [showOverAllocationAsMultiTaskbar]="true"
+  [allowTaskbarOverlap]="false">
+</ejs-gantt>
+```
+
+Example (component-level binding):
+
+```typescript
+export class AppComponent {
+  public allowTaskbarOverlap: boolean = false;
+  public viewType: string = 'ResourceView';
+}
+```
 
 ---
 
