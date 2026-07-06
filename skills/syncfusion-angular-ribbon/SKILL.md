@@ -3,7 +3,7 @@ name: syncfusion-angular-ribbon
 description: Implement the Syncfusion Angular Ribbon component. Use this skill when you need to create Microsoft Office-style ribbon interfaces, organize application commands in tabs and groups, implement file menus or backstage views, or create sophisticated command interfaces. Includes setup, configuration, event handling, layouts, and customization. Use this skill for all Ribbon component implementation needs.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Ribbon Component

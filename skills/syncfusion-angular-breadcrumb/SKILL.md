@@ -3,7 +3,7 @@ name: syncfusion-angular-breadcrumb
 description: Guide for implementing Syncfusion Angular Breadcrumb components for navigation trails. Covers installation, data binding, navigation setup, icons, overflow modes, and template customization. Use this when building breadcrumb navigation that displays user location in hierarchies, enables clicking parent items for navigation, adds icons for visual context, or customizes appearance with templates.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

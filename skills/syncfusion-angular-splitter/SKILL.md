@@ -4,7 +4,7 @@ description: Create resizable, multi-pane layouts with Syncfusion Angular Splitt
 
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Layout Components"
 ---
 

@@ -3,7 +3,7 @@ name: syncfusion-angular-heatmap
 description: Implement Syncfusion Angular HeatMap Chart component for visualizing two-dimensional data with color gradients. Use this skill whenever users need to create heatmaps, visualize data matrices, display data with color-coded cells, configure axes (numeric/categorical/datetime), add legends, customize colors and rendering modes, handle cell selection and events, or implement accessibility features. Includes data binding, axis types, interactive selection, tooltips, and bubble heatmaps.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

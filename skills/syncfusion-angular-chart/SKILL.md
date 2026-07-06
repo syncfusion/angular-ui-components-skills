@@ -3,7 +3,7 @@ name: syncfusion-angular-chart
 description: Implement Syncfusion Angular Chart component for professional data visualization. Use this when creating or customizing charts such as line, bar, column, area, pie, financial (candlestick, OHLC), scatter, bubble, or stock charts. Supports axes configuration, series binding, legends, tooltips, zooming, real-time updates, technical indicators, themes, export, and accessibility features.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

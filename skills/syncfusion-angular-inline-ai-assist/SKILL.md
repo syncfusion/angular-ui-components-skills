@@ -3,7 +3,7 @@ name: syncfusion-angular-inline-ai-assist
 description: Implement the Syncfusion Angular Inline AI Assist component for AI-powered text processing and editing. Use this skill when user needs to add AI-powered suggestions, create prompt/response workflows, customize toolbars and commands, handle AI responses, configure templates, implement event handling, or add localization to Angular applications with intelligent inline text editing capabilities. Covers installation, configuration, response modes, command settings, toolbar customization, template usage, event handling, methods, and RTL/localization support.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Inline AI Assist Component

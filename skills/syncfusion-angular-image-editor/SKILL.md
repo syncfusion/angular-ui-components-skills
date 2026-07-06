@@ -3,7 +3,7 @@ name: syncfusion-angular-image-editor
 description: Implement feature-rich image editing in Angular applications using Syncfusion Image Editor. Use this skill whenever user mentions editing images, adding annotations, applying filters, cropping, transforming, or manipulating images in Angular. Covers installation, all annotation types (text, shapes, freehand), transformations (rotate, flip, zoom), filtering, frame application, redaction, open/save functionality, undo/redo, toolbar customization, accessibility, and advanced features like z-ordering and dialog integration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "File Viewers & Editors"
 ---
 

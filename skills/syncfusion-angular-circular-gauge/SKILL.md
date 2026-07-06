@@ -3,7 +3,7 @@ name: syncfusion-angular-circular-gauge
 description: Implement Syncfusion Angular Circular Gauge component for radial data visualization. Use this when building circular gauges for dashboards, monitoring displays, performance metrics, speedometers, or KPI indicators. Covers installation, axes configuration, pointer types (needle, range bar, marker), ranges, styling, animations, and user interactions.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

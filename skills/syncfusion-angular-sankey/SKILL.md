@@ -3,7 +3,7 @@ name: syncfusion-angular-sankey
 description: Create and configure Syncfusion Angular Sankey diagrams for flow visualization. Use this when visualizing weighted flows, processes, and hierarchical relationships. Supports node and link styling, legends, tooltips, events, accessibility features, and comprehensive data binding for complex flow diagrams.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

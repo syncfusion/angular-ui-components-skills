@@ -3,7 +3,7 @@ name: syncfusion-angular-buttons
 description: Comprehensive guide for implementing Syncfusion Angular button components including Button, ButtonGroup, DropDownButton, Floating Action Button (FAB), ProgressButton, RadioButton, Switch, Speed Dial, SplitButtons, and Chips. Use this when implementing and styling these components - covering visual styles (primary, outline, toggle, icon, round, block), grouping, dropdowns with popup items and animations, FAB positioning/scoping, Speed Dial linear/radial action items, progress-enabled buttons, and toggle/radio controls.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Buttons"
 ---
 

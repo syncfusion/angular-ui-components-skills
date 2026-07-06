@@ -3,7 +3,7 @@ name: syncfusion-angular-popups
 description: Comprehensive guide for implementing Syncfusion Angular popup components including Dialog, Predefined Dialogs and Tooltip. Use this when building modal/modeless dialogs, confirmation popups, forms in dialogs, draggable windows, popovers, tooltips, and overlaid content with custom positioning, animations, WCAG 2.2 accessibility, forms integration, and event handling in Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Layout"
 ---
 

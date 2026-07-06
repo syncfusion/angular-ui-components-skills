@@ -3,7 +3,7 @@ name: syncfusion-angular-treemap
 description: Create and customize Syncfusion Angular TreeMap components for hierarchical data visualization. Use this skill when you need to implement a TreeMap, visualize hierarchical data structures, configure multi-level layouts, apply color mapping, enable drilldown navigation, add labels and tooltips, configure legends, handle selection and highlight, export to images or PDF, print, or customize internationalization and accessibility. Covers installation, data binding, layout types, levels, color mapping, labels, tooltips, legends, drilldown, interactivity, print/export, RTL, locale formatting, and accessibility.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

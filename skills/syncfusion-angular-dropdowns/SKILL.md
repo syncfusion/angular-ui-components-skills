@@ -3,7 +3,7 @@ name: syncfusion-angular-dropdowns
 description: Comprehensive guide for implementing Syncfusion Angular dropdown components including AutoComplete, ComboBox, DropDownList, ListBox, Mention, MultiSelect and MultiColumn ComboBox. Use this when building selection interfaces, data binding, filtering, cascading dropdowns, custom templates, and accessible dropdown experiences in Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Dropdowns"
 ---
 

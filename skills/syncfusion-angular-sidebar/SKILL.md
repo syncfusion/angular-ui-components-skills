@@ -3,7 +3,7 @@ name: syncfusion-angular-sidebar
 description: Guide for implementing Syncfusion Angular Sidebar component for navigation, collapsible menus, and dynamic content. Use this when creating sidebars with multiple positioning options, animations, gestures, docking, responsive behavior, TreeView/ListView content, and backdrop overlays. This skill covers sidebar navigation, toggle menus, responsive navigation panels, collapsible layouts, and expanding/collapsing navigation elements.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation"
 ---
 

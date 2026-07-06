@@ -4,7 +4,7 @@ description: Comprehensive guide for implementing Syncfusion Angular Calendar co
 metadata:
   author: "Syncfusion Inc"
   category: "Calendars"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Implementing Syncfusion Angular Calendars

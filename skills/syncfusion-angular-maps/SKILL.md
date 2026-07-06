@@ -3,7 +3,7 @@ name: syncfusion-angular-maps
 description: Implement Syncfusion Angular Maps component for geographical data visualization. Use this when users need to display maps, visualize geographical data with markers and bubbles, integrate map providers like Bing or OpenStreetMap, render GeoJSON shapes, or create choropleth maps with color-coded regions. Supports interactive features like zooming, panning, layers, legends, tooltips, color mapping, and accessibility.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

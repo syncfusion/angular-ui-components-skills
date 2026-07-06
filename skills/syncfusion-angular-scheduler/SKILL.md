@@ -3,7 +3,7 @@ name: syncfusion-angular-scheduler
 description: Implement and configure Syncfusion Angular Scheduler (Schedule) component for calendar and event management. Use this when building schedulers, calendar systems, event management applications, appointment booking interfaces, or resource scheduling solutions. This skill covers timeline views, day/week/month views, recurring events, time slot management, and working hours configuration.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Calendars"
 ---
 

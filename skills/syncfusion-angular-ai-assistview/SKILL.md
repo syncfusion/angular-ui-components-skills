@@ -3,7 +3,7 @@ name: syncfusion-angular-ai-assistview
 description: Implement the Syncfusion Angular AI AssistView component. Use this skill when you need to create conversational AI interfaces, integrate AI services, add chat-like UI, or create intelligent assistant applications. Includes setup, configuration, event handling, AI integrations (OpenAI, Gemini, Ollama), speech features, and customization. Use this skill for all AI AssistView component implementation needs.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular AI AssistView Component

@@ -3,7 +3,7 @@ name: syncfusion-angular-bullet-chart
 description: Implement Syncfusion Angular Bullet Chart component for performance comparison visualizations. Use this when displaying actual vs target values, defining quality ranges, customizing axes and labels, or creating accessible performance indicators. Covers getting started, data binding, axes configuration, visual elements, and customization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

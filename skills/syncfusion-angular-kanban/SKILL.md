@@ -3,7 +3,7 @@ name: syncfusion-angular-kanban
 description: Create and manage interactive Kanban boards with Syncfusion Angular component. Use this skill when you need to build workflow visualization tools with drag-and-drop cards, swimlanes, columns, and real-time data binding. Covers setup, configuration, events, properties, methods, and best practices for implementing task management and project tracking interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

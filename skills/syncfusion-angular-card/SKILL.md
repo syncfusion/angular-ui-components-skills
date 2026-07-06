@@ -3,7 +3,7 @@ name: syncfusion-angular-card
 description: Implements Syncfusion Angular Card components with headers, images, action buttons, and configurable layouts. Use this skill when building flexible, reusable card interfaces with custom styling, CSS classes, and component integration patterns for displaying content in structured card formats.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Layout Components"
 ---
 

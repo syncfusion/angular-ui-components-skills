@@ -3,7 +3,7 @@ name: syncfusion-angular-toolbar
 description: Creates dynamic, responsive Angular toolbars with Syncfusion. Configure button items, separators, input components, templates, styling, tooltips, links, and responsive scrolling. Supports customization, accessibility, keyboard navigation, RTL mode, and component embedding for building professional toolbar interfaces in Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

@@ -3,7 +3,7 @@ name: syncfusion-angular-dashboard-layout
 description: Create responsive grid-based dashboards with draggable, resizable panels. Use this skill when implementing Syncfusion Angular Dashboard Layout, creating customizable dashboard layouts, adding dynamic panels, enabling drag-drop panel repositioning, resizing panels, saving/restoring dashboard states, making dashboards responsive, or styling dashboard components with CSS customization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Layout Components"
 ---
 

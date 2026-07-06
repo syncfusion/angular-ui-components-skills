@@ -38,21 +38,17 @@ ng add @syncfusion/ej2-angular-dropdowns@latest
 
 Syncfusion Angular component themes can be added in various ways: via CSS or SCSS styles from npm packages, CDN, or Theme Studio.
 
+First, install the required [Material 3](https://www.npmjs.com/package/@syncfusion/ej2-material3-theme) theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme@latest --save
+```
+
 To stylize only specific Syncfusion components, import the necessary styles. For example, to style only the Grid component:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
 ```
-
-> Ensure that the import order aligns with the component's dependency sequence.
 
 ### Adding Syncfusion Components
 
@@ -114,19 +110,16 @@ This command performs the following configurations:
 
 ### Import CSS
 
+First, install the required [Material 3](https://www.npmjs.com/package/@syncfusion/ej2-material3-theme) theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme@latest --save
+```
+
 The following CSS styles are available in the `../node_modules/@syncfusion` folder. Reference them in `src/styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-notifications/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
 ```
 
 ### Adding Syncfusion Components
@@ -191,10 +184,10 @@ cd ClientApp
 
 ### Install Syncfusion Package
 
-Install Syncfusion Angular packages from npm:
+Install Syncfusion Angular component packages and theme package from npm:
 
 ```bash
-npm install @syncfusion/ej2-angular-grids@latest --save
+npm install @syncfusion/ej2-angular-grids@latest @syncfusion/ej2-material3-theme@latest --save
 ```
 
 All Syncfusion Angular packages are available under the `@syncfusion` scope at [npmjs.com](https://www.npmjs.com/search?q=%40syncfusion%2Fej2-angular-).
@@ -223,15 +216,7 @@ bootstrapApplication(AppComponent, {
 Add the required CSS files to style your Syncfusion components. Open the `~/ClientApp/src/styles.css` file and add the following CSS imports:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
 ```
 
 These imports provide the Material theme styling for various UI components. The imports should be in this specific order to ensure proper styling.
@@ -320,18 +305,16 @@ Update `projects.ClientApp.architect.build.options.outputPath` in `angular.json`
 
 ### Import CSS
 
+First, install the required [Material 3](https://www.npmjs.com/package/@syncfusion/ej2-material3-theme) theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme@latest --save
+```
+
 Add the required CSS files in `~/ClientApp/src/styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-grids/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
 ```
 
 ### Adding Syncfusion Components

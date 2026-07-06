@@ -3,7 +3,7 @@ name: syncfusion-angular-smith-chart
 description: Implement Syncfusion Angular Smith Chart component for high-frequency circuit visualization and transmission line analysis. Use this skill whenever the user needs to create smith charts, visualize impedance or admittance parameters, add multiple series to a smith chart, customize axes and gridlines, configure markers and data labels, implement legends with visibility toggling, add tooltips and export functionality, or styling and accessibility. Covers installation, basic rendering, series management, axis configuration, marker/label customization, legend setup and advanced features.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

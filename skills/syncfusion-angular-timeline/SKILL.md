@@ -3,7 +3,7 @@ name: syncfusion-angular-timeline
 description: Syncfusion Angular Timeline component for displaying sequential events and milestones. Use this to create vertical or horizontal timelines with configurable alignments (Before, After, Alternate, AlternateReverse), custom content, opposite-side content, event handlers, and advanced customization including dot styling, connector appearance, and item templates. Essential for implementing product roadmaps, project timelines, activity feeds, career progression timelines, and any sequential event visualization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Timelines"
 ---
 

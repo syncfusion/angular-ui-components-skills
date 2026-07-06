@@ -3,7 +3,7 @@ name: syncfusion-angular-appbar
 description: Implement Syncfusion Angular AppBar component for navigation, branding, and actions. Use this skill when user needs to add top or bottom navigation bar, sticky headers, AppBar with buttons/menus/sidebars, positioning options, sizing modes (Regular/Prominent/Dense), color modes (Light/Dark/Primary/Inherit), and styling customization. Covers AppBar properties like isSticky, enablePersistence, enableRtl, htmlAttributes, responsive navigation patterns, action bars, header layouts, and navigation components.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation"
 ---
 

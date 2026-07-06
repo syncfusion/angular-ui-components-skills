@@ -3,7 +3,7 @@ name: syncfusion-angular-accumulation-chart
 description: Implement and customize Syncfusion Angular Accumulation Charts (Pie, Doughnut, Pyramid, Funnel) with data binding, labels, legends, and tooltips. Use this when creating accumulation charts, configuring chart types, customizing data visualization, adding annotations, or handling interactive chart events in Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

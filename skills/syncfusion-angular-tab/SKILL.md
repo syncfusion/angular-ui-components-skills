@@ -6,7 +6,7 @@ description: |
   data binding, remote data, animations, and advanced patterns like wizards, nested tabs, and collapsible tabs.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

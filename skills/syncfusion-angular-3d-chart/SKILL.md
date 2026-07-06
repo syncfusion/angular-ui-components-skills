@@ -3,7 +3,7 @@ name: syncfusion-angular-3d-chart
 description: Implement interactive 3D charts in Angular applications using Syncfusion. Guide covers setup, chart types (bar, column, stacked variants), customization, data binding, axis configuration, legends, tooltips, selection, data labels, appearance styling, dimensions, print/export, and accessibility. Use this skill whenever a user needs to create, configure, or customize 3D chart visualizations.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

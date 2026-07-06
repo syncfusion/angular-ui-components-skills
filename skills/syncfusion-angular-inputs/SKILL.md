@@ -3,7 +3,7 @@ name: syncfusion-angular-inputs
 description: A comprehensive guide to implementing Syncfusion Angular Input components, including Uploader, NumericTextBox, TextBox, Signature, CheckBox, OTP Input, RangeSlider, TextArea, ColorPicker, MaskedTextBox, and Rating. This guide is intended for building Angular applications with file upload UIs supporting async and chunked uploads, drag‑and‑drop functionality, numeric inputs with validation and formatting, text inputs with floating labels and custom adornments, digital signature capture with undo, redo, and export capabilities, checkbox multi‑select and indeterminate states, seamless form integration, accessibility compliance, one‑time password (OTP) inputs, programmatic row adjustments, slider tick customization and styling, visual color selection with HSV picker and palette support, masked text input for structured data entry, and interactive star rating components.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Inputs"
 ---
 

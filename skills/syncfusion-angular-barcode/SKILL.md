@@ -3,7 +3,7 @@ name: syncfusion-angular-barcode
 description: "Use Syncfusion EJ2 Angular Barcode/QR components to generate and customize barcodes in Angular. Trigger for Code39/Code128, EAN/UPC, QR Code, Data Matrix, label printing, inventory/product tags, colors/sizing/text, logo overlays, rendering, and export (PNG/SVG/PDF)."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

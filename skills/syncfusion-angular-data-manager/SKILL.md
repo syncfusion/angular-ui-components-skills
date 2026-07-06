@@ -3,7 +3,7 @@ name: syncfusion-angular-data-manager
 description: Implements Syncfusion Angular DataManager for local/remote binding, CRUD, querying, caching, and middleware. Supports JsonAdaptor, ODataAdaptor, ODataV4Adaptor, UrlAdaptor, WebApiAdaptor, WebMethodAdaptor, RemoteSaveAdaptor, GraphQLAdaptor, CustomDataAdaptor, and CustomAdaptor. Covers Query class, filtering, sorting, paging, grouping, persistence, offline mode, caching, and error handling.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Management"
 ---
 

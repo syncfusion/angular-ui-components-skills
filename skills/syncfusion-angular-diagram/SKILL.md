@@ -3,7 +3,7 @@ name: syncfusion-angular-diagram
 description: "Build and configure Syncfusion EJ2 Angular Diagram for flowcharts, org charts, process diagrams, and data-visualization. Trigger when users ask to create nodes/connectors, apply layouts, swimlane, use BPMN/UML shapes, or add interactivity like drag-drop, zoom/pan, snapping, editing, and symbol palettes."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

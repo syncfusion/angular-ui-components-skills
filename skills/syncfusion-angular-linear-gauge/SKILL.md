@@ -3,7 +3,7 @@ name: syncfusion-angular-linear-gauge
 description: Create and customize Syncfusion Angular Linear Gauge components for displaying measurements and metrics. Use this skill when user needs to implement a linear gauge, display scalar values in a linear scale, create measurement interfaces, configure ranges and pointers, add annotations, handle user interactions, or customize gauge appearance. Covers installation, configuration, events, accessibility, printing, and internationalization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

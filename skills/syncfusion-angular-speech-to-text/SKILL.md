@@ -3,7 +3,7 @@ name: syncfusion-angular-speech-to-text
 description: Implement the Syncfusion Angular SpeechToText component. Use this skill for real-time speech-to-text conversion with text transcripts, custom button appearance and tooltips, recognition event handling, multiple language support with localization and RTL, error handling, and security best practices for microphone access and data transmission.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular SpeechToText Component

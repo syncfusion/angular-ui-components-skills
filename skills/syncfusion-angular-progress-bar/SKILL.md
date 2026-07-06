@@ -3,7 +3,7 @@ name: syncfusion-angular-progress-bar
 description: Implement Angular Progress Bar components for visual progress tracking. Use when you need to show determinate, indeterminate, or buffered progress in linear or circular shapes with animations, customization, and accessibility support.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Notifications"
 ---
 

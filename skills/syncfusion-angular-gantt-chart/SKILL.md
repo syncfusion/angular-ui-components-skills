@@ -3,7 +3,7 @@ name: syncfusion-angular-gantt-chart
 description: Implement and configure the Syncfusion Angular Gantt Chart component (ejs-gantt, GanttModule). Use this when building Angular applications with Gantt chart functionality, task scheduling, dependencies, or resource management. Covers component setup, task dependencies, taskbar editing, critical path analysis, resource allocation, timeline configuration, filtering, sorting, export, undo/redo, state persistence, and localization.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Gantt Chart

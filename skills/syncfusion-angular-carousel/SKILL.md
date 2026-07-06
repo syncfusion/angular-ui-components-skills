@@ -3,7 +3,7 @@ name: syncfusion-angular-carousel
 description: Learn how to implement the Syncfusion Angular Carousel component for displaying slides with images and content. This comprehensive skill includes complete API documentation with all 30 properties, 5 methods, 2 events, and working code examples. Use when creating image galleries, product showcases, featured content sliders, news rotators, or implementing carousel navigation with animations.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

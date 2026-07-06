@@ -3,7 +3,7 @@ name: syncfusion-angular-range-navigator
 description: Implement interactive Range Navigator in Angular applications using Syncfusion. Covers data binding from local and remote sources, axis configuration (numeric and date-time), series types, tooltip customization, period selector setup, lightweight mode, RTL support, axis labels and formatting, grid ticks, print/export functionality (PNG, SVG, PDF), and accessibility features. Use this skill when creating data range selection tools, timeline navigators, and interactive data exploration components.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

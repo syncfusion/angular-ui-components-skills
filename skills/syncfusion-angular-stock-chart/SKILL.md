@@ -3,7 +3,7 @@ name: syncfusion-angular-stock-chart
 description: Implement Syncfusion Angular Stock Chart component for displaying financial data and OHLC charts. Use this skill whenever users need to create stock charts, display candlestick or OHLC data, add technical indicators, implement date range selection, or work with time-series financial visualization. Includes series types, axis customization, interactive features, and export capabilities.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

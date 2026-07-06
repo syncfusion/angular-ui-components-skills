@@ -3,7 +3,7 @@ name: syncfusion-angular-rich-text-editor
 description: "Implements the Syncfusion Angular Rich Text Editor (ejs-richtexteditor) from @syncfusion/ej2-angular-richtexteditor using RichTextEditorModule, HtmlEditorService, and MarkdownEditorService.Use this skill for toolbar configuration, image/video/audio insertion, paste cleanup, AI assistant integration, emoji picker, slash menu, mentions, import/export Word/PDF, form validation, and source code view in Angular applications."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "File Viewers & Editors"
 ---
 

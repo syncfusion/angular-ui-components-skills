@@ -3,7 +3,7 @@ name: syncfusion-angular-sparkline
 description: Implement Syncfusion Angular Sparkline component for compact data visualization. Use this skill whenever the user needs to create sparkline charts, visualize small datasets inline, add markers or data labels, implement different sparkline types (Line, Column, Area, Pie, Win-Loss), or handle sparkline customization like tooltips, axis settings, and theme styling. Covers installation, basic rendering, type selection, marker configuration, data label formatting, advanced features, accessibility, and migration from EJ1.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 

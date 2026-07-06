@@ -4,7 +4,7 @@ description: |
   Implement Syncfusion Angular Dropdown Tree component for hierarchical data selection with single or multiple values. Use this when selecting items from tree-structured hierarchies, enabling checkboxes for multi-selection, binding hierarchical data, customizing tree items with templates, or implementing parent-child dependent selection. Works with self-referential structures and remote OData/REST endpoints for category selectors and organizational interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Dropdowns"
 ---
 

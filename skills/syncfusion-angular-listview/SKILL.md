@@ -3,7 +3,7 @@ name: syncfusion-angular-listview
 description: Guide for implementing Syncfusion Angular ListView component. Use this skill when building interactive lists with data binding, grouping, templates, selection, events, drag-and-drop, or virtualization features. This skill covers getting started, data binding, customization, selection, advanced features, specialized use cases, styling, and accessibility for building production-ready list interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "List Components"
 ---
 

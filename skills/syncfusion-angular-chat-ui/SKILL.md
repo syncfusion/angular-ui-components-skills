@@ -3,7 +3,7 @@ name: syncfusion-angular-chat-ui
 description: Implement the Syncfusion Angular Chat UI component. Use this skill whenever users need to implement messaging, real-time conversations, file attachments, typing indicators, user mentions, or bot integrations (Dialogflow, Microsoft Bot Framework) in Angular applications. Essential for customer support chatbots, team messaging apps, AI-powered assistants, and collaborative communication interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Chat UI Component

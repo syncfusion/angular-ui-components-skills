@@ -3,7 +3,7 @@ name: syncfusion-angular-query-builder
 description: Implement the Syncfusion Angular Query Builder component for visual query construction, dynamic filtering, and rule management. Use this when building visual filter UIs, creating query conditions programmatically, importing/exporting SQL or MongoDB queries, or customizing query builder templates. This skill covers data binding, column configuration with operators, rule groups, theming, and Angular forms integration for the QueryBuilder (ejs-querybuilder) component.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Forms"
 ---
 

@@ -3,7 +3,7 @@ name: syncfusion-angular-notifications
 description: Comprehensive guide for implementing Syncfusion Angular notification components including Message, Skeleton, Toast, and Badge. Use this when displaying informational, success, warning, or error alerts with severity levels, customizing message variants (Text, Outlined, Filled), handling close events, showing content skeletons with shimmer/pulse animations during data loading, or adding status badges with 8 color variants and shape types (circle, pill, notification, dot, overlap). Covers MessageModule, SkeletonModule, ToastModule, CSS-based Badge implementation, accessibility, RTL, and custom styling in Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Notifications"
 ---
 

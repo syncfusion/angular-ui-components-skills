@@ -4,7 +4,7 @@ description: |
   Implement hierarchical tree structures with Syncfusion Angular TreeView component. Use this when building tree-based UIs with features like checkboxes, drag-and-drop, node editing, filtering, and templating. This skill covers dynamic data binding, nested hierarchies, folder structures, and interactive tree-based interfaces.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

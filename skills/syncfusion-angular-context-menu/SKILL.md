@@ -3,7 +3,7 @@ name: syncfusion-angular-context-menu
 description: "Implement Syncfusion Angular ContextMenu component for right-click and touch-hold menus. Use this skill when user needs to create context menus, add/remove/enable menu items, handle menu clicks, customize animations, apply templates, handle data binding, trigger dialogs from menu items, show/hide items dynamically, add icons, create scrollable menus, or customize menu appearance."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Components"
 ---
 

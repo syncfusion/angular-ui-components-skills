@@ -3,7 +3,7 @@ name: syncfusion-angular-menu
 description: Guide for implementing Syncfusion Angular Menu component. Use this skill when the user needs to create navigation menus, hierarchical menu structures, submenu items, menu events, animation, orientation changes, RTL support, or customize menu appearance. Covers installation, data binding, templates, events, styling, accessibility, and real-world implementations like sidebar menus and toolbars.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Navigation Component"
 ---
 

@@ -3,7 +3,7 @@ name: syncfusion-angular-file-manager
 description: "Implement the Syncfusion Angular File Manager component for file browsing, management, and operations. Use this skill whenever the user needs to create a file manager interface, handle file operations like upload/download/delete, manage folders, or customize file browsing experiences in Angular applications."
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "File Manager"
 ---
 

@@ -3,7 +3,7 @@ name: syncfusion-angular-blockeditor
 description: Implement the Syncfusion Angular Block Editor component. Use this skill for block-based editing with advanced formatting, custom menus, event handling, content management, security features, globalization support, and extensive customization options for Angular applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
 ---
 
 # Syncfusion Angular Block Editor Component

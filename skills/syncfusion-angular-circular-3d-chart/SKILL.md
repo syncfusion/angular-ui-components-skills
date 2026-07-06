@@ -3,7 +3,7 @@ name: syncfusion-angular-circular-3d-chart
 description: Implement interactive 3D circular charts in Angular applications using Syncfusion. Covers pie and donut chart creation, data binding, data labels with positioning and templates, empty points handling, tooltips with custom formatting, legend configuration, titles and subtitles, and print/export functionality (PNG, SVG, PDF). Use this skill when creating 3D circular visualizations for data representation, comparison, and interactive user engagement.
 metadata:
   author: "Syncfusion Inc"
-  version: "33.1.44"
+  version: "34.1.29"
   category: "Data Visualization"
 ---
 
