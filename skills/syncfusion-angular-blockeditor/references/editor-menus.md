@@ -126,7 +126,8 @@ The Context menu appears on right-click and provides editing actions.
 
 - **Undo/Redo**: Revert or reapply actions
 - **Cut/Copy/Paste**: Clipboard operations
-- **Link**: Add or edit hyperlinks
+- **Link**: Add or edit hyperlinks. When the cursor is focused on a link, options are available directly from the context menu to `Edit`, `Open`, `Copy`, and `Remove` the link
+- **Table**: When the cursor is focused within a table cell, options are available directly from the context menu to `Insert` and `Delete` rows/columns
 - **Indent/Outdent**: Adjust block indentation
 
 ### Configuration

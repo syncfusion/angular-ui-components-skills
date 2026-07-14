@@ -17,10 +17,14 @@ The AI AssistView component provides **four distinct toolbar types** to customiz
 - [Header Toolbar Configuration](#header-toolbar-configuration)
 - [Prompt Toolbar Configuration](#prompt-toolbar-configuration)
 - [Response Toolbar Configuration](#response-toolbar-configuration)
+- [Regenerate Responses](#regenerate-responses)
 - [Footer Toolbar Configuration](#footer-toolbar-configuration)
 - [ToolbarItemModel Reference](#toolbaritemmodel-reference)
 - [Event Handling](#event-handling)
 - [Common Patterns](#common-patterns)
+- [Best Practices](#best-practices)
+- [Styling Toolbars](#styling-toolbars)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -288,6 +292,135 @@ export class AppComponent {
 - **Feedback:** Like/dislike buttons for response quality
 - **Share:** Share response via social media or email
 - **Save:** Save specific responses to favorites
+
+---
+
+## Regenerate Responses
+
+The AI AssistView supports a `regenerate` action that lets users request an alternative AI response for an existing prompt, without resubmitting the original query. Navigation buttons (`previous`/`next`) are rendered alongside the response (e.g., `1 / 3`), letting users move between all regenerated responses for that prompt.
+
+> The navigation UI appears automatically once more than one response is available for a prompt — either because the user triggered a regenerate, or because multiple responses were pre-loaded via the `regeneratedResponses` property in the `prompts` collection.
+
+### Adding the Regenerate Item
+
+Enable the regenerate button by adding the `e-assist-regenerate` icon to the `items` collection of `responseToolbarSettings`.
+
+```ts
+public responseToolbarSettings: ResponseToolbarSettingsModel = {
+    items: [
+      { type: 'Button', iconCss: 'e-icons e-copy', tooltip: 'Copy Response' },
+      { type: 'Button', iconCss: 'e-icons e-assist-regenerate', tooltip: 'Regenerate' },
+      { type: 'Button', iconCss: 'e-icons e-assist-like', tooltip: 'Helpful' }
+    ]
+};
+```
+
+### Handling a Regenerated Response
+
+When the user clicks regenerate, the component fires the `promptRequest` event with the existing prompt — enabling you to call your AI service again and push the new response via `addPromptResponse`. Regenerated responses are accumulated automatically into the prompt's `regeneratedResponses` array, and the navigation UI lets users step through them.
+
+```ts
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+import { Component, ViewChild } from '@angular/core';
+import { AIAssistViewComponent, ResponseToolbarSettingsModel } from '@syncfusion/ej2-angular-interactive-chat';
+import { PromptRequestEventArgs, PromptModel } from '@syncfusion/ej2-interactive-chat';
+
+@Component({
+    imports: [ AIAssistViewModule ],
+    standalone: true,
+    selector: 'app-root',
+    template: `<div ejs-aiassistview #aiAssistViewComponent (promptRequest)="onPromptRequest($event)" [responseToolbarSettings]="responseToolbarSettings" [prompts]="promptsData"></div>`
+})
+export class AppComponent {
+    @ViewChild('aiAssistViewComponent')
+    public aiAssistViewComponent!: AIAssistViewComponent;
+
+    public promptsData: PromptModel[] = [
+        {
+            prompt: "What is AI?",
+            response: "AI stands for Artificial Intelligence..."
+        }
+    ];
+
+    public responseToolbarSettings: ResponseToolbarSettingsModel = {
+        items: [
+            { type: 'Button', iconCss: 'e-icons e-copy', tooltip: 'Copy Response' },
+            { type: 'Button', iconCss: 'e-icons e-assist-regenerate', tooltip: 'Regenerate' },
+            { type: 'Button', iconCss: 'e-icons e-assist-like', tooltip: 'Helpful' },
+            { type: 'Button', iconCss: 'e-icons e-assist-dislike', tooltip: 'Not Helpful' }
+        ],
+        itemClicked: this.onResponseToolbarClick.bind(this)
+    };
+
+    onResponseToolbarClick(args: any) {
+        // Handle regenerate click - regenerated responses auto-accumulate
+    }
+
+    onPromptRequest(args: PromptRequestEventArgs) {
+        // Call AI service and push response via addPromptResponse()
+        setTimeout(() => {
+            this.aiAssistViewComponent.addPromptResponse("New AI response...");
+        }, 1000);
+    }
+}
+```
+
+### Pre-Loading Regenerated Responses
+
+Use the `regeneratedResponses` property in the `prompts` collection to pre-load multiple responses for a prompt at initial render, without requiring the user to trigger a regenerate action first. Users can navigate between the pre-loaded responses using the `previous`/`next` buttons in the response navigation UI.
+
+```ts
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+import { Component, ViewChild } from '@angular/core';
+import { AIAssistViewComponent, ResponseToolbarSettingsModel } from '@syncfusion/ej2-angular-interactive-chat';
+import { PromptRequestEventArgs, PromptModel } from '@syncfusion/ej2-interactive-chat';
+
+@Component({
+    imports: [ AIAssistViewModule ],
+    standalone: true,
+    selector: 'app-root',
+    template: `<div ejs-aiassistview #aiAssistViewComponent (promptRequest)="onPromptRequest($event)" [responseToolbarSettings]="responseToolbarSettings" [prompts]="promptsData"></div>`
+})
+export class AppComponent {
+    @ViewChild('aiAssistViewComponent')
+    public aiAssistViewComponent!: AIAssistViewComponent;
+
+    public promptsData: PromptModel[] = [
+        {
+            prompt: "What is AI?",
+            response: "AI stands for Artificial Intelligence...",
+            regeneratedResponses: [
+                "AI is the simulation of human intelligence...",
+                "Artificial Intelligence enables machines to learn from data..."
+            ]
+        }
+    ];
+
+    public responseToolbarSettings: ResponseToolbarSettingsModel = {
+        items: [
+            { type: 'Button', iconCss: 'e-icons e-copy', tooltip: 'Copy Response' },
+            { type: 'Button', iconCss: 'e-icons e-assist-regenerate', tooltip: 'Regenerate' },
+            { type: 'Button', iconCss: 'e-icons e-assist-like', tooltip: 'Helpful' },
+            { type: 'Button', iconCss: 'e-icons e-assist-dislike', tooltip: 'Not Helpful' }
+        ],
+        itemClicked: this.onResponseToolbarClick.bind(this)
+    };
+
+    onResponseToolbarClick(args: any) {
+        // Handle clicks
+    }
+
+    onPromptRequest(args: PromptRequestEventArgs) {
+        // Handle new prompts
+    }
+}
+```
+
+### PromptModel Property Reference (Regenerate)
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `regeneratedResponses` | `string[]` | Pre-loaded array of alternative responses for a prompt, navigable via the `previous`/`next` response navigation UI. |
 
 ---
 

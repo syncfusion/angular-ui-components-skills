@@ -411,7 +411,6 @@ import { BlockEditorModule } from '@syncfusion/ej2-angular-blockeditor';
 export class BestPracticesComponent {
   public pasteCleanupConfig = {
     // Additional security through paste cleanup
-    allowedStyles: [],
     deniedTags: ['script', 'iframe', 'object', 'embed'],
     keepFormat: false,
     plainText: false

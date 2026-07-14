@@ -147,7 +147,6 @@ The `pasteCleanupSettings` property configures how content is handled when paste
 **API Type:** `PasteCleanupSettingsModel`
 
 **Properties:**
-- `allowedStyles: string[]` - Allowed CSS styles when pasting content
 - `deniedTags: string[]` - HTML tags to remove from pasted content
 - `keepFormat: boolean` - Whether to preserve formatting (bold, italic, etc.)
 - `plainText: boolean` - Whether to paste as plain text (removes all formatting)
@@ -170,7 +169,6 @@ import { BlockEditorModule, PasteCleanupSettingsModel } from '@syncfusion/ej2-an
 })
 export class AppComponent {
   public pasteCleanupSettings: PasteCleanupSettingsModel = {
-    allowedStyles: ['color', 'font-weight', 'font-style'],
     deniedTags: ['script', 'iframe', 'object'],
     keepFormat: true,
     plainText: false
@@ -185,30 +183,6 @@ Define which CSS properties can be preserved when pasting:
 ```typescript
 public pasteCleanupSettings: PasteCleanupSettingsModel = {
   // Allowed CSS style properties
-  allowedStyles: [
-    // Text formatting
-    'color',
-    'background-color',
-    'font-weight',
-    'font-style',
-    'text-decoration',
-    'text-transform',
-    'font-size',
-    'line-height',
-    
-    // Text alignment
-    'text-align',
-    'text-indent',
-    
-    // Spacing
-    'margin',
-    'padding',
-    
-    // Border
-    'border',
-    'border-color',
-    'border-style'
-  ],
   deniedTags: [],
   keepFormat: true,
   plainText: false
@@ -221,7 +195,6 @@ Specify HTML tags that should be removed during paste:
 
 ```typescript
 public pasteCleanupSettings: PasteCleanupSettingsModel = {
-  allowedStyles: [],
   
   // Tags to remove from pasted content
   deniedTags: [
@@ -253,7 +226,6 @@ Control whether formatting is preserved:
 ```typescript
 // Preserve formatting (bold, italic, etc.)
 public withFormatting: PasteCleanupSettingsModel = {
-  allowedStyles: ['font-weight', 'font-style', 'text-decoration'],
   deniedTags: ['script', 'iframe'],
   keepFormat: true,    // Keep bold, italic, etc.
   plainText: false
@@ -261,7 +233,6 @@ public withFormatting: PasteCleanupSettingsModel = {
 
 // Remove all formatting
 public withoutFormatting: PasteCleanupSettingsModel = {
-  allowedStyles: [],
   deniedTags: ['script', 'iframe'],
   keepFormat: false,   // Strip formatting
   plainText: false
@@ -274,7 +245,6 @@ Paste content as plain text, removing all HTML and formatting:
 
 ```typescript
 public plainTextOnly: PasteCleanupSettingsModel = {
-  allowedStyles: [],
   deniedTags: [],
   keepFormat: false,
   plainText: true     // Paste as plain text only
@@ -507,7 +477,6 @@ export class SecureEditorComponent {
   public isReadOnly = false;
   
   public pasteCleanupSettings: PasteCleanupSettingsModel = {
-    allowedStyles: ['color', 'font-weight', 'font-style', 'text-decoration'],
     deniedTags: ['script', 'iframe', 'object', 'embed'],
     keepFormat: true,
     plainText: false
@@ -541,7 +510,6 @@ export class RBACEditorComponent {
   public hasEditPermission = false;
   
   public pasteCleanupSettings: PasteCleanupSettingsModel = {
-    allowedStyles: [],
     deniedTags: ['script', 'iframe', 'object'],
     keepFormat: true,
     plainText: false

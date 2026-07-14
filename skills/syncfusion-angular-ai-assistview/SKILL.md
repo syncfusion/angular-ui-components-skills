@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-ai-assistview
-description: Implement the Syncfusion Angular AI AssistView component. Use this skill when you need to create conversational AI interfaces, integrate AI services, add chat-like UI, or create intelligent assistant applications. Includes setup, configuration, event handling, AI integrations (OpenAI, Gemini, Ollama), speech features, and customization. Use this skill for all AI AssistView component implementation needs.
+description: Implement the Syncfusion Angular AI AssistView component. Use this skill when you need to create conversational AI interfaces, integrate AI services, add chat-like UI, or create intelligent assistant applications. Includes setup, configuration, event handling, AI integrations (OpenAI, Gemini, Ollama), speech features, chain-of-thought reasoning, generative UI tool support, and customization. Use this skill for all AI AssistView component implementation needs.
 metadata:
   author: "Syncfusion Inc"
   version: "34.1.29"
@@ -15,6 +15,8 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 **Key Capabilities:**
 - **Conversation Management** - Manage prompt-response pairs with history, persistence, and markdown rendering
 - **AI Service Integration** - Connect to OpenAI, Gemini, Ollama, Lite-LLM, and MCP providers with streaming support
+- **Chain of Thoughts** - Visualize AI reasoning as collapsible thinking blocks with multi-stage, dynamic status updates via the injectable `AssistThinking` module
+- **Generative UI** - Render interactive tools, charts, and custom components within AI responses using `blocks` and `registerToolUI`
 - **Speech Features** - Built-in speech-to-text with 11 configurable properties and 4 events
 - **Toolbar System** - Four toolbar types (header, prompt, response, footer) with custom actions and tag directives
 - **View Management** - Multiple views with programmatic `activeView` control and dynamic switching
@@ -80,6 +82,32 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Response handling patterns
 - Programmatic interaction
 
+### Chain of Thoughts
+📄 **Read:** [references/chain-of-thoughts.md](references/chain-of-thoughts.md)
+- Enabling reasoning visualization with the injectable `AssistThinking` module
+- Thinking block configuration (`blocks` property, `blockType: 'thinking'`)
+- Streaming multi-step reasoning with `addPromptResponse` and `isFinalUpdate`
+- Adding stages with the `stages` array and `ThinkingStage` properties
+- Stage status indicators (`completed`, `inprogress`, `failed`)
+- Inline context items with `editableContext` and `{index}` placeholders
+- Handling the `editableContextClicked` event
+- Customizing rendering with `blockTemplate` and `itemTemplate`
+
+### Generative UI
+📄 **Read:** [references/generative-ui.md](references/generative-ui.md)
+- Registering custom tools with `registerToolUI` (toolName, template, handler)
+- Configuring tool templates and interactive handler functions
+- Adding `tool` blocks to responses via `addPromptResponse` (`toolName`, `props`)
+- Configuring the AI service system prompt to return structured `blocks` JSON
+- Chaining follow-up prompts with `executePrompt` after tool interaction
+- Complete production example: recipe builder with custom and chart-based tools
+
+### Text to Speech
+📄 **Read:** [references/text-to-speech.md](references/text-to-speech.md)
+- Enabling built-in Text-to-Speech with the `e-assist-audio` response toolbar item
+- Reading AI responses aloud via the browser's `SpeechSynthesisUtterance` API
+- Customizing speech behavior with `textToSpeechSettings` (language, speechPitch, speechRate, volume, voice)
+
 ## Complete documentation for all 4 toolbar types
 - Header Toolbar (`toolbarSettings`) - Global actions and navigation
 - Prompt Toolbar (`promptToolbarSettings`) - Actions on user prompts
@@ -99,6 +127,7 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Upload handling and validation
 - File size and type restrictions
 - Attachment display and management
+- Custom attachment templates (attachmentTemplate)
 
 ### Toolbar Configuration
 📄 **Read:** [references/toolbar-items.md](references/toolbar-items.md)
@@ -113,6 +142,8 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Custom Web Speech API implementation (alternative approach)
 - Text-to-speech setup and configuration
 - Browser compatibility and error handling
+- Regenerate responses with `e-assist-regenerate` icon, response navigation UI, and the `regeneratedResponses` property
+
 ### Templates & Custom Rendering
 📄 **Read:** [references/templates.md](references/templates.md)
 - Template system overview
@@ -135,6 +166,14 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Text-to-speech setup and configuration
 - Audio handling
 - Browser compatibility considerations
+
+---
+
+### Methods (Generative UI)
+| Method | Description |
+|--------|-------------|
+| `registerToolUI({ toolName, template, handler })` | Registers a tool's rendering template and optional interaction handler. Call before referencing the tool in any response. |
+| `executePrompt(prompt)` | Programmatically triggers a new prompt/response cycle, useful for chaining follow-up AI responses after a tool interaction. |
 
 ---
 
@@ -228,23 +267,38 @@ export class AppComponent {
 2. Use `PromptChangedEventArgs` for real-time input validation
 3. Handle `StopRespondingEventArgs` to cancel long-running requests
 4. Use `beforeAttachmentUpload` for file validation
-5
-## Common Patterns
+5. Use `editableContextClicked` for inline context badge interactions
 
-### Pattern 1: Basic Conversation Flowstreaming responses, multi-language support, and toolbar actions
-2. **Code Assistant:** Create coding helpers with syntax highlighting, code regeneration, and like/dislike feedback
-3. **Voice-Enabled Assistant:** Implement hands-free interfaces with built-in speech-to-text in 10+ languages
-4. **Content Writer Assistant:** Implement writing tools with grammar checking, real-time suggestions, and response streaming
-5. **Data Analysis Tool:** Create interfaces with multiple views (query, results, visualization) and view switching
-6. **Learning Platform:** Build educational assistants with RTL support for Arabic/Hebrew learners and persistent conversation history
-7. **Multi-language Support:** Implement interfaces with locale configuration for 12+ languages and RTL text direction
-8. **Accessibility Assistant:** Provide reading aid with speech features, keyboard navigation, and ARIA attributes
-9. **Workflow Applications:** Build step-by-step wizards with programmatic view control and conditional navigation
-10. **Real-time AI Services:** Integrate streaming AI providers with abort functionality and visual streaming indicatorser input |
+### Pattern 7: Chain of Thoughts (Reasoning Visualization)
+1. Inject the `AssistThinking` module via `AIAssistView.Inject(AssistThinking)`
+2. Push `blocks` with `blockType: 'thinking'` via `addPromptResponse`, using `isFinalUpdate: false` while streaming
+3. Update `stages[].status` (`inprogress` → `completed`/`failed`) as reasoning progresses
+4. Use `editableContext` with `{index}` placeholders for clickable inline references
+5. Deliver the final `response` text alongside the last `isFinalUpdate: true` call
+6. Optionally customize rendering with `blockTemplate` (full block) or `itemTemplate` (per-stage)
+
+### Pattern 8: Generative UI (Interactive Tools in Responses)
+1. Register each tool once via `registerToolUI({ toolName, template, handler })`, typically in `ngAfterViewInit`
+2. Reference registered tools in responses using `blocks: [{ blockType: 'tool', toolName, props }]`
+3. Combine `text` and `tool` blocks in the same `blocks` array for narrative + interactive content
+4. Configure the AI system prompt to return a structured `blocks` JSON array for dynamic tool invocation
+5. Use `executePrompt` to trigger a follow-up AI response after a user interacts with a rendered tool
+6. Parse AI-returned JSON defensively and fall back to plain text on malformed output
+
+---
+
+## Key Properties
+
+| Property | Type | Default | When to Use |
+|----------|------|---------|------------|
+| `prompt` | string | `''` | Pre-fill prompt text |
+| `promptPlaceholder` | string | `'Type prompt for assistance...'` | Guide user input |
 | `promptSuggestions` | string[] | `[]` | Provide quick starting prompts |
 | `prompts` | object[] | `[]` | Initialize conversation history |
 | `showClearButton` | boolean | `false` | Show button to clear input |
 | `enableScrollToBottom` | boolean | `true` | Show scroll-to-bottom indicator |
+| `blockTemplate` | string \| object | `''` | Customize rendering of thinking blocks |
+| `itemTemplate` | string \| object | `''` | Customize rendering of individual thinking stage items |
 
 ### Layout & Appearance
 | Property | Type | Default | When to Use |
@@ -260,6 +314,7 @@ export class AppComponent {
 |----------|------|---------|------------|
 | `enableStreaming` | boolean | `false` | Enable real-time streaming responses |
 | `speechToTextSettings` | SpeechToTextSettingsModel | `null` | Configure built-in speech recognition |
+| `textToSpeechSettings` | `TextToSpeechSettingsModel` | `null` | Configure built-in Text-to-speech support|
 | `activeView` | number | `0` | Programmatically switch between views |
 
 ### Globalization
@@ -277,34 +332,6 @@ export class AppComponent {
 | `responseToolbarSettings` | ResponseToolbarSettingsModel | `null` | Configure response toolbar (copy, regenerate, like/dislike) |
 | `footerToolbarSettings` | FooterToolbarSettingsModel | `null` | Configure footer toolbar (formatting, attachments)
 
-### Pattern 3: Custom View Management
-1. Define multiple view types (Assist, Custom)
-2. Switch between views based on user action
-3. Each view can have different configuration
-4. Maintain separate state per view
-
-### Pattern 4: Event-Driven Actions
-1. Listen to `promptChanged` for input validation
-2. Handle `beforeAttachmentUpload` for file validation
-3. Use `attachmentUploadSuccess` for post-upload actions
-4. Leverage `created` event for initialization
-
----
-
-## Key Properties
-
-| Property | Type | Default | When to Use |
-|----------|------|---------|------------|
-| `prompt` | string | `''` | Pre-fill prompt text |
-| `promptPlaceholder` | string | `'Type prompt for assistance...'` | Guide user input |
-| `promptSuggestions` | string[] | `[]` | Provide quick starting prompts |
-| `prompts` | object[] | `[]` | Initialize conversation history |
-| `width` | string | `'100%'` | Set container width |
-| `height` | string | `'100%'` | Set container height |
-| `cssClass` | string | `''` | Apply custom CSS styling |
-| `showClearButton` | boolean | `false` | Show button to clear input |
-| `enableScrollToBottom` | boolean | `true` | Show scroll-to-bottom indicator |
-
 ---
 
 ## Common Use Cases
@@ -317,5 +344,7 @@ export class AppComponent {
 6. **Internal Knowledge Bot:** Create enterprise assistants for company documentation and FAQs
 7. **Multi-language Support:** Implement translation and localization features
 8. **Accessibility Assistant:** Provide reading aid or instruction assistance
+9. **Reasoning Visualization:** Build interfaces that surface AI reasoning via collapsible Chain of Thoughts blocks
+10. **Generative UI Applications:** Render interactive tools and charts (cards, gauges, custom widgets) inline within AI responses
 
 ---

@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-blockeditor
-description: Implement the Syncfusion Angular Block Editor component. Use this skill for block-based editing with advanced formatting, custom menus, event handling, content management, security features, globalization support, and extensive customization options for Angular applications.
+description: Implement the Syncfusion Angular Block Editor component. Use this skill for block-based editing with advanced formatting, custom menus, event handling, content management, security features, real-time collaborative editing, globalization support, and extensive customization options for Angular applications.
 metadata:
   author: "Syncfusion Inc"
   version: "34.1.29"
@@ -20,6 +20,7 @@ The Syncfusion Angular Block Editor is a powerful block-based editor component f
 - **Content Management** - Import/export as JSON, HTML, or Markdown with full serialization control
 - **Methods** - Programmatically add, remove, move, and update blocks with full API access
 - **Security Features** - Built-in HTML sanitization and XSS prevention for safe content
+- **Collaborative Editing** - Real-time multi-user editing powered by Yjs, with user presence, remote cursors, and version history
 - **Toolbar Configuration** - Customizable slash commands and block action menus with grouping
 - **Templates** - Custom templates for blocks, placeholders, and empty states
 - **Globalization** - Multi-language support, RTL languages, and locale-based keyboard shortcuts
@@ -196,6 +197,21 @@ Convert between formats and persist content.
 - Synchronizing with servers
 
 👉 **[Data Export and Import](./references/data-export-and-import.md)**
+
+---
+
+### Collaborative Editing
+Enable real-time multi-user editing with Yjs.
+
+**Read When**:
+- Setting up real-time collaboration with Yjs
+- Choosing and configuring a Yjs provider (y-websocket, y-webrtc, Hocuspocus, Liveblocks, PartyKit)
+- Displaying user presence, remote cursors, and text selections
+- Configuring the current user and active collaborators
+- Enabling and using document version history (create, restore, compare, export, import snapshots)
+- Handling version history events like snapshotCreated and snapshotRestored
+
+👉 **[Collaborative Editing](./references/collaborative-editing.md)**
 
 ---
 
