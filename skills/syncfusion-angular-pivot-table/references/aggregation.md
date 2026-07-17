@@ -5,6 +5,8 @@
 - [Available Aggregation Types](#available-aggregation-types)
 - [Configuring Aggregation Types](#configuring-aggregation-types)
 - [Base Field Aggregation](#base-field-aggregation)
+- [Parent-Total Aggregations](#parent-total-aggregations)
+- [Running-Totals Aggregations](#running-totals-aggregations)
 - [Runtime Aggregation Changes](#runtime-aggregation-changes)
 - [Customizing Aggregation UI](#customizing-aggregation-ui)
 - [Events](#events)
@@ -38,6 +40,9 @@ Aggregation enables you to perform calculations on groups of values in the pivot
 | **PercentageOfColumnTotal** | Percentage of column sum | % of region total |
 | **PercentageOfRowTotal** | Percentage of row sum | % of category total |
 | **PercentageOfParentTotal** | Percentage of parent group | % of parent revenue |
+| **PercentageOfParentColumnTotal** | Percentage of parent total in each column | % of parent column total |
+| **PercentageOfParentRowTotal** | Percentage of parent total in each row | % of parent row total |
+| **PercentageOfRunningTotals** | Cumulative percentage of running totals (client-side only) | Cumulative % share, Pareto analysis |
 | **PopulationStDev** | Standard deviation (population) | Data variability analysis |
 | **SampleStDev** | Standard deviation (sample) | Sample-based variability |
 | **PopulationVar** | Variance (population) | Population variance |
@@ -141,6 +146,83 @@ values: [
 ```
 
 **Example**: Shows each product's sales as % of its category total.
+
+---
+
+## Parent-Total Aggregations
+
+These aggregations compute a cell's value as a percentage of the **parent** total in either the column or row axis. They are useful for "what share of its parent group does this row/column represent?" analyses.
+
+### PercentageOfParentColumnTotal
+
+Computes each value as a percentage of its parent total **within the column axis**. The result is constrained vertically; children of the same parent always sum to 100% down a column branch.
+
+```typescript
+values: [
+  { name: 'Amount', type: 'PercentageOfParentColumnTotal' }
+]
+```
+
+**Example**: For a `Country → State → City` row hierarchy, every cell in the City level is shown as a percentage of its parent State total for each column.
+
+### PercentageOfParentRowTotal
+
+Computes each value as a percentage of its parent total **within the row axis**. Children of the same parent always sum to 100% across a row branch.
+
+```typescript
+values: [
+  { name: 'Amount', type: 'PercentageOfParentRowTotal' }
+]
+```
+
+**Example**: With a `Year → Quarter` column hierarchy, every cell in the Quarter level is shown as a percentage of its parent Year total for each row.
+
+> Unlike `PercentageOfParentTotal`, the column- and row-scoped variants do not require a `baseField` — the engine automatically uses the immediate parent on the chosen axis.
+
+---
+
+## Running-Totals Aggregations
+
+These aggregations accumulate values across the visible axis.
+
+### RunningTotals
+
+Displays the **cumulative total** of the selected field across rows/columns. Each cell adds the current value to the sum of the cells that came before it on the same axis.
+
+```typescript
+values: [
+  { name: 'Amount', type: 'RunningTotals' }
+]
+```
+
+**Example**: For a months-based column axis, the second month shows `Jan + Feb`, the third shows `Jan + Feb + Mar`, and so on.
+
+### PercentageOfRunningTotals
+
+> **Client-side engine only.** Not supported with the server-side pivot engine.
+
+Displays the **cumulative percentage of running totals** for the selected field. Instead of a running raw sum, each cell shows that cell's running total as a percentage of the **grand total** of the measure.
+
+```typescript
+values: [
+  { name: 'Amount', type: 'PercentageOfRunningTotals' }
+]
+```
+
+> **Default format:** `PercentageOfRunningTotals` always renders as `P2` (percentage with 2 decimal places) by default, just like the other advanced percentage aggregations (`PercentageOfGrandTotal`, `PercentageOfColumnTotal`, `PercentageOfRowTotal`, `PercentageOfParentTotal`, `PercentageOfParentColumnTotal`, `PercentageOfParentRowTotal`). The `P2` format is **not** affected by `formatSettings` — entries in `formatSettings` are ignored for this aggregation type. You do **not** need to set it explicitly in `formatSettings`.
+
+**Example**: With quarters Q1, Q2, Q3, Q4 having values 100, 200, 300, 400 (grand total = 1000):
+
+| Quarter | Raw | RunningTotals | PercentageOfRunningTotals (P2) |
+|---|---|---|---|
+| Q1 | 100 | 100 | 10.00% (0.10) |
+| Q2 | 200 | 300 | 30.00% (0.30) |
+| Q3 | 300 | 600 | 60.00% (0.60) |
+| Q4 | 400 | 1000 | 100.00% (1.00) |
+
+The third column is shown as a percentage with two decimal places because of the built-in `P2` format. Internally the engine stores the raw ratio (e.g. `0.10`, `0.30`, `0.60`, `1.00`); the `P2` format is what renders it on screen as `10.00%`, `30.00%`, `60.00%`, `100.00%`. Any `format` you set in `formatSettings` for this field will be ignored — `P2` is fixed.
+
+This is essentially a **Pareto/cumulative-share** aggregation — perfect for answering "what % of the total have we covered by this point?" without computing the cumulative share manually.
 
 ---
 
@@ -387,3 +469,12 @@ values: [
 
 **Issue**: Aggregation dropdown not showing
 - **Solution**: Check if `showValueTypeIcon: false` is set in groupingBarSettings. Re-enable to see dropdown.
+
+**Issue**: `PercentageOfRunningTotals` not working in server mode
+- **Solution**: `PercentageOfRunningTotals` is **client-side engine only**. Switch the PivotView to client-side processing (`mode: 'Client'` or by removing the server `url`) or fall back to a calculated field that mirrors the cumulative share.
+
+**Issue**: `formatSettings` for a `PercentageOfRunningTotals` field is not being applied
+- **Solution**: This is expected. `PercentageOfRunningTotals` always renders with the built-in `P2` format (percentage with 2 decimal places) — the same behavior as the other advanced percentage aggregations. Any `format` you set in `formatSettings` for that field is ignored, and the value will always display as `P2`.
+
+**Issue**: `PercentageOfParentColumnTotal` / `PercentageOfParentRowTotal` values don't sum to 100% within a parent
+- **Solution**: Make sure the relevant axis (rows for `ParentRowTotal`, columns for `ParentColumnTotal`) actually has a multi-level hierarchy. With a single-level axis, every cell is its own parent and the percentage will always be 100%.

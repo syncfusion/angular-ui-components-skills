@@ -265,8 +265,6 @@ Style and customize the editor appearance.
 
 ```bash
 npm install @syncfusion/ej2-angular-blockeditor
-npm install @syncfusion/ej2-angular-buttons
-npm install @syncfusion/ej2-base
 ```
 
 ### 2. Create Component
@@ -286,17 +284,16 @@ export class EditorComponent {}
 
 ### 3. Import CSS
 
+Install the theme package that matches your application. This example uses `Material 3`:
+
+```bash
+npm install @syncfusion/ej2-material3-theme
+```
+
+Add the following stylesheet in `src/styles.css`.
+
 ```css
-
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-blockeditor/styles/material3.css';
-
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/blockeditor/index.css';
 ```
 
 ### 4. Add to Module/Bootstrap

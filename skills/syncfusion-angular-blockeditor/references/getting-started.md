@@ -73,22 +73,21 @@ The latest Syncfusion packages use Ivy distribution and are compatible with Angu
 npm install @syncfusion/ej2-angular-blockeditor --save
 ```
 
-## Adding CSS Reference
+## CSS Theme Imports
 
-Import the required CSS files in your `src/styles.css`:
+Install the theme package that matches your application. This example uses `Material 3`:
 
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-blockeditor/styles/material3.css';
+```bash
+npm install @syncfusion/ej2-material3-theme
 ```
 
-You can also use alternative themes like `tailwind3.css` or `bootstrap5.css` depending on your preference.
+Add the following stylesheet in `src/styles.css`.
+
+```css
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/blockeditor/index.css';
+```
+
+Replace `material3` with your preferred theme name (`tailwind3`, `bootstrap5`, `fabric`, `fluent2`, etc) install the corresponding package, and use the same theme name in the CSS import path.
 
 ## Creating Your First Editor
 

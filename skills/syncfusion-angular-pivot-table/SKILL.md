@@ -65,21 +65,23 @@ Use this skill when users need to:
 
 ### Getting Started
 📄 **Read:** [references/getting-started.md](references/getting-started.md)
-- Installation and package setup
+- Installation and package setup (Angular 21 standalone architecture)
 - Basic Angular Pivot Grid implementation
+- **Theme packages** — use the consolidated `@syncfusion/ej2-{theme}-theme` packages (e.g. `ej2-material3-theme`) with a single `styles/pivotview/index.css` import
 - CSS imports and theme configuration
-- RTL (Right-to-Left) support
-- Component initialization
+- Component initialization (`PivotViewModule`, `bootstrapApplication`)
 
 ### Aggregation
 📄 **Read:** [references/aggregation.md](references/aggregation.md)
 - Aggregation functions: Sum, Avg, Count, Min, Max, Product, Median, DistinctCount
 - Advanced aggregations: DifferenceFrom, PercentageOfDifferenceFrom, PercentageOfParentTotal
+- Parent-total aggregations: `PercentageOfParentColumnTotal`, `PercentageOfParentRowTotal` (axis-scoped % of parent)
+- Running-totals aggregations: `RunningTotals` and **`PercentageOfRunningTotals`** (cumulative % of grand total; client-side only)
 - Base field configuration with baseField and baseItem properties
 - Multiple aggregations on same field
 - Customizing aggregation dropdown and UI
 - Runtime aggregation type changes
-- Events: aggregateCellInfo, actionBegin, actionComplete
+- Events: aggregateCellInfo, actionBegin, actionComplete, actionFailure
 
 ### Grouping
 📄 **Read:** [references/grouping.md](references/grouping.md)
@@ -117,9 +119,14 @@ Use this skill when users need to:
 
 ### Filtering & Sorting
 📄 **Read:** [references/filtering-and-sorting.md](references/filtering-and-sorting.md)
-- Member filtering: Include or exclude specific field members
-- Label filtering: Filter based on header text or member names
-- Value filtering: Filter based on aggregated values meeting conditions
+- **Member filtering**: Include or exclude specific field members (Include/Exclude, with `levelCount` for OLAP)
+- **Append current selection to filter**: Accumulate selections in the Member Editor instead of replacing them
+- **Member editor UX**: Select/unselect all, search members, sort members in the editor
+- **Limit members displayed**: Tune `maxNodeLimitInMemberEditor` for large hierarchies
+- **OLAP member loading**: On-demand loading via `loadOnDemandInMemberEditor` and `levelCount`
+- **Label filtering**: Filter header text by string (Equals, Contains, BeginWith, Between, ...), number, or date
+- **Value filtering**: Filter by aggregated values with operators (Equals, GreaterThan, Between, ...) and **Top/Bottom N** members
+- **Filtering events**: `memberFiltering`, `memberEditorOpen`, `actionBegin`/`actionComplete`/`actionFailure`
 - Member sorting: Arrange field members in ascending/descending order
 - Custom member sorting: Sort field members in user-defined order using `membersOrder`
 - Value sorting: Sort pivot table values and aggregated data with `enableValueSorting`
@@ -417,7 +424,7 @@ groupSettings: [
 | `columns` | Array | `dataSourceSettings` | Fields organized horizontally for grouping data |
 | `values` | Array | `dataSourceSettings` | Fields to aggregate with `type` (Sum, Avg, Count, CalculatedField, etc.) |
 | `filters` | Array | `dataSourceSettings` | Fields used to filter data across both axes |
-| `type` | String | `values` field | Aggregation type: Sum, Avg, Count, Min, Max, Product, DistinctCount, Median, RunningTotals, DifferenceFrom, PercentageOfDifferenceFrom, PercentageOfGrandTotal, PercentageOfColumnTotal, PercentageOfRowTotal, PercentageOfParentTotal, PopulationStDev, SampleStDev, PopulationVar, SampleVar, Index, CalculatedField |
+| `type` | String | `values` field | Aggregation type: Sum, Avg, Count, Min, Max, Product, DistinctCount, Median, RunningTotals, **PercentageOfRunningTotals** (client-side only), DifferenceFrom, PercentageOfDifferenceFrom, PercentageOfGrandTotal, PercentageOfColumnTotal, PercentageOfRowTotal, PercentageOfParentTotal, **PercentageOfParentColumnTotal**, **PercentageOfParentRowTotal**, PopulationStDev, SampleStDev, PopulationVar, SampleVar, Index, CalculatedField |
 | `baseField` | String | `values` field | Field reference for DifferenceFrom/Percentage-based comparisons (base field aggregation) |
 | `baseItem` | String | `values` field | Specific member for base field comparisons |
 | `allowCalculatedField` | Boolean | Component | Enable calculated field feature (requires CalculatedFieldService provider) |
@@ -431,6 +438,13 @@ groupSettings: [
 | `showAggregationOnValueField` | Boolean | `dataSourceSettings` | Display aggregation type in grouping bar button text (e.g., "Sum of Amount" vs "Amount") |
 | `sortSettings` | Array | `dataSourceSettings` | Configure field sorting with `order`, `membersOrder`, `name` properties |
 | `enableValueSorting` | Boolean | Component | Enable sorting by aggregated values |
+| `allowMemberFilter` | Boolean | `dataSourceSettings` | Enable/disable member filter UI (default `true`) |
+| `allowLabelFilter` | Boolean | `dataSourceSettings` | Enable label filter UI for header text/number/date filtering |
+| `allowValueFilter` | Boolean | `dataSourceSettings` | Enable value filter UI for aggregate-based filtering |
+| `filterSettings` | Array | `dataSourceSettings` | Programmatic filter criteria with `name`, `type` (Include/Exclude/Label/Number/Date/Value), `condition`, `value1`, `value2`, `measure`, `items`, `levelCount`, `selectedField` |
+| `condition` (Top/Bottom) | String | `filterSettings` (`type: 'Value'`) | Top/Bottom N members by aggregated value of the chosen `measure` (client-side only) |
+| `maxNodeLimitInMemberEditor` | Number | Component | Max members shown in the Member Editor before showing a "more items" message (default `1000`) |
+| `loadOnDemandInMemberEditor` | Boolean | Component | OLAP-only: load only the first hierarchy level until expansion/level-select (default `true`) |
 
 **Important**: When adding calculated fields to values, use `type: 'CalculatedField'` to distinguish them from regular aggregations. Format settings must be applied in a separate `formatSettings` array, not within the value field object.
 
