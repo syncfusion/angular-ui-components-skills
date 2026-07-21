@@ -281,20 +281,16 @@ The Syncfusion components support multiple built-in themes. Change the CSS impor
 
 ```css
 /* Material 3 (Default) */
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/ai-assistview/index.css";
 
 /* Or Bootstrap 5 */
-@import "../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css";
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/bootstrap5.css';
+@import "../node_modules/@syncfusion/ej2-bootstrap5-theme/styles/ai-assistview/index.css";
 
 /* Or Fabric */
-@import "../node_modules/@syncfusion/ej2-base/styles/fabric.css";
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/fabric.css';
+@import "../node_modules/@syncfusion/ej2-fabric-theme/styles/ai-assistview/index.css";
 
 /* Or Tailwind */
-@import "../node_modules/@syncfusion/ej2-base/styles/tailwind.css";
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/tailwind.css';
+@import "../node_modules/@syncfusion/ej2-tailwind3-theme/styles/ai-assistview/index.css";
 ```
 
 ### Combining Custom Styles with Themes

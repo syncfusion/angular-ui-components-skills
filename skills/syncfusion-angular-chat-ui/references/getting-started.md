@@ -164,16 +164,16 @@ export class AppComponent {
 
 ### Add CSS to Global Styles
 
+To install the tailwind3 theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme --save
+```
+
 Import Syncfusion CSS files in `src/styles.css`:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-interactive-chat/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/chat-ui/index.css";
 ```
 
 ### Available Themes
@@ -187,13 +187,7 @@ Syncfusion supports multiple themes. Replace `material3.css` with:
 
 **Example for Bootstrap theme:**
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/bootstrap.css";
-@import '../node_modules/@syncfusion/ej2-inputs/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-angular-interactive-chat/styles/bootstrap.css';
+@import "../node_modules/@syncfusion/ej2-bootstrap-theme/styles/chat-ui/index.css";
 ```
 
 ### Component-Scoped Styles

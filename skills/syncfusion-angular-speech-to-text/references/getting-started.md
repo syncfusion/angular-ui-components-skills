@@ -40,13 +40,16 @@ cd my-app
 
 ## CSS Theme Import
 
-The SpeechToText component depends on several Syncfusion packages. Add CSS imports to `style.css` to apply the theme:
+To install the material3 theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme --save
+```
+
+Add CSS imports to `style.css` to apply the theme:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/speech-to-text/index.css";
 ```
 
 **Available Themes:**
@@ -173,10 +176,7 @@ export class AppComponent {
 **style.css:**
 
 ```css
-@import 'node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import 'node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import 'node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import 'node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css';
+@import "../node_modules/@syncfusion/ej2-tailwind3-theme/styles/speech-to-text/index.css";
 
 .speechText-container {
     margin: 50px auto;

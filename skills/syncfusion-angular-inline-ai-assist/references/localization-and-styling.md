@@ -321,8 +321,7 @@ export class AppComponent {
 ### Material Theme
 
 ```typescript
-import '@syncfusion/ej2-base/styles/material.css';
-import '@syncfusion/ej2-interactive-chat/styles/material.css';
+import "@syncfusion/ej2-material3-theme/styles/inline-ai-assist/index.css";
 
 // Component automatically uses Material design
 ```
@@ -330,15 +329,13 @@ import '@syncfusion/ej2-interactive-chat/styles/material.css';
 ### Fluent Theme
 
 ```typescript
-import '@syncfusion/ej2-base/styles/fluent.css';
-import '@syncfusion/ej2-interactive-chat/styles/fluent.css';
+import "@syncfusion/ej2-fluent-theme/styles/inline-ai-assist/index.css";
 ```
 
 ### Bootstrap Theme
 
 ```typescript
-import '@syncfusion/ej2-base/styles/bootstrap.css';
-import '@syncfusion/ej2-interactive-chat/styles/bootstrap.css';
+import "@syncfusion/ej2-bootstrap-theme/styles/inline-ai-assist/index.css";
 ```
 
 ## Dark Mode

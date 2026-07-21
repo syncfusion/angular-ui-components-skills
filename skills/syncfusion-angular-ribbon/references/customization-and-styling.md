@@ -156,7 +156,7 @@ export class AppComponent {
     const link = document.createElement('link');
     link.id = 'theme-link';
     link.rel = 'stylesheet';
-    link.href = `../node_modules/@syncfusion/ej2-base/styles/${theme}.css`;
+    link.href = `../node_modules/@syncfusion/ej2-${theme}-theme/styles/ribbon/index.css`;
     head.appendChild(link);
     
     console.log(`Theme switched to: ${theme}`);

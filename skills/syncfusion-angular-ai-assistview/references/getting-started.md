@@ -39,14 +39,16 @@ npm install @syncfusion/ej2-angular-interactive-chat --save
 
 ## CSS Configuration
 
+To install the material3 theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme --save
+```
+
 Add required CSS imports to your `src/styles.css` file:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-notifications/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/ai-assistview/index.css";
 ```
 
 These imports include all themes and styling required for the component to render correctly. You can replace `material3` with other available themes like `material`, `bootstrap5`, `fabric`, or `tailwind`.

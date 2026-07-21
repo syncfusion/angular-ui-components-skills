@@ -76,31 +76,33 @@ Update your `package.json` to include the ngcc suffix:
 ```
 ## CSS Theme Imports
 
-### Add Styles to Your Application
+### Install the Theme Package
 
-Import the File Manager and dependent component styles in your `src/styles.css` file:
+To install the [Material3](https://www.npmjs.com/package/@syncfusion/ej2-material3-theme) theme package, use the following command:
+
+```bash
+npm i @syncfusion/ej2-material3-theme
+```
+
+In this package, the File Manager component includes an `index.css` file that automatically loads all the required dependency styles. Add the following import to the **src/styles.css** file.
 
 ```css
-@import 'node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-layouts/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-grids/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-filemanager/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/file-manager/index.css";
 ```
+
+> Ensure that the import order aligns with the component's dependency sequence.
+
+For using SCSS styles, refer to [this guide](https://ej2.syncfusion.com/angular/documentation/common/how-to/sass).
 
 ### Available Themes
 
 Syncfusion provides multiple themes:
-- `material3.css` - Material Design 3 (recommended)
-- `material.css` - Material Design
-- `bootstrap5.css` - Bootstrap 5
-- `bootstrap4.css` - Bootstrap 4
-- `tailwind.css` - Tailwind CSS
-- `fluent.css` - Microsoft Fluent Design
+- `ej2-material3-theme` - Material Design 3 (recommended)
+- `ej2-material-theme` - Material Design
+- `ej2-bootstrap5-theme` - Bootstrap 5
+- `ej2-bootstrap4-theme` - Bootstrap 4
+- `ej2-tailwind-theme` - Tailwind CSS
+- `ej2-fluent-theme` - Microsoft Fluent Design
 
 ### Alternative: CRG (Custom Resource Generator)
 

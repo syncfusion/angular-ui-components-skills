@@ -56,19 +56,16 @@ This is the modern package format and is compatible with Angular's latest render
 
 ## CSS Theme Setup
 
+To install the material3 theme package, use the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme --save
+```
+
 Import the required CSS themes in your `styles.css` file:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css'; 
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';  
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';    
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import "../node_modules/@syncfusion/ej2-ribbon/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-angular-ribbon/styles/material3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/ribbon/index.css";
 ```
 
 **Available themes:**

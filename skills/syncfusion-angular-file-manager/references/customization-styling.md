@@ -87,26 +87,36 @@ export class AppComponent {
 
 ### Available Themes
 
-Import different theme CSS files:
+Install the theme package of your choice and import the corresponding `file-manager/index.css` file in your `src/styles.css`:
 
-```typescript
-// In styles.css or component
+```bash
+# Material Design 3 (Recommended)
+npm i @syncfusion/ej2-material3-theme
 
-// Material Design 3 (Recommended)
-@import 'node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-filemanager/styles/material3.css';
+# Material Design
+npm i @syncfusion/ej2-material-theme
 
-// Material Design
-@import 'node_modules/@syncfusion/ej2-base/styles/material.css';
-@import 'node_modules/@syncfusion/ej2-angular-filemanager/styles/material.css';
+# Bootstrap 5
+npm i @syncfusion/ej2-bootstrap5-theme
 
-// Bootstrap 5
-@import 'node_modules/@syncfusion/ej2-base/styles/bootstrap5.css';
-@import 'node_modules/@syncfusion/ej2-angular-filemanager/styles/bootstrap5.css';
+# Tailwind CSS
+npm i @syncfusion/ej2-tailwind-theme
+```
 
-// Tailwind CSS
-@import 'node_modules/@syncfusion/ej2-base/styles/tailwind.css';
-@import 'node_modules/@syncfusion/ej2-angular-filemanager/styles/tailwind.css';
+```css
+/* In src/styles.css */
+
+/* Material Design 3 (Recommended) */
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/file-manager/index.css";
+
+/* Material Design */
+@import "../node_modules/@syncfusion/ej2-material-theme/styles/file-manager/index.css";
+
+/* Bootstrap 5 */
+@import "../node_modules/@syncfusion/ej2-bootstrap5-theme/styles/file-manager/index.css";
+
+/* Tailwind CSS */
+@import "../node_modules/@syncfusion/ej2-tailwind-theme/styles/file-manager/index.css";
 ```
 
 ### Switch Themes at Runtime
