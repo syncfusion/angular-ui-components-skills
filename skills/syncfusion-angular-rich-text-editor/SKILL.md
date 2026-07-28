@@ -38,6 +38,13 @@ The `<ejs-richtexteditor>` component from `@syncfusion/ej2-angular-richtextedito
 
 ## Quick Start
 
+```bash
+npm install @syncfusion/ej2-angular-richtexteditor
+```
+```bash
+npm install @syncfusion/ej2-material3-theme
+```
+
 ```typescript
 import { Component } from '@angular/core';
 import { RichTextEditorModule } from '@syncfusion/ej2-angular-richtexteditor';
@@ -60,14 +67,7 @@ export class AppComponent {
 
 **CSS (styles.css):**
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-richtexteditor/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/rich-text-editor/index.css';
 ```
 
 ## Documentation and Navigation Guide

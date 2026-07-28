@@ -13,10 +13,10 @@
 ```typescript
 // Save complete diagram
 const diagramData = diagram.saveDiagram();
-console.log(JSON.stringify(diagramData));
+console.log(diagramData);
 
 // Save to file
-const blob = new Blob([JSON.stringify(diagramData)], { type: 'application/json' });
+const blob = new Blob([diagramData], { type: 'application/json' });
 const url = URL.createObjectURL(blob);
 const link = document.createElement('a');
 link.href = url;
@@ -28,7 +28,6 @@ link.click();
 
 ```typescript
 // Load from variable
-const diagramData = JSON.parse(jsonString);
 diagram.loadDiagram(diagramData);
 
 // Load from file
@@ -84,7 +83,78 @@ const data = {
 };
 ```
 
+## Mermaid Syntax Support
+
+The Diagram component supports importing and exporting diagrams using Mermaid syntax for flowcharts, mind maps, and UML sequence diagrams.
+
+### Save as Mermaid Syntax
+
+```typescript
+// Export diagram to Mermaid format
+const mermaidData = this.diagram.saveDiagramAsMermaid();
+console.log(mermaidData);
+```
+
+### Load from Mermaid Syntax (Flowchart)
+
+```typescript
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { DiagramComponent, DiagramModule } from '@syncfusion/ej2-angular-diagrams';
+import { Diagram, FlowchartLayout } from '@syncfusion/ej2-diagrams';
+
+Diagram.Inject(FlowchartLayout);
+
+@Component({
+  imports: [DiagramModule],
+  providers: [],
+  standalone: true,
+  selector: "app-container",
+  template: `
+  <button (click)="loadMermaidFlowchart()">Load Mermaid Flowchart</button>
+  <ejs-diagram #diagram id="diagram" width="100%" height="600px" [layout]="layout"> </ejs-diagram>`,
+  encapsulation: ViewEncapsulation.None
+})
+
+export class AppComponent {
+  @ViewChild("diagram")
+  public diagram!: DiagramComponent;
+
+  layout = { type: 'Flowchart' };
+  public loadMermaidFlowchart() {
+    const mermaidFlowchartData = `flowchart TD
+        A[Start] --> B(Process)
+        B -.- C{Decision}
+        C --Yes--> D[Plan 1]
+        C ==>|No| E[Plan 2]
+        style A fill:#90EE90,stroke:#333,stroke-width:2px;
+        style B fill:#4682B4,stroke:#333,stroke-width:2px;
+        style C fill:#FFD700,stroke:#333,stroke-width:2px;
+        style D fill:#FF6347,stroke:#333,stroke-width:2px;
+        style E fill:#FF6347,stroke:#333,stroke-width:2px;`;
+
+    this.diagram.loadDiagramFromMermaid(mermaidFlowchartData);
+  }
+}
+```
+
+**Supported Mermaid Diagram Types:**
+- Flowcharts with Flowchart layout
+- Mind maps with MindMap layout
+- UML sequence diagrams
+
 ---
+
+## Detect Unsaved Changes
+
+The `isModified` property returns `true` whenever the diagram has unsaved changes — node/connector edits, property updates, or undo/redo actions. Use it to show save indicators or warn before discarding changes.
+
+```typescript
+// Check for unsaved changes
+if (this.diagram.isModified) {
+  const confirmed = confirm('You have unsaved changes. Discard them?');
+  if (!confirmed) return;
+}
+```
 
 ## Image Export
 

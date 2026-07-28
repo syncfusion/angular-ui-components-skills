@@ -40,28 +40,6 @@ The AI Assistant is accessed through two main toolbar items:
 
 ---
 
-## Setup and Styles
-
-The Rich Text Editor **AI Assistant** requires additional style references beyond the standard RTE styles to render correctly. The **Interactive Chat** and **Notifications** styles are necessary for proper rendering of the AI AssistView.
-
-Add the following style imports to **src/styles.css**:
-
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-richtexteditor/styles/tailwind3.css';
-/* AI Assistant — required */
-@import '../node_modules/@syncfusion/ej2-interactive-chat/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-notifications/styles/tailwind3.css';
-```
-
----
-
 ## Basic Integration
 
 ```typescript

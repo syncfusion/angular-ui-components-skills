@@ -1,6 +1,6 @@
 ---
 name: syncfusion-angular-diagram
-description: "Build and configure Syncfusion EJ2 Angular Diagram for flowcharts, org charts, process diagrams, and data-visualization. Trigger when users ask to create nodes/connectors, apply layouts, swimlane, use BPMN/UML shapes, or add interactivity like drag-drop, zoom/pan, snapping, editing, and symbol palettes."
+description: "Build and configure Syncfusion EJ2 Angular Diagram for flowcharts, org charts, process diagrams, and data-visualization. Trigger when users ask to create nodes/connectors, apply layouts, swimlane, use BPMN/UML shapes, ER diagrams, or add interactivity like drag-drop, zoom/pan, snapping, editing, and symbol palettes."
 metadata:
   author: "Syncfusion Inc"
   version: "34.1.29"
@@ -112,6 +112,15 @@ Start with **Getting Started**, then jump to the specific feature you need:
 - Gradient and pattern fills
 
 ### Advanced Diagrams
+📄 **Read:** [references/entity-relationship-diagrams.md](references/entity-relationship-diagrams.md)
+- Entity Relationship Diagram design and database schema visualization
+- ER entity nodes with ErShapeModel configuration
+- Entity header, fields, and constraints (primary key, foreign key, unique, not null)
+- Field management at runtime (add, remove, modify)
+- Entity styling and alternate row colors
+- ER relationships and connectors with Crow's Foot multiplicity notation
+- Complete database schema examples (Customer-Order-Product)
+
 📄 **Read:** [references/bpmn-diagrams.md](references/bpmn-diagrams.md)
 - BPMN module injection and setup
 - BPMN shapes overview and standard notation
@@ -128,9 +137,12 @@ Start with **Getting Started**, then jump to the specific feature you need:
 - Classifier shapes (class, interface, enumeration, package, component)
 - Class attributes, methods, visibility modifiers
 - UML relationships (association, generalization, aggregation, composition)
-- UML sequence diagrams
-- Lifelines, actors, messages (sync, async, return)
-- Interaction frames and combined fragments
+- UML sequence diagrams with participants, messages, and activation boxes
+- Sequence participants with 6 stereotypes (Actor, Boundary, Control, Entity, Database, Default)
+- Sequence messages with 6 types (Synchronous, Asynchronous, Reply, Create, Delete, Self)
+- Activation boxes and destruction markers
+- Destruction markers for participant termination
+- Complete login flow and interaction sequence examples
 
 ### Layout & Structure
 📄 **Read:** [references/layouts.md](references/layouts.md)
@@ -188,6 +200,8 @@ Start with **Getting Started**, then jump to the specific feature you need:
 ### Serialization & Export
 📄 **Read:** [references/serialization-and-export.md](references/serialization-and-export.md)
 - saveDiagram and loadDiagram (JSON serialization)
+- Mermaid syntax support (saveDiagramAsMermaid, loadDiagramFromMermaid)
+- Detect unsaved changes with isModified property
 - Export to image formats (PNG, SVG, PDF)
 - Print diagram functionality
 - Visio file import (.vsdx)

@@ -77,35 +77,19 @@ import {
 
 ## CSS Theme Imports
 
-Add to `src/styles.css`. Choose one theme set:
+Install the theme package that matches your application. This example uses `Material 3`:
 
-**Material 3 (recommended):**
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-richtexteditor/styles/material3.css';
+```bash
+npm install @syncfusion/ej2-material3-theme
 ```
 
-**Tailwind 3:**
+Add the following stylesheet in `src/styles.css`.
+
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-icons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-richtexteditor/styles/tailwind3.css';
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/rich-text-editor/index.css';
 ```
 
-Other available themes: `bootstrap5`, `bootstrap5.3`, `fluent2`, `highcontrast`.  
-Replace `material3` with your chosen theme name across all imports.
+Replace `material3` with your preferred theme name (`tailwind3`, `bootstrap5`, `fabric`, `fluent2`, etc) install the corresponding package, and use the same theme name in the CSS import path.
 
 ---
 
