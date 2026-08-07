@@ -112,7 +112,7 @@ export class CustomContentComponent {}
 @Component({
   template: `
     <ejs-dialog>
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <div class="custom-footer">
           <button class="e-control e-btn">Button 1</button>
           <button class="e-control e-btn e-primary">Button 2</button>
@@ -589,7 +589,7 @@ export class RtlDialogComponent {
         </div>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <div class="professional-footer">
           <button class="e-control e-btn">Cancel</button>
           <button class="e-control e-btn e-primary">Confirm</button>

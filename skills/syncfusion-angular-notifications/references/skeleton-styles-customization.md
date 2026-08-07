@@ -281,6 +281,8 @@ export class ConditionalSkeletonComponent implements OnInit {
 
 Control the width and height of skeleton elements for precise layout matching.
 
+> **Note:** For `Text` and `Rectangle` skeletons, when `width` is not set, the component applies `width: 100%` as an **inline** style on the host element. Because inline styles override most stylesheet rules, custom CSS widths may not take effect unless the `width` property is explicitly set.
+
 ### Fixed Dimensions
 
 ```typescript

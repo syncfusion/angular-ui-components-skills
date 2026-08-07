@@ -371,7 +371,7 @@ export class ButtonArrayComponent {
 @Component({
   template: `
     <ejs-dialog #dialog>
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn e-primary"
           (click)="onYes()"
@@ -418,7 +418,7 @@ export class TemplateButtonComponent {
         </form>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button (click)="login()">Login</button>
       </ng-template>
     </ejs-dialog>
@@ -511,7 +511,7 @@ export class PreventCloseComponent {
         </form>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button (click)="tryClose()">Close</button>
       </ng-template>
     </ejs-dialog>
@@ -625,7 +625,7 @@ export class ReturnFocusComponent {
         </form>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn"
           [disabled]="currentStep === 1"
@@ -696,7 +696,7 @@ export class MultiStepFormComponent {
         </div>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn e-primary"
           (click)="onAction()"

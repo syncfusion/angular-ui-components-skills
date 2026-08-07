@@ -177,7 +177,7 @@ export class AppComponent {
   width="350px"
   content="Are you sure you want to delete this item?"
 >
-  <ng-template #footer>
+  <ng-template #footerTemplate>
     <button class="e-control e-btn e-primary" (click)="onConfirm()">
       Yes, Delete
     </button>
@@ -200,7 +200,7 @@ export class AppComponent {
     </div>
   </form>
   
-  <ng-template #footer>
+  <ng-template #footerTemplate>
     <button class="e-control e-btn e-primary" (click)="onSubmit()">
       Submit
     </button>

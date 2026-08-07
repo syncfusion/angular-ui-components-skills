@@ -363,7 +363,7 @@ export class DialogService {
         </div>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button class="e-control e-btn e-primary" (click)="onSave()">
           Save
         </button>
@@ -630,7 +630,7 @@ export class RouteDialogComponent {
         <p>This dialog is shown as a modal route.</p>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button class="e-control e-btn" (click)="closeAndNavigate()">
           Done
         </button>
@@ -687,7 +687,7 @@ export class ModalRouteComponent {
         </div>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn"
           [disabled]="isProcessing"

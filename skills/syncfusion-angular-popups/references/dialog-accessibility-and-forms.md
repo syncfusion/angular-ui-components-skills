@@ -202,7 +202,7 @@ Trigger primary action:
         </form>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn e-primary"
           (click)="onSubmit()"
@@ -407,7 +407,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         </form>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button 
           class="e-control e-btn e-primary"
           [disabled]="!form.valid"
@@ -515,7 +515,7 @@ import { DialogComponent } from '@syncfusion/ej2-angular-popups';
           </form>
         </ng-template>
 
-        <ng-template #footer>
+        <ng-template #footerTemplate>
           <button
             class="e-control e-btn e-primary"
             [disabled]="!profileForm.valid"
@@ -649,7 +649,7 @@ export class ReactiveFormDialogComponent {
           </form>
         </ng-template>
 
-        <ng-template #footer>
+        <ng-template #footerTemplate>
           <button
             class="e-control e-btn e-primary"
             [disabled]="!itemForm.valid"
@@ -720,7 +720,7 @@ export class TemplateFormDialogComponent {
         <p id="confirm-desc">This action cannot be undone.</p>
       </ng-template>
 
-      <ng-template #footer>
+      <ng-template #footerTemplate>
         <button class="e-control e-btn" (click)="onCancel()">
           Cancel (Esc)
         </button>

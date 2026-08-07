@@ -135,6 +135,8 @@ The Skeleton component supports and implements WAI-ARIA attributes for proper se
 | `aria-live` | `polite` \| `assertive` | Announces content changes |
 | `aria-busy` | `true` \| `false` | Indicates loading state (true until complete) |
 
+> **Note:** The Skeleton component applies `role="alert"` to its host element. Because `role="alert"` is an **assertive** live region, screen readers will **interrupt** the current announcement to announce the skeleton. This is the default behavior — no configuration is required.
+
 ### Using aria-label
 
 ```typescript

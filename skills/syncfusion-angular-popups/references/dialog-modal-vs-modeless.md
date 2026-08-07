@@ -49,7 +49,7 @@ import { DialogModule, DialogComponent } from '@syncfusion/ej2-angular-popups';
           <span>Confirm Delete</span>
         </ng-template>
 
-        <ng-template #footer>
+        <ng-template #footerTemplate>
           <button 
             class="e-control e-btn e-primary" 
             (click)="onConfirm()"

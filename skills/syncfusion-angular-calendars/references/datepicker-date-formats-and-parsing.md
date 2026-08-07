@@ -12,7 +12,7 @@
 
 ## Overview
 
-DatePicker supports flexible date formatting for display and parsing. By default, format is culture-specific (English shows MM/dd/yyyy, German shows dd.MM.yyyy). You can customize the format using standard date pattern strings.
+DatePicker supports flexible date formatting for display and parsing. By default, format is culture-specific and uses the CLDR **short** date pattern for the active culture (English shows `M/d/yyyy`, German shows `d.M.yyyy`). Note that the culture default is **not** zero-padded for month and day — to render `03/15/2024` or `18.08.2026` you must set `format="MM/dd/yyyy"` or `format="dd.MM.yyyy"` explicitly. You can customize the format using standard date pattern strings.
 
 **Key concept:** Format property controls how dates are DISPLAYED in the input field, while locale controls parsing and day names.
 
@@ -77,17 +77,9 @@ export class DatePickerComponent {}
 
 ## Culture-Specific Default Formats
 
-DatePicker automatically detects the current culture and applies the default format for that culture. If format is not specified:
+DatePicker automatically detects the current culture and applies the **CLDR short date pattern** for that culture when no `format` is set. The CLDR short pattern is **not** zero-padded for month and day in most cultures (notably `en-US` and `de`).
 
-| Culture | Default Format | Example |
-|---------|----------------|---------|
-| en-US | MM/dd/yyyy | 03/15/2024 |
-| en-GB | dd/MM/yyyy | 15/03/2024 |
-| de-DE | dd.MM.yyyy | 15.03.2024 |
-| fr-FR | dd/MM/yyyy | 15/03/2024 |
-| ja-JP | yyyy/MM/dd | 2024/03/15 |
-| zh-CN | yyyy/MM/dd | 2024/03/15 |
-| es-ES | dd/MM/yyyy | 15/03/2024 |
+> **Zero-padding caveat:** Culture defaults render single-digit months and days without a leading zero — `en-US` shows `3/15/2026` (not `03/15/2026`) and `de` shows `18.8.2026` (not `18.08.2026`). If your application requires zero-padded output, set `format` explicitly (e.g. `format="MM/dd/yyyy"` or `format="dd.MM.yyyy"`).
 
 **Important:** Once you set a custom format, it overrides culture-specific defaults for all locales.
 

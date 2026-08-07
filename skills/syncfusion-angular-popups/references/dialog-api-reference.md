@@ -239,7 +239,7 @@ content = '<h3>Welcome</h3><p>This is HTML content</p>';
 **Example:**
 ```typescript
 <ejs-dialog>
-  <ng-template #footer>
+  <ng-template #footerTemplate>
     <div style="padding: 10px;">
       <button (click)="onCustomAction()">Custom Button</button>
     </div>
