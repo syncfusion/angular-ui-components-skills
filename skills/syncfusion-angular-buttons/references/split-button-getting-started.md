@@ -107,20 +107,7 @@ export class AppComponent { }
 
 ```css
 /* app.component.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
-```
-
-### In Global Styles
-
-```css
-/* styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/split-button/index.css";
 ```
 
 ### Available Themes

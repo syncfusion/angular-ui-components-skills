@@ -81,9 +81,7 @@ Check that the package is added to `package.json`:
 Open `src/styles.css` and add the Syncfusion CSS imports:
 
 ```css
-/* Syncfusion CSS Theme - Choose one theme */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-layouts/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/card/index.css";
 ```
 
 **Available Themes:**

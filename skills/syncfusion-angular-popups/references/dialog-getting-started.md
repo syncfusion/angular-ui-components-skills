@@ -193,11 +193,7 @@ Syncfusion Dialog requires theme styles to render correctly. Add the theme CSS t
 **Option 1: Import in styles.css (Recommended)**
 
 ```css
-/* Material theme (default) */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-icons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-popups/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/dialog/index.css";
 ```
 
 **Option 2: Configure in angular.json**

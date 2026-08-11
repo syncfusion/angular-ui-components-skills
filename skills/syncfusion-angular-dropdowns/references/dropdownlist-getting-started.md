@@ -96,13 +96,7 @@ After `ng add`, Material theme is registered automatically. To manually import o
 
 **styles.css** (global stylesheet):
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-dropdowns/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/drop-down-list/index.css";
 ```
 
 > Import order matters — follow the dependency sequence above. Available themes: `material`, `material3`, `bootstrap5`, `fluent`, `tailwind`.

@@ -86,18 +86,7 @@ npm add @syncfusion/ej2-angular-buttons@32.1.19-ngcc
 The Material theme is added automatically by `ng add`. To style only the Button component explicitly:
 
 ```css
-/* styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-```
-
-Import order must follow the component's dependency sequence (`ej2-base` before `ej2-buttons`).
-
-For other themes (Tailwind, Bootstrap, Fabric), replace `material` with the theme name:
-
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/button/index.css";
 ```
 
 ---

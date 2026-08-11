@@ -38,9 +38,7 @@ npm install @syncfusion/ej2-angular-inputs --save
 Add the required CSS imports to `src/styles.css`:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/rating/index.css";
 ```
 
 > Three CSS files are needed: `ej2-base` for core styles, `ej2-angular-inputs` for rating styles, and `ej2-popups` for tooltip styles.

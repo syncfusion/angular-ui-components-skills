@@ -218,31 +218,31 @@ DatePicker requires a theme stylesheet. Choose one based on design needs:
 ### Material Theme (Default)
 
 ```typescript
-import '@syncfusion/ej2-angular-calendars/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material-theme/styles/datepicker/index.css";
 ```
 
 ### Bootstrap Theme
 
 ```typescript
-import '@syncfusion/ej2-angular-calendars/styles/bootstrap.css';
+@import "../node_modules/@syncfusion/ej2-bootstrap-theme/styles/datepicker/index.css";
 ```
 
 ### Tailwind Theme
 
 ```typescript
-import '@syncfusion/ej2-angular-calendars/styles/tailwind.css';
+@import "../node_modules/@syncfusion/ej2-tailwind-theme/styles/datepicker/index.css";
 ```
 
 ### Fluent Theme
 
 ```typescript
-import '@syncfusion/ej2-angular-calendars/styles/fluent.css';
+@import "../node_modules/@syncfusion/ej2-fluent-theme/styles/datepicker/index.css";
 ```
 
 ### Dark Theme
 
 ```typescript
-import '@syncfusion/ej2-angular-calendars/styles/material-dark.css';
+@import "../node_modules/@syncfusion/ej2-material-dark-theme/styles/datepicker/index.css";
 ```
 
 **Placement:** Import in `main.ts` or component's `styles`:

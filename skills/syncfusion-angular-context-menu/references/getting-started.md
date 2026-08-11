@@ -34,6 +34,10 @@ Install the package using npm:
 npm install @syncfusion/ej2-angular-navigations
 ```
 
+```css
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/context-menu/index.css";
+```
+
 ## Angular Environment Setup
 
 ### Prerequisites

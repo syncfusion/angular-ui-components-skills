@@ -59,8 +59,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 
 // Import Syncfusion ComboBox CSS
-import '@syncfusion/ej2-base/styles/bootstrap5.css';
-import '@syncfusion/ej2-dropdowns/styles/bootstrap5.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/combo-box/index.css";
 
 bootstrapApplication(AppComponent).catch(err => console.error(err));
 ```

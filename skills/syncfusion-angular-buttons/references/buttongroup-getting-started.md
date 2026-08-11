@@ -78,15 +78,7 @@ bootstrapApplication(AppComponent).catch((err) => console.error(err));
 Add the following imports to `src/styles.css`. The order matters — it follows the component dependency chain:
 
 ```css
-@import 'node_modules/@syncfusion/ej2-base/styles/material.css';
-@import 'node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import 'node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-```
-
-When nesting DropDownButton or SplitButton, also add:
-```css
-@import 'node_modules/@syncfusion/ej2-angular-popups/styles/material.css';
-@import 'node_modules/@syncfusion/ej2-angular-splitbuttons/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/button-group/index.css";
 ```
 
 > The Material theme is added automatically when using `ng add`. You can also use CDN, CRG, SCSS, or Theme Studio.

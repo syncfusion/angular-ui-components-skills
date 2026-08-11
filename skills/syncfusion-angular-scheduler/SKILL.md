@@ -48,7 +48,7 @@ Read this reference when you need to:
 - Install and set up the Angular Scheduler package
 - Configure module registration and view services (Day, Week, Month, Agenda, Timeline)
 - Create your first scheduler with basic configuration
-- Add CSS theme imports
+- Theme package installation and CSS import via npm theme packages
 - Understand component initialization
 
 ### Views and Display Configuration

@@ -144,10 +144,7 @@ npm install @syncfusion/ej2-angular-lists@ngcc --save
 
 ```css
 /* Import base theme */
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-
-/* Import ListView theme */
-@import "../node_modules/@syncfusion/ej2-angular-lists/styles/material3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/list-view/index.css";
 ```
 
 **Available theme options:**

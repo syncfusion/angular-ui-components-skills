@@ -66,20 +66,18 @@ Or specify in `package.json`:
 
 **Note**: If the `ngcc` tag is not specified, the Ivy package will be installed by default.
 
-## CSS Theme Configuration
+## ## Add Theme Styles
 
-Add CSS imports to your `src/styles.css` file. The Scheduler requires styles from multiple dependent packages:
+Install the **Material 3** theme package using the following command:
+
+```bash
+npm install @syncfusion/ej2-material3-theme
+```
+
+The installed theme package includes an `index.css` file that automatically imports all the required dependency styles. Import the following stylesheet into `src/styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/schedule/index.css';
 ```
 
 **Available Themes:**

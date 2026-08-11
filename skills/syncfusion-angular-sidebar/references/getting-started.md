@@ -81,15 +81,7 @@ Or specify in `package.json`:
 Import Sidebar and dependency styles in `src/styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-navigations/styles/material3.css';
-```
-
-Alternative import path (based on your CSS file location):
-
-```css
-@import 'node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-navigations/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/sidebar/index.css";
 ```
 
 **Theme Options:** The example uses Material3 theme. Other available themes:

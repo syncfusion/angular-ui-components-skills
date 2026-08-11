@@ -62,9 +62,7 @@ npm install @syncfusion/ej2-angular-buttons --save
 After `ng add`, Syncfusion's Material theme is registered automatically. To style only the FAB component, import the following in `styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-icons/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/floating-action-button/index.css";
 ```
 
 > Import order matters — base styles must come before component styles.

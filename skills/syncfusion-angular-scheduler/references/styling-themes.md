@@ -14,20 +14,11 @@ Customize the Scheduler appearance using built-in themes, CSS customization, and
 
 ## Built-in Themes
 
-Syncfusion Scheduler supports multiple built-in themes. Import the desired theme CSS in your application:
+Syncfusion Scheduler supports multiple built-in themes. Install and import the desired theme CSS in your application:
 
 ```typescript
 // In angular.json or styles.scss
-@import '@syncfusion/ej2-base/styles/material.css';
-@import '@syncfusion/ej2-buttons/styles/material.css';
-@import '@syncfusion/ej2-calendars/styles/material.css';
-@import '@syncfusion/ej2-dropdowns/styles/material.css';
-@import '@syncfusion/ej2-inputs/styles/material.css';
-@import '@syncfusion/ej2-lists/styles/material.css';
-@import '@syncfusion/ej2-navigations/styles/material.css';
-@import '@syncfusion/ej2-popups/styles/material.css';
-@import '@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '@syncfusion/ej2-angular-schedule/styles/material.css';
+@import '@syncfusion/ej2-material3-theme/styles/schedule/index.css';
 ```
 
 **Available Themes**:

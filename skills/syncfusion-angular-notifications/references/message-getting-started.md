@@ -45,8 +45,7 @@ After `ng add`, the Material3 theme is registered automatically. To style only t
 
 ```css
 /* styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-notifications/styles/message/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/message/index.css";
 ```
 
 > Import order matters — `ej2-base` must come before the component styles.

@@ -27,8 +27,7 @@ ng serve
 Add the following imports to `src/styles.css`:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-notifications/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/badge/index.css";
 ```
 
 The styles in `src/styles.css` are included automatically by Angular.

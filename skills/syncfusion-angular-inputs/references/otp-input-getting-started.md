@@ -44,8 +44,7 @@ npm install @syncfusion/ej2-angular-inputs
 Add the following to `styles.css` (or `styles.scss`):
 
 ```css
-@import '@syncfusion/ej2-base/styles/material3.css';
-@import '@syncfusion/ej2-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/otp-input/index.css";
 ```
 
 Other available themes: `bootstrap5`, `tailwind`, `fluent2`, `highcontrast`. Import order matters — base styles before component styles.

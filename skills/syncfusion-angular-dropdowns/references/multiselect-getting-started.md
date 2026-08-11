@@ -58,13 +58,7 @@ Import Syncfusion styles in order of dependency. Add to your global `styles.css`
 
 ```css
 /* styles.css */
-@import '@syncfusion/ej2-base/styles/material3.css';
-@import '@syncfusion/ej2-buttons/styles/material3.css';
-@import '@syncfusion/ej2-inputs/styles/material3.css';
-@import '@syncfusion/ej2-lists/styles/material3.css';
-@import '@syncfusion/ej2-popups/styles/material3.css';
-@import '@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '@syncfusion/ej2-angular-dropdowns/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/multi-select/index.css";
 ```
 
 **Available themes:** `material3`, `material`, `bootstrap5`, `tailwind`, `fluent2`, `fabric`

@@ -31,8 +31,7 @@ npm install @syncfusion/ej2-angular-inputs --save
 Add CSS imports in `src/styles.css`:
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/maskedtextbox/index.css";
 ```
 
 ## Basic Implementation

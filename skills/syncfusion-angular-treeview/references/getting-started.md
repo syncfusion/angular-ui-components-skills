@@ -61,11 +61,7 @@ export class AppModule { }
 Add Syncfusion theme CSS to your `styles.css` or Angular component. The recommended approach is to import in `styles.css`:
 
 ```css
-/* Material3 theme (latest, recommended) */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/treeview/index.css";
 ```
 
 **All Available Themes:**

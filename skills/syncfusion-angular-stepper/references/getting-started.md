@@ -158,12 +158,7 @@ Add to your `styles.css`:
 
 ```css
 /* Material Theme (Default) */
-@import '@syncfusion/ej2-angular-navigations/styles/material.css';
-
-/* Alternative Themes */
-/* @import '@syncfusion/ej2-angular-navigations/styles/bootstrap.css'; */
-/* @import '@syncfusion/ej2-angular-navigations/styles/fluent.css'; */
-/* @import '@syncfusion/ej2-angular-navigations/styles/tailwind.css'; */
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/stepper/index.css";
 ```
 
 ### Theme Options

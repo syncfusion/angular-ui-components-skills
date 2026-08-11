@@ -56,11 +56,7 @@ The `--save` flag ensures the package is added to `dependencies` in `package.jso
 Add the following imports in `src/styles.css`. These cover the ColorPicker and all its dependencies (buttons, popups, split buttons):
 
 ```css
-@import "../node_modules/@syncfusion/ej2-base/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-angular-inputs/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css";
-@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/tailwind3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/color-picker/index.css";
 ```
 
 Then import `styles.css` in `angular.json` or ensure it is referenced in the Vite project.

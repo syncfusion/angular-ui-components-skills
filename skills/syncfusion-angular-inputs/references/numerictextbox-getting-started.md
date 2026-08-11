@@ -56,12 +56,7 @@ Add Syncfusion theme styles to `styles.css` or import within your component:
 
 ```css
 /* Material 3 Theme (recommended) */
-@import '@syncfusion/ej2-base/styles/material3.css';
-@import '@syncfusion/ej2-buttons/styles/material3.css';
-@import '@syncfusion/ej2-inputs/styles/material3.css';
-@import '@syncfusion/ej2-popups/styles/material3.css';
-@import '@syncfusion/ej2-splitbuttons/styles/material3.css';
-@import '@syncfusion/ej2-angular-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/numerictextbox/index.css";
 ```
 
 **Alternative themes:** `bootstrap5.css`, `fabric.css`, `highcontrast.css`

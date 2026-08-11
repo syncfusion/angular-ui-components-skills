@@ -50,10 +50,7 @@ This command automatically:
 Syncfusion components require CSS imports. Add the following to your `src/styles.css`:
 
 ```css
-@import '@syncfusion/ej2-base/styles/material3.css';
-@import '@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '@syncfusion/ej2-inputs/styles/material3.css';
-@import '@syncfusion/ej2-lists/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/list-box/index.css";
 ```
 
 ### Theme Options

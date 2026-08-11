@@ -50,11 +50,7 @@ npm install @syncfusion/ej2-angular-multicolumn-combobox
 Import styles in `src/styles.css` (or `styles.scss`). Component-specific imports:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-grids/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-multicolumn-combobox/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/multicolumn-combobox/index.css";
 ```
 
 > Import order matters — follow the dependency sequence above.

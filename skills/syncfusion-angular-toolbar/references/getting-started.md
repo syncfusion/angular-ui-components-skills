@@ -133,10 +133,7 @@ The Toolbar is configured as a standalone component by:
 The Toolbar requires CSS theme files to display properly. Add the following imports to your **src/styles.css** file:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';  
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';  
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';  
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/toolbar/index.css";
 ```
 
 **Available Theme Packages:**

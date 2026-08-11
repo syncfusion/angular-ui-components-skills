@@ -38,10 +38,7 @@ export class App {}
 Add the Material 3 theme to your global `styles.css`:
 
 ```css
-@import 'node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/slider/index.css";
 ```
 
 > **Why multiple imports?** The Range Slider depends on base, buttons, and popups components. Import all to ensure correct styling.

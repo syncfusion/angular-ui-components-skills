@@ -146,7 +146,7 @@ public items: TimelineItemModel[] = [
 Add Timeline styles to your global `styles.css`:
 
 ```css
-@import '@syncfusion/ej2-angular-layouts/styles/timeline/material.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/timeline/index.css";
 ```
 
 ### Available Themes

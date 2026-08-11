@@ -69,16 +69,7 @@ npm add @syncfusion/ej2-angular-querybuilder@32.1.19-ngcc
 The Material3 theme is auto-added to `styles.css` when using `ng add`. To manually style only the Query Builder:
 
 ```css
-/* styles.css */
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-buttons/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-inputs/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-calendars/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-popups/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-navigations/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-angular-querybuilder/styles/material3.css";
+@import "@syncfusion/ej2-material3-theme/styles/query-builder/index.css";
 ```
 
 > Import order matters — follow the component dependency sequence above.

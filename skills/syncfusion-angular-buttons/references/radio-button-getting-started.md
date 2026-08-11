@@ -60,8 +60,7 @@ npm add @syncfusion/ej2-angular-buttons@32.1.19-ngcc
 The Material3 theme is added automatically by `ng add`. To control imports explicitly, add to `styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/radio-button/index.css";
 ```
 
 > Import order matters — `ej2-base` styles must come before `ej2-buttons`.

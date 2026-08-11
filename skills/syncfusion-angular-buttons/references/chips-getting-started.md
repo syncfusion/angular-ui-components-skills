@@ -40,8 +40,7 @@ npm install @syncfusion/ej2-angular-buttons --save
 Add the following CSS imports in `src/styles.css`:
 
 ```css
-@import '~@syncfusion/ej2-base/styles/tailwind3.css';
-@import '~@syncfusion/ej2-angular-buttons/styles/tailwind3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/chips/index.css";
 ```
 
 > You can replace `tailwind3` with other available themes: `material`, `material3`, `bootstrap5`, `fluent2`, `fabric`.

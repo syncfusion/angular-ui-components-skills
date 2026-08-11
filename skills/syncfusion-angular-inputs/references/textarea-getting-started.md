@@ -46,8 +46,7 @@ npm add @syncfusion/ej2-angular-inputs@32.1.19-ngcc
 Import theme styles in `styles.css`. Ensure the order matches the dependency chain:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/textarea/index.css";
 ```
 
 Other available themes: `material.css`, `bootstrap5.css`, `tailwind3.css`, `fluent2.css`, `fabric.css`.

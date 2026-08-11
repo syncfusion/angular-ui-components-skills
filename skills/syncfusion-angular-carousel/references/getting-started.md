@@ -50,14 +50,7 @@ export class CarouselComponent {}
 Import the required CSS themes in your `styles.css` or `styles.scss`:
 
 ```css
-/* Material theme */
-@import "@syncfusion/ej2-angular-navigations/styles/material.css";
-
-/* Or use other available themes:
-   @import "@syncfusion/ej2-angular-navigations/styles/bootstrap.css";
-   @import "@syncfusion/ej2-angular-navigations/styles/tailwind.css";
-   @import "@syncfusion/ej2-angular-navigations/styles/highcontrast.css";
-*/
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/carousel/index.css";
 ```
 
 ## Basic Implementation

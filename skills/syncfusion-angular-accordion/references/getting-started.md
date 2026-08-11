@@ -87,10 +87,7 @@ export class AppComponent {}
 Add the CSS imports to your main styles file (`src/styles.css`):
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/accordion/index.css";
 ```
 
 **Available Themes:**

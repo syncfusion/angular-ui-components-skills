@@ -98,8 +98,7 @@ Apply Syncfusion themes via CSS or SCSS. The Material theme is automatically add
 Add to `styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/signature/index.css";
 ```
 
 > **Important:** Maintain import order to respect component dependencies.

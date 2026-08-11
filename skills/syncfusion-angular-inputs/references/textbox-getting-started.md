@@ -158,9 +158,7 @@ export class TextBoxBindingComponent {
 Add CSS imports to your global `styles.css` or `angular.json` styles array. Import in dependency order:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-inputs/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/textbox/index.css";
 ```
 
 > **Note:** Ensure the import order aligns with the component's dependency sequence.

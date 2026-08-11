@@ -55,11 +55,7 @@ This command:
 Add these imports to `styles.css` (order matters — import in dependency sequence):
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-dropdowns/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/mention/index.css";
 ```
 
 Replace `material3` with your preferred theme (e.g., `bootstrap5`, `fluent2`, `tailwind3`).

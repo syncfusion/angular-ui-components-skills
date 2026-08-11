@@ -173,8 +173,7 @@ bootstrapApplication(AppComponent).catch((err) => console.error(err));
 Add Menu component styles to your stylesheet. In `styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/menu/index.css";
 ```
 
 **Available themes:**

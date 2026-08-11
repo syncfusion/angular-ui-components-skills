@@ -120,14 +120,7 @@ export class AppModule {}
 Add Syncfusion CSS files to your `src/styles.css`:
 
 ```css
-@import 'node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-dropdowns/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/drop-down-tree/index.css";
 ```
 
 **Alternative themes:** Replace `material3.css` with:

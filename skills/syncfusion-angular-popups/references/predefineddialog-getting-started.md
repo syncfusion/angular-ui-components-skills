@@ -54,11 +54,7 @@ npm add @syncfusion/ej2-angular-popups@32.1.19-ngcc
 The Material theme is auto-registered when using `ng add`. To import styles manually for only the Dialog component:
 
 ```css
-/* styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-icons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-popups/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/dialog/index.css";
 ```
 
 > Import order matters — follow the dependency chain (base → icons → buttons → popups).

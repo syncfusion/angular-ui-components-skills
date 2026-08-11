@@ -87,8 +87,7 @@ export class AppComponent {}
 Add Breadcrumb styles to your `style.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/breadcrumb/index.css";
 ```
 
 Alternative theme imports:

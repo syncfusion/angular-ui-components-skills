@@ -51,11 +51,7 @@ npm install @syncfusion/ej2-angular-notifications
 When using `ng add`, the Material3 theme is added automatically. For manual setup or custom themes, add the CSS imports to `styles.css`:
 
 ```css
-/* styles.css — import in dependency order */
-@import '@syncfusion/ej2-base/styles/material3.css';
-@import '@syncfusion/ej2-buttons/styles/material3.css';
-@import '@syncfusion/ej2-popups/styles/material3.css';
-@import '@syncfusion/ej2-angular-notifications/styles/material3.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/toast/index.css";
 ```
 
 > **Import order matters.** Toast depends on base, buttons, and popups styles. Always import them in this sequence.

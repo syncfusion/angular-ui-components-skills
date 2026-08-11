@@ -51,9 +51,7 @@ After installation, add theme styles to `src/styles.css`. Import in dependency o
 
 ```css
 /* Material 3 theme (recommended) */
-@import "@syncfusion/ej2-base/styles/material3.css";
-@import "@syncfusion/ej2-angular-buttons/styles/material3.css";
-@import "@syncfusion/ej2-angular-popups/styles/material3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/tooltip/index.css";
 ```
 
 Other available themes: `material.css`, `fabric.css`, `bootstrap5.css`, `bootstrap5.3.css`, `fluent.css`, `fluent2.css`, `tailwind.css`, `tailwind3.css`, `highcontrast.css`.

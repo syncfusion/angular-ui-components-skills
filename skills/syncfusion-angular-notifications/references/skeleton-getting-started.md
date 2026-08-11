@@ -98,8 +98,7 @@ When you run `ng add @syncfusion/ej2-angular-notifications`, the Material theme 
 To import themes manually, add the following to your `styles.css`:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-notifications/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/skeleton/index.css";
 ```
 
 **Available themes:**

@@ -66,16 +66,7 @@ export class AppComponent { }
 The Material theme is automatically added when you run `ng add`. If you need to add it manually:
 
 ```css
-/* In styles.css or styles.scss */
-@import "../node_modules/@syncfusion/ej2-base/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-buttons/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-lists/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-popups/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-navigations/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-inputs/styles/material3.css";
-@import "../node_modules/@syncfusion/ej2-image-editor/styles/material3.css";
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/image-editor/index.css";
 ```
 
 **Important:** Import CSS files in the order shown to ensure proper dependency resolution.
