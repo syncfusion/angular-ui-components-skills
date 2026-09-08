@@ -8,10 +8,12 @@ Methods not covered in any other reference file. Use as a supplement for program
 - [clearRedoCollection](#clearredocollection)
 - [clearUndoCollection](#clearundocollection)
 - [collapseByIndex](#collapsebyindex)
+- [collapseByID](#collapsebyid)
 - [convertToMilestone](#converttomilestone)
 - [deleteRecord](#deleterecord)
 - [enableItems](#enableitems)
 - [expandByIndex](#expandbyindex)
+- [expandByID](#expandbyid)
 - [getCurrentViewData](#getcurrentviewdata)
 - [getDurationString](#getdurationstring)
 - [getExpandedRecords](#getexpandedrecords)
@@ -116,6 +118,14 @@ Collapses a parent row at the given zero-based index. `this.gantt.collapseByInde
 
 ---
 
+## collapseByID
+
+Collapses a parent row by task ID. `this.gantt.collapseByID(3);`
+
+**Parameter:** `id` - `number | string`
+
+---
+
 ## convertToMilestone
 
 Converts a task into a milestone (sets duration to zero). `this.gantt.convertToMilestone('5');`
@@ -160,6 +170,14 @@ this.gantt.expandByIndex([0, 2, 4]);
 ```
 
 **Parameter:** `index` - `number | number[]`
+
+---
+
+## expandByID
+
+Expands a parent row by task ID. `this.gantt.expandByID(3);`
+
+**Parameter:** `id` - `number | string`
 
 ---
 

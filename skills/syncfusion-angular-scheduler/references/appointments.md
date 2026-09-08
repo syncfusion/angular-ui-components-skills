@@ -664,31 +664,3 @@ StartTime: new Date(2024, 0, 1, 10, 0)
 EndTime: new Date(2024, 0, 3, 10, 0) // 2 days duration
 RecurrenceRule: 'FREQ=DAILY;INTERVAL=1' // Repeats daily
 ```
-
-## Best Practices
-
-1. **Always Provide Required Fields**: `Id`, `StartTime`, and `EndTime` are mandatory
-2. **Use ISO Format for Exceptions**: Format exception dates as `YYYYMMDDTHHmmssZ`
-3. **Test Recurrence Rules**: Validate rules using iCalendar standards
-4. **Handle Timezones**: Use `StartTimezone` and `EndTimezone` for multi-timezone scenarios
-5. **Map Custom Fields**: Use `fields` property when data structure differs from defaults
-6. **Validate Edit Operations**: Be aware of validation messages when editing recurring events
-7. **Use COUNT or UNTIL**: Always specify an end condition for recurring events
-8. **Block Time Slots**: Use `IsBlock: true` to prevent event creation on specific slots
-
-## Common Issues
-
-### Events not displaying
-- **Solution**: Verify `Id`, `StartTime`, and `EndTime` are provided and valid
-
-### Recurrence not working
-- **Solution**: Check `RecurrenceRule` syntax; must follow iCalendar RFC 5545 format
-
-### Custom fields not mapping
-- **Solution**: Ensure `fields` property in `eventSettings` maps all custom field names
-
-### Exception dates not excluding occurrences
-- **Solution**: Use correct ISO format without hyphens (e.g., `20240129T100000Z`)
-
-### Edited occurrences not displaying
-- **Solution**: Verify `RecurrenceID` matches parent event's `Id` and exception date is added to parent

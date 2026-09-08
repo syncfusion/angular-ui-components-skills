@@ -20,7 +20,7 @@
 
 ## Prerequisites
 
-- Node.js **18.19 or later**
+- Node.js **20.11 or later** (required by Angular 20/21)
 - Angular CLI installed globally
 - npm or yarn package manager
 - Basic knowledge of Angular framework
@@ -61,32 +61,21 @@ npm install @syncfusion/ej2-angular-gantt --save
 
 ## CSS Imports
 
-The Gantt component requires specific CSS files for proper rendering. Add to `src/styles.css`:
+The Gantt component requires specific CSS files for proper rendering. Add to `src/styles.css`
 
-```css
-@import '../node_modules/@syncfusion/ej2-gantt/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-grids/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-treegrid/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-layouts/styles/tailwind3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/tailwind3.css';
+To apply the tailwind 3 theme, install the corresponding theme package by using the following command:
+
+```bash
+npm install @syncfusion/ej2-tailwind3-theme
 ```
 
-> **Note:** Additional styles are required when enabling advanced features such as editing, toolbar, or dialogs:
-> ```css
-> /* For editing, toolbar, and dialog features */
-> @import '../node_modules/@syncfusion/ej2-calendars/styles/tailwind3.css';
-> @import '../node_modules/@syncfusion/ej2-dropdowns/styles/tailwind3.css';
-> @import '../node_modules/@syncfusion/ej2-inputs/styles/tailwind3.css';
-> @import '../node_modules/@syncfusion/ej2-buttons/styles/tailwind3.css';
-> @import '../node_modules/@syncfusion/ej2-navigations/styles/tailwind3.css';
-> @import '../node_modules/@syncfusion/ej2-notifications/styles/tailwind3.css';
-> 
-> /* For rich text editor in dialog notes tab */
-> @import '../node_modules/@syncfusion/ej2-richtexteditor/styles/tailwind3.css';
-> ```
+The installed theme package includes an `index.css` file that automatically imports all the required dependency styles. Import the following stylesheet into `src/styles.css`:
 
-Other available themes: `material3`, `bootstrap5`, `fluent2`.
+```css
+@import '../node_modules/@syncfusion/ej2-tailwind3-theme/styles/gantt/index.css';
+```
+
+> **Note:** For other available themes like Material 3, Bootstrap 5, or Fluent 2
 
 ---
 
@@ -151,7 +140,8 @@ public taskSettings = {
 | `id` | Unique task ID | Yes |
 | `name` | Task name | Yes |
 | `startDate` | Start date | Yes |
-| `endDate` / `duration` | End date or duration | One required |
+| `duration` | Task duration in days | Either Duration or EndDate |
+| `endDate` | Task end date | Either Duration or EndDate |
 | `progress` | Completion % | Optional |
 | `dependency` | Predecessor IDs (e.g., `'3FS'`) | Optional |
 | `child` | Child tasks array | For hierarchical data |

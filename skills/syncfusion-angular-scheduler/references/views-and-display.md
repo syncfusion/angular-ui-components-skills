@@ -14,7 +14,6 @@
 - [Agenda View](#agenda-view)
 - [Month Agenda View](#month-agenda-view)
 - [Timeline Views](#timeline-views)
-- [Calendar Mode (Gregorian and Islamic)](#calendar-mode-gregorian-and-islamic)
 
 ## Overview
 
@@ -148,6 +147,7 @@ Each view can have custom configuration using properties within `<e-view>`:
 | `allowVirtualScrolling` | boolean | Enable virtual scrolling | Agenda, Timeline views |
 | `headerRows` | HeaderRowsModel | Custom header rows | Timeline views only |
 | `group` | GroupModel | Resource grouping configuration | All |
+| `maxEventStack` | number | Maximum number of overlapping events to display per cell (0 = unlimited). Only applicable when `timeScale.enable` is `true`. | Day, Week, WorkWeek |
 
 ### Example: Different Configurations per View
 
@@ -688,115 +688,3 @@ export class AppComponent {
 
 **Properties**: `startHour`, `endHour`, `timeScale`, `interval`, `headerRows`, `allowVirtualScrolling`
 
-## Calendar Mode (Gregorian and Islamic)
-
-The Scheduler supports both Gregorian and Islamic (Hijri) calendar modes.
-
-### Gregorian Calendar (Default)
-
-Standard solar calendar used globally.
-
-```typescript
-<ejs-schedule calendarMode='Gregorian'></ejs-schedule>
-```
-
-### Islamic Calendar
-
-Lunar calendar with 354-355 days per year.
-
-```typescript
-import { Component } from '@angular/core';
-import { loadCldr, L10n } from '@syncfusion/ej2-base';
-import { Calendar, Islamic } from '@syncfusion/ej2-calendars';
-import { ScheduleModule, EventSettingsModel } from '@syncfusion/ej2-angular-schedule';
-import { DayService, WeekService, MonthService, AgendaService, MonthAgendaService, 
-         TimelineViewsService, TimelineMonthService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
-
-// Import CLDR data
-import arNumberData from '@syncfusion/ej2-cldr-data/main/ar/numbers.json';
-import artimeZoneData from '@syncfusion/ej2-cldr-data/main/ar/timeZoneNames.json';
-import arGregorian from '@syncfusion/ej2-cldr-data/main/ar/ca-gregorian.json';
-import arIslamic from '@syncfusion/ej2-cldr-data/main/ar/ca-islamic.json';
-import arNumberingSystem from '@syncfusion/ej2-cldr-data/supplemental/numberingSystems.json';
-
-Calendar.Inject(Islamic);
-loadCldr(arNumberData, artimeZoneData, arGregorian, arIslamic, arNumberingSystem);
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [ScheduleModule],
-  providers: [
-    DayService, 
-    WeekService, 
-    MonthService, 
-    AgendaService, 
-    MonthAgendaService,
-    TimelineViewsService, 
-    TimelineMonthService
-  ],
-  template: `
-    <ejs-schedule 
-      width='100%' 
-      height='550px'
-      calendarMode='Islamic'
-      locale='ar'
-      [enableRtl]="enableRtl"
-      showQuickInfo="false"
-      [selectedDate]="selectedDate"
-      [eventSettings]="eventSettings">
-      <e-views>
-        <e-view option='Day'></e-view>
-        <e-view option='Week'></e-view>
-        <e-view option='Month'></e-view>
-        <e-view option='Agenda'></e-view>
-      </e-views>
-    </ejs-schedule>
-  `
-})
-export class AppComponent {
-  public enableRtl: boolean = true;
-  public selectedDate: Date = new Date(2024, 0, 15);
-  public eventSettings: EventSettingsModel = { dataSource: [] };
-}
-```
-
-**Requirements for Islamic Calendar**:
-1. Import and inject `Islamic` module from `@syncfusion/ej2-calendars`
-2. Load required CLDR data files using `loadCldr()`
-3. Set `calendarMode='Islamic'`
-4. Set `locale='ar'` for Arabic localization
-5. Typically enable RTL with `enableRtl="true"`
-
-**CLDR Files Needed**:
-- `numbers.json`
-- `timeZoneNames.json`
-- `ca-gregorian.json`
-- `ca-islamic.json`
-- `numberingSystems.json`
-
-## Best Practices
-
-1. **Inject Required Services**: Always inject view services for the views you want to use
-2. **Set Height**: Always specify scheduler height, especially for Agenda and MonthAgenda views
-3. **View Configuration**: Use `<e-views>` for granular control over each view
-4. **Performance**: Use `allowVirtualScrolling` for large datasets in Agenda and Timeline views
-5. **Customize Per View**: Set different `startHour`, `endHour`, `workDays` for each view as needed
-6. **CLDR Data**: Load CLDR data when using Islamic calendar or internationalization
-
-## Common Issues
-
-### View not displaying
-- **Solution**: Ensure the corresponding view service is injected in `providers`
-
-### Timeline views not working
-- **Solution**: Inject `TimelineViewsService` for Timeline Day/Week/WorkWeek; `TimelineMonthService` for Timeline Month; `TimelineYearService` for Timeline Year
-
-### Islamic calendar not showing
-- **Solution**: Import `Calendar` and `Islamic` modules, call `Calendar.Inject(Islamic)`, load required CLDR data files
-
-### Events not visible in Month view
-- **Solution**: Check if events fall within the displayed month; look for `+ more` indicator
-
-### Agenda view empty
-- **Solution**: Set `agendaDaysCount` appropriately; check `hideEmptyAgendaDays` setting

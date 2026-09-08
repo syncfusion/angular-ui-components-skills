@@ -33,7 +33,6 @@ Fires **before** an action is processed. The event argument type varies based on
 | `beforeDelete` | Before task delete | `ITaskAddedEventArgs` |
 | `taskbarEditing` | Taskbar drag start | `ITimeSpanEventArgs` |
 | `validateDependency` | New dependency being drawn | `IDependencyEventArgs` |
-| `updateDependency` | Dependency being updated | `IDependencyEventArgs` |
 | `filtering` | Filter applied | `FilterEventArgs` |
 | `sorting` | Column sorted | `SortEventArgs` |
 | `zooming` | Zoom In/Out/Fit | `ZoomEventArgs` |

@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Virtual Scrolling](#virtual-scrolling)
 - [Row Auto Height](#row-auto-height)
+- [Lazy Loading (enableLazyLoading)](#lazy-loading-enablelazyloading)
 - [Dimensions Configuration](#dimensions-configuration)
 - [Set Custom Width and Height](#set-custom-width-and-height)
 - [Responsive Width](#responsive-width)
@@ -94,6 +95,57 @@ export class AppComponent {
 - Better visibility of all events
 - Especially useful in Month view
 
+## Lazy Loading (enableLazyLoading)
+
+Enable lazy loading to fetch event data on-demand from a remote `DataManager` for the visible date range or visible resource rows, instead of loading the entire dataset up front. This is useful when working with very large remote datasets.
+
+```typescript
+import { Component } from '@angular/core';
+import { ScheduleModule, EventSettingsModel } from '@syncfusion/ej2-angular-schedule';
+import { MonthService, TimelineMonthService } from '@syncfusion/ej2-angular-schedule';
+import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ScheduleModule],
+  providers: [MonthService, TimelineMonthService],
+  template: `
+    <ejs-schedule 
+      width='100%' 
+      height='550px'
+      [selectedDate]='selectedDate'
+      [eventSettings]='eventSettings'>
+      <e-views>
+        <e-view option='TimelineMonth' enableLazyLoading='true' [isSelected]='true'></e-view>
+        <e-view option='Month' enableLazyLoading='true'></e-view>
+      </e-views>
+    </ejs-schedule>
+  `
+})
+export class AppComponent {
+  public selectedDate: Date = new Date(2024, 0, 15);
+
+  private dataManager: DataManager = new DataManager({
+    url: 'https://your-api.example.com/api/events',
+    adaptor: new WebApiAdaptor(),
+    crossDomain: true
+  });
+
+  public eventSettings: EventSettingsModel = {
+    dataSource: this.dataManager
+  };
+}
+```
+
+**Benefits**:
+- Loads events on-demand for the visible date range or visible resource rows
+- Reduces initial load time and memory footprint
+- Supports very large remote datasets
+- Works with resource grouping (lazy loads per resource)
+
+**Note**: `eventSettings.dataSource` must be a remote `DataManager` and the server endpoint should support filtering events by date and/or resource.
+
 ## Dimensions Configuration
 
 ### Set Custom Width and Height
@@ -138,11 +190,12 @@ export class AppComponent {
 
 1. **Virtual Scrolling**: Enable for Timeline views with intervals > 3 months
 2. **Row Auto Height**: Use when all events must be visible without interaction
-3. **Fixed Dimensions**: Use pixel values for fixed layouts (dashboards)
-4. **Responsive Dimensions**: Use percentage/vh for full-page applications
-5. **Cell Height**: Balance between readability and screen space
-6. **Performance**: Test with realistic data volumes before enabling features
-7. **Mobile**: Disable row auto height on mobile to prevent excessive scrolling
-8. **Memory**: Monitor memory usage with virtual scrolling enabled
-9. **Combination**: Can combine virtual scrolling with other performance optimizations
-10. **Testing**: Verify scrolling behavior across different browsers
+3. **Lazy Loading**: Use `enableLazyLoading='true'` per view with a remote `DataManager` when working with very large datasets to reduce initial load time and memory usage
+4. **Fixed Dimensions**: Use pixel values for fixed layouts (dashboards)
+5. **Responsive Dimensions**: Use percentage/vh for full-page applications
+6. **Cell Height**: Balance between readability and screen space
+7. **Performance**: Test with realistic data volumes before enabling features
+8. **Mobile**: Disable row auto height on mobile to prevent excessive scrolling
+9. **Memory**: Monitor memory usage with virtual scrolling enabled
+10. **Combination**: Can combine virtual scrolling with other performance optimizations
+11. **Testing**: Verify scrolling behavior across different browsers

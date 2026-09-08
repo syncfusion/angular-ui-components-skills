@@ -54,6 +54,16 @@ Use this skill when you need to:
 - Remote CRUD with `crudUrl`, `insertUrl`, `updateUrl`, `removeUrl`, `batchUrl`
 - Common gotchas table (missing `isPrimaryKey`, wrong adaptor, parent date issues)
 
+### Observable CRUD Operations
+📄 **Read:** [references/observable-crud.md](references/observable-crud.md)
+- Handle add, edit, delete operations with Observable data binding via `dataSourceChanged` event
+- Service extends `BehaviorSubject` for proper Observable binding
+- Extract task data correctly: use `(args.data as any).taskData` for edit operations
+- Always call `args.endEdit()` after CRUD operation completes to notify Gantt
+- Single vs multiple record deletion: check `args.data.length`
+- Emit updated data via `super.next()` / `this.next()` to refresh UI
+- Handle errors gracefully and ensure endEdit() is called even on failure
+
 ### Task Scheduling
 📄 **Read:** [references/task-scheduling.md](references/task-scheduling.md)
 - `taskMode`: `'Auto'` (default), `'Manual'`, `'Custom'` (per-task via boolean field)
@@ -64,7 +74,7 @@ Use this skill when you need to:
 - `durationUnit`: `'Day'` | `'Hour'` | `'Minute'`
 - **Working days:** `workWeek` array (default Mon–Fri); `includeWeekend: true` makes all 7 days working
 - **Working hours:** `dayWorkingTime` — array of `{ from, to }` ranges (default 8–17); affects hour-based durations
-- Baseline dates (`renderBaseline`, `baselineStartDate`, `baselineEndDate`, `baselineColor`)
+- Baseline dates (`renderBaseline`, `baselineStartDate`, `baselineEndDate`, `baselineDuration`, `baselineColor`) and `baselineTemplate` for custom baseline rendering
 - Work scheduling (effort-driven) with `work` field and `workUnit`
 
 ### Task Dependencies
@@ -138,6 +148,7 @@ Use this skill when you need to:
 - Timeline view window (`viewStartDate` / `viewEndDate`)
 - Week start day (`weekStartDay`)
 - Automatic timescale update (`updateTimescaleView`)
+- Infinite timeline scrolling (`enableInfiniteTimelineScroll`)
 - Weekend highlighting (`timelineSettings.showWeekend`)
 - Timeline cells tooltip (`showTooltip`)
 - `timelineTemplate` — custom HTML in tier header cells (via `<ng-template #timelineTemplate let-data>` using `data.date`, `data.value`, `data.tier`)
@@ -212,7 +223,7 @@ Use this skill when you need to:
 - Edit control: `cancelEdit()`, `openAddDialog()`, `openEditDialog()`
 - Task management: `deleteRecord()`, `convertToMilestone()`, `changeTaskMode()`, `updateRecordByID()`, `updateRecordByIndex()`, `updateTaskId()`, `updateDataSource()`, `updateProjectDates()`
 - Toolbar control: `enableItems()`
-- Expand/Collapse: `expandByIndex()`, `collapseByIndex()`
+- Expand/Collapse: `expandByIndex()`, `expandByID()`, `collapseByIndex()`, `collapseByID()`
 - Undo/Redo stacks: `clearUndoCollection()`, `clearRedoCollection()`, `getUndoActions()`, `getRedoActions()`
 - Data retrieval: `getCurrentViewData()`, `getRecordByID()`, `getTaskByUniqueID()`, `getTaskInfo()`, `getTaskbarHeight()`, `getExpandedRecords()`, `getGanttColumns()`, `getGridColumns()`
 - Formatting helpers: `getDurationString()`, `getWorkString()`
@@ -427,11 +438,13 @@ export class AppComponent {
 | `enableVirtualization` | `boolean` | `false` | DOM virtualization for large datasets — requires `VirtualScrollService` |
 | `enableTimelineVirtualization` | `boolean` | `false` | Virtualize timeline columns |
 | `renderBaseline` | `boolean` | `false` | Show baseline bars alongside current taskbars |
+| `baselineTemplate` | `string` \| `TemplateRef` | — | Custom template for rendering baseline bars |
 | `baselineColor` | `string` | `'red'` | Baseline bar color |
 | `allowUnscheduledTasks` | `boolean` | `false` | Allow tasks missing start/end/duration |
 | `validateManualTasksOnLinking` | `boolean` | `false` | Adjust manual task dates when dependency links change |
 | `allowParentDependency` | `boolean` | `true` | Allow dependencies between parent/child tasks |
 | `autoUpdatePredecessorOffset` | `boolean` | `false` | Sync predecessor offsets with actual positions on load |
+| `enableInfiniteTimelineScroll` | `boolean` | `false` | Enable infinite horizontal timeline scrolling |
 | `highlightWeekends` | `boolean` | `false` | Shade weekend columns in timeline |
 | `gridLines` | `string` | `'Both'` | Grid lines: `'Both'` \| `'Horizontal'` \| `'Vertical'` \| `'None'` |
 | `rowHeight` | `number` | `36` | Height of each row in pixels |

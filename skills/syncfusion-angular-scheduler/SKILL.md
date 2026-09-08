@@ -4,7 +4,6 @@ description: Implement and configure Syncfusion Angular Scheduler (Schedule) com
 metadata:
   author: "Syncfusion Inc"
   version: "34.1.29"
-  category: "Calendars"
 ---
 
 # Implementing Syncfusion Angular Scheduler
@@ -59,8 +58,15 @@ Read this reference when you need to:
 - Set up Timeline views (TimelineDay, TimelineWeek, TimelineMonth, TimelineYear)
 - Switch between different views programmatically
 - Customize view-specific settings and intervals
-- Configure calendar mode and display options
-- Handle view navigation
+- Configure view-specific display options
+
+### Calendar Modes and Event Display
+📄 **Read:** [references/views-display-advanced.md](references/views-display-advanced.md)
+
+Read this reference when you need to:
+- Configure Gregorian or Islamic calendar modes
+- Limit overlapping events with `maxEventStack`
+- Review view configuration best practices and common issues
 
 ### Events and Appointments
 📄 **Read:** [references/appointments.md](references/appointments.md)
@@ -69,9 +75,16 @@ Read this reference when you need to:
 - Understand event types (normal, spanned, all-day, recurring)
 - Define event data structure and required fields
 - Create and render events programmatically
-- Configure event templates and custom rendering
 - Handle event interactions (click, double-click, hover)
 - Add custom fields to events
+
+### Event Templates and Tooltips
+📄 **Read:** [references/appointment-templates.md](references/appointment-templates.md)
+
+Read this reference when you need to:
+- Configure event templates and custom rendering
+- Configure event tooltip templates for rich hover content
+- Review appointment best practices and common issues
 
 ### Data Binding and CRUD Operations
 📄 **Read:** [references/data-binding.md](references/data-binding.md)
@@ -95,6 +108,15 @@ Read this reference when you need to:
 - Filter and manage resource visibility
 - Handle resource-based events
 
+### Advanced Resource Management
+📄 **Read:** [references/resources-advanced.md](references/resources-advanced.md)
+
+Read this reference when you need to:
+- Add or remove resources dynamically
+- Configure resource-specific working hours and days
+- Manage timeline resource expansion, colors, and responsive behavior
+- Review resource management best practices and common scenarios
+
 ### Time Configuration
 📄 **Read:** [references/time-configuration.md](references/time-configuration.md)
 
@@ -106,6 +128,13 @@ Read this reference when you need to:
 - Manage multiple timezones
 - Customize time formats and display
 
+### Time Navigation and Guidance
+📄 **Read:** [references/time-configuration-navigation.md](references/time-configuration-navigation.md)
+
+Read this reference when you need to:
+- Scroll to a specific time or the current time
+- Review time configuration best practices and common scenarios
+
 ### Editor Customization
 📄 **Read:** [references/editor-customization.md](references/editor-customization.md)
 
@@ -116,6 +145,14 @@ Read this reference when you need to:
 - Configure editor validation rules
 - Customize quick info popups
 - Handle editor events
+
+### Quick Info and Overflow Popups
+📄 **Read:** [references/editor-customization-popups.md](references/editor-customization-popups.md)
+
+Read this reference when you need to:
+- Customize quick info templates and popups
+- Configure the more-events indicator popup
+- Review editor customization best practices and Common Scenarios
 
 ### Cell Customization
 📄 **Read:** [references/cell-customization.md](references/cell-customization.md)
@@ -440,6 +477,108 @@ export class AppComponent {
 }
 ```
 
+### Pattern 5: Event Tooltip Template
+
+```typescript
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ScheduleModule, EventSettingsModel } from '@syncfusion/ej2-angular-schedule';
+import { DayService, WeekService, MonthService } from '@syncfusion/ej2-angular-schedule';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ScheduleModule, CommonModule],
+  providers: [DayService, WeekService, MonthService],
+  template: `
+    <ejs-schedule 
+      width='100%' 
+      height='550px'
+      [selectedDate]="selectedDate"
+      [eventSettings]="eventSettings">
+      <ng-template #eventSettingsTooltipTemplate let-data>
+        <div class="tooltip-wrap">
+          <div class="subject">{{data.Subject}}</div>
+          <div class="time">From&nbsp;:&nbsp;{{data.StartTime | date:'short'}}</div>
+          <div class="time">To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{{data.EndTime | date:'short'}}</div>
+        </div>
+      </ng-template>
+    </ejs-schedule>
+  `
+})
+export class AppComponent {
+  public selectedDate: Date = new Date(2024, 0, 15);
+  public eventSettings: EventSettingsModel = {
+    dataSource: [
+      {
+        Id: 1,
+        Subject: 'Team Meeting',
+        StartTime: new Date(2024, 0, 15, 10, 0),
+        EndTime: new Date(2024, 0, 15, 12, 30)
+      }
+    ],
+    enableTooltip: true // Required to show the tooltip template
+  };
+}
+```
+
+### Pattern 6: Limit Concurrent Events (maxEventStack)
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import { ScheduleComponent, ScheduleModule, EventSettingsModel, NavigatingEventArgs } from '@syncfusion/ej2-angular-schedule';
+import { DayService, WeekService, WorkWeekService } from '@syncfusion/ej2-angular-schedule';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ScheduleModule],
+  providers: [DayService, WeekService, WorkWeekService],
+  template: `
+    <ejs-schedule 
+      #scheduleObj
+      width='100%' 
+      height='650px'
+      [selectedDate]="selectedDate"
+      [eventSettings]="eventSettings"
+      [currentView]="currentView"
+      (navigating)="onNavigating($event)">
+      <e-views>
+        <e-view option="Day" [maxEventStack]="getMaxStack()"></e-view>
+        <e-view option="Week" [maxEventStack]="getMaxStack()"></e-view>
+        <e-view option="WorkWeek" [maxEventStack]="getMaxStack()"></e-view>
+      </e-views>
+    </ejs-schedule>
+  `
+})
+export class AppComponent {
+  @ViewChild('scheduleObj') public scheduleObj?: ScheduleComponent;
+
+  public selectedDate: Date = new Date(2024, 0, 15);
+  public currentView: string = 'Week';
+  public displayMode: string = 'limited';
+  public maxEventsLimit: number = 1;
+  public eventSettings: EventSettingsModel = { dataSource: [] };
+
+  // 0 = show all overlapping events; N = show only N per cell
+  public getMaxStack(): number {
+    return this.displayMode === 'all' ? 0 : this.maxEventsLimit;
+  }
+
+  // Apply maxEventStack to all view options when switching views
+  public onNavigating(args: NavigatingEventArgs): void {
+    if (args.action === 'view' && this.scheduleObj) {
+      const value = this.displayMode === 'all' ? 0 : this.maxEventsLimit;
+      const currentViews: any[] = this.scheduleObj.views as any[];
+      const updatedViews = currentViews.map((view: any) => ({ ...view, maxEventStack: value }));
+      this.scheduleObj.setProperties({ views: updatedViews }, true);
+      this.scheduleObj.dataBind();
+      this.scheduleObj.refreshEvents();
+    }
+  }
+}
+```
+
 ## Key Configuration Options
 
 ### Core Properties
@@ -518,7 +657,7 @@ Plan and manage employee shifts with working hours, multiple resources, and time
 ### 6. Event Management Portal
 Build event management systems with export to calendar apps (ICS), custom editor forms, and templates.
 
-**Read**: appointments.md, editor-customization.md, exporting.md
+**Read**: appointments.md, appointment-templates.md, editor-customization.md, exporting.md
 
 ### 7. Multi-Timezone Calendar
 Handle events across different timezones for global teams with timezone conversion and display.
@@ -528,4 +667,4 @@ Handle events across different timezones for global teams with timezone conversi
 ### 8. Custom Calendar Application
 Create fully customized calendar applications with custom cells, templates, and styling.
 
-**Read**: cell-customization.md, editor-customization.md, styling-themes.md
+**Read**: appointment-templates.md, cell-customization.md, editor-customization.md, styling-themes.md

@@ -15,6 +15,7 @@
 - [Timeline Cells Tooltip](#timeline-cells-tooltip)
 - [Navigating the Timeline](#navigating-the-timeline)
 - [Zooming](#zooming)
+- [Infinite timeline scrolling](#infinite-timeline-scrolling)
 - [Timeline Template](#timeline-template)
 
 ---
@@ -271,6 +272,22 @@ this.ganttObj.previousTimeSpan();
 ```
 
 These methods extend the `projectStartDate` / `projectEndDate` of the Gantt, effectively scrolling the timeline. Useful for toolbar buttons or navigation controls.
+
+---
+
+## Infinite timeline scrolling
+
+Enable `enableInfiniteTimelineScroll` to extend the timeline dynamically as users scroll horizontally:
+
+```typescript
+public enableInfiniteTimelineScroll: boolean = true;
+```
+
+- Forward scrolling extends the timeline automatically when the user uses the horizontal scrollbar or the forward scroll arrow.
+- Backward extension happens only when the user clicks the backward scroll arrow.
+- This feature extends only the visible timeline range and does not change the project dates.
+
+Use this when you need to explore long schedules without manually updating the timeline window.
 
 ---
 

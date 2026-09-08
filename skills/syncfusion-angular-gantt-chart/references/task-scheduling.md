@@ -10,6 +10,7 @@
 - [Working Days and Hours](#working-days-and-hours)
 - [Baseline Dates](#baseline-dates)
 - [Work Scheduling (Effort-Driven)](#work-scheduling-effort-driven)
+- [Baseline template](#baseline-template)
 
 ---
 
@@ -206,8 +207,8 @@ public taskFields: object = {
   name: 'TaskName',
   startDate: 'StartDate',
   duration: 'Duration',
-  baselineStartDate: 'BaselineStartDate',  // Original planned start
-  baselineEndDate: 'BaselineEndDate'       // Original planned end
+  baselineStartDate: 'BaselineStartDate',
+  baselineEndDate: 'BaselineEndDate'
 };
 ```
 
@@ -216,6 +217,188 @@ public taskFields: object = {
 ```
 
 Baseline bars render as a separate indicator behind or below the current taskbar, visually showing schedule slippage.
+
+### Baseline template
+
+Use the `baselineTemplate` property when the default baseline rendering is not enough and you need custom baseline UI.
+
+This is useful for advanced scenarios such as:
+- Rendering additional baseline indicators.
+- Showing multiple baselines for a task.
+- Using task-specific data to draw custom baseline elements.
+
+Set `baselineTemplate` to a template string or function. The template receives the task data and can return custom HTML for the baseline area.
+
+Example baseline template for multiple baseline rendering:
+
+```typescript
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BaselineTemplateData } from './data';
+import { GanttAllModule, TaskFieldsModel, SplitterSettingsModel, LabelSettingsModel, ColumnModel, TooltipSettingsModel } from '@syncfusion/ej2-angular-gantt';
+
+@Component({
+  selector: 'ej2-ganttbaselinetemplate',
+  template: `
+    <ejs-gantt #gantt height="650px" [rowHeight]="60" [taskbarHeight]="20" [dataSource]="data"
+      [taskFields]="taskSettings" [treeColumnIndex]="1" [splitterSettings]="splitterSettings" [labelSettings]="labelSettings"
+      [projectStartDate]="projectStartDate" [projectEndDate]="projectEndDate" [renderBaseline]="true"
+      [columns]="columns" [gridLines]="gridLines" [tooltipSettings]="tooltipSettings">
+      <ng-template #baselineTemplate let-data>
+        <div *ngIf="!data.subtasks" style="position: relative; height: 100%;">
+          <div *ngIf="data.taskData.BaselineStartDate && data.taskData.BaselineDuration !== 0"
+            class="e-baseline-bar" style="position:absolute; height:8px;"
+            [style.left.px]="getLeft(data.taskData.BaselineStartDate, data)"
+            [style.width.px]="getWidth(data.taskData.BaselineStartDate, data.taskData.BaselineDuration, data)"
+            [style.marginTop.px]="getBaselineTop(0)">
+          </div>
+
+          <div *ngIf="data.taskData.BaselineStartDate1 && data.taskData.BaselineDuration1 !== 0"
+            class="e-baseline-bar" style="position:absolute; height:8px;"
+            [style.left.px]="getLeft(data.taskData.BaselineStartDate1, data)"
+            [style.width.px]="getWidth(data.taskData.BaselineStartDate1, data.taskData.BaselineDuration1, data)"
+            [style.marginTop.px]="getBaselineTop(1)">
+          </div>
+
+          <div *ngIf="data.taskData.BaselineStartDate2 && data.taskData.BaselineDuration2 !== 0"
+            class="e-baseline-bar" style="position:absolute; height:8px;"
+            [style.left.px]="getLeft(data.taskData.BaselineStartDate2, data)"
+            [style.width.px]="getWidth(data.taskData.BaselineStartDate2, data.taskData.BaselineDuration2, data)"
+            [style.marginTop.px]="getBaselineTop(2)">
+          </div>
+
+          <div *ngIf="data.taskData.BaselineStartDate && data.taskData.BaselineDuration === 0"
+            class="e-baseline-gantt-milestone-container" style="position:absolute; transform: rotate(45deg);"
+            [style.left.px]="getMilestoneLeft(data.taskData.BaselineStartDate, data)"
+            [style.top.px]="getBaselineMilestoneTop(0)"
+            [style.width.px]="ganttObj.chartRowsModule.taskBarHeight"
+            [style.height.px]="ganttObj.chartRowsModule.taskBarHeight">
+          </div>
+
+          <div *ngIf="data.taskData.BaselineStartDate1 && data.taskData.BaselineDuration1 === 0"
+            class="e-baseline-gantt-milestone-container" style="position:absolute; transform: rotate(45deg);"
+            [style.left.px]="getMilestoneLeft(data.taskData.BaselineStartDate1, data)"
+            [style.top.px]="getBaselineMilestoneTop(1)"
+            [style.width.px]="ganttObj.chartRowsModule.taskBarHeight"
+            [style.height.px]="ganttObj.chartRowsModule.taskBarHeight">
+          </div>
+
+          <div *ngIf="data.taskData.BaselineStartDate2 && data.taskData.BaselineDuration2 === 0"
+            class="e-baseline-gantt-milestone-container" style="position:absolute; transform: rotate(45deg);"
+            [style.left.px]="getMilestoneLeft(data.taskData.BaselineStartDate2, data)"
+            [style.top.px]="getBaselineMilestoneTop(2)"
+            [style.width.px]="ganttObj.chartRowsModule.taskBarHeight"
+            [style.height.px]="ganttObj.chartRowsModule.taskBarHeight">
+          </div>
+        </div>
+      </ng-template>
+    </ejs-gantt>
+  `,
+  standalone: true,
+  imports: [GanttAllModule]
+})
+
+export class GanttBaselineTemplateComponent implements OnInit {
+  public data: Object[];
+  public taskSettings: TaskFieldsModel;
+  public splitterSettings: SplitterSettingsModel;
+  public labelSettings: LabelSettingsModel;
+  public columns: ColumnModel[];
+  public projectStartDate: Date;
+  public projectEndDate: Date;
+  public gridLines: string = 'Both';
+  public tooltipSettings: TooltipSettingsModel;
+
+  @ViewChild('gantt', { static: true }) public ganttObj: any;
+
+  ngAfterViewInit(): void {
+  }
+
+  public ngOnInit(): void {
+    this.data = BaselineTemplateData;
+    this.taskSettings = {
+      id: 'TaskID',
+      name: 'TaskName',
+      startDate: 'StartDate',
+      endDate: 'EndDate',
+      duration: 'Duration',
+      progress: 'Progress',
+      baselineStartDate: 'BaselineStartDate',
+      baselineDuration: 'BaselineDuration',
+      dependency: 'Predecessor',
+      child: 'subtasks'
+    };
+
+    this.columns = [
+      { field: 'TaskID' },
+      { field: 'TaskName', width: '270px' },
+      { field: 'BaselineStartDate', headerText: 'Baseline Start Date', type: 'date', format: 'dd/MM/yyyy', width: '180px' },
+      { field: 'BaselineDuration', headerText: 'Baseline Duration', width: '180px' },
+      { field: 'BaselineStartDate1', headerText: 'Baseline1 Start Date', type: 'date', format: 'dd/MM/yyyy', width: '180px' },
+      { field: 'BaselineDuration1', headerText: 'Baseline1 Duration', width: '180px' },
+      { field: 'BaselineStartDate2', headerText: 'Baseline2 Start Date', type: 'date', format: 'dd/MM/yyyy', width: '180px' },
+      { field: 'BaselineDuration2', headerText: 'Baseline2 Duration', width: '180px' }
+    ];
+
+    this.splitterSettings = {
+      columnIndex: 3
+    };
+    this.tooltipSettings = {
+      showTooltip: false
+    };
+    this.labelSettings = {
+      rightLabel: 'TaskName'
+    };
+    this.projectStartDate = new Date('2024-05-01');
+    this.projectEndDate = new Date('2024-05-30');
+  }
+
+  getLeft(date: Date, row: any): number {
+    const gp = row.taskData.ganttProperties;
+    return this.ganttObj.dataOperation.getTaskLeft(new Date(date), false, gp.calendarContext);
+  }
+
+  getWidth(start: Date, duration: number, row: any): number {
+    if (!start || duration == null || duration === 0) return 0;
+
+    const end = new Date(start);
+    end.setDate(end.getDate() + duration);
+
+    return this.getLeft(end, row) - this.getLeft(start, row);
+  }
+
+  getMilestoneLeft(date: Date, row: any): number {
+    const chart = this.ganttObj.chartRowsModule;
+    const milestoneHeight = chart.milestoneHeight;
+    const enableRtl = this.ganttObj.enableRtl;
+    const left = this.getLeft(date, row);
+    return enableRtl
+      ? left - (milestoneHeight / 2) + 3
+      : left - (milestoneHeight / 2) + 1;
+  }
+
+  getBaselineMilestoneTop(index: number): number {
+    const chart = this.ganttObj.chartRowsModule;
+    const rowHeight = this.ganttObj.rowHeight;
+    const milestoneMarginTop = chart.milestoneMarginTop;
+    const baselineGap = 4;
+    const baselineMilestoneHeight = 5;
+    return (
+      (-Math.floor(rowHeight - milestoneMarginTop) + baselineMilestoneHeight)
+      + 2
+      + (index * baselineGap)
+    );
+  }
+
+  getBaselineTop(index: number): number {
+    const chart = this.ganttObj.chartRowsModule;
+    const baselineTop = chart.baselineTop;
+    const gap = 9;
+    return baselineTop + (index * gap);
+  }
+}
+```
+
+For the standard baseline setup, use `renderBaseline`, map `baselineStartDate` and `baselineEndDate` in `taskFields`, and set `baselineColor` or target the `.e-baseline-bar` class for styling. Remember that milestone baselines require `baselineDuration` to be set to `0`.
 
 ---
 
