@@ -13,6 +13,7 @@ Enable and customize interactive tooltips for 3D charts.
   - [Default Format](#default-format)
   - [Custom Format Patterns](#custom-format-patterns)
   - [Example Formats](#example-formats)
+  - [Inline Format]
 - [Tooltip Templates](#tooltip-templates)
   - [HTML Template](#html-template)
   - [Dynamic Template](#dynamic-template)
@@ -126,6 +127,119 @@ tooltip = {
   format: '<b>${point.x}</b><br>Sales: ${point.y}'
 };
 ```
+### Inline Tooltip Formatting
+
+The 3D Chart tooltip content can be formatted directly within the `format` property by adding DateTime or number format specifiers to supported tooltip tokens. This allows point and series values to be formatted without using additional events.
+
+Add a colon (`:`) followed by the required format specifier to a supported tooltip token.
+
+```typescript
+import { Component } from '@angular/core';
+import { Chart3DAllModule } from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-tooltip',
+  standalone: true,
+  imports: [Chart3DAllModule],
+  template: `
+    <ejs-chart3d
+      [primaryXAxis]="primaryXAxis"
+      [tooltip]="tooltip">
+      <e-chart3d-series-collection>
+        <e-chart3d-series
+          [dataSource]="data"
+          xName="month"
+          yName="sales"
+          name="Sales"
+          type="Column">
+        </e-chart3d-series>
+      </e-chart3d-series-collection>
+    </ejs-chart3d>
+  `
+})
+export class TooltipComponent {
+  public data: Object[] = [
+    { month: new Date(2024, 0, 1), sales: 40.256 },
+    { month: new Date(2024, 1, 1), sales: 50.782 },
+    { month: new Date(2024, 2, 1), sales: 45.125 }
+  ];
+
+  public primaryXAxis: Object = {
+    valueType: 'DateTime'
+  };
+
+  public tooltip: Object = {
+    enable: true,
+    format: '${series.name}<br>' +
+      '${point.x:MMM yyyy}: ${point.y:n2}'
+  };
+}
+```
+
+In this example:
+
+- `${point.x:MMM yyyy}` formats the point's DateTime x-value as an abbreviated month and four-digit year.
+- `${point.y:n2}` formats the numeric y-value with two decimal places.
+- `${series.name}` displays the resolved series name.
+
+Inline formatting can be applied to the following 3D Chart tooltip tokens:
+
+- `point.x`: Specifies the x-axis value of the 3D Chart point.
+- `point.y`: Specifies the numeric y-axis value of the point.
+- `point.text`: Specifies the text mapped to the point when text mapping is configured.
+- `series.name`: Specifies the name assigned to the 3D Chart series.
+
+> The availability of point-specific tokens depends on the 3D Chart series and data-source configuration. For example, `point.text` requires the corresponding text field mapping. The `series.name` token returns a string value, so DateTime or number formatting is not applied to this token.
+
+Supported DateTime format specifiers include:
+
+- `MMM yyyy`: Abbreviated month and four-digit year.
+- `MM:yy`: Two-digit month and two-digit year.
+- `dd MMM`: Two-digit day and abbreviated month.
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public tooltip: Object = {
+  enable: true,
+  format: '${series.name}<br>' +
+    'Month: ${point.x:MMM yyyy}<br>' +
+    'Sales: ${point.y:c2}'
+};
+```
+
+In this example:
+
+- `${point.x:MMM yyyy}` formats the DateTime x-value as an abbreviated month and four-digit year.
+- `${point.y:c2}` formats the sales value as currency with two decimal places.
+- `${series.name}` displays the series name without applying a format specifier.
+
+Numeric formatting can also be used when the x-axis contains category values.
+
+```typescript
+public data: Object[] = [
+  { month: 'Jan', sales: 40.256 },
+  { month: 'Feb', sales: 50.782 },
+  { month: 'Mar', sales: 45.125 }
+];
+
+public tooltip: Object = {
+  enable: true,
+  format: '${point.x}: ${point.y:n2}'
+};
+```
+
+In this example, the category value is displayed using `${point.x}`, while `${point.y:n2}` formats the corresponding numeric value with two decimal places.
+
+If a format specifier does not match the resolved value type, the original value is displayed.
+
+Do not use Angular pipes inside the 3D Chart tooltip `format` string. Use a supported inline format specifier, such as `${point.y:n2}`, or use a tooltip template or the `tooltipRender` event for specialized formatting.
 
 ## Tooltip Templates
 

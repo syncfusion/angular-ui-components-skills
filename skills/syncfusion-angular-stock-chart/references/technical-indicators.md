@@ -371,6 +371,71 @@ Combine indicators for comprehensive analysis:
 - Quaternary Y-axis: MACD histogram
 
 ---
+## Indicator Events
+
+> **Indicator events:** Stock Chart supports indicator events for tracking and managing indicators added or removed through the toolbar. The `beforeIndicatorChange` event is triggered before an indicator update is applied and allows the update to be canceled. The `indicatorChanged` event is triggered after the indicator has been updated successfully.
+
+### Before Indicator Change
+
+The `beforeIndicatorChange` event is triggered before an indicator is added or removed through the Stock Chart toolbar. Set the event argument's `cancel` property to `true` to prevent the requested indicator update.
+
+### Indicator Changed
+
+The `indicatorChanged` event is triggered after an indicator has been added or removed successfully. Use this event to track the completed update or run dependent application logic.
+
+### Basic Implementation
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-container',
+    template: `
+        <ejs-stockchart
+            id="stock-chart"
+            [dataSource]="stockData"
+            (beforeIndicatorChange)="onBeforeIndicatorChange($event)"
+            (indicatorChanged)="onIndicatorChanged($event)">
+            <e-stockchart-series-collection>
+                <e-stockchart-series
+                    type="Candle"
+                    xName="date"
+                    high="high"
+                    low="low"
+                    open="open"
+                    close="close">
+                </e-stockchart-series>
+            </e-stockchart-series-collection>
+        </ejs-stockchart>
+    `
+})
+export class AppComponent {
+    public stockData: object[] = [
+        { date: new Date(2024, 0, 1), open: 100, high: 108, low: 98, close: 105 },
+        { date: new Date(2024, 0, 2), open: 105, high: 112, low: 103, close: 110 },
+        { date: new Date(2024, 0, 3), open: 110, high: 114, low: 106, close: 108 }
+    ];
+
+    public onBeforeIndicatorChange(args: any): void {
+        console.log('Indicator update requested:', args);
+
+        // Set args.cancel to true when the requested update must be prevented.
+        // args.cancel = true;
+    }
+
+    public onIndicatorChanged(args: any): void {
+        console.log('Indicator updated successfully:', args);
+    }
+}
+```
+
+**Event behavior:**
+- `beforeIndicatorChange` runs before the toolbar update and supports cancellation through `args.cancel`.
+- When the update is canceled, the requested indicator change is not applied.
+- `indicatorChanged` runs only after the indicator update succeeds.
+- These events apply to indicators added or removed through the Stock Chart toolbar.
+
+---
 
 ## Customizing Indicators
 

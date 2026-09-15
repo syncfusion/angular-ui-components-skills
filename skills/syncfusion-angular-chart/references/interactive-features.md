@@ -382,6 +382,47 @@ export class AppComponent implements OnInit {
 - `${point.y}`: Y value
 - `${point.percentage}`: Percentage (pie charts)
 
+
+#### Inline Tooltip Formatting
+
+DateTime and numeric values can be formatted directly within the `header` or `format` property. Add a colon (`:`) followed by the required format specifier to a supported tooltip token.
+
+```typescript
+public tooltip: Object = {
+    enable: true,
+    header: '${point.x:MMM yyyy}',
+    format: '${series.name}: ${point.y:n2}'
+};
+```
+
+In this example:
+
+- `${point.x:MMM yyyy}` formats the DateTime value as an abbreviated month and four-digit year.
+- `${point.y:n2}` formats the numeric value with two decimal places.
+- `${series.name}` displays the resolved series name.
+
+Supported DateTime format specifiers include:
+
+- `MMM yyyy`: Abbreviated month and four-digit year.
+- `MM:yy`: Two-digit month and two-digit year.
+- `dd MMM`: Two-digit day and abbreviated month.
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public tooltip: Object = {
+    enable: true,
+    header: 'Date: ${point.x:dd MMM}',
+    format: 'Value: ${point.y:c2}'
+};
+```
+
 ### Tooltip Styling
 
 ```typescript
@@ -442,16 +483,88 @@ export class AppComponent implements OnInit {
 }
 ```
 
-### Shared Tooltip
+### Fixed Tooltip Position
 
-Show data from all series at the same x-position.
+By default, the tooltip follows the pointer. Use the `location` property to display the tooltip at a fixed position within the Chart.
 
 ```typescript
-public tooltip = {
-  enable: true,
-  shared: true  // Show all series values
+public tooltip: Object = {
+    enable: true,
+    location: {
+        x: 120,
+        y: 80
+    }
 };
 ```
+
+In this example:
+
+- `location.x` specifies the horizontal position relative to the Chart.
+- `location.y` specifies the vertical position relative to the Chart.
+
+> Ensure that the configured location provides sufficient space for the tooltip content and remains within the Chart area.
+
+### Shared Tooltip
+
+Enable the `shared` property to display values from all applicable series in a single tooltip at the same x-axis position.
+
+```typescript
+public tooltip: Object = {
+    enable: true,
+    shared: true
+};
+```
+
+```html
+<ejs-chart [tooltip]="tooltip">
+    <e-series-collection>
+        <e-series
+            [dataSource]="salesData"
+            type="Line"
+            xName="x"
+            yName="y"
+            name="Sales">
+        </e-series>
+        <e-series
+            [dataSource]="expenseData"
+            type="Column"
+            xName="x"
+            yName="y"
+            name="Expenses">
+        </e-series>
+    </e-series-collection>
+</ejs-chart>
+```
+
+When shared tooltip mode is enabled:
+
+- Values from all applicable series are grouped by the corresponding x-axis position.
+- The tooltip updates as the pointer moves between x-axis values.
+- Only visible series with applicable points are included.
+- The Chart automatically adjusts the tooltip to remain within the available chart area.
+
+#### Positioning the Shared Tooltip
+
+Use the `location` property with `shared: true` to display the shared tooltip at a fixed position.
+
+```typescript
+public tooltip: Object = {
+    enable: true,
+    shared: true,
+    location: {
+        x: 120,
+        y: 80
+    }
+};
+```
+
+In this example:
+
+- `shared: true` groups values from all applicable series.
+- `location.x` specifies the fixed horizontal position.
+- `location.y` specifies the fixed vertical position.
+
+> A shared tooltip can contain values from multiple series and may require additional width or height. Verify that the configured location provides sufficient space for the complete tooltip content.
 
 ### Custom Tooltip Template
 

@@ -352,49 +352,277 @@ export class AppComponent {
 
 ## Tooltips
 
-Display additional information when hovering over nodes or links.
+Tooltips display additional information when users hover over nodes or links in the Sankey Chart.
 
 ### Enable Tooltips
 
-First, inject the tooltip service:
+Enable Sankey tooltips by setting the `enable` property to `true`. When feature-specific modules are used, provide the `SankeyTooltipService`.
 
 ```typescript
-import { SankeyAllModule, SankeyTooltipService } from '@syncfusion/ej2-angular-charts';
+import { Component } from '@angular/core';
+import {
+  SankeyAllModule,
+  SankeyTooltipService
+} from '@syncfusion/ej2-angular-charts';
 
 @Component({
+  selector: 'app-container',
+  standalone: true,
   imports: [SankeyAllModule],
   providers: [SankeyTooltipService],
   template: `
-    <ejs-sankey 
+    <ejs-sankey
+      width="90%"
+      height="450px"
       [tooltip]="tooltipSettings">
+      <e-sankey-nodes>
+        <e-sankey-node id="Agricultural Waste"></e-sankey-node>
+        <e-sankey-node id="Biomass Residues"></e-sankey-node>
+        <e-sankey-node id="Bio-conversion"></e-sankey-node>
+        <e-sankey-node id="Electricity"></e-sankey-node>
+        <e-sankey-node id="Heat"></e-sankey-node>
+      </e-sankey-nodes>
+
+      <e-sankey-links>
+        <e-sankey-link
+          sourceId="Agricultural Waste"
+          targetId="Bio-conversion"
+          [value]="84.152">
+        </e-sankey-link>
+        <e-sankey-link
+          sourceId="Biomass Residues"
+          targetId="Bio-conversion"
+          [value]="24.152">
+        </e-sankey-link>
+        <e-sankey-link
+          sourceId="Bio-conversion"
+          targetId="Electricity"
+          [value]="36.862">
+        </e-sankey-link>
+        <e-sankey-link
+          sourceId="Bio-conversion"
+          targetId="Heat"
+          [value]="60.845">
+        </e-sankey-link>
+      </e-sankey-links>
     </ejs-sankey>
   `
 })
 export class AppComponent {
-  tooltipSettings = {
-    visible: true
+  public tooltipSettings: Object = {
+    enable: true
   };
 }
 ```
 
 ### Default Tooltips
 
+When tooltips are enabled without custom formatting, the Sankey Chart displays the default node or link information.
+
 ```typescript
-// Tooltip shows node/link information by default
-tooltipSettings = {
-  visible: true
+public tooltipSettings: Object = {
+  enable: true
 };
 ```
 
-### Tooltip Formatting
+The default tooltip formats are:
+
+- Node tooltip: `$name : $value`
+- Link tooltip: `$start.name $start.value → $target.name $target.value`
+
+### Tooltip Format
+
+Use the `nodeFormat` and `linkFormat` properties to customize the text displayed for Sankey nodes and links.
 
 ```typescript
-tooltipSettings = {
-  visible: true,
-  nodeTemplate: '${name}: ${value}',
-  linkTemplate: '${start.name}: ${start.out} → ${target.name}: ${target.in}'
+public tooltipSettings: Object = {
+  enable: true,
+  nodeFormat: '$name : $value',
+  linkFormat:
+    '$start.name : $start.value → ' +
+    '$target.name : $target.value'
 };
 ```
+
+In this example:
+
+- `nodeFormat` controls the tooltip content displayed when hovering over a node.
+- `linkFormat` controls the tooltip content displayed when hovering over a link.
+- `$name` displays the hovered node's name.
+- `$value` displays the hovered node's calculated value.
+- `$start.name` displays the source node's name.
+- `$start.value` displays the source-related value.
+- `$target.name` displays the target node's name.
+- `$target.value` displays the target-related value.
+
+The following tokens can be used in `nodeFormat`:
+
+- `$name`: Specifies the node name.
+- `$value`: Specifies the node value.
+
+The following tokens can be used in `linkFormat`:
+
+- `$start.name`: Specifies the source node name.
+- `$start.value`: Specifies the source-side value.
+- `$target.name`: Specifies the target node name.
+- `$target.value`: Specifies the target-side value.
+
+> Use `nodeFormat` and `linkFormat` for text-based tooltip customization. The `nodeTemplate` and `linkTemplate` properties are intended for custom tooltip templates.
+
+### Inline Tooltip Formatting
+
+Numeric values can be formatted directly within nodeFormat and linkFormat by enclosing the numeric token and its format specifier within curly braces ({}), which identify the start and end of the formatted expression. Add a colon (:) followed by the required number format specifier inside the braces.
+
+```typescript
+public tooltipSettings: Object = {
+  enable: true,
+  nodeFormat: '$name : {$value:n2}',
+  linkFormat:
+    '$start.name : ${start.value:n2} → ' +
+    '$target.name : ${target.value:n2}'
+};
+```
+
+In this example:
+
+- `$value:n2` formats the node value with two decimal places.
+- `$start.value:n2` formats the source-side value with two decimal places.
+- `$target.value:n2` formats the target-side value with two decimal places.
+- `$name`, `$start.name`, and `$target.name` display their resolved string values.
+
+Inline number formatting can be applied to the following Sankey tooltip tokens:
+
+- `$value`: Specifies the numeric value of the hovered node.
+- `$start.value`: Specifies the numeric value associated with the source side of the hovered link.
+- `$target.value`: Specifies the numeric value associated with the target side of the hovered link.
+
+The following tokens return string values and do not support number formatting:
+
+- `$name`: Specifies the node name.
+- `$start.name`: Specifies the source node name.
+- `$target.name`: Specifies the target node name.
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public tooltipSettings: Object = {
+  enable: true,
+  nodeFormat: '$name<br>Total flow: $value:n2',
+  linkFormat:
+    '$start.name → $target.name<br>' +
+    'Source: ${start.value:n2}<br>' +
+    'Target: ${target.value:n2}'
+};
+```
+
+If a format specifier does not match the resolved value type, the original value is displayed.
+
+> Sankey tooltip values are numeric flow values, so number format specifiers are applicable. DateTime format specifiers are not applicable to the standard Sankey node and link value tokens.
+
+### Tooltip Template
+
+Use the `nodeTemplate` and `linkTemplate` properties to define separate custom tooltip templates for nodes and links.
+
+```typescript
+public tooltipSettings: Object = {
+  enable: true,
+  nodeTemplate: '#nodeTooltipTemplate',
+  linkTemplate: '#linkTooltipTemplate'
+};
+```
+
+```html
+<ejs-sankey
+  width="90%"
+  height="450px"
+  [tooltip]="tooltipSettings">
+
+  <ng-template #nodeTooltipTemplate let-data>
+    <div class="sankey-tooltip">
+      <div class="sankey-tooltip-title">
+        {{ data.name }}
+      </div>
+      <div>
+        Total flow: {{ data.value | number:'1.2-2' }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #linkTooltipTemplate let-data>
+    <div class="sankey-tooltip">
+      <div class="sankey-tooltip-title">
+        {{ data.start.name }} → {{ data.target.name }}
+      </div>
+      <div>
+        Source value:
+        {{ data.start.value | number:'1.2-2' }}
+      </div>
+      <div>
+        Target value:
+        {{ data.target.value | number:'1.2-2' }}
+      </div>
+    </div>
+  </ng-template>
+
+  <e-sankey-nodes>
+    <e-sankey-node id="Agricultural Waste"></e-sankey-node>
+    <e-sankey-node id="Bio-conversion"></e-sankey-node>
+    <e-sankey-node id="Electricity"></e-sankey-node>
+  </e-sankey-nodes>
+
+  <e-sankey-links>
+    <e-sankey-link
+      sourceId="Agricultural Waste"
+      targetId="Bio-conversion"
+      [value]="84.152">
+    </e-sankey-link>
+    <e-sankey-link
+      sourceId="Bio-conversion"
+      targetId="Electricity"
+      [value]="36.862">
+    </e-sankey-link>
+  </e-sankey-links>
+</ejs-sankey>
+```
+
+```css
+.sankey-tooltip {
+  padding: 8px 12px;
+  color: #333333;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+}
+
+.sankey-tooltip-title {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+```
+
+In this example:
+
+- `nodeTemplate` defines the custom layout displayed for a hovered node.
+- `linkTemplate` defines the custom layout displayed for a hovered link.
+- Angular number pipes format the numeric values inside the templates.
+- Separate templates allow node and link tooltips to use different content and layouts.
+
+Use tooltip templates when the tooltip requires:
+
+- A custom HTML structure.
+- Different layouts for nodes and links.
+- Angular pipes.
+- Conditional content.
+- Custom CSS classes.
+- Additional visual elements.
+
+> Angular pipes should not be placed inside `nodeFormat` or `linkFormat`. Use an inline number format specifier, such as `$value:n2`, or use `nodeTemplate` and `linkTemplate` for Angular-based formatting.
 
 ## Customizing Tooltip
 

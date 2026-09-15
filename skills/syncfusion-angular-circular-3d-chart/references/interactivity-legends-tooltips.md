@@ -118,6 +118,138 @@ tooltip = {
   // ${point.index}: Point index
 }
 ```
+### Inline Tooltip Formatting
+
+The Circular 3D Chart tooltip content can be formatted directly within the `format` property by adding DateTime or number format specifiers to supported tooltip tokens. This allows point and series values to be formatted without using additional events.
+
+Add a colon (`:`) followed by the required format specifier to a supported tooltip token.
+
+```typescript
+import { Component } from '@angular/core';
+import { CircularChart3DAllModule } from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-tooltip-chart',
+  standalone: true,
+  imports: [
+    CircularChart3DAllModule
+  ],
+  template: `
+    <ejs-circularchart3d
+      id="chart"
+      [tooltip]="tooltip">
+      <e-circularchart3d-series-collection>
+        <e-circularchart3d-series
+          [dataSource]="chartData"
+          xName="category"
+          yName="value"
+          name="Sales"
+          type="Pie">
+        </e-circularchart3d-series>
+      </e-circularchart3d-series-collection>
+    </ejs-circularchart3d>
+  `
+})
+export class TooltipChartComponent {
+  public chartData: Object[] = [
+    { category: 'Product A', value: 35.456 },
+    { category: 'Product B', value: 25.782 },
+    { category: 'Product C', value: 40.125 }
+  ];
+
+  public tooltip: Object = {
+    enable: true,
+    format: '${series.name}<br>' +
+      '${point.x}: ${point.y:n2}'
+  };
+}
+```
+
+In this example:
+
+- `${point.x}` displays the category value of the Circular 3D Chart point.
+- `${point.y:n2}` formats the numeric point value with two decimal places.
+- `${series.name}` displays the resolved Circular 3D Chart series name.
+
+Inline formatting can be applied to the following Circular 3D Chart tooltip tokens:
+
+- `point.x`: Specifies the category or x-value of the Circular 3D Chart point.
+- `point.y`: Specifies the numeric y-value of the point.
+- `point.percentage`: Specifies the percentage contribution of the point.
+- `point.text`: Specifies the text mapped to the point when text mapping is configured.
+- `point.tooltip`: Specifies the tooltip value mapped from the data source.
+- `point.index`: Specifies the index of the point.
+- `point.color`: Specifies the fill color applied to the point.
+- `point.visible`: Specifies the visibility state of the point.
+- `series.name`: Specifies the name assigned to the Circular 3D Chart series.
+- `series.opacity`: Specifies the opacity applied to the Circular 3D Chart series.
+
+> The availability of point-specific tokens depends on the Circular 3D Chart data source and series configuration. For example, `point.text` and `point.tooltip` require the corresponding field mappings. The `series.name` tokens return string values, so DateTime or number formatting is not applied to these tokens.
+
+Supported DateTime format specifiers include:
+
+- `MMM yyyy`: Abbreviated month and four-digit year.
+- `MM:yy`: Two-digit month and two-digit year.
+- `dd MMM`: Two-digit day and abbreviated month.
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public tooltip: Object = {
+  enable: true,
+  header: '${series.name}',
+  format: 'Value: ${point.y:n2}<br>' +
+    'Percentage: ${point.percentage:p1}<br>' +
+    'Opacity: ${series.opacity:n2}'
+};
+```
+
+In this example:
+
+- `${point.y:n2}` formats the point value with two decimal places.
+- `${point.percentage:p1}` formats the percentage contribution with one decimal place.
+- `${series.opacity:n2}` formats the series opacity with two decimal places.
+
+When the x-value contains DateTime data, a DateTime format can be specified directly in the `point.x` token.
+
+```typescript
+public chartData: Object[] = [
+  { date: new Date(2024, 0, 1), value: 35 },
+  { date: new Date(2024, 1, 1), value: 25 },
+  { date: new Date(2024, 2, 1), value: 40 }
+];
+
+public tooltip: Object = {
+  enable: true,
+  format: '${point.x:MMM yyyy}: ${point.y:n2}'
+};
+```
+
+```html
+<ejs-circularchart3d [tooltip]="tooltip">
+  <e-circularchart3d-series-collection>
+    <e-circularchart3d-series
+      [dataSource]="chartData"
+      xName="date"
+      yName="value"
+      name="Sales"
+      type="Pie">
+    </e-circularchart3d-series>
+  </e-circularchart3d-series-collection>
+</ejs-circularchart3d>
+```
+
+In this example, `${point.x:MMM yyyy}` formats the DateTime category as an abbreviated month and four-digit year.
+
+If a format specifier does not match the resolved value type, the original value is displayed.
+
+Do not use Angular pipes inside the Circular 3D Chart tooltip `format` string. Use a supported inline format specifier, such as `${point.y:n2}`, or use the tooltip template or `tooltipRender` event for specialized formatting.
 
 ---
 

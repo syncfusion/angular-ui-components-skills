@@ -93,68 +93,227 @@ this.periods = [
 
 ## Tooltips
 
-Tooltips display detailed information when users hover over data points.
+Tooltips display detailed information when users hover over data points in the Stock Chart.
 
 ### Enable Tooltips
 
 ```typescript
-<ejs-stockchart [tooltip]='{ enable: true }'>
+<ejs-stockchart [tooltip]="{ enable: true }">
     <e-stockchart-series-collection>
-        <e-stockchart-series type='Candle' xName='x' 
-            high='high' low='low' open='open' close='close'
-            name='Stock A'>
+        <e-stockchart-series
+            type="Candle"
+            xName="x"
+            high="high"
+            low="low"
+            open="open"
+            close="close"
+            name="Stock A">
         </e-stockchart-series>
     </e-stockchart-series-collection>
 </ejs-stockchart>
 ```
 
-**User Interaction:** Hover over a candle → tooltip appears showing OHLC values
+**User Interaction:** Hover over a candle to display a tooltip containing the corresponding OHLC values.
 
 ### Custom Tooltip Format
 
+The tooltip content can be customized using supported point and series tokens in the `format` property.
+
 ```typescript
-<ejs-stockchart [tooltip]='{ 
+public tooltipConfig: Object = {
     enable: true,
-    format: '<b>${point.x}</b><br/>O: ${point.open} | H: ${point.high} | L: ${point.low} | C: ${point.close}'
-}'>
+    format: '<b>${point.x}</b><br/>' +
+        'Open: ${point.open} | High: ${point.high}<br/>' +
+        'Low: ${point.low} | Close: ${point.close}'
+};
+```
+
+```html
+<ejs-stockchart [tooltip]="tooltipConfig">
+    <e-stockchart-series-collection>
+        <e-stockchart-series
+            type="Candle"
+            xName="x"
+            high="high"
+            low="low"
+            open="open"
+            close="close"
+            name="Stock A">
+        </e-stockchart-series>
+    </e-stockchart-series-collection>
 </ejs-stockchart>
 ```
 
-**Placeholders:**
-- `${point.x}`: Date/x-value
-- `${point.y}`: Y-value
-- `${point.open}`: Open price
-- `${point.high}`: High price
-- `${point.low}`: Low price
-- `${point.close}`: Close price
-- `${series.name}`: Series name
+**Supported tokens include:**
+
+- `${point.x}`: Displays the DateTime or category value of the stock-chart point.
+- `${point.y}`: Displays the numeric y-value of the point for series such as Line, Spline, or Area.
+- `${point.open}`: Displays the opening price.
+- `${point.high}`: Displays the highest price.
+- `${point.low}`: Displays the lowest price.
+- `${point.close}`: Displays the closing price.
+- `${point.volume}`: Displays the volume value when volume data is available.
+- `${series.name}`: Displays the name assigned to the stock-chart series.
+- `${series.type}`: Displays the rendering type of the stock-chart series.
+- `${series.opacity}`: Displays the opacity configured for the series.
+
+### Inline Tooltip Formatting
+
+The tooltip content can be formatted directly within the `format` property by adding DateTime or number format specifiers to supported tooltip tokens. This allows point and series values to be formatted without using additional events.
+
+Add a colon (`:`) followed by the required format specifier to a supported tooltip token.
+
+```typescript
+public tooltipConfig: Object = {
+    enable: true,
+    format: '${series.name} (${series.type})<br>' +
+        '${point.x:MMM yyyy}<br>' +
+        'Open: ${point.open:n2} | High: ${point.high:n2}<br>' +
+        'Low: ${point.low:n2} | Close: ${point.close:n2}<br>' +
+        'Volume: ${point.volume:n0}<br>' +
+        'Opacity: ${series.opacity:n2}'
+};
+```
+
+```html
+<ejs-stockchart [tooltip]="tooltipConfig">
+    <e-stockchart-series-collection>
+        <e-stockchart-series
+            [dataSource]="stockData"
+            type="Candle"
+            xName="x"
+            high="high"
+            low="low"
+            open="open"
+            close="close"
+            volume="volume"
+            name="Stock A">
+        </e-stockchart-series>
+    </e-stockchart-series-collection>
+</ejs-stockchart>
+```
+
+In this example:
+
+- `${point.x:MMM yyyy}` formats the point's DateTime value as an abbreviated month and four-digit year.
+- `${point.open:n2}` formats the opening price with two decimal places.
+- `${point.high:n2}` formats the highest price with two decimal places.
+- `${point.low:n2}` formats the lowest price with two decimal places.
+- `${point.close:n2}` formats the closing price with two decimal places.
+- `${point.volume:n0}` formats the volume without decimal places.
+- `${series.opacity:n2}` formats the series opacity with two decimal places.
+- `${series.name}` and `${series.type}` display their resolved string values.
+
+Inline formatting can be applied to the following tooltip tokens:
+
+- `point.x`: Specifies the DateTime or category value of the stock-chart point.
+- `point.y`: Specifies the numeric y-value used by series such as Line, Spline, or Area.
+- `point.open`: Specifies the opening price of an OHLC point.
+- `point.high`: Specifies the highest price of an OHLC point.
+- `point.low`: Specifies the lowest price of an OHLC point.
+- `point.close`: Specifies the closing price of an OHLC point.
+- `point.volume`: Specifies the volume associated with the stock-chart point.
+- `series.name`: Specifies the name assigned to the stock-chart series.
+- `series.type`: Specifies the rendering type of the stock-chart series.
+- `series.opacity`: Specifies the opacity applied to the stock-chart series.
+
+> The availability of point-specific tokens depends on the series type and data-source configuration. For example, `point.open`, `point.high`, `point.low`, and `point.close` require the corresponding OHLC field mappings. The `point.volume` token requires a mapped volume value. The `series.name` and `series.type` tokens return string values, so DateTime or number formatting is not applied to these tokens.
+
+Supported DateTime format specifiers include:
+
+- `MMM yyyy`: Abbreviated month and four-digit year.
+- `MM:yy`: Two-digit month and two-digit year.
+- `dd MMM`: Two-digit day and abbreviated month.
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public tooltipConfig: Object = {
+    enable: true,
+    format: 'Date: ${point.x:dd MMM}<br>' +
+        'Open: ${point.open:c2}<br>' +
+        'High: ${point.high:c2}<br>' +
+        'Low: ${point.low:c2}<br>' +
+        'Close: ${point.close:c2}<br>' +
+        'Volume: ${point.volume:n0}'
+};
+```
+
+If a format specifier does not match the resolved value type, the original value is displayed.
+
+Do not use Angular pipes inside the tooltip `format` string. Use a supported inline format specifier, such as `${point.close:n2}`, or handle specialized formatting through the `tooltipRender` event.
 
 ### Tooltip Styling
 
+The tooltip appearance can be customized using the `textStyle`, `opacity`, and `border` properties.
+
 ```typescript
-[tooltip]='{ 
-   enable: true,
-   textStyle: {
-        color: "#FFFFFF",
-        fontFamily: "Arial",
-        size: "13px"
-   },
-   opacity: 0.95,
-   border: { 
-             color: "#333333",
-             width: 1
+public tooltipConfig: Object = {
+    enable: true,
+    textStyle: {
+        color: '#FFFFFF',
+        fontFamily: 'Arial',
+        size: '13px'
+    },
+    opacity: 0.95,
+    border: {
+        color: '#333333',
+        width: 1
     }
-}'
+};
+```
+
+```html
+<ejs-stockchart [tooltip]="tooltipConfig">
+    <e-stockchart-series-collection>
+        <e-stockchart-series
+            [dataSource]="stockData"
+            type="Candle"
+            xName="x"
+            high="high"
+            low="low"
+            open="open"
+            close="close">
+        </e-stockchart-series>
+    </e-stockchart-series-collection>
+</ejs-stockchart>
 ```
 
 ### Shared Tooltip (All Series at Once)
 
+Enable the `shared` property to display values from all applicable series in a single tooltip.
+
 ```typescript
-[tooltip]='{ 
+public tooltipConfig: Object = {
     enable: true,
-    shared: true  // Show all series values in one tooltip
-}'
+    shared: true
+};
 ```
+
+```html
+<ejs-stockchart [tooltip]="tooltipConfig">
+    <e-stockchart-series-collection>
+        <e-stockchart-series
+            [dataSource]="stockData"
+            type="Candle"
+            xName="x"
+            high="high"
+            low="low"
+            open="open"
+            close="close"
+            name="Stock A">
+        </e-stockchart-series>
+    </e-stockchart-series-collection>
+</ejs-stockchart>
+```
+
+When shared tooltip mode is enabled, the Stock Chart displays the values of all applicable series for the hovered x-axis position.
 
 ---
 

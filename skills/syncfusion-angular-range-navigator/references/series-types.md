@@ -1,6 +1,6 @@
 # Series Types & Data Binding
 
-The Range Navigator supports multiple series types for different data visualization needs. This guide covers available series types, data binding methods, and configuration options.
+The Range Navigator supports six series types for different data visualization needs. This guide covers the available series types, data-binding methods, configuration options, styling, and required service providers.
 
 ## Table of Contents
 
@@ -12,7 +12,9 @@ The Range Navigator supports multiple series types for different data visualizat
   - [Basic Line Series](#basic-line-series)
   - [Line Series with Custom Styling](#line-series-with-custom-styling)
 - [StepLine Series](#stepline-series)
-  - [Basic StepLine Series](#basic-stepline-series)
+- [Spline Series](#spline-series)
+- [SplineArea Series](#splinearea-series)
+- [Column Series](#column-series)
 - [Multiple Series](#multiple-series)
   - [Two Series Configuration](#two-series-configuration)
 - [Data Binding](#data-binding)
@@ -34,28 +36,41 @@ The Range Navigator supports multiple series types for different data visualizat
 
 | Type | Purpose | Best For |
 |------|---------|----------|
-| `Area` | Filled area visualization | Continuous data trends, cumulative values |
-| `Line` | Line chart rendering | Trend visualization, time-series data |
-| `StepLine` | Step-wise line | Step-function data, state changes |
+| `Area` | Filled area visualization | Continuous trends and cumulative values |
+| `Line` | Straight line segments | Time-series trends and direct comparisons |
+| `StepLine` | Step-wise line segments | State changes and step-function data |
+| `Spline` | Smooth curved line | Gradual trends and smoothly varying data |
+| `SplineArea` | Smooth curve with a filled area | Smooth trends where magnitude should be emphasized |
+| `Column` | Vertical columns | Discrete values and category-based comparisons |
 
 ## Area Series
 
-Area series is the default and most commonly used series type for Range Navigator.
+Area series displays a line with the region beneath it filled. To render it, set `type="Area"` and inject `AreaSeriesService`.
 
 ### Basic Area Series
 
 ```typescript
-@Component({
-  template: `
-    <ejs-rangenavigator 
-      id="rn-container"
+import { Component } from '@angular/core';
+import {
+  AreaSeriesService,
+  DateTimeService,
+  RangeNavigatorModule
+} from '@syncfusion/ej2-angular-charts';
 
+@Component({
+  selector: 'app-area-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [AreaSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator
+      id="area-range-navigator"
       valueType="DateTime">
       <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
+        <e-rangenavigator-series
           [dataSource]="areaData"
-          xName="date" 
-          yName="value" 
+          xName="date"
+          yName="value"
           type="Area">
         </e-rangenavigator-series>
       </e-rangenavigator-series-collection>
@@ -63,7 +78,7 @@ Area series is the default and most commonly used series type for Range Navigato
   `
 })
 export class AreaSeriesComponent {
-  areaData = [
+  public areaData: Object[] = [
     { date: new Date(2023, 0, 1), value: 50 },
     { date: new Date(2023, 0, 2), value: 55 },
     { date: new Date(2023, 0, 3), value: 60 },
@@ -74,41 +89,44 @@ export class AreaSeriesComponent {
 
 ### Area Series with Styling
 
-```typescript
-@Component({
-  template: `
-    <ejs-rangenavigator>
-      <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
-          xName="date" 
-          yName="value" 
-          type="Area"
-          [fill]="'#3498db'"
-          [border]="{ color: '#2c3e50', width: 2 }">
-        </e-rangenavigator-series>
-      </e-rangenavigator-series-collection>
-    </ejs-rangenavigator>
-  `
-})
-export class StyledAreaComponent { }
+```html
+<e-rangenavigator-series
+  [dataSource]="areaData"
+  xName="date"
+  yName="value"
+  type="Area"
+  fill="#3498db"
+  [opacity]="0.7"
+  [border]="{ color: '#2c3e50', width: 2 }">
+</e-rangenavigator-series>
 ```
 
 ## Line Series
 
-Line series displays data as a simple line without fill.
+Line series displays data using straight line segments without an area fill. Set `type="Line"` and inject `LineSeriesService`.
 
 ### Basic Line Series
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  DateTimeService,
+  LineSeriesService,
+  RangeNavigatorModule
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  selector: 'app-line-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [LineSeriesService, DateTimeService],
   template: `
-    <ejs-rangenavigator 
-      valueType="DateTime">
+    <ejs-rangenavigator valueType="DateTime">
       <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
+        <e-rangenavigator-series
           [dataSource]="lineData"
-          xName="date" 
-          yName="value" 
+          xName="date"
+          yName="value"
           type="Line">
         </e-rangenavigator-series>
       </e-rangenavigator-series-collection>
@@ -116,7 +134,7 @@ Line series displays data as a simple line without fill.
   `
 })
 export class LineSeriesComponent {
-  lineData = [
+  public lineData: Object[] = [
     { date: new Date(2023, 0, 1), value: 100 },
     { date: new Date(2023, 0, 2), value: 110 },
     { date: new Date(2023, 0, 3), value: 105 },
@@ -127,121 +145,294 @@ export class LineSeriesComponent {
 
 ### Line Series with Custom Styling
 
-```typescript
-import { Component } from '@angular/core';
-import { 
-    RangeNavigatorModule, 
-    LineSeriesService, 
-    DateTimeService 
-} from '@syncfusion/ej2-angular-charts';
-
-@Component({
-    selector: 'app-container',
-    standalone: true,
-    imports: [RangeNavigatorModule],
-    providers: [LineSeriesService, DateTimeService],
-    template: `
-        <ejs-rangenavigator id="rangeNavigator" valueType="DateTime">
-            <e-rangenavigator-series-collection>
-                <e-rangenavigator-series 
-                    [dataSource]="data"
-                    xName="x" 
-                    yName="y" 
-                    type="Line"
-                    [width]="3"
-                    fill="#e74c3c">
-                </e-rangenavigator-series>
-            </e-rangenavigator-series-collection>
-        </ejs-rangenavigator>`
-})
-export class AppComponent {
-    public data: Object[] = [
-        { x: new Date(2023, 0, 1), y: 10 },
-        { x: new Date(2023, 1, 1), y: 25 },
-        { x: new Date(2023, 2, 1), y: 15 }
-    ];
-}
-
+```html
+<e-rangenavigator-series
+  [dataSource]="lineData"
+  xName="date"
+  yName="value"
+  type="Line"
+  [width]="3"
+  fill="#e74c3c">
+</e-rangenavigator-series>
 ```
 
 ## StepLine Series
 
-Step Line series displays data with step-wise lines connecting points.
+StepLine series connects points with horizontal and vertical segments. Set `type="StepLine"` and inject `StepLineSeriesService`.
 
 ### Basic StepLine Series
 
 ```typescript
-import { NgModule } from '@angular/core'
-import { BrowserModule } from '@angular/platform-browser'
-import { ChartModule, RangeNavigatorModule } from '@syncfusion/ej2-angular-charts'
-import { StepLineSeriesService} from '@syncfusion/ej2-angular-charts'
-
-
-
-
-import { Component, OnInit } from '@angular/core';
-import { datasrc } from './datasource';
+import { Component } from '@angular/core';
+import {
+  DateTimeService,
+  RangeNavigatorModule,
+  StepLineSeriesService
+} from '@syncfusion/ej2-angular-charts';
 
 @Component({
-imports: [
-         ChartModule, RangeNavigatorModule
-    ],
-
-providers: [ StepLineSeriesService ],
-standalone: true,
-    selector: 'app-container',
-    template: `<ejs-rangenavigator id="rn-container" [value]='value'>
-            <e-rangenavigator-series-collection>
-                <e-rangenavigator-series [dataSource]='chartData' type='StepLine' xName='x' yName='y' width=2>
-                </e-rangenavigator-series>
-            </e-rangenavigator-series-collection>
-        </ejs-rangenavigator>`
+  selector: 'app-step-line-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [StepLineSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator
+      id="step-line-range-navigator"
+      valueType="DateTime"
+      [value]="value">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="chartData"
+          xName="date"
+          yName="value"
+          type="StepLine"
+          [width]="2">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+  `
 })
-export class AppComponent implements OnInit {
-    public value?: Object[];
-    public chartData?: Object[];
-    public tooltip?: Object[];
-    public labelFormat?: string;
-    ngOnInit(): void {
-        this.value = [12,30];
-        this.chartData = datasrc;
-        this.labelFormat = 'MMM-yy';
-    }
+export class StepLineSeriesComponent {
+  public value: Date[] = [
+    new Date(2023, 0, 1),
+    new Date(2023, 0, 4)
+  ];
+
+  public chartData: Object[] = [
+    { date: new Date(2023, 0, 1), value: 12 },
+    { date: new Date(2023, 0, 2), value: 30 },
+    { date: new Date(2023, 0, 3), value: 18 },
+    { date: new Date(2023, 0, 4), value: 35 }
+  ];
 }
+```
+
+## Spline Series
+
+Spline series uses smooth, curved segments between data points. Set `type="Spline"` and inject `SplineSeriesService`.
+
+### Basic Spline Series
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  DateTimeService,
+  RangeNavigatorModule,
+  SplineSeriesService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-spline-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [SplineSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator valueType="DateTime">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="splineData"
+          xName="date"
+          yName="value"
+          type="Spline"
+          [width]="2"
+          fill="#7c3aed">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+  `
+})
+export class SplineSeriesComponent {
+  public splineData: Object[] = [
+    { date: new Date(2023, 0, 1), value: 20 },
+    { date: new Date(2023, 1, 1), value: 36 },
+    { date: new Date(2023, 2, 1), value: 28 },
+    { date: new Date(2023, 3, 1), value: 44 },
+    { date: new Date(2023, 4, 1), value: 38 }
+  ];
+}
+```
+
+### Spline Series with Styling
+
+```html
+<e-rangenavigator-series
+  [dataSource]="splineData"
+  xName="date"
+  yName="value"
+  type="Spline"
+  [width]="3"
+  fill="#7c3aed">
+</e-rangenavigator-series>
+```
+
+## SplineArea Series
+
+SplineArea combines a smooth spline curve with a filled area. Set `type="SplineArea"` and inject `SplineAreaSeriesService`.
+
+### Basic SplineArea Series
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  DateTimeService,
+  RangeNavigatorModule,
+  SplineAreaSeriesService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-spline-area-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [SplineAreaSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator valueType="DateTime">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="splineAreaData"
+          xName="date"
+          yName="value"
+          type="SplineArea"
+          fill="#0ea5e9"
+          [opacity]="0.65"
+          [border]="{ color: '#0369a1', width: 2 }">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+  `
+})
+export class SplineAreaSeriesComponent {
+  public splineAreaData: Object[] = [
+    { date: new Date(2023, 0, 1), value: 32 },
+    { date: new Date(2023, 1, 1), value: 46 },
+    { date: new Date(2023, 2, 1), value: 40 },
+    { date: new Date(2023, 3, 1), value: 54 },
+    { date: new Date(2023, 4, 1), value: 49 }
+  ];
+}
+```
+
+### SplineArea Series with Styling
+
+```html
+<e-rangenavigator-series
+  [dataSource]="splineAreaData"
+  xName="date"
+  yName="value"
+  type="SplineArea"
+  fill="#0ea5e9"
+  [opacity]="0.6"
+  [border]="{ color: '#075985', width: 2 }">
+</e-rangenavigator-series>
+```
+
+## Column Series
+
+Column series displays each value as a vertical column. Set `type="Column"` and inject `ColumnSeriesService`.
+
+### Basic Column Series
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  ColumnSeriesService,
+  DateTimeService,
+  RangeNavigatorModule
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-column-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [ColumnSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator valueType="DateTime">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="columnData"
+          xName="date"
+          yName="value"
+          type="Column"
+          fill="#f97316"
+          [border]="{ color: '#c2410c', width: 1 }">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+  `
+})
+export class ColumnSeriesComponent {
+  public columnData: Object[] = [
+    { date: new Date(2023, 0, 1), value: 18 },
+    { date: new Date(2023, 1, 1), value: 30 },
+    { date: new Date(2023, 2, 1), value: 24 },
+    { date: new Date(2023, 3, 1), value: 41 }
+  ];
+}
+```
+
+### Column Series with Styling
+
+```html
+<e-rangenavigator-series
+  [dataSource]="columnData"
+  xName="date"
+  yName="value"
+  type="Column"
+  fill="#f97316"
+  [opacity]="0.8"
+  [border]="{ color: '#9a3412', width: 1 }">
+</e-rangenavigator-series>
 ```
 
 ## Multiple Series
 
-Range Navigator supports multiple series for comparative analysis.
+Range Navigator supports multiple series for comparative analysis. Inject the service for every series type used in the collection.
 
 ### Two Series Configuration
 
 ```typescript
+import { Component } from '@angular/core';
+import {
+  AreaSeriesService,
+  DateTimeService,
+  RangeNavigatorModule,
+  SplineSeriesService
+} from '@syncfusion/ej2-angular-charts';
+
 @Component({
+  selector: 'app-multiple-series',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [
+    AreaSeriesService,
+    SplineSeriesService,
+    DateTimeService
+  ],
   template: `
-    <ejs-rangenavigator 
-      valueType="DateTime">
+    <ejs-rangenavigator valueType="DateTime">
       <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
+        <e-rangenavigator-series
           [dataSource]="multiSeriesData"
-          xName="date" 
-          yName="series1" 
+          xName="date"
+          yName="series1"
+          name="Revenue"
           type="Area"
-          [fill]="'#3498db'">
+          fill="#3498db">
         </e-rangenavigator-series>
-        <e-rangenavigator-series 
+        <e-rangenavigator-series
           [dataSource]="multiSeriesData"
-          xName="date" 
-          yName="series2" 
-          type="Area"
-          [fill]="'#e74c3c'">
+          xName="date"
+          yName="series2"
+          name="Target"
+          type="Spline"
+          fill="#e74c3c"
+          [width]="2">
         </e-rangenavigator-series>
       </e-rangenavigator-series-collection>
     </ejs-rangenavigator>
   `
 })
 export class MultiSeriesComponent {
-  multiSeriesData = [
+  public multiSeriesData: Object[] = [
     { date: new Date(2023, 0, 1), series1: 50, series2: 40 },
     { date: new Date(2023, 0, 2), series1: 60, series2: 45 },
     { date: new Date(2023, 0, 3), series1: 55, series2: 50 }
@@ -251,332 +442,262 @@ export class MultiSeriesComponent {
 
 ## Data Binding
 
+Bind data through the `dataSource` property of each series. Map the data fields using `xName` and `yName`.
+
 ### Local Array Binding
 
 ```typescript
-export class LocalDataComponent {
-  @Component({
-    template: `
-      <ejs-rangenavigator [dataSource]="localData">
-        <!-- series -->
-      </ejs-rangenavigator>
-    `
-  })
-  class MyComponent {
-    localData = [
-      { x: new Date(2023, 0, 1), y: 21 },
-      { x: new Date(2023, 0, 2), y: 24 },
-      { x: new Date(2023, 0, 3), y: 36 }
-    ];
-  }
-}
-```
-
-### Remote Data Binding
-
-```typescript
-import { HttpClient } from '@angular/common/http';
-
-@Component({
-  imports: [RangeNavigatorComponent, CommonModule],
-  template: `
-    <ejs-rangenavigator >
-      <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
-          xName="date" 
-          yName="close" 
-          type="Area"
-          [dataSource]="remoteData">
-        </e-rangenavigator-series>
-      </e-rangenavigator-series-collection>
-    </ejs-rangenavigator>
-  `
-})
-export class RemoteDataComponent implements OnInit {
-  remoteData: any;
-
-  constructor(private http: HttpClient) { }
-
-  ngOnInit(): void {
-    this.http.get('https://api.example.com/stock-data')
-      .subscribe(data => this.remoteData = data);
-  }
-}
-```
-
-### Dynamic Data Update
-
-```typescript
-@Component({
-  template: `
-    <button (click)="updateData()">Update Data</button>
-    <ejs-rangenavigator [dataSource]="chartData">
-      <!-- series -->
-    </ejs-rangenavigator>
-  `
-})
-export class DynamicDataComponent {
-  chartData = [
-    { date: new Date(2023, 0, 1), value: 50 }
-  ];
-
-  updateData(): void {
-    this.chartData = [
-      { date: new Date(2023, 0, 1), value: 50 },
-      { date: new Date(2023, 0, 2), value: 65 },
-      { date: new Date(2023, 0, 3), value: 75 }
-    ];
-  }
-}
-```
-
-## Series Configuration
-
-### xName and yName Mapping
-
-Always map your data object properties to xName and yName:
-
-```typescript
-// Data structure
 import { Component } from '@angular/core';
-import { 
-  RangeNavigatorModule, 
-  AreaSeriesService, 
-  DateTimeService 
+import {
+  AreaSeriesService,
+  DateTimeService,
+  RangeNavigatorModule
 } from '@syncfusion/ej2-angular-charts';
 
 @Component({
-  selector: 'app-container',
+  selector: 'app-local-data',
   standalone: true,
   imports: [RangeNavigatorModule],
-  // DateTimeService is required because 'timestamp' is a Date object
   providers: [AreaSeriesService, DateTimeService],
   template: `
-    <ejs-rangenavigator 
-      id="rangeNavigator" 
-      valueType="DateTime">
+    <ejs-rangenavigator valueType="DateTime">
       <e-rangenavigator-series-collection>
-        <e-rangenavigator-series 
-          [dataSource]="data"
-          xName="timestamp"    
-          yName="measurement"  
+        <e-rangenavigator-series
+          [dataSource]="localData"
+          xName="date"
+          yName="value"
           type="Area">
         </e-rangenavigator-series>
       </e-rangenavigator-series-collection>
     </ejs-rangenavigator>
   `
 })
-export class AppComponent {
-  public data: Object[] = [
-    { timestamp: new Date(2023, 0, 1), measurement: 100 },
-    { timestamp: new Date(2023, 0, 2), measurement: 120 }
+export class LocalDataComponent {
+  public localData: Object[] = [
+    { date: new Date(2023, 0, 1), value: 21 },
+    { date: new Date(2023, 0, 2), value: 24 },
+    { date: new Date(2023, 0, 3), value: 36 }
   ];
 }
-
 ```
+
+### Remote Data Binding
+
+The following example uses Angular `HttpClient`. Configure `provideHttpClient()` in the application configuration before using it.
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  AreaSeriesService,
+  DateTimeService,
+  RangeNavigatorModule
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-remote-data',
+  standalone: true,
+  imports: [RangeNavigatorModule],
+  providers: [AreaSeriesService, DateTimeService],
+  template: `
+    <ejs-rangenavigator valueType="DateTime">
+      <e-rangenavigator-series-collection>
+        <e-rangenavigator-series
+          [dataSource]="remoteData"
+          xName="date"
+          yName="close"
+          type="Area">
+        </e-rangenavigator-series>
+      </e-rangenavigator-series-collection>
+    </ejs-rangenavigator>
+  `
+})
+export class RemoteDataComponent implements OnInit {
+  public remoteData: Object[] = [];
+
+  public constructor(private http: HttpClient) {}
+
+  public ngOnInit(): void {
+    this.http
+      .get<Object[]>('https://api.example.com/stock-data')
+      .subscribe((data: Object[]) => {
+        this.remoteData = data;
+      });
+  }
+}
+```
+
+### Dynamic Data Update
+
+Replace the bound array with a new array when data changes.
+
+```typescript
+public chartData: Object[] = [
+  { date: new Date(2023, 0, 1), value: 50 }
+];
+
+public updateData(): void {
+  this.chartData = [
+    { date: new Date(2023, 0, 1), value: 50 },
+    { date: new Date(2023, 0, 2), value: 65 },
+    { date: new Date(2023, 0, 3), value: 75 }
+  ];
+}
+```
+
+```html
+<button type="button" (click)="updateData()">
+  Update data
+</button>
+
+<ejs-rangenavigator valueType="DateTime">
+  <e-rangenavigator-series-collection>
+    <e-rangenavigator-series
+      [dataSource]="chartData"
+      xName="date"
+      yName="value"
+      type="Area">
+    </e-rangenavigator-series>
+  </e-rangenavigator-series-collection>
+</ejs-rangenavigator>
+```
+
+## Series Configuration
+
+### `xName` and `yName` Mapping
+
+Always map the actual data-object property names to `xName` and `yName`.
+
+```typescript
+public data: Object[] = [
+  { timestamp: new Date(2023, 0, 1), measurement: 100 },
+  { timestamp: new Date(2023, 0, 2), measurement: 120 }
+];
+```
+
+```html
+<e-rangenavigator-series
+  [dataSource]="data"
+  xName="timestamp"
+  yName="measurement"
+  type="Area">
+</e-rangenavigator-series>
+```
+
+When the x-values are JavaScript `Date` objects, set `valueType="DateTime"` on the Range Navigator and inject `DateTimeService`.
 
 ### Custom Series Naming
 
-```typescript
-@Component({
-  template: `
-    <e-rangenavigator-series 
-      xName="date" 
-      yName="value" 
-      type="Area"
-      name="Revenue">
-    </e-rangenavigator-series>
-  `
-})
-export class NamedSeriesComponent { }
+```html
+<e-rangenavigator-series
+  [dataSource]="data"
+  xName="date"
+  yName="value"
+  type="Area"
+  name="Revenue">
+</e-rangenavigator-series>
 ```
 
 ## Series Styling
 
-### Color and Fill
+### Color, Fill, Width, Border, and Opacity
 
-```typescript
-@Component({
-  template: `
-    <e-rangenavigator-series 
-      xName="x" 
-      yName="y" 
-      type="Area"
-      [fill]="'#2ecc71'"
-      [opacity]="0.7"
-      [border]="{ color: '#27ae60', width: 2 }">
-    </e-rangenavigator-series>
-  `
-})
-export class ColoredSeriesComponent { }
+```html
+<e-rangenavigator-series
+  [dataSource]="data"
+  xName="x"
+  yName="y"
+  type="Area"
+  fill="#2ecc71"
+  [width]="2"
+  [opacity]="0.7"
+  [border]="{ color: '#27ae60', width: 2 }">
+</e-rangenavigator-series>
 ```
 
 ### Gradient Fill
 
-```typescript
-@Component({
-  template: `
-    <e-rangenavigator-series 
-      xName="x" 
-      yName="y" 
-      type="Area"
-      [fill]="gradientFill">
-    </e-rangenavigator-series>
-  `
-})
-export class GradientSeriesComponent {
-  gradientFill = 'url(#gradient)';
-}
-```
+A gradient fill must reference an SVG gradient definition available in the rendered document.
 
-## Range Navigator with Chart
+```html
+<svg width="0" height="0" aria-hidden="true">
+  <defs>
+    <linearGradient id="rangeGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"></stop>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.1"></stop>
+    </linearGradient>
+  </defs>
+</svg>
 
-Range Navigator can be used together with a Chart to provide interactive range-based filtering for time-series data. **Range Navigator** is used to control the visible range of a **Chart** by updating the chart axis `zoomFactor` and `zoomPosition` whenever the selected range changes.
-
-### Basic Chart Synchronization
-
-In this pattern:
-- The **Range Navigator** displays the overview of the dataset and allows users to select a specific range.
-- The **Chart** displays the detailed view of the selected data range.
-- The Range Navigator’s `changed` event is used to update the Chart by applying the selected `zoomFactor` and `zoomPosition`.
-
-```typescript
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  ChartModule,
-  RangeNavigatorModule,
-  AreaSeriesService,
-  DateTimeService,
-  RangeTooltipService
-} from '@syncfusion/ej2-angular-charts';
-import { Chart, IChangedEventArgs } from '@syncfusion/ej2-charts';
-
-@Component({
-  standalone: true,
-  selector: 'app-container',
-  imports: [CommonModule, ChartModule, RangeNavigatorModule],
-  providers: [AreaSeriesService, DateTimeService, RangeTooltipService],
-  template: `
-    <ejs-rangenavigator
-      id="rn-container"
-      valueType="DateTime"
-      [value]="value"
-      [tooltip]="tooltip"
-      [labelFormat]="labelFormat"
-      (changed)="changed($event)">
-      <e-rangenavigator-series-collection>
-        <e-rangenavigator-series
-          [dataSource]="chartData"
-          type="Area"
-          xName="x"
-          yName="y"
-          width="2">
-        </e-rangenavigator-series>
-      </e-rangenavigator-series-collection>
-    </ejs-rangenavigator>
-
-    <div align="center">
-      <ejs-chart
-        #chart
-        id="chart"
-        [primaryXAxis]="primaryXAxis">
-        <e-series-collection>
-          <e-series
-            [dataSource]="chartData"
-            type="Area"
-            xName="x"
-            yName="y"
-            width="2">
-          </e-series>
-        </e-series-collection>
-      </ejs-chart>
-    </div>
-  `
-})
-export class AppComponent implements OnInit {
-  public value?: Object[];
-  public chartData?: Object[];
-  public tooltip?: Object[];
-  public labelFormat?: string;
-  public primaryXAxis?: Object;
-
-  @ViewChild('chart') public chartObj?: Chart;
-
-  ngOnInit(): void {
-    this.value = [new Date('2017-09-01'), new Date('2018-02-01')];
-    this.chartData = [
-      { x: new Date('2017-05-01'), y: 30 },
-      { x: new Date('2017-06-01'), y: 28 },
-      { x: new Date('2017-07-01'), y: 35 },
-      { x: new Date('2017-08-01'), y: 40 },
-      { x: new Date('2017-09-01'), y: 32 },
-      { x: new Date('2017-10-01'), y: 38 },
-      { x: new Date('2017-11-01'), y: 42 },
-      { x: new Date('2017-12-01'), y: 36 },
-      { x: new Date('2018-01-01'), y: 44 },
-      { x: new Date('2018-02-01'), y: 48 },
-      { x: new Date('2018-03-01'), y: 46 }
-    ];
-    this.tooltip = [{ enable: true, displayMode: 'Always' }];
-    this.labelFormat = 'MMM-yy';
-    this.primaryXAxis = { valueType: 'DateTime' };
-  }
-
-  public changed(args: IChangedEventArgs): void {
-    if (this.chartObj) {
-      this.chartObj.primaryXAxis.zoomFactor = args.zoomFactor;
-      this.chartObj.primaryXAxis.zoomPosition = args.zoomPosition;
-      this.chartObj.dataBind();
-    }
-  }
-}
+<e-rangenavigator-series
+  [dataSource]="data"
+  xName="x"
+  yName="y"
+  type="Area"
+  fill="url(#rangeGradient)">
+</e-rangenavigator-series>
 ```
 
 ## Best Practices
 
-1. **Choose Appropriate Series Type:**
-   - Area: Continuous data with cumulative values
-   - Line: Trend visualization
-   - StepLine: Discrete state changes
+1. **Choose the appropriate series type:**
+   - Use `Area` for filled continuous trends.
+   - Use `Line` for direct trend visualization.
+   - Use `StepLine` for discrete state changes.
+   - Use `Spline` for smoothly varying trends.
+   - Use `SplineArea` when both smoothness and magnitude need emphasis.
+   - Use `Column` for discrete or category-based comparisons.
 
-2. **Data Property Mapping:** Always use correct property names in xName and yName
+2. **Map data fields correctly:** Ensure that `xName` and `yName` match the source-object property names exactly.
 
-3. **Multiple Series:** Use for comparative visualization but limit to 2-3 series for clarity
+3. **Inject required services:** Provide the service for every series type and axis value type used by the component.
 
-4. **Empty Points:** Handle null/undefined values appropriately
+4. **Keep multiple-series displays readable:** Use a small number of visually distinct series and avoid excessive overlap.
 
-5. **Performance:** For large datasets (>10k points), consider data aggregation or sampling
+5. **Handle empty values intentionally:** Clean, interpolate, or otherwise process null and undefined values according to the application's requirements.
 
-6. **Service Injection:** Always provide required services (AreaSeriesService, LineSeriesService, etc.)
+6. **Optimize large datasets:** Aggregate or sample very large datasets before binding them when full data-point density is unnecessary.
+
+7. **Use immutable updates:** Assign a new array when dynamically updating data so Angular change detection can identify the update reliably.
 
 ## Service Provider Reference
 
-Each series type requires its corresponding service to be injected:
+Each series type requires its corresponding service.
 
 | Series Type | Required Service |
 |-------------|------------------|
-| Area | `AreaSeriesService` |
-| Line | `LineSeriesService` |
-| StepLine | `StepLineSeriesService` |
+| `Area` | `AreaSeriesService` |
+| `Line` | `LineSeriesService` |
+| `StepLine` | `StepLineSeriesService` |
+| `Spline` | `SplineSeriesService` |
+| `SplineArea` | `SplineAreaSeriesService` |
+| `Column` | `ColumnSeriesService` |
 
 ```typescript
 import {
   AreaSeriesService,
-  LineSeriesService,
-  StepLineSeriesService,
+  ColumnSeriesService,
   DateTimeService,
-  RangeTooltipService
+  LineSeriesService,
+  RangeTooltipService,
+  SplineAreaSeriesService,
+  SplineSeriesService,
+  StepLineSeriesService
 } from '@syncfusion/ej2-angular-charts';
 
 @Component({
   providers: [
-    AreaSeriesService,        // For Area series
-    LineSeriesService,        // For Line series
-    StepLineSeriesService,    // For StepLine series
-    DateTimeService,          // For DateTime axis
-    RangeTooltipService       // For tooltips
+    AreaSeriesService,
+    LineSeriesService,
+    StepLineSeriesService,
+    SplineSeriesService,
+    SplineAreaSeriesService,
+    ColumnSeriesService,
+    DateTimeService,
+    RangeTooltipService
   ]
 })
-export class MyComponent { }
+export class MyComponent {}
 ```
+
+Only include `DateTimeService` when using a DateTime axis and `RangeTooltipService` when Range Navigator tooltips are enabled.

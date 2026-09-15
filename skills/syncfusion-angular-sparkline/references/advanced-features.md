@@ -311,41 +311,385 @@ export class ConversionComponent {
 
 ## User Interactions
 
-### Tooltip Configuration
+## Tooltips
 
-Customize tooltip appearance and behavior:
+The Sparkline tooltip displays information about a data point when the user hovers over or touches the corresponding point.
+
+To use the tooltip feature, import `SparklineModule` and provide `SparklineTooltipService`.
+
+### Enable Tooltips
+
+Enable the Sparkline tooltip by setting the `visible` property of `tooltipSettings` to `true`.
 
 ```typescript
-import { SparklineModule, SparklineTooltipService } from '@syncfusion/ej2-angular-charts'
+import { Component } from '@angular/core';
+import {
+  SparklineModule,
+  SparklineTooltipService
+} from '@syncfusion/ej2-angular-charts';
 
 @Component({
-  imports: [SparklineModule],
+  selector: 'app-tooltip',
   standalone: true,
+  imports: [SparklineModule],
   providers: [SparklineTooltipService],
-  template: `<ejs-sparkline 
-    [dataSource]="data"
-    [tooltipSettings]="{ 
-      visible: true,
-      fill: '#1A1A1A',
-      border: { color: '#FFA500' }
-    }">
-  </ejs-sparkline>`
+  template: `
+    <ejs-sparkline
+      width="500px"
+      height="200px"
+      valueType="Category"
+      [dataSource]="data"
+      xName="x"
+      yName="y"
+      [tooltipSettings]="tooltipSettings">
+    </ejs-sparkline>
+  `
 })
-export class TooltipConfigComponent {
-  data = [10, 25, 15, 30, 20]
+export class TooltipComponent {
+  public data: Object[] = [
+    { x: 'Mon', y: 10 },
+    { x: 'Tue', y: 25 },
+    { x: 'Wed', y: 15 },
+    { x: 'Thu', y: 30 },
+    { x: 'Fri', y: 20 }
+  ];
+
+  public tooltipSettings: Object = {
+    visible: true
+  };
 }
 ```
+
+> The tooltip is not displayed unless `visible` is set to `true` and `SparklineTooltipService` is provided.
+
+### Disable Tooltips
+
+Set the `visible` property to `false` to disable the Sparkline tooltip.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: false
+};
+```
+
+### Tooltip Format
+
+Use the `format` property to customize the content displayed in the Sparkline tooltip.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x} : ${y}'
+};
+```
+
+The following tokens can be used in the Sparkline tooltip format:
+
+- `${x}`: Displays the x-value of the current data point.
+- `${y}`: Displays the y-value of the current data point.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: 'Day: ${x}<br>Sales: ${y}'
+};
+```
+
+In this example:
+
+- `${x}` displays the category associated with the point.
+- `${y}` displays the numeric value associated with the point.
+- `<br>` adds a line break between the category and value in the rendered tooltip.
+
+> In an actual TypeScript file, `<br>` can be used directly. Use `<br>` when the example is stored as HTML-encoded content in a Markdown documentation file.
+
+### Inline Tooltip Formatting
+
+Numeric and DateTime values can be formatted directly within the `format` property by adding a colon (`:`) followed by the required format specifier inside the tooltip token's curly braces.
+
+The curly braces (`{}`) identify the start and end of the formatted expression.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x} : ${y:n2}'
+};
+```
+
+In this example:
+
+- `${x}` displays the x-value without additional formatting.
+- `${y:n2}` formats the numeric y-value with two decimal places.
+- The colon separates the token name from the format specifier.
+- The curly braces identify the complete formatted expression.
+
+The following example displays the Sparkline value as currency:
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x}<br>Sales: ${y:c2}'
+};
+```
+
+Supported number format specifiers include:
+
+- `n2`: Number with two decimal places.
+- `n0`: Number without decimal places.
+- `c2`: Currency with two decimal places.
+- `p1`: Percentage with one decimal place.
+- `e1`: Exponential notation with one decimal place.
+
+```typescript
+public data: Object[] = [
+  { x: 'Jan', y: 40.256 },
+  { x: 'Feb', y: 50.782 },
+  { x: 'Mar', y: 45.125 }
+];
+
+public tooltipSettings: Object = {
+  visible: true,
+  format: 'Month: ${x}<br>Value: ${y:n2}'
+};
+```
+
+The rendered tooltip displays content similar to:
+
+```text
+Month: Jan
+Value: 40.26
+```
+
+When the x-value contains DateTime data, a DateTime format specifier can be applied to the `${x}` token.
+
+```typescript
+public data: Object[] = [
+  { x: new Date(2024, 0, 1), y: 40.256 },
+  { x: new Date(2024, 1, 1), y: 50.782 },
+  { x: new Date(2024, 2, 1), y: 45.125 }
+];
+
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x:MMM yyyy} : ${y:n2}'
+};
+```
+
+Supported DateTime format specifiers include:
+
+- `MMM yyyy`: Abbreviated month and four-digit year.
+- `MM:yy`: Two-digit month and two-digit year.
+- `dd MMM`: Two-digit day and abbreviated month.
+
+In this example:
+
+- `${x:MMM yyyy}` formats the DateTime x-value as an abbreviated month and four-digit year.
+- `${y:n2}` formats the numeric y-value with two decimal places.
+
+If a format specifier does not match the resolved value type, the original value is displayed.
+
+Do not use Angular pipes inside the Sparkline tooltip `format` string. Use an inline format specifier, such as `${y:n2}`, or use a tooltip template for specialized formatting.
+
+### Tooltip Appearance
+
+Use the `fill`, `border`, and `textStyle` properties to customize the appearance of the Sparkline tooltip.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x} : ${y:n2}',
+  fill: '#1A1A1A',
+  border: {
+    color: '#FFA500',
+    width: 1
+  },
+  textStyle: {
+    color: '#FFFFFF',
+    fontFamily: 'Arial',
+    fontStyle: 'Normal',
+    fontWeight: 'Normal',
+    opacity: 1,
+    size: '13px'
+  }
+};
+```
+
+In this example:
+
+- `fill` specifies the tooltip background color.
+- `border.color` specifies the tooltip border color.
+- `border.width` specifies the tooltip border width.
+- `textStyle.color` specifies the tooltip text color.
+- `textStyle.fontFamily` specifies the tooltip font family.
+- `textStyle.fontStyle` specifies the tooltip font style.
+- `textStyle.fontWeight` specifies the tooltip font weight.
+- `textStyle.opacity` specifies the tooltip text opacity.
+- `textStyle.size` specifies the tooltip font size.
+
+### Complete Tooltip Configuration
+
+The following example enables and customizes the Sparkline tooltip.
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  SparklineModule,
+  SparklineTooltipService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-tooltip-config',
+  standalone: true,
+  imports: [SparklineModule],
+  providers: [SparklineTooltipService],
+  template: `
+    <ejs-sparkline
+      width="500px"
+      height="200px"
+      valueType="Category"
+      [dataSource]="data"
+      xName="x"
+      yName="y"
+      [tooltipSettings]="tooltipSettings">
+    </ejs-sparkline>
+  `
+})
+export class TooltipConfigComponent {
+  public data: Object[] = [
+    { x: 'Mon', y: 10.256 },
+    { x: 'Tue', y: 25.782 },
+    { x: 'Wed', y: 15.125 },
+    { x: 'Thu', y: 30.456 },
+    { x: 'Fri', y: 20.925 }
+  ];
+
+  public tooltipSettings: Object = {
+    visible: true,
+    format: '${x}<br>Value: ${y:n2}',
+    fill: '#1A1A1A',
+    border: {
+      color: '#FFA500',
+      width: 1
+    },
+    textStyle: {
+      color: '#FFFFFF',
+      fontFamily: 'Arial',
+      fontWeight: 'Normal',
+      size: '13px'
+    }
+  };
+}
+```
+
+### Tooltip Template
+
+Use the `template` property to define custom HTML content for the Sparkline tooltip.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  template: '#sparklineTooltipTemplate'
+};
+```
+
+```html
+<ejs-sparkline
+  width="500px"
+  height="200px"
+  valueType="Category"
+  [dataSource]="data"
+  xName="x"
+  yName="y"
+  [tooltipSettings]="tooltipSettings">
+
+  <ng-template #sparklineTooltipTemplate let-data>
+    <div class="sparkline-tooltip">
+      <div class="sparkline-tooltip-title">
+        {{ data.x }}
+      </div>
+      <div>
+        Value: {{ data.y | number:'1.2-2' }}
+      </div>
+    </div>
+  </ng-template>
+</ejs-sparkline>
+```
+
+```css
+.sparkline-tooltip {
+  padding: 8px 12px;
+  color: #333333;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+}
+
+.sparkline-tooltip-title {
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+```
+
+Use a tooltip template when the tooltip requires:
+
+- A custom HTML layout.
+- Multiple rows of information.
+- Angular pipes.
+- Conditional content.
+- Custom CSS classes.
+- Additional visual elements.
+
+> Angular pipes can be used inside an Angular tooltip template. Do not place Angular pipes inside the `format` property.
+
+### Tracker Line
+
+The tracker line highlights the x-position of the hovered Sparkline point. Configure it using `trackLineSettings` inside `tooltipSettings`.
+
+```typescript
+public tooltipSettings: Object = {
+  visible: true,
+  format: '${x} : ${y:n2}',
+  trackLineSettings: {
+    visible: true,
+    color: '#FF5733',
+    width: 2
+  }
+};
+```
+
+In this example:
+
+- `trackLineSettings.visible` enables the tracker line.
+- `trackLineSettings.color` specifies the tracker-line color.
+- `trackLineSettings.width` specifies the tracker-line width.
+
+```html
+<ejs-sparkline
+  width="500px"
+  height="200px"
+  valueType="Category"
+  [dataSource]="data"
+  xName="x"
+  yName="y"
+  [tooltipSettings]="tooltipSettings">
+</ejs-sparkline>
+```
+
+> The tracker line and tooltip can be enabled together. When the user moves over the Sparkline, the tracker line identifies the active point while the tooltip displays its x- and y-values.
 
 ### Tooltip Properties
 
 | Property | Type | Purpose |
-|----------|------|---------|
-| `visible` | boolean | Enable/disable tooltip |
-| `format` | string | Format string with ${x}, ${y} |
-| `fill` | string | Background color |
-| `border.color` | string | Border color |
-| `opacity` | number | Transparency |
-| `textStyle.color` | string | Text color |
+|---|---|---|
+| `visible` | `boolean` | Enables or disables the Sparkline tooltip. |
+| `format` | `string` | Customizes tooltip content using `${x}` and `${y}` tokens. |
+| `fill` | `string` | Specifies the tooltip background color. |
+| `border` | `SparklineBorderModel` | Configures the tooltip border color and width. |
+| `textStyle` | `SparklineFontModel` | Configures tooltip text appearance. |
+| `template` | `string \| Function` | Specifies a custom tooltip template. |
+| `trackLineSettings` | `TrackLineSettingsModel` | Configures the tracker-line visibility, color, and width. |
+
+The Sparkline tooltip settings model provides `visible`, `format`, `fill`, `border`, `textStyle`, `template`, and `trackLineSettings`. It does not expose a tooltip-level `opacity` property, so remove `opacity` from the original properties table.
 
 ## Special Points Customization
 

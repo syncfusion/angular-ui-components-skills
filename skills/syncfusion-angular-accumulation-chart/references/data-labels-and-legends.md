@@ -528,6 +528,180 @@ public legendSettings = {
 
 ---
 
+## Data Labels with `mappingKey` for Multiple Pie Series
+
+When working with multiple Pie or Doughnut series, you can add a custom field such as `mappingKey` to each data source. This field identifies the source series and can be used in data labels, templates, and the `textRender` event.
+
+> **Note:** `mappingKey` is not a built-in Syncfusion Accumulation Chart property. It is a custom data-source field that can be referenced through `dataLabel.name`, label templates, or render events.
+
+### Complete Example
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  AccumulationChartModule,
+  PieSeriesService,
+  AccumulationDataLabelService,
+  AccumulationLegendService,
+  IAccTextRenderEventArgs
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  standalone: true,
+  selector: 'app-multiple-pie-series',
+  imports: [AccumulationChartModule],
+  providers: [
+    PieSeriesService,
+    AccumulationDataLabelService,
+    AccumulationLegendService
+  ],
+  template: `
+    <ejs-accumulationchart
+      id="multiple-pie-series"
+      [enableSmartLabels]="true"
+      [legendSettings]="legendSettings"
+      (textRender)="onTextRender($event)">
+
+      <e-accumulation-series-collection>
+        <e-accumulation-series
+          type="Pie"
+          radius="70%"
+          [dataSource]="salesData"
+          xName="x"
+          yName="y"
+          [dataLabel]="salesDataLabel">
+        </e-accumulation-series>
+
+        <e-accumulation-series
+          type="Pie"
+          radius="45%"
+          [dataSource]="profitData"
+          xName="x"
+          yName="y"
+          [dataLabel]="profitDataLabel">
+        </e-accumulation-series>
+      </e-accumulation-series-collection>
+    </ejs-accumulationchart>
+  `
+})
+export class MultiplePieSeriesComponent {
+  public salesData = [
+    { x: 'North', y: 35, mappingKey: 'Sales' },
+    { x: 'South', y: 25, mappingKey: 'Sales' },
+    { x: 'East', y: 20, mappingKey: 'Sales' },
+    { x: 'West', y: 20, mappingKey: 'Sales' }
+  ];
+
+  public profitData = [
+    { x: 'North', y: 15, mappingKey: 'Profit' },
+    { x: 'South', y: 20, mappingKey: 'Profit' },
+    { x: 'East', y: 10, mappingKey: 'Profit' },
+    { x: 'West', y: 12, mappingKey: 'Profit' }
+  ];
+
+  public salesDataLabel = {
+    visible: true,
+    position: 'Outside',
+    name: 'mappingKey',
+    template:
+      '<div><b>${point.mappingKey}</b></div>' +
+      '<div>${point.x}: ${point.y}</div>'
+  };
+
+  public profitDataLabel = {
+    visible: true,
+    position: 'Inside',
+    name: 'mappingKey'
+  };
+
+  public legendSettings = {
+    visible: true,
+    position: 'Right'
+  };
+
+  public onTextRender(args: IAccTextRenderEventArgs): void {
+    const point = args.point as unknown as {
+      x: string;
+      y: number;
+      mappingKey?: string;
+    };
+
+    if (point.mappingKey) {
+      args.text = `${point.mappingKey} - ${point.x}: ${point.y}`;
+    }
+  }
+}
+```
+
+### Mapping Key Usage
+
+The custom `mappingKey` field can be used in three ways.
+
+#### Use the Mapping Key as the Label Text
+
+```typescript
+public dataLabel = {
+  visible: true,
+  position: 'Inside',
+  name: 'mappingKey'
+};
+```
+
+The `name` property maps the data label text directly to the specified data-source field.
+
+#### Use the Mapping Key in a Label Template
+
+```typescript
+public dataLabel = {
+  visible: true,
+  position: 'Outside',
+  template:
+    '<div><b>${point.mappingKey}</b></div>' +
+    '<div>${point.x}: ${point.y}</div>'
+};
+```
+
+The template can display the mapping key together with the category and value.
+
+#### Use the Mapping Key in `textRender`
+
+```typescript
+public onTextRender(args: IAccTextRenderEventArgs): void {
+  const point = args.point as unknown as {
+    x: string;
+    y: number;
+    mappingKey?: string;
+  };
+
+  if (point.mappingKey) {
+    args.text = `${point.mappingKey} - ${point.x}: ${point.y}`;
+  }
+}
+```
+
+The `textRender` event provides additional control when label text must be generated dynamically.
+
+### Example Label Output
+
+```text
+Sales - North: 35
+Sales - South: 25
+Profit - North: 15
+Profit - South: 20
+```
+
+### Key Considerations
+
+- `mappingKey` is a custom field defined in the data source.
+- Use `dataLabel.name` when the label should display only the mapped field.
+- Use `dataLabel.template` when the label should display multiple fields.
+- Use `textRender` when the label requires conditional or dynamic formatting.
+- Inject `AccumulationDataLabelService` to enable data labels.
+- Inject `AccumulationLegendService` when legends are enabled.
+- Place `[enableSmartLabels]` on `<ejs-accumulationchart>`, not on `<e-accumulation-series>`.
+
+---
+
 ## Legend Customization
 
 ### Position and alignment
