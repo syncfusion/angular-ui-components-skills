@@ -16,6 +16,8 @@
 
 Selection is enabled by default. Inject `SelectionService` to activate:
 
+For checkbox-driven hierarchy selection, use `selectionSettings.hierarchyMode` to control how parent and child selection states propagate.
+
 ```typescript
 @Component({
   providers: [SelectionService],
@@ -85,6 +87,143 @@ public selectionSettings: object = {
   persistSelection: false,  // Keep selection after data refresh
   checkboxOnly: false        // Selection only via checkbox column
 };
+```
+
+---
+
+## Hierarchy Checkbox Selection
+
+Hierarchy checkbox selection controls how checkbox state propagates across parent and child records in the task tree.
+
+This feature uses the `selectionSettings.hierarchyMode` property to determine whether selection stays local to the clicked row or propagates through the hierarchy.
+
+### Enable Hierarchy Checkbox Selection
+
+Enable the feature by combining checkbox selection with a hierarchy mode configuration:
+
+
+```typescript
+@Component({
+  template: `
+    <ejs-gantt
+      [allowSelection]="true"
+      [selectionSettings]="selectionSettings"
+      [columns]="columns">
+    </ejs-gantt>
+  `
+})
+export class AppComponent {
+  public selectionSettings: object = {
+    mode: 'Row',
+    type: 'Multiple',
+    hierarchyMode: 'Hierarchy'
+  };
+
+  public columns: object[] = [
+    { field: 'CheckBox', headerText: '', showCheckbox: true, width: 70, allowFiltering: false },
+    { field: 'TaskID', width: 70, visible: false },
+    { field: 'TaskName', width: 190 },
+    { field: 'StartDate' },
+    { field: 'EndDate' },
+    { field: 'Duration' },
+    { field: 'Predecessor' },
+    { field: 'Progress' },
+  ];
+}
+```
+
+### Hierarchy Checkbox Mode
+
+The `hierarchyMode` property defines how checkbox selection behaves within the parent-child structure.
+
+| Value | Default | Description |
+|---|---|---|
+| `'Self'` | No | Selects only the clicked record |
+| `'Hierarchy'` | Yes | Propagates selection to related parent and child records |
+| `'FilteredHierarchy'` | No | Propagates selection only within the filtered or searched view |
+
+### Mode Behavior
+
+#### Self
+
+- Selects only the current record
+- Parent selection does not affect child records
+- Child selection does not affect ancestors or siblings
+- Useful when each record must be managed independently
+
+#### Hierarchy
+
+- Selects the current record and propagates selection through its hierarchy
+- Selecting a parent record selects its descendant records
+- Selecting a child record updates ancestor selection state according to the hierarchy selection rules
+- Collapsed descendants are still included because selection is based on the data hierarchy, not only on visible rows
+- This is the default hierarchy behavior
+
+#### FilteredHierarchy
+
+- Behaves like `Hierarchy` for the visible filtered set
+- Selection propagates only to records currently visible after filtering or searching
+- Hidden records remain unchanged
+- Useful when users need selection to respect the current filtered context
+
+### Selection Propagation Rules
+
+| Interaction | Self | Hierarchy | FilteredHierarchy |
+|---|---|---|---|
+| Select parent | Select parent only | Select parent + descendants + related hierarchy state | Select only visible related records |
+| Select child | Select child only | Update related hierarchy state for ancestors and descendants | Update only visible related records |
+| Collapse parent | No selection impact | No selection loss; hierarchy state is retained | No selection loss for visible filtered rows |
+| Expand parent | No selection impact | Descendants remain selected if previously selected | Visible descendants reflect filtered hierarchy state |
+| Filter rows | No special behavior | Selection can span filtered records and hidden hierarchy records | Selection affects only filtered results |
+
+### Collapsed and Expanded Records
+
+Hierarchy checkbox selection works consistently across collapsed and expanded nodes:
+
+- Collapsed parents retain their selection state
+- Descendant records can remain selected even when not visible
+- Expanding a parent restores the visible selection state of its descendants
+- Collapsing and expanding rows does not clear hierarchy-driven selection
+
+### Example — Hierarchy Checkbox Mode
+
+```typescript
+@Component({
+  template: `
+    <ejs-gantt
+      [allowSelection]="true"
+      [selectionSettings]="selectionSettings"
+      [allowFiltering]="true"
+      [columns]="columns">
+    </ejs-gantt>
+  `
+})
+export class AppComponent {
+  public selectionSettings: object = {
+    mode: 'Row',
+    type: 'Multiple',
+    enableToggle: true,
+    hierarchyMode: 'FilteredHierarchy'  // Use filtered hierarchy for filtered views
+  };
+
+  public data: object[] = [
+    { TaskID: 1, TaskName: 'Project', StartDate: new Date('04/01/2024'), Duration: 10, ParentID: null },
+    { TaskID: 2, TaskName: 'Phase 1', StartDate: new Date('04/01/2024'), Duration: 5, ParentID: 1 },
+    { TaskID: 3, TaskName: 'Task A', StartDate: new Date('04/01/2024'), Duration: 2, ParentID: 2 },
+    { TaskID: 4, TaskName: 'Task B', StartDate: new Date('04/03/2024'), Duration: 3, ParentID: 2 }
+  ];
+
+  public columns: object[] = [
+    { field: 'CheckBox', headerText: '', showCheckbox: true, width: 70, allowFiltering: false },
+    { field: 'TaskID', width: 70, visible: false },
+    { field: 'TaskName', width: 190 },
+    { field: 'StartDate' },
+    { field: 'EndDate' },
+    { field: 'Duration' },
+    { field: 'Predecessor' },
+    { field: 'Progress' },
+  ];
+}
 ```
 
 ---

@@ -8,7 +8,7 @@ metadata:
 
 # Syncfusion Angular Gantt Chart
 
-A comprehensive skill for implementing and configuring the Syncfusion Angular Gantt Chart component (`ejs-gantt`). This covers everything from initial setup through advanced features like critical path, virtual scrolling, resource views, undo/redo, state persistence, localization, and export.
+A comprehensive skill for implementing and configuring the Syncfusion Angular Gantt Chart component (`ejs-gantt`). This covers everything from initial setup through advanced features like critical path, virtual scrolling, resource views, undo/redo, state persistence, localization, export, task calendars, serial numbers, advanced scheduling units, dependency restrictions, hierarchy checkbox selection, and taskbar drawing.
 
 ## When to Use This Skill
 
@@ -19,6 +19,7 @@ Use this skill when you need to:
 - Define task dependencies and predecessor relationships
 - Add, edit, or delete tasks (cell, dialog, taskbar editing)
 - Assign and manage resources
+- Configure project and task calendars for working time, holidays, and exceptions
 - Configure timelines, zooming, and tier formats
 - Customize taskbars, labels, and data markers
 - Filter, sort, search, or select rows/cells
@@ -71,11 +72,24 @@ Use this skill when you need to:
 - Manual mode: all dates fixed as-is in data source; use `validateManualTasksOnLinking` to still adjust on link
 - Custom mode: per-task scheduling via mapped boolean field in data source
 - Unscheduled tasks (`allowUnscheduledTasks`) — partial dates, floating bars
-- `durationUnit`: `'Day'` | `'Hour'` | `'Minute'`
+- `durationUnit`: `'Day'` | `'Hour'` | `'Minute'` | `'Week'` | `'Month'`
+- Duration units with embedded values: `'5 days'`, `'2 weeks'`, `'1 month'`
+- `daysPerWeek` and `daysPerMonth` — conversion controls for week/month-based scheduling
 - **Working days:** `workWeek` array (default Mon–Fri); `includeWeekend: true` makes all 7 days working
 - **Working hours:** `dayWorkingTime` — array of `{ from, to }` ranges (default 8–17); affects hour-based durations
 - Baseline dates (`renderBaseline`, `baselineStartDate`, `baselineEndDate`, `baselineDuration`, `baselineColor`) and `baselineTemplate` for custom baseline rendering
 - Work scheduling (effort-driven) with `work` field and `workUnit`
+
+### Calendar Settings
+📄 **Read:** [references/calendar-settings.md](references/calendar-settings.md)
+- `calendarSettings` — top-level calendar configuration for the Gantt chart
+- `calendarSettings.projectCalendar` — default working days, working hours, holidays, and exceptions for all tasks
+- `calendarSettings.taskCalendar` — task-specific calendars for shift-based, team-based, or region-based scheduling
+- `taskFields.calendarId` — maps a task record to a named task calendar- `calendarSettings.taskCalendar` fully overrides the project calendar for matched tasks
+- Task calendars affect working time calculation, duration calculation, holidays, weekends, and dependency scheduling- `hoursPerDay` — converts working duration into day-based duration values for display and calculations
+- Calendar exceptions allow date-specific overrides for working time and non-working time
+- Task calendars override the project calendar for assigned tasks
+- Holidays, weekends, and working-hours rules affect task duration, dependency resolution, and taskbar placement
 
 ### Task Dependencies
 📄 **Read:** [references/task-dependencies.md](references/task-dependencies.md)
@@ -84,6 +98,7 @@ Use this skill when you need to:
 - Predecessor lag/lead offsets with `d`/`h`/`m` units
 - `autoUpdatePredecessorOffset` — sync offset values with actual positions on load
 - `allowParentDependency` — enable parent-child and cross-hierarchy dependencies
+- `allowedDependencyTypes` — restrict dependency creation and editing to selected types
 - Editing via connector line drag when `editSettings.allowTaskbarEditing: true`
 - `actionBegin` `requestType: 'validateLinkedTask'` — handle dependency conflicts
 - Programmatic: `addPredecessor()`, `removePredecessor()`, `updateRecordById()`
@@ -125,6 +140,15 @@ Use this skill when you need to:
 - Work-based scheduling: `work` field, `taskType` (`'FixedWork'`, `'FixedDuration'`, `'FixedUnit'`)
 - Work unit: `workUnit: 'Hour'` | `'Day'` | `'Minute'`
 
+### Calendar Settings
+📄 **Read:** [references/calendar-settings.md](references/calendar-settings.md)
+- Project calendar defines the default working schedule for the entire project
+- Task calendars let specific tasks follow their own working days, holidays, and exceptions
+- `calendarId` selects the task calendar used by a task record
+- `hoursPerDay` controls how day-based duration values are interpreted
+- Task calendars do not merge with the project calendar; assigned task calendars take precedence for that task
+- Use task calendars for multi-shift, multi-team, or region-specific scheduling requirements
+
 ### Columns
 📄 **Read:** [references/columns.md](references/columns.md)
 - Column `field`, `headerText`, `width`, `format`, `type`, `template`, `headerTemplate`
@@ -133,6 +157,9 @@ Use this skill when you need to:
 - Column spanning via `queryCellInfo`
 - `treeColumnIndex` for tree expand/collapse column
 - WBS (Work Breakdown Structure) column with `columnType: 'WBS'`
+- Serial Number column with `enableSerialNumber: true` and `field: 'SerialNumber'`
+- Serial numbers recalculate after sorting, filtering, virtualization, row drag-and-drop, paging, CRUD, and hierarchy changes
+- Recalculation after filtering, searching, sorting, expanding/collapsing, indentation, CRUD, row drag-and-drop, and data refresh
 - Column menu (`showColumnMenu`) — sort, filter, auto-fit, column chooser
 - `isPrimaryKey` requirement for CRUD operations
 
@@ -159,10 +186,21 @@ Use this skill when you need to:
 📄 **Read:** [references/taskbar.md](references/taskbar.md)
 - `taskbarTemplate`, `parentTaskbarTemplate`, `milestoneTemplate` — full custom templates
 - `labelSettings`: `leftLabel`, `rightLabel`, `taskLabel` (field names or templates)
+- Label templates with `ng-template` for rich content rendering
 - `queryTaskbarInfo` — dynamic styling: `taskbarBgColor`, `progressBarBgColor`, `taskbarBorderColor`
 - `indicators` / data markers on individual tasks: `date`, `iconClass`, `label`, `tooltip`
 - Tooltip customization via `tooltipSettings.taskbar` template
 - `taskbarHeight`, `taskbarCornerRadius`, `allowTaskbarDragAndDrop`
+
+### Taskbar Draw
+📄 **Read:** [references/taskbar-draw.md](references/taskbar-draw.md)
+- `editSettings.allowTaskbarDraw` — enables drawing taskbars directly on the timeline to create or schedule unscheduled tasks
+- Taskbar drawing behavior and user workflow
+- Scheduling output: `StartDate`, `EndDate`, `Duration` generated from drawn range
+- Fully unscheduled, partially scheduled, parent, child, milestone, and manually scheduled task scenarios
+- Feature interactions with taskbar editing, dialog editing, cell editing, validation, working time, and calendar rules
+- Implementation example with toolbar and column configuration
+- Best practices and limitations
 
 ### Filtering and Searching
 📄 **Read:** [references/filtering-and-searching.md](references/filtering-and-searching.md)
@@ -197,6 +235,7 @@ Use this skill when you need to:
 - `selectionSettings.mode`: `'Row'` (default) | `'Cell'` | `'Both'`
 - `selectionSettings.type`: `'Single'` (default) | `'Multiple'` (Ctrl+click for multi-select)
 - `selectionSettings.enableToggle` — click to deselect already-selected row
+- `selectionSettings.hierarchyMode` / hierarchy checkbox selection modes: `'Self'` | `'Hierarchy'` | `'FilteredHierarchy'`
 - Cell selection modes: `'Flow'` | `'Box'` | `'BoxWithBorder'`
 - Programmatic: `selectRow()`, `selectRows()`, `selectCell()`, `clearSelection()`, `getSelectedRecords()`
 
@@ -370,6 +409,9 @@ export class AppComponent {
 
 ### When user needs resource management
 → Read `references/resources.md` — configure `resources` + `resourceFields`
+
+### When user needs calendar-based task scheduling
+→ Read `references/calendar-settings.md` — configure `calendarSettings`, `calendarId`, and `hoursPerDay`
 
 ### When user needs undo/redo
 → Read `references/undo-redo.md` — inject `UndoRedoService`, set `enableUndoRedo: true`

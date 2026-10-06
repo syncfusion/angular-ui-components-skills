@@ -118,13 +118,33 @@ This is useful for backlog items or placeholder tasks that have not been schedul
 
 ## Duration Units
 
+Duration units define how the scheduler interprets a task's duration field before it calculates start and end dates.
+
 The default duration unit is **days**. Configure using `durationUnit`:
 
 ```html
-<ejs-gantt durationUnit="Hour"></ejs-gantt>
+<ejs-gantt [durationUnit]="Hour"></ejs-gantt>
 ```
 
-Available units: `Day` | `Hour` | `Minute`
+Available units: `'Day'` | `'Hour'` | `'Minute'` | `'Week'` | `'Month'`
+
+### Supported duration units
+
+| Unit | Typical use | Scheduling effect |
+|---|---|---|
+| `'Day'` | General planning | Moves the task in whole-day blocks |
+| `'Hour'` | Short or shift-based work | Uses daily working hours and time slots |
+| `'Minute'` | Very short tasks | Useful for precision work, meetings, and burst tasks |
+| `'Week'` | Sprint planning, iteration planning | Converts the duration using `daysPerWeek` before scheduling |
+| `'Month'` | Long phases, roadmap planning | Converts the duration using `daysPerMonth` before scheduling |
+
+### How duration is resolved
+
+The scheduler checks duration input in this order:
+
+1. A unit embedded in the duration text, such as `'5 days'`, `'2 weeks'`, or `'1 month'`
+2. `taskFields.durationUnit` on the task row
+3. The global `durationUnit` property on the component
 
 Map the unit per task using `taskFields.durationUnit` if individual tasks use different units:
 
@@ -132,8 +152,27 @@ Map the unit per task using `taskFields.durationUnit` if individual tasks use di
 public taskFields: object = {
   id: 'TaskID', name: 'TaskName',
   startDate: 'StartDate', duration: 'Duration',
-  durationUnit: 'DurationUnit'  // Field in data source with values: 'day', 'hour', 'minute'
+  durationUnit: 'DurationUnit'  // Field in data source with values: 'day', 'hour', 'minute', 'week', 'month'
 };
+```
+
+### Example — mixed duration sources
+
+```typescript
+public taskFields: object = {
+  id: 'TaskID',
+  name: 'TaskName',
+  startDate: 'StartDate',
+  duration: 'Duration',
+  durationUnit: 'DurationUnit',
+  progress: 'Progress'
+};
+
+public data: object[] = [
+  { TaskID: 1, TaskName: 'Planning', StartDate: new Date('04/02/2024'), Duration: '5 days' },
+  { TaskID: 2, TaskName: 'Execution', StartDate: new Date('04/09/2024'), Duration: 2, DurationUnit: 'Week' },
+  { TaskID: 3, TaskName: 'Closure', StartDate: new Date('04/30/2024'), Duration: 1, DurationUnit: 'Month' }
+];
 ```
 
 ---
@@ -168,6 +207,78 @@ To make every day a working day (including weekends), use `includeWeekend`:
 ```
 
 When `true`, all 7 days are treated as working days regardless of `workWeek`. Default is `false`.
+
+---
+
+## Week and Month Duration Calculation
+
+When a task uses `'Week'` or `'Month'`, the scheduler converts the value to working days before it derives the end date. The conversion is calendar-aware, so the final result still respects weekends, holidays, and the configured work week.
+
+### daysPerWeek and daysPerMonth
+
+`daysPerWeek` and `daysPerMonth` are the conversion controls used by `'Week'` and `'Month'` duration units.
+
+```html
+<ejs-gantt [daysPerWeek]="5" [daysPerMonth]="20"></ejs-gantt>
+```
+
+| Property | Default | Purpose |
+|---|---|---|
+| `daysPerWeek` | `5` | How many working days equal one week in scheduling |
+| `daysPerMonth` | `20` | How many working days equal one month in scheduling |
+
+### Week duration behavior
+
+- `1 Week` equals `daysPerWeek` working days
+- The conversion happens before dependency logic is evaluated
+- If the project uses a 5-day schedule, a 2-week task behaves like 10 working days, not 14 calendar days
+- This is useful for sprint planning because the estimate stays in work units rather than calendar units
+
+### Month duration behavior
+
+- `1 Month` equals `daysPerMonth` working days
+- The conversion is applied before the task is placed on the timeline
+- A 1-month task behaves like a fixed planning month, not a calendar-month hop
+- This keeps month-based estimates stable across different calendar lengths
+
+### Example — week and month tasks in one project
+
+```typescript
+@Component({
+  template: `
+    <ejs-gantt
+      [dataSource]="data"
+      [taskFields]="taskFields"
+      [daysPerWeek]="5"
+      [daysPerMonth]="20">
+    </ejs-gantt>
+  `
+})
+export class AppComponent {
+  public data: object[] = [
+    { TaskID: 1, TaskName: 'Sprint Cycle', StartDate: new Date('04/01/2024'), Duration: 2, DurationUnit: 'Week' },
+    { TaskID: 2, TaskName: 'Release Phase', StartDate: new Date('04/15/2024'), Duration: 1, DurationUnit: 'Month' }
+  ];
+
+  public taskFields: object = {
+    id: 'TaskID',
+    name: 'TaskName',
+    startDate: 'StartDate',
+    duration: 'Duration',
+    durationUnit: 'DurationUnit'
+  };
+}
+```
+
+### Scheduling flow
+
+For both `'Week'` and `'Month'`, the scheduler follows this flow:
+
+1. Read the task duration and unit
+2. Convert the value to working days using the configured base
+3. Apply work week, weekends, holidays, and working time rules
+4. Resolve predecessor links and parent rollups
+5. Recalculate the final visible start and end dates
 
 ### Daily Working Hours
 

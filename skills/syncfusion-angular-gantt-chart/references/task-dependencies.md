@@ -18,6 +18,8 @@
 
 Task dependencies define relationships between tasks, where changes to a predecessor automatically affect its successors. Dependencies are defined as string values in the data source (e.g., `'2FS'`, `'3SS+1d'`) and mapped using `taskFields.dependency`.
 
+The `allowedDependencyTypes` property can be used to restrict which dependency types users can create or edit. When configured, the Gantt component blocks dependency creation and validation for any dependency type that is not included in the allowed set.
+
 ---
 
 ## Configure Dependencies
@@ -157,6 +159,67 @@ public queryTaskbarInfo(args: any): void {
   }
 }
 ```
+
+---
+
+## Allowed Dependency Types
+
+The `allowedDependencyTypes` property restricts which dependency types can be created, edited, or loaded in the Gantt Chart. When configured, the Gantt validates dependency strings during initial load and prevents UI-based dependency creation for disallowed types.
+
+```html
+<ejs-gantt [allowedDependencyTypes]="['FS', 'SF']"></ejs-gantt>
+```
+
+### When to use
+
+Use `allowedDependencyTypes` when:
+- Your project should only use specific relationship types (e.g., only Finish-to-Start for a sequential project)
+- You need to prevent users from creating certain dependency types through the UI
+- You want to enforce a specific scheduling pattern at the data validation level
+
+### Example — restrict to FS and SS only
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  template: `
+    <ejs-gantt
+      [dataSource]="data"
+      [taskFields]="taskFields"
+      [allowedDependencyTypes]="['FS', 'SS']"
+      [editSettings]="editSettings">
+    </ejs-gantt>
+  `
+})
+export class AppComponent {
+  public allowedDependencyTypes: string[] = ['FS', 'SS'];
+
+  public editSettings: object = {
+    allowTaskbarEditing: true
+  };
+
+  public data: object[] = [
+    { TaskID: 1, TaskName: 'Task 1', StartDate: new Date('04/02/2024'), Duration: 3 },
+    { TaskID: 2, TaskName: 'Task 2', StartDate: new Date('04/05/2024'), Duration: 3, Predecessor: '1FS' },
+    { TaskID: 3, TaskName: 'Task 3', StartDate: new Date('04/02/2024'), Duration: 2, Predecessor: '1SS' }
+  ];
+
+  public taskFields: object = {
+    id: 'TaskID',
+    name: 'TaskName',
+    startDate: 'StartDate',
+    duration: 'Duration',
+    dependency: 'Predecessor'
+  };
+}
+```
+
+### Behavior
+
+- **During load:** Dependency strings with disallowed types are ignored or rejected
+- **During UI editing:** The Gantt blocks connector creation for disallowed types
+- **Programmatically:** Dependency methods respect `allowedDependencyTypes`
 
 ---
 
