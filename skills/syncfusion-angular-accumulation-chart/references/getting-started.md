@@ -17,7 +17,6 @@ This guide explains how to install, set up, and create your first Syncfusion Ang
   - [Array Data Format](#array-data-format)
   - [Dynamic Data Binding](#dynamic-data-binding)
   - [JSON Data Source](#json-data-source)
-  - [Alternative Via Angularjson](#alternative-via-angularjson)
 - [Module Injection](#module-injection)
   - [Inject Services](#inject-services)
   - [Series Services](#series-services)
@@ -220,18 +219,6 @@ export class AppComponent implements OnInit {
     });
   }
 }
-```
-
-### Alternative Via Angularjson
-
-Add the required styles to the `styles` array in `angular.json`:
-
-```json
-"styles": [
-  "@syncfusion/ej2-base/styles/material.css",
-  "@syncfusion/ej2-charts/styles/material.css",
-  "src/styles.css"
-]
 ```
 
 ## Module Injection

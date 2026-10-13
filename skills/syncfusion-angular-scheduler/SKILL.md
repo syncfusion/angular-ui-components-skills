@@ -135,6 +135,17 @@ Read this reference when you need to:
 - Scroll to a specific time or the current time
 - Review time configuration best practices and common scenarios
 
+### Customized Current Time Indicator
+📄 **Read:** [references/custom-current-time-indicator.md](references/custom-current-time-indicator.md)
+
+Read this reference when you need to:
+- Toggle the current time indicator on or off with `showTimeIndicator`
+- Toggle the time label that is rendered next to the indicator line
+- Extend the indicator into previous date columns with `currentTimeIndicatorSettings.showPreviousDates`
+- Force the indicator to render above appointment cells with `currentTimeIndicatorSettings.onTop`
+- Build an interactive demo where checkboxes drive the indicator configuration at runtime
+- Re-render the indicator after the user changes any of the four options
+
 ### Editor Customization
 📄 **Read:** [references/editor-customization.md](references/editor-customization.md)
 
@@ -228,6 +239,28 @@ Read this reference when you need to:
 - Resize events
 - Manage multiple scheduler instances
 
+### Event Buffer
+📄 **Read:** [references/event-buffer.md](references/event-buffer.md)
+
+Read this reference when you need to:
+- Add pre-event and post-event buffer time around each appointment
+- Reserve a fixed number of minutes before `StartTime` and after `EndTime` (for preparation, recovery, or transition)
+- Render a custom `bufferTemplate` inside the buffer pill (icon, label, duration text)
+- Combine buffers with `allowOverlap="false"` so the reserved range cannot be intruded
+- Restrict drag-and-drop so an event can only be moved into a resource that matches its required specialty
+- Re-anchor buffers on the event edges during drag and resize previews
+
+### WebMCP Integration
+📄 **Read:** [references/webmcp-integration.md](references/webmcp-integration.md)
+
+Read this reference when you need to:
+- Expose the Scheduler as a set of typed tools for AI assistants and MCP-aware clients
+- Enable `enableWebMcp` and configure `webMcpSettings` (prefix, tool allowlist, allowed origins)
+- Provide the `WebMcpScheduler` module in `providers` and bind the `beforeWebMcpToolExecute` event
+- Filter the registered tools with `webMcpSettings.tools`
+- Restrict cross-origin callers with `webMcpSettings.exposedTo`
+- Request a confirmation dialog or cancel a tool call from `beforeWebMcpToolExecute`
+
 ### State Persistence
 📄 **Read:** [references/state-persistence.md](references/state-persistence.md)
 
@@ -305,15 +338,7 @@ export class AppComponent {
 
 **CSS Import** (in styles.css):
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-calendars/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-lists/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-material3-theme/styles/schedule/index.css';
 ```
 
 ## Common Patterns
@@ -579,6 +604,92 @@ export class AppComponent {
 }
 ```
 
+### Pattern 7: Event Buffer (Pre / Post Reservation)
+
+```typescript
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ScheduleComponent,
+  EventSettingsModel,
+  ScheduleModule,
+  View,
+  DayService,
+  TimelineViewsService
+} from '@syncfusion/ej2-angular-schedule';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, ScheduleModule],
+  providers: [DayService, TimelineViewsService],
+  template: `
+    <ejs-schedule
+      #scheduleObj
+      width="100%"
+      height="550px"
+      [selectedDate]="selectedDate"
+      [currentView]="currentView"
+      [allowOverlap]="false"
+      [eventSettings]="eventSettings">
+      <e-views>
+        <e-view option="Day"></e-view>
+        <e-view option="TimelineDay"></e-view>
+        <e-view option="TimelineWeek"></e-view>
+      </e-views>
+    </ejs-schedule>
+
+    <ng-template #bufferTemplate let-data>
+      <div class="buffer-minimal" *ngIf="getBufferDuration(data) >= 10">
+        <span class="buffer-duration">
+          {{ getBufferDuration(data) }} min
+        </span>
+      </div>
+    </ng-template>
+  `
+})
+export class AppComponent implements AfterViewInit {
+  @ViewChild('scheduleObj') public scheduleObj!: ScheduleComponent;
+  @ViewChild('bufferTemplate', { static: true })
+  public bufferTemplateRef: any;
+
+  public selectedDate: Date = new Date();
+  public currentView: View = 'TimelineDay';
+
+  public eventSettings: EventSettingsModel = {
+    dataSource: [
+      {
+        Id: 1,
+        Subject: 'Surgery',
+        StartTime: new Date(2024, 0, 15, 9, 0),
+        EndTime:   new Date(2024, 0, 15, 10, 30),
+        IsAllDay: false,
+        bufferBefore: 30,
+        bufferAfter:  45
+      }
+    ],
+    enableBuffer: true,
+    fields: {
+      bufferBefore: { name: 'bufferBefore' },
+      bufferAfter:  { name: 'bufferAfter'  }
+    }
+  };
+
+  public ngAfterViewInit(): void {
+    this.eventSettings = {
+      ...this.eventSettings,
+      bufferTemplate: this.bufferTemplateRef
+    };
+  }
+
+  public getBufferDuration(args: any): number {
+    return args.bufferType === 'before'
+      ? args.data.bufferBefore
+      : args.data.bufferAfter;
+  }
+}
+```
+
 ## Key Configuration Options
 
 ### Core Properties
@@ -614,6 +725,10 @@ export class AppComponent {
 - `TimelineMonthService` - Timeline month view
 - `TimelineYearService` - Timeline year view
 
+### WebMCP Service
+
+- `WebMcpScheduler` - WebMCP integration module. Provide it in the component's `providers` array when `enableWebMcp` is `true`.
+
 ### Common Events
 
 | Event | Description |
@@ -626,6 +741,7 @@ export class AppComponent {
 | `actionComplete` | Triggered after CRUD operations |
 | `dataBinding` | Triggered before data binding |
 | `dataBound` | Triggered after data binding |
+| `beforeWebMcpToolExecute` | Triggered before a WebMCP tool is dispatched (when `enableWebMcp` is `true`) |
 
 ## Common Use Cases
 
@@ -668,3 +784,8 @@ Handle events across different timezones for global teams with timezone conversi
 Create fully customized calendar applications with custom cells, templates, and styling.
 
 **Read**: appointment-templates.md, cell-customization.md, editor-customization.md, styling-themes.md
+
+### 9. AI-Assisted Scheduler (WebMCP)
+Expose the Scheduler as a set of typed tools so an AI assistant or MCP-aware client can create, update, delete, navigate, and switch views through `document.modelContext`.
+
+**Read**: webmcp-integration.md

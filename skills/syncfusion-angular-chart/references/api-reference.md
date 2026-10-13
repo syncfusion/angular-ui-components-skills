@@ -376,12 +376,23 @@ Developers often don't know:
 |-----|-------------|----------|
 | DataLabelSettingsModel | Data label configuration interface | [dataLabelSettingsModel](https://ej2.syncfusion.com/angular/documentation/api/chart/dataLabelSettingsModel) |
 | DataLabelSettings | Data label settings class | [dataLabelSettings](https://ej2.syncfusion.com/angular/documentation/api/chart/dataLabelSettings) |
-| DataLabelIntersectAction | Overlap handling (None, Hide, Rotate, etc.) | [dataLabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/dataLabelIntersectAction) |
+| DataLabelIntersectAction | Overlap handling (`None`, `Hide`, `Rotate90`, `RelocateVertically`, `RelocateHorizontally`) | [dataLabelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/dataLabelIntersectAction) |
+| SmartLabelSettingsModel | Configures the background, border, pointer, connector line, and anchor offset for relocated data labels. Applies when `labelIntersectAction` is `RelocateVertically` or `RelocateHorizontally`. | [SmartLabelSettingsModel](https://ej2.syncfusion.com/angular/documentation/api/chart/SmartLabelSettingsModel) |
 | LabelPosition | Label position enum | [labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPosition) |
 | Alignment | Text alignment enum | [alignment](https://ej2.syncfusion.com/angular/documentation/api/chart/alignment) |
 | TextAlignment | Text alignment options | [textAlignment](https://ej2.syncfusion.com/angular/documentation/api/chart/textAlignment) |
 | TextOverflow | Text overflow behavior | [textOverflow](https://ej2.syncfusion.com/angular/documentation/api/chart/textOverflow) |
 | TextWrap | Text wrapping options | [textWrap](https://ej2.syncfusion.com/angular/documentation/api/chart/textWrap) |
+
+
+### SmartLabelSettings
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `background` | `string` | `null` | Background color of the relocated data label. |
+| `pointerShape` | `'Arrow' \| 'None'` | `'Arrow'` | Pointer displayed at the point end of the connector. |
+| `border` | `BorderModel` | `{}` | Border of the relocated data label. |
+| `connectorLineStyle` | `ConnectorLineStyleModel` | `{}` | Color, width, and dash array of the connector line. |
+| `offset` | `number` | `0.5` | Anchor position within the point region for vertical relocation. Horizontal relocation uses an effective offset of `0`. |
 
 ### Tooltip
 
@@ -495,7 +506,7 @@ Developers often don't know:
 
 | API | Description | Documentation Link |
 |-----|-------------|----------|
-| LabelIntersectAction | Label overlap handling (None, Hide, Trim, Wrap, MultipleRows, Rotate45, Rotate90) | [labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) |
+| LabelIntersectAction | Label overlap handling (None, Hide, Trim, Wrap, MultipleRows, Rotate45, Rotate90, `Rotate45WithTrim`, `Rotate90WithTrim`) | [labelIntersectAction](https://ej2.syncfusion.com/angular/documentation/api/chart/labelIntersectAction) |
 | LabelPlacement | Label placement relative to ticks (BetweenTicks, OnTicks) | [labelPlacement](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPlacement) |
 | LabelPosition | Label position enum | [labelPosition](https://ej2.syncfusion.com/angular/documentation/api/chart/labelPosition) |
 | LabelOverflow | Label overflow behavior | [labelOverflow](https://ej2.syncfusion.com/angular/documentation/api/chart/labelOverflow) |
@@ -970,6 +981,43 @@ public legendSettings: LegendSettingsModel = {
   imageUrl: 'assets/custom-icon.png'
 };
 ```
+
+### Chart WebMCP properties
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `enableWebMcp` | `boolean` | `false` | Enables automatic Chart WebMCP tool registration after rendering. |
+| `webMcpSettings` | `ChartWebMcpSettingsModel` | `null` | Configures the registration prefix, selected tools, custom tools, and permitted model contexts. |
+
+### `ChartWebMcpSettingsModel`
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `name` | `string` | `null` | Prefix for registered tool names. The stable Chart element ID is used when null or empty. |
+| `tools` | `string[] \| WebMcpTool[]` | `null` | Built-in allowlist or custom tool definitions. Omit to register all built-in tools. An empty array clears earlier registrations. |
+| `exposedTo` | `string[]` | `null` | Model contexts or origins that may access the registered tools. |
+
+### Chart WebMCP method
+
+| Method | Parameters | Returns | Description |
+|---|---|---|---|
+| `getWebMcpTools` | `tools?: string[]` | `WebMcpTool[]` | Returns executable copies of all or selected built-in tool definitions. It is not required for automatic registration. |
+
+### Chart WebMCP event
+
+| Event | Type | Description |
+|---|---|---|
+| `beforeWebMcpToolExecute` | `WebMcpToolExecuteEventArgs` | Fires before tool execution. The handler can cancel execution, control confirmation, or return a cancellation response. |
+
+### `WebMcpToolExecuteEventArgs`
+
+| Property | Type | Description |
+|---|---|---|
+| `toolName` | `string` | Registered tool name. The configured prefix can be included. |
+| `input` | `Object` | JSON-safe tool input. |
+| `cancel` | `boolean` | Set to `true` to stop execution. |
+| `showConfirmationDialog` | `boolean` | Controls confirmation before execution. |
+| `cancellationResponse` | `string \| WebMcpToolResponse` | Optional response returned when execution is cancelled. |
 
 ### Common Shape Selection Patterns
 

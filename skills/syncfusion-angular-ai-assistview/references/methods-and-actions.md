@@ -908,3 +908,153 @@ export class AppComponent {
 }
 ```
 
+---
+
+## Telemetry Data with addPromptResponse
+
+When the component is configured with `telemetrySettings.enable = true`, the `addPromptResponse()` method accepts an **optional third argument `telemetryData`** that merges model and token usage details into the per-response telemetry report.
+
+### Signature
+
+```typescript
+addPromptResponse(
+  response: string | PromptResponse | { blocks: ResponseBlock[] },
+  isFinalUpdate?: boolean,
+  telemetryData?: TelemetryData
+): void;
+```
+
+### TelemetryData Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `model` | `string` | Name of the AI model that produced the response (e.g. `gpt-4o`, `gpt-4o-mini`). |
+| `inputTokens` | `number` | Number of tokens included in the input prompt. |
+| `outputTokens` | `number` | Number of tokens generated in the response. |
+| `reasoningTokens` | `number` | Tokens consumed for reasoning, when the model reports it. |
+| `cachedInputTokens` | `number` | Input tokens served from the model cache, when available. |
+| `customAttributes` | `Record<string, unknown>` | Domain-specific key/value pairs surfaced as extra rows in the telemetry tooltip. |
+
+> `totalTokens` is auto-computed as `inputTokens + outputTokens` whenever either is provided. See [telemetry.md](telemetry.md) for the full metric list and key characteristics.
+
+### Example: Passing TelemetryData
+
+```typescript
+import { Component, ViewChild } from '@angular/core';
+import {
+  AIAssistViewModule,
+  AIAssistViewComponent,
+  PromptRequestEventArgs,
+  TelemetrySettingsModel,
+  TelemetryData
+} from '@syncfusion/ej2-angular-interactive-chat';
+
+@Component({
+  imports: [AIAssistViewModule],
+  standalone: true,
+  selector: 'app-root',
+  template: `
+    <div ejs-aiassistview
+      #aiAssistViewComponent
+      id='aiAssistView'
+      [telemetrySettings]="telemetrySettings"
+      [enableStreaming]="true"
+      (promptRequest)="onPromptRequest($event)">
+    </div>
+  `
+})
+export class AppComponent {
+  @ViewChild('aiAssistViewComponent')
+  public aiAssistViewComponent!: AIAssistViewComponent;
+
+  public telemetrySettings: TelemetrySettingsModel = { enable: true };
+
+  async onPromptRequest(args: PromptRequestEventArgs) {
+    const userPrompt = args.prompt || '';
+
+    // Call your AI service and capture usage data...
+    const telemetryData: TelemetryData = {
+      model: 'gpt-4o-mini',
+      inputTokens: 128,
+      outputTokens: 96,
+      reasoningTokens: 24,
+      cachedInputTokens: 16
+    };
+
+    this.aiAssistViewComponent.addPromptResponse(
+      `Here is what I think about: ${userPrompt}`,
+      true,
+      telemetryData
+    );
+  }
+}
+```
+
+### Example: TelemetryData with Custom Attributes
+
+```typescript
+const usageData: TelemetryData = {
+  model: 'gpt-4o-mini',
+  customAttributes: {
+    region: 'us-east',
+    tenant: 'acme-corp',
+    sessionId: 'demo-session-42',
+    feature: 'ai-assistview'
+  }
+};
+
+this.aiAssistViewComponent.addPromptResponse(
+  response,
+  true,
+  usageData
+);
+```
+
+> Custom attributes are rendered as their own rows in the telemetry tooltip and are always included — regardless of the `telemetrySettings.metrics` filter. For more details on configuring telemetry and the `beforeReport` event, see [telemetry.md](telemetry.md).
+
+---
+
+## Telemetry Settings
+
+`TelemetrySettingsModel` controls the built-in per-response telemetry button. It is bound to the component via the `[telemetrySettings]` input.
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `enable` | `boolean` | `false` | Toggles the telemetry button in the response toolbar. |
+| `metrics` | `TelemetryMetric[]` | `undefined` | Filters which metrics are captured and shown, in display order. Allowed values: `status`, `duration`, `toolCalls`, `streamingChunks`, `model`, `inputTokens`, `outputTokens`, `totalTokens`, `reasoningTokens`, `cachedInputTokens`. |
+| `beforeReport` | `(report: TelemetryReport) => TelemetryReport \| null` | `undefined` | Intercepts the report before render. Return `null` to suppress the report; assign to `report.customAttributes` to add domain-specific rows. |
+
+### Example: Filtering Metrics
+
+```typescript
+import { TelemetrySettingsModel, TelemetryMetric } from '@syncfusion/ej2-angular-interactive-chat';
+
+public telemetrySettings: TelemetrySettingsModel = {
+  enable: true,
+  metrics: [
+    'duration',
+    'model',
+    'inputTokens',
+    'outputTokens',
+    'totalTokens'
+  ] as TelemetryMetric[]
+};
+```
+
+### Example: Customizing via beforeReport
+
+```typescript
+import { TelemetrySettingsModel, TelemetryReport } from '@syncfusion/ej2-angular-interactive-chat';
+
+public telemetrySettings: TelemetrySettingsModel = {
+  enable: true,
+  beforeReport: (report: TelemetryReport) => {
+    report.customAttributes = {
+      region: 'us-east-1',
+      tenant: 'acme',
+      beta: true
+    };
+    return report;
+  }
+};
+```

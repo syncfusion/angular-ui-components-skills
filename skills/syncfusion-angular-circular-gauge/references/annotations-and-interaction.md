@@ -29,7 +29,6 @@
   - [WCAG Compliance](#wcag-compliance)
   - [Enable Accessibility](#enable-accessibility)
   - [Screen Reader Support](#screen-reader-support)
-  - [High Contrast Theme](#high-contrast-theme)
 - [Complete Interactive Example](#complete-interactive-example)
 
 ## Annotations Overview
@@ -414,13 +413,6 @@ pointerAriaLabel = 'Current CPU usage 65 percent out of 100';
 
 // Range descriptions
 rangeAriaLabel = 'Warning zone from 75 to 90 percent usage';
-```
-
-### High Contrast Theme
-
-```html
-<!-- In styles.css or styles.scss -->
-@import '@syncfusion/ej2-angular-circulargauge/styles/highcontrast.css';
 ```
 
 ## Complete Interactive Example

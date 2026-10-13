@@ -8,13 +8,11 @@ This guide walks through setting up a Syncfusion 3D Chart in an Angular applicat
 - [Installation](#installation)
   - [Step 1: Install Syncfusion Charts Package](#step-1-install-syncfusion-charts-package)
   - [Step 2: Import Required Modules](#step-2-import-required-modules)
-  - [Step 3: Import Styles](#step-3-import-styles)
 - [Create Your First 3D Chart](#create-your-first-3d-chart)
   - [Basic Column Chart](#basic-column-chart)
 - [Component Configuration](#component-configuration)
   - [Adding Axis Labels](#adding-axis-labels)
   - [Adding a Title](#adding-a-title)
-- [CSS Imports by Theme](#css-imports-by-theme)
 - [Minimal Working Example](#minimal-working-example)
 - [Common Setup Issues](#common-setup-issues)
 
@@ -47,27 +45,6 @@ import { Chart3DComponent, Chart3DSeriesCollectionDirective, Chart3DSeriesDirect
   template: ``
 })
 export class AppComponent {}
-```
-
-### Step 3: Import Styles
-
-Add the Syncfusion Chart3D styles to your global `styles.css`:
-
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-charts/styles/material.css';
-```
-
-Alternatively, import in your component's `styles` array:
-
-```typescript
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  styleUrls: ['./app.component.css'],
-  imports: [Chart3DComponent, Chart3DSeriesCollectionDirective, Chart3DSeriesDirective],
-  template: ``
-})
 ```
 
 ## Create Your First 3D Chart
@@ -152,28 +129,6 @@ Add a title to your chart:
   `
 })
 export class ChartComponent { }
-```
-
-## CSS Imports by Theme
-
-Choose your preferred Syncfusion theme:
-
-**Material Theme (default):**
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-charts/styles/material.css';
-```
-
-**Bootstrap Theme:**
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap.css';
-@import '../node_modules/@syncfusion/ej2-charts/styles/bootstrap.css';
-```
-
-**Tailwind Theme:**
-```css
-@import '../node_modules/@syncfusion/ej2-base/styles/tailwind.css';
-@import '../node_modules/@syncfusion/ej2-charts/styles/tailwind.css';
 ```
 
 ## Minimal Working Example

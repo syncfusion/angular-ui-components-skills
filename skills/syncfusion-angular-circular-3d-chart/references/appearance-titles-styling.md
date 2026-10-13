@@ -16,8 +16,6 @@
   - [Configure Series Appearance](#configure-series-appearance)
   - [Explode Slices](#explode-slices)
   - [Explode All Slices](#explode-all-slices)
-- [Theme Application](#theme-application)
-  - [Available Themes](#available-themes)
 - [Border and Fill Styling](#border-and-fill-styling)
   - [Chart Background](#chart-background)
 - [Advanced Appearance](#advanced-appearance)
@@ -336,34 +334,6 @@ Separate all slices automatically:
     </ejs-circularchart3d>
   `
 })
-```
-
----
-
-## Theme Application
-
-### Available Themes
-
-Syncfusion provides multiple built-in themes. Select in `styles.css`:
-
-```css
-/* Material Theme (default) */
-@import '../node_modules/@syncfusion/ej2-charts/styles/material.css';
-
-/* Bootstrap Theme */
-@import '../node_modules/@syncfusion/ej2-charts/styles/bootstrap.css';
-
-/* Bootstrap 4 Theme */
-@import '../node_modules/@syncfusion/ej2-charts/styles/bootstrap4.css';
-
-/* Fabric Theme */
-@import '../node_modules/@syncfusion/ej2-charts/styles/fabric.css';
-
-/* Highcontrast Theme */
-@import '../node_modules/@syncfusion/ej2-charts/styles/highcontrast.css';
-
-/* Tailwind CSS Theme */
-@import '../node_modules/@syncfusion/ej2-charts/styles/tailwind.css';
 ```
 
 ---

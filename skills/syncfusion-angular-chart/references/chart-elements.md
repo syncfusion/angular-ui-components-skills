@@ -82,7 +82,7 @@ imports: [
 providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' ></e-series>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='silver' name='Silver'></e-series>
@@ -149,7 +149,7 @@ imports: [
 providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' ></e-series>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='silver' name='Silver'></e-series>
@@ -223,7 +223,7 @@ imports: [
 providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold Medals'></e-series>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='silver' name='Silver Medals'></e-series>
@@ -342,7 +342,7 @@ imports: [
 providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold' ></e-series>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='silver' name='Silver'></e-series>
@@ -416,7 +416,7 @@ imports: [
 providers: [ CategoryService, BarSeriesService, ColumnSeriesService, LineSeriesService,LegendService, DataLabelService, MultiLevelLabelService, SelectionService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title' [legendSettings]='legendSettings'>
         <e-series-collection>
             <!-- Series 1: Custom circle -->
             <e-series 
@@ -647,7 +647,7 @@ imports: [
 providers: [ CategoryService, LineSeriesService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='December 2007' width=2 [marker]='marker'></e-series>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y1' name='December 2008' width=2 [marker]='marker'></e-series>
@@ -695,7 +695,7 @@ imports: [
 providers: [ CategoryService, LineSeriesService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='December 2007' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -751,7 +751,7 @@ imports: [
 providers: [ CategoryService, LineSeriesService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='December 2007' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -799,7 +799,7 @@ imports: [
 providers: [ CategoryService, LineSeriesService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='India' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -852,7 +852,7 @@ imports: [
 providers: [ CategoryService, LineSeriesService],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' (pointRender)='pointRender($event)' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' (pointRender)='pointRender($event)' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Line' xName='x' yName='y' name='December 2007' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -909,7 +909,7 @@ imports: [
 providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -957,7 +957,7 @@ imports: [
 providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -1022,7 +1022,7 @@ imports: [
 providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -1079,7 +1079,7 @@ imports: [
 providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -1121,58 +1121,333 @@ export class AppComponent implements OnInit {
 
 ### Smart Labels
 
-Avoid label overlapping:
+Use the `labelIntersectAction` property to specify how overlapping data labels are handled.
+
+The following options are available:
+
+- `None`: Displays all data labels without changing their positions, even when they overlap.
+- `Hide`: Hides data labels that overlap.
+- `Rotate90`: Rotates overlapping data labels by 90 degrees.
+- `RelocateVertically`: Relocates overlapping data labels vertically.
+- `RelocateHorizontally`: Relocates overlapping data labels horizontally.
+
+The `RelocateVertically` and `RelocateHorizontally` options enable the Smart Data Label feature and are supported only for the following series types:
+
+- `StackingColumn`
+- `StackingColumn100`
+- `StackingBar`
+- `StackingBar100`
+
+These options improve readability by relocating overlapping data labels and connecting them to their corresponding data points using connector lines.
+
+Use the `smartLabelSettings` property to customize the appearance and position of relocated data labels. The following settings are available:
+
+- `background`: Specifies the background color of the relocated data label.
+- `pointerShape`: Specifies the pointer shape of the relocated data label.
+- `border`: Customizes the color, width, and dash array of the relocated data label border.
+- `connectorLineStyle`: Customizes the color, width, and dash array of the connector line.
+- `offset`: Specifies the distance by which the data label is relocated. This property is applicable only when `labelIntersectAction` is set to `RelocateVertically`.
+
+The following example demonstrates how to relocate overlapping data labels vertically in a stacking column chart:
 
 ```typescript
-import { ChartModule } from '@syncfusion/ej2-angular-charts'
-import { DateTimeService, CategoryService, LineSeriesService, ColumnSeriesService } from '@syncfusion/ej2-angular-charts'
-import { LegendService, DataLabelService } from '@syncfusion/ej2-angular-charts'
-import { Component, OnInit } from '@angular/core';
-import { columnData } from './datasource';
-@Component({
-imports: [
-         ChartModule
-    ],
+import { Component } from '@angular/core';
+import { ChartModule, CategoryService, DataLabelService, LegendService, StackingColumnSeriesService } from '@syncfusion/ej2-angular-charts';
 
-providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
-standalone: true,
+@Component({
+  imports: [ChartModule],
+  providers: [StackingColumnSeriesService, CategoryService, DataLabelService, LegendService],
+  standalone: true,
+  selector: 'app-container',
+  template: `
+    <ejs-chart id="chart-container" height="260px" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis" [title]="title">
+      <e-series-collection>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productA" name="Product A" [marker]="marker"></e-series>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productB" name="Product B" [marker]="marker"></e-series>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productC" name="Product C" [marker]="marker"></e-series>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productD" name="Product D" [marker]="marker"></e-series>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productE" name="Product E" [marker]="marker"></e-series>
+        <e-series [dataSource]="chartData" type="StackingColumn" xName="quarter" yName="productF" name="Product F" [marker]="marker"></e-series>
+      </e-series-collection>
+    </ejs-chart>
+  `
+})
+export class AppComponent {
+  public chartData: Object[] = [
+    { quarter: 'Q1', productA: 1.1, productB: 1.2, productC: 1.1, productD: 1.2, productE: 1.1, productF: 1.2 },
+    { quarter: 'Q2', productA: 1.2, productB: 1.1, productC: 1.2, productD: 1.1, productE: 1.2, productF: 1.1 },
+    { quarter: 'Q3', productA: 1.1, productB: 1.1, productC: 1.2, productD: 1.2, productE: 1.1, productF: 1.2 },
+    { quarter: 'Q4', productA: 1.2, productB: 1.2, productC: 1.1, productD: 1.1, productE: 1.2, productF: 1.1 }
+  ];
+  public primaryXAxis: Object = { valueType: 'Category', title: 'Quarter' };
+  public primaryYAxis: Object = { title: 'Sales', minimum: 0, maximum: 8, interval: 1 };
+  public marker: Object = {
+    dataLabel: {
+      visible: true,
+      position: 'Middle',
+      format: 'Value: {value}',
+      font: { size: '14px' },
+      labelIntersectAction: 'RelocateVertically',
+      smartLabelSettings: {
+        background: '#ffffff',
+        pointerShape: 'Arrow',
+        border: { color: '#808080', width: 1, dashArray: '2,2' },
+        connectorLineStyle: { color: '#808080', width: 1, dashArray: '2,2' },
+        offset: 10
+      }
+    }
+  };
+  public title: string = 'Quarterly Sales';
+}
+```
+
+To relocate overlapping data labels horizontally, set `labelIntersectAction` to `RelocateHorizontally`:
+
+```typescript
+public marker: Object = {
+  dataLabel: {
+    visible: true,
+    position: 'Middle',
+    labelIntersectAction: 'RelocateHorizontally',
+    smartLabelSettings: {
+      background: '#ffffff',
+      pointerShape: 'Arrow',
+      border: {
+        color: '#808080',
+        width: 1,
+        dashArray: '2,2'
+      },
+      connectorLineStyle: {
+        color: '#808080',
+        width: 1,
+        dashArray: '2,2'
+      }
+    }
+  }
+};
+```
+
+### Stack Labels and Zero-Value Stack Handling
+
+Stack labels are chart-level aggregate labels. Bind them through `[stackLabels]` on `<ejs-chart>`. Do not place `stackLabels` inside `marker.dataLabel` and do not treat point data labels as stack totals.
+
+```html
+<ejs-chart id="stack-label-chart" [stackLabels]="stackLabels">
+</ejs-chart>
+```
+
+```ts
+public stackLabels: Object = {
+    visible: true,
+    format: '${value}',
+    position: 'Top',
+    alignment: 'Center',
+    fill: '#FFFFFF',
+    border: { color: '#64748B', width: 1 },
+    textStyle: { color: '#0F172A', size: '12px', fontWeight: '600' },
+    margin: { left: 5, right: 5, top: 3, bottom: 3 }
+};
+```
+
+Use these rules:
+
+- `visible` must be `true`; a stacking-series type alone does not display totals.
+- `format` formats the aggregate stack value, not the individual segment value.
+- `position` controls whether the total is rendered at the top, bottom, or supported stack-label position.
+- `alignment` controls horizontal alignment within the stack-label region.
+- `fill`, `border`, `textStyle`, and `margin` configure the stack-label appearance.
+- `marker.dataLabel` renders individual segment values. `stackLabels` renders one aggregate label for the completed stack.
+- Positive and negative stacks use their resolved aggregate location.
+- A zero-total category is anchored to the value-axis baseline, including totals produced by positive and negative cancellation.
+- Null and undefined segment values must not produce an invalid total.
+- Use `textRender` to customize or cancel stack-label text when event-level control is required.
+
+Provide the correct stacking-series service, such as `StackingColumnSeriesService`, `StackingColumn100SeriesService`, `StackingBarSeriesService`, `StackingBar100SeriesService`, `StackingAreaSeriesService`, or `StackingLineSeriesService`. Also provide `DataLabelService` when individual segment data labels are enabled.
+
+
+
+Stack labels are chart-level labels that display the total value of a stacked group for each x-axis category. They are different from series data labels:
+
+- `stackLabels` belongs to the Chart and displays the aggregate total of each visible stack.
+- `marker.dataLabel` belongs to an individual series and displays each point or segment value.
+- Stack labels apply to stacking-series families such as `StackingColumn`, `StackingColumn100`, `StackingBar`, `StackingBar100`, `StackingArea`, and `StackingLine` where supported by the Chart stack-label rendering pipeline.
+- Set `stackLabels.visible` to `true` to render totals. Merely using a stacking-series type does not display stack labels automatically.
+
+```ts
+public stackLabels: Object = {
+    visible: true,
+    format: 'Total: ${value}',
+    font: { color: '#111827', size: '12px', fontWeight: '600' },
+    fill: '#FFFFFF',
+    border: { color: '#6B7280', width: 1 },
+    margin: { left: 5, right: 5, top: 3, bottom: 3 }
+};
+```
+
+The stack total is calculated separately for each x value and stacking group. Hidden series are excluded, and the labels are recalculated after visibility, data, zoom, or layout changes.
+
+#### Zero-value behavior
+
+A category whose resolved stack total is zero now receives a stack label at the value-axis baseline instead of being skipped. This includes:
+
+- All visible stacked points explicitly containing `0`.
+- Points containing `null` or `undefined`, which are normalized to zero for the zero-total calculation.
+- Empty or mixed point combinations whose resolved visible-stack total is zero.
+- Positive and negative values that cancel each other and resolve to a zero total.
+
+For a zero-total stack, the Chart:
+
+1. Tracks the category in the zero-point collection while collecting positive and negative stack points.
+2. Resolves the total across the visible series in the same stacking group.
+3. Falls back to matching points by x value when processed point indexes differ across series.
+4. Uses `getPoint(xValue, 0, ...)` to anchor the label to the value-axis baseline.
+5. Centers the label in the group's side-by-side reserved location so Category, DateTime, and numeric axes use the correct stack position.
+6. Adjusts the offset for transposed charts and inversed value axes.
+7. Triggers `textRender` with the tracked zero point and the first visible series in the group as the representative series.
+8. Hides a nearby point data label when it collides with the zero stack label and marks the element with `data-collide="true"`.
+
+The configured stack-label `format`, font, fill, border, and margin continue to apply to zero totals. For example, a format of `Total: ${value}` renders `Total: 0` at the baseline.
+
+#### Complete stack-label sample with zero, null, and undefined values
+
+This standalone Angular sample explicitly binds `[stackLabels]` to the Chart. It contains regular positive stacks and zero-total categories so the baseline behavior can be verified directly.
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import {
+    CategoryService, ChartModule, DataLabelService, LegendService, StackingColumnSeriesService, TooltipService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+    imports: [ChartModule],
+    providers: [CategoryService, StackingColumnSeriesService, DataLabelService, LegendService, TooltipService],
+    standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="stack-label-chart" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis"
+        [stackLabels]="stackLabels" [legendSettings]="legendSettings" [tooltip]="tooltip" [title]="title"
+        (textRender)="textRender($event)">
         <e-series-collection>
-            <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
+            <e-series [dataSource]="hardwareData" type="StackingColumn" xName="quarter" yName="value"
+                name="Hardware" stackingGroup="Sales" [marker]="marker">
+            </e-series>
+            <e-series [dataSource]="softwareData" type="StackingColumn" xName="quarter" yName="value"
+                name="Software" stackingGroup="Sales" [marker]="marker">
+            </e-series>
+            <e-series [dataSource]="serviceData" type="StackingColumn" xName="quarter" yName="value"
+                name="Services" stackingGroup="Sales" [marker]="marker">
+            </e-series>
         </e-series-collection>
     </ejs-chart>`
 })
 export class AppComponent implements OnInit {
+    public hardwareData?: Object[];
+    public softwareData?: Object[];
+    public serviceData?: Object[];
     public primaryXAxis?: Object;
-    public chartData?: Object[];
-    public title?: string;
     public primaryYAxis?: Object;
+    public stackLabels?: Object;
     public marker?: Object;
-    ngOnInit(): void {
-        this.chartData = [
-              { x: 'Jan', y: -7.1 }, { x: 'Feb', y: -3.7 },
-              { x: 'Mar', y: 2 }, { x: 'Apr', y: 6.3 },
-              { x: 'May', y: 13.3 }, { x: 'Jun', y: 18.0 },
-              { x: 'Jul', y: 19.8 }, { x: 'Aug', y: 18.1 },
-              { x: 'Sep', y: 13.1 }, { x: 'Oct', y: 4.1 },
-              { x: 'Nov', y: -3.8 }, { x: 'Dec', y: -6.8 }
-        ];
-        this.primaryXAxis = {
-            valueType: 'Category'
-        };
-        this.marker = { 
-            dataLabel: {
-                visible: true,
-                enableSmartLabels: true,  // Adjust labels to prevent overlap
-                labelIntersectAction: 'Hide'  // Hide, Rotate45, Rotate90, Trim, Wrap
-            }
-        };
-        this.title = 'Alaska Weather Statistics - 2016';
+    public legendSettings?: Object;
+    public tooltip?: Object;
+    public title?: string;
+
+    public textRender(args: any): void {
+        if (args.point && Number(args.text) === 0) {
+            args.color = '#FEF3C7';
+            args.fontColor = '#92400E';
+        }
     }
 
+    public ngOnInit(): void {
+        this.hardwareData = [
+            { quarter: 'Q1', value: 30 },
+            { quarter: 'Q2', value: 0 },
+            { quarter: 'Q3', value: null },
+            { quarter: 'Q4', value: 18 },
+            { quarter: 'Q5', value: 10 }
+        ];
+        this.softwareData = [
+            { quarter: 'Q1', value: 22 },
+            { quarter: 'Q2', value: 0 },
+            { quarter: 'Q3', value: undefined },
+            { quarter: 'Q4', value: 15 },
+            { quarter: 'Q5', value: -10 }
+        ];
+        this.serviceData = [
+            { quarter: 'Q1', value: 18 },
+            { quarter: 'Q2', value: 0 },
+            { quarter: 'Q3', value: 0 },
+            { quarter: 'Q4', value: 12 },
+            { quarter: 'Q5', value: 0 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Quarter',
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            title: 'Revenue',
+            minimum: -20,
+            maximum: 80,
+            interval: 20,
+            labelFormat: '${value}K'
+        };
+        this.stackLabels = {
+            visible: true,
+            format: '${value}',
+            font: { color: '#111827', size: '12px', fontWeight: '600' },
+            fill: '#FFFFFF',
+            border: { color: '#6B7280', width: 1 },
+            margin: { left: 5, right: 5, top: 3, bottom: 3 }
+        };
+        this.marker = {
+            dataLabel: {
+                visible: true,
+                position: 'Middle',
+                font: { color: '#FFFFFF', size: '11px' }
+            }
+        };
+        this.legendSettings = { visible: true, position: 'Top' };
+        this.tooltip = { enable: true, shared: true, format: '${series.name}: ${point.y}' };
+        this.title = 'Quarterly Revenue with Stack Totals and Zero-Value Baseline Labels';
+    }
 }
 ```
+
+**Expected result:**
+
+- `Q1` and `Q4` render normal positive stack totals above their stacks.
+- `Q2` renders a zero stack label at the value-axis baseline because all three values are zero.
+- `Q3` also renders a zero label because `null` and `undefined` are normalized to zero and the remaining value is zero.
+- `Q5` resolves to zero because `10 + (-10) + 0 = 0`, so its stack label is anchored to the baseline.
+- The individual segment values come from `marker.dataLabel`; the aggregate values come from the chart-level `stackLabels` configuration.
+
+#### Stack-label event behavior
+
+The `textRender` event can customize or cancel both ordinary stack totals and zero-value stack labels. For standard positive or negative aggregate labels, the event can receive `point: null`. For the zero-value path, the actual tracked zero point is supplied, and the representative series is the first visible series in the stacking group.
+
+```ts
+public textRender(args: any): void {
+    if (args.point && Number(args.text) === 0) {
+        args.text = 'No total';
+        args.color = '#FEF3C7';
+        args.fontColor = '#92400E';
+    }
+}
+```
+
+#### Stack-label verification checklist
+
+- [ ] `[stackLabels]` is bound on `<ejs-chart>` and `visible` is `true`.
+- [ ] Normal positive and negative stack totals render for every visible category and stacking group.
+- [ ] All-zero categories render a formatted zero label at the value-axis baseline.
+- [ ] Null and undefined values are normalized to zero for the zero-total path.
+- [ ] Positive and negative segments whose total cancels to zero render a baseline label.
+- [ ] Hiding a series recalculates the visible-stack total and label.
+- [ ] Category, DateTime, and numeric axes center zero labels in the correct side-by-side stack location.
+- [ ] Transposed and inversed-axis configurations apply the correct baseline offset.
+- [ ] `textRender` receives the tracked zero point and representative visible series for zero labels.
+- [ ] A nearby colliding point data label is hidden and marked with `data-collide="true"`.
 
 ### Custom Label Template
 
@@ -1190,7 +1465,7 @@ imports: [
 providers: [ DateTimeService, LineSeriesService, LegendService, DataLabelService, ColumnSeriesService, CategoryService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Warmest' width=2 [marker]='marker'></e-series>
         </e-series-collection>
@@ -1248,7 +1523,7 @@ providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesServi
         ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-annotations>
             <e-annotation  content='70 Gold Medals' region='Series' coordinateUnits='Point' x='Japan' y=75>
             </e-annotation>
@@ -1307,7 +1582,7 @@ providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesServi
         ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-annotations>
             <e-annotation  content='<div style="border: 1px solid black; padidng: 5px 5px 5px 5px, backgrund:#f5f5f5">Annotation in Pixel</div>'
              coordinateUnits='Pixel' x=150 y=75>
@@ -1392,7 +1667,7 @@ providers: [ CategoryService, DateTimeService, ScrollBarService, LineSeriesServi
         ChartAnnotationService, RangeColumnSeriesService, StackingColumnSeriesService, LegendService, TooltipService,],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [annotation]='annotations' [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [annotation]='annotations' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='country' yName='gold' name='Gold'></e-series>
         </e-series-collection>
@@ -2464,7 +2739,7 @@ imports: [
 providers: [ StripLineService, ColumnSeriesService, DataLabelService, LineSeriesService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Internet'></e-series>>
         </e-series-collection>
@@ -2527,7 +2802,7 @@ imports: [
 providers: [ StripLineService, ColumnSeriesService, DataLabelService, LineSeriesService ],
 standalone: true,
     selector: 'app-container',
-    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis'[primaryYAxis]='primaryYAxis' [title]='title'>
+    template: `<ejs-chart id="chart-container" [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]='title'>
         <e-series-collection>
             <e-series [dataSource]='chartData' type='Column' xName='x' yName='y' name='Internet'></e-series>>
         </e-series-collection>

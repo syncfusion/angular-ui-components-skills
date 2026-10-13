@@ -19,10 +19,12 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - **Generative UI** - Render interactive tools, charts, and custom components within AI responses using `blocks` and `registerToolUI`
 - **Speech Features** - Built-in speech-to-text with 11 configurable properties and 4 events
 - **Toolbar System** - Four toolbar types (header, prompt, response, footer) with custom actions and tag directives
+- **Telemetry** - Built-in per-response telemetry button with metrics (status, duration, tool calls, tokens, model), `beforeReport` event for customization, and a `TelemetryData` argument on `addPromptResponse` to surface usage data
+- **Mentions** - Trigger-character-based mention picker in the prompt editor with local or `DataManager` data sources, filtering, highlighting, popup sizing, and display/item/no-records templates
 - **View Management** - Multiple views with programmatic `activeView` control and dynamic switching
 - **Events & Interactions** - Typed event arguments (PromptRequestEventArgs, PromptChangedEventArgs, StopRespondingEventArgs)
-- **File Attachments** - Support for file uploads with type/size restrictions and attachment click events
-- **Templates** - Customize prompts, responses, suggestions, and banners with flexible templates
+- **File Attachments** - Support for file uploads with type/size restrictions and the full attachment lifecycle events: `beforeAttachmentUpload`, `attachmentUploadSuccess`, `attachmentUploadFailure`, `attachmentRemoved`, `attachmentRemoving`, and `attachmentClick`
+- **Templates** - Customize prompts, responses, suggestions, banners, footers, and response animations with flexible templates including a per-response `responseAnimationTemplate` for branded loading states
 - **Methods** - Programmatically add/update responses, execute prompts, and control component behavior
 - **Globalization** - Full RTL support and localization for 12+ languages with locale-based formatting
 - **Customizable UI** - Height, width, CSS classes, HTML attributes, and theme customization
@@ -108,6 +110,27 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Reading AI responses aloud via the browser's `SpeechSynthesisUtterance` API
 - Customizing speech behavior with `textToSpeechSettings` (language, speechPitch, speechRate, volume, voice)
 
+### Telemetry
+📄 **Read:** [references/telemetry.md](references/telemetry.md)
+- Enabling per-response telemetry with `telemetrySettings.enable`
+- Filtering captured metrics with the `metrics` array (`status`, `duration`, `toolCalls`, `streamingChunks`, `model`, `inputTokens`, `outputTokens`, `totalTokens`, `reasoningTokens`, `cachedInputTokens`)
+- Customizing the report with the `beforeReport` event (mutate, augment with `customAttributes`, or return `null` to suppress)
+- Surfacing model and token usage via the optional `TelemetryData` argument to `addPromptResponse`
+- Passing domain-specific metrics through `TelemetryData.customAttributes`
+- Key behaviors: turn tracking, telemetry button states, duration formatting, metrics filter precedence, and regenerate flow
+
+### Mentions
+📄 **Read:** [references/mentions.md](references/mentions.md)
+- Configuring the mention trigger character with `mentionChar` (e.g. `@` for agents, `/` for commands)
+- Registering multiple mention configurations on a single component (the `mentions` array)
+- Using local arrays or `DataManager` instances with the `dataSource` property
+- Mapping object-based sources with `fields` and applying additional filters with `Query`
+- Controlling match behavior via `filterType` (`Contains`, `StartsWith`, `EndsWith`) and `highlight`
+- Showing or hiding the trigger character in the editor with `showMentionChar`
+- Customizing popup dimensions with `popupWidth` / `popupHeight`
+- Customizing rendering with `displayTemplate`, `itemTemplate`, and `noRecordsTemplate`
+- Reacting to selections via the `mentionSelect` event and `MentionSelectEventArgs`
+
 ## Complete documentation for all 4 toolbar types
 - Header Toolbar (`toolbarSettings`) - Global actions and navigation
 - Prompt Toolbar (`promptToolbarSettings`) - Actions on user prompts
@@ -118,7 +141,8 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Tag directive approach: `<e-toolbarsettings>`, `<e-toolbaritem>`
 - Property binding approach for dynamic toolbar items
 - Common patterns, best practices, and troubleshootingest, promptChanged)
-- File upload events (beforeAttachmentUpload, attachmentUploadSuccess)
+- File upload events (beforeAttachmentUpload, attachmentUploadSuccess, attachmentUploadFailure, attachmentRemoved, **attachmentRemoving**)
+- Event arguments: `PromptRequestEventArgs`, `PromptChangedEventArgs`, `StopRespondingEventArgs`, `AttachmentClickEventArgs`, **`RemovingEventArgs`** (from `@syncfusion/ej2-inputs`)
 - Event handling patterns and best practices
 
 ### File Attachments
@@ -143,12 +167,14 @@ The **Syncfusion AI AssistView** is a powerful Angular component that provides a
 - Text-to-speech setup and configuration
 - Browser compatibility and error handling
 - Regenerate responses with `e-assist-regenerate` icon, response navigation UI, and the `regeneratedResponses` property
+- **Toolbar item alignment** with the `align` property (`Left`, `Center`, `Right`) — available on every `ToolbarItemModel` and across all four toolbar types
 
 ### Templates & Custom Rendering
 📄 **Read:** [references/templates.md](references/templates.md)
 - Template system overview
 - Prompt templates
 - Response templates
+- **Response animation template** (`responseAnimationTemplate`) for branded loading states shown while a response is being generated and removed once `addPromptResponse()` is called
 - Custom template creation
 
 ### AI Service Integration
@@ -254,6 +280,7 @@ export class AppComponent {
 4. Configure footer toolbar for input actions (formatting, attachments)
 5. Use tag directive or property binding approach
 6. Handle `itemClicked` events with `dataIndex` for context
+7. Use the `align` property on each `ToolbarItemModel` to position primary actions on the `Left` and secondary actions (Settings, Export) on the `Right`
 
 ### Pattern 5: Speech-Enabled Interface
 1. Configure `speechToTextSettings` with language and options
@@ -285,6 +312,21 @@ export class AppComponent {
 5. Use `executePrompt` to trigger a follow-up AI response after a user interacts with a rendered tool
 6. Parse AI-returned JSON defensively and fall back to plain text on malformed output
 
+### Pattern 9: Telemetry for AI Response Metrics
+1. Enable the telemetry button by setting `telemetrySettings = { enable: true }`
+2. Use the `metrics` array on `telemetrySettings` to choose which metrics are captured and to control the row order in the tooltip (e.g. `['duration', 'model', 'inputTokens', 'outputTokens', 'totalTokens']`)
+3. Pass the optional `TelemetryData` argument to `addPromptResponse(response, isFinalUpdate, telemetryData)` to surface `model`, `inputTokens`, `outputTokens`, `reasoningTokens`, and `cachedInputTokens`; `totalTokens` is auto-computed
+4. Use the `beforeReport(report)` event to add domain-specific entries via `report.customAttributes`, or return `null` to suppress the report
+5. Hover the telemetry button on any response to inspect the rendered tooltip — `status` and `duration` are always shown, and `customAttributes` are always included regardless of the `metrics` filter
+
+### Pattern 10: Mention Picker in the Prompt Editor
+1. Define local arrays (or `DataManager` instances) for each mention group (e.g. agents, commands, knowledge items)
+2. Build a `mentions` array on the component, with one entry per trigger: `{ mentionChar: '@', dataSource, fields: { text, value } }` and optional `filterType`, `query`, `highlight`, `popupWidth/Height`, and templates
+3. Pass the array to the component via `[mentions]="mentions"` and set a helpful `promptPlaceholder` that hints at the available triggers
+4. Use `showMentionChar: false` for slash-style commands so the `/` is not retained in the inserted mention
+5. Customize appearance with `itemTemplate` (popup rows), `displayTemplate` (selected chip), and `noRecordsTemplate` (empty state)
+6. React to selections via the `mentionSelect` event or per-mention `mentionSelect` callback to capture the chosen item and act on it
+
 ---
 
 ## Key Properties
@@ -299,6 +341,7 @@ export class AppComponent {
 | `enableScrollToBottom` | boolean | `true` | Show scroll-to-bottom indicator |
 | `blockTemplate` | string \| object | `''` | Customize rendering of thinking blocks |
 | `itemTemplate` | string \| object | `''` | Customize rendering of individual thinking stage items |
+| `responseAnimationTemplate` | string \| object | `''` | Customize the loading indicator/animation shown in place of a response while it is being generated |
 
 ### Layout & Appearance
 | Property | Type | Default | When to Use |
@@ -316,6 +359,8 @@ export class AppComponent {
 | `speechToTextSettings` | SpeechToTextSettingsModel | `null` | Configure built-in speech recognition |
 | `textToSpeechSettings` | `TextToSpeechSettingsModel` | `null` | Configure built-in Text-to-speech support|
 | `activeView` | number | `0` | Programmatically switch between views |
+| `telemetrySettings` | `TelemetrySettingsModel` | `null` | Track per-response AI metrics (`enable`, `metrics`, `beforeReport`) and surface a telemetry button in the response toolbar |
+| `mentions` | `MentionSettings[]` | `null` | Configure trigger-character mention pickers in the prompt editor (data source, fields, query, filter type, templates) |
 
 ### Globalization
 | Property | Type | Default | When to Use |
@@ -346,5 +391,13 @@ export class AppComponent {
 8. **Accessibility Assistant:** Provide reading aid or instruction assistance
 9. **Reasoning Visualization:** Build interfaces that surface AI reasoning via collapsible Chain of Thoughts blocks
 10. **Generative UI Applications:** Render interactive tools and charts (cards, gauges, custom widgets) inline within AI responses
+11. **Per-Response Telemetry:** Surface duration, model, and token usage on every AI response with `telemetrySettings` and the `TelemetryData` argument to `addPromptResponse`
+12. **Usage-Aware Analytics:** Augment telemetry reports with `customAttributes` (region, tenant, sessionId, feature) for tenant/feature-level analytics in the response toolbar tooltip
+13. **Agent Routing with Mentions:** Use `@` mentions to route a prompt to a specific agent (TechSupport, HRAssistant, KnowledgeBase) and parse `args.itemData` in the `mentionSelect` event to pre-load agent context before sending
+14. **Slash Commands with Mentions:** Use `/` mentions (with `showMentionChar: false`) to expose quick actions like `/table`, `/rewrite`, `/checklist` that transform how the AI service responds
+15. **Remote Knowledge Picker:** Bind the mention `dataSource` to a `DataManager` and apply a `Query` (with paging/filtering) so users can search and insert items from a large remote catalog
+16. **Branded Loading States:** Use `responseAnimationTemplate` to show a custom loader, branded spinner, or progress indicator while the AI response is being generated — the template is removed automatically once `addPromptResponse()` is called
+17. **Aligned Toolbar Layouts:** Use the `align` property on each `ToolbarItemModel` to position primary actions (`Left`), centered quick actions (`Center`), and secondary actions like Settings/Export (`Right`) — works across all four toolbar types
+18. **Confirm or Cancel Attachment Removal:** Use the `attachmentRemoving` event (with `RemovingEventArgs`) to intercept a file removal before it happens — set `args.cancel = true` to keep the file attached, or perform cleanup (revoke object URLs, free preview state) before the file is detached
 
 ---

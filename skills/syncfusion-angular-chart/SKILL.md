@@ -23,6 +23,7 @@ Use this skill when you need to:
 - **Multi-dimensional Data:** Display scatter plots or bubble charts for correlation analysis
 - **Real-time Monitoring:** Create live-updating charts for dashboards or monitoring systems
 - **Interactive Exploration:** Add zooming, panning, crosshair, tooltips, or selection features
+- **AI Agent Integration:** Enable WebMCP so browser model contexts and AI agents can inspect and operate the Chart through registered tools
 - **Custom Visualizations:** Combine multiple series types, axes, or create complex layouts
 - **Accessible Charts:** Implement WCAG-compliant charts with keyboard navigation and screen reader support
 
@@ -32,6 +33,7 @@ The Syncfusion Angular Chart is a feature-rich data visualization component with
 
 - **25+ Series Types:** Line, spline, step line, area, column, bar, scatter, bubble, pie, financial (candlestick, OHLC), statistical (box & whisker, histogram, pareto), polar, radar, waterfall, and more
 - **Interactive Features:** Zooming (selection, mouse wheel, pinch), panning, tooltips, crosshair, trackball, selection, data editing
+- **WebMCP Integration:** Automatic registration of built-in Chart inspection and mutation tools through `enableWebMcp` and `webMcpSettings`
 - **Multiple Axes:** Support for primary, secondary, and multiple axes with different data types (numeric, datetime, logarithmic, category)
 - **Chart Elements:** Legends, data markers, data labels, annotations, trendlines, technical indicators, striplines
 - **Data Binding:** Local arrays, remote data (OData, DataManager), JSON sources, dynamic updates
@@ -144,6 +146,24 @@ When you need to:
 - Enable data editing by dragging points
 - Synchronize multiple charts for coordinated interactions
 
+### WebMCP and AI Agent Integration
+
+📄 **Read:** [references/webmcp-feature-spec.md](references/webmcp-feature-spec.md)
+
+Use this reference when you need to:
+
+- Enable Chart WebMCP integration with `enableWebMcp`.
+- Configure automatic registration through `webMcpSettings`.
+- Register all built-in tools or select specific tools.
+- Generate focused samples with only the imports and providers required by the rendered Chart, selected tools, and permitted mutations.
+- Generate unrestricted feature-tour samples with the complete required Chart feature set.
+- Import `ChartModule` and provide `WebMcpChartService`.
+- Determine the required Angular services for each of the 37 built-in WebMCP tools.
+- Configure `beforeWebMcpToolExecute` for validation, confirmation, cancellation, and custom cancellation responses.
+- Retrieve executable tools through `getWebMcpTools()` for diagnostics, testing, or direct execution.
+- Create custom WebMCP tools with valid input schemas and JSON-safe execution responses.
+- Avoid unsupported patterns such as manual registration buttons, calls to `registerWebMcpTools()`, fake model-context UI, and fabricated tool responses.
+
 ### Data Binding
 
 📄 **Read:** [references/data-binding.md](references/data-binding.md)
@@ -229,6 +249,7 @@ When you need to:
 - Handle empty point modes
 - Access chart API methods programmatically
 - Implement advanced event-driven interactions
+- Integrate Chart with browser model contexts through WebMCP tools
 
 ### Common Patterns and Examples
 
@@ -506,6 +527,7 @@ The Syncfusion Angular Chart component provides 200+ API documentation files cov
 - **Core APIs:** ChartModel (40+ properties), AxisModel (50+ properties), SeriesDirective (60+ properties)
 - **Chart Elements:** Legend, Markers, Data Labels, Tooltip, Annotations, Trendlines, Technical Indicators, Striplines
 - **Interactive Features:** Zooming, Panning, Crosshair, Selection, Drag Settings
+- **AI Integration:** WebMCP enablement, settings, tool registration, tool execution, confirmation, and cleanup
 - **Events:** 40+ event interfaces (ILoadedEventArgs, IPointRenderEventArgs, IZoomingEventArgs, etc.)
 - **Enumerations:** 50+ enums (ChartSeriesType, ValueType, ChartTheme, SelectionMode, ExportType, etc.)
 - **Utilities:** BorderModel, FontModel, MarginModel, AnimationModel, and more

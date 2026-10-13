@@ -20,6 +20,7 @@ The AI AssistView component provides **four distinct toolbar types** to customiz
 - [Regenerate Responses](#regenerate-responses)
 - [Footer Toolbar Configuration](#footer-toolbar-configuration)
 - [ToolbarItemModel Reference](#toolbaritemmodel-reference)
+- [Setting Alignment](#setting-alignment)
 - [Event Handling](#event-handling)
 - [Common Patterns](#common-patterns)
 - [Best Practices](#best-practices)
@@ -549,6 +550,70 @@ public toolbarSettings: ToolbarSettingsModel = {
   ]
 };
 ```
+
+---
+
+## Setting Alignment
+
+You can change the alignment of a toolbar item by using the `align` property. It supports three alignment values: `Left`, `Center`, and `Right`. By default, the value is `Left`.
+
+The `align` property is available on every `ToolbarItemModel` entry and works across all four toolbar types (`toolbarSettings`, `promptToolbarSettings`, `responseToolbarSettings`, `footerToolbarSettings`).
+
+### Example: Right-Aligned Toolbar Item
+
+```typescript
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+
+import { Component, ViewChild } from '@angular/core';
+import { AIAssistViewComponent, ToolbarSettingsModel } from '@syncfusion/ej2-angular-interactive-chat';
+import { PromptRequestEventArgs } from '@syncfusion/ej2-interactive-chat';
+
+
+@Component({
+    imports: [ AIAssistViewModule ],
+    standalone: true,
+    selector: 'app-root',
+    // specifies the template string for the AI AssistView component
+    template: `<div ejs-aiassistview #aiAssistViewComponent (promptRequest)="onPromptRequest($event)" [toolbarSettings]="toolbarSettings"></div>`
+})
+
+export class AppComponent {
+    @ViewChild('aiAssistViewComponent')
+    public aiAssistViewComponent!: AIAssistViewComponent;
+
+    public toolbarSettings: ToolbarSettingsModel = {
+        items: [ { iconCss: 'e-icons e-refresh', align: 'Right' } ]
+    };
+
+    public onPromptRequest = (args: PromptRequestEventArgs) => {
+        setTimeout(() => {
+            let defaultResponse = 'For real-time prompt processing, connect the AIAssistView component to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.';
+            this.aiAssistViewComponent.addPromptResponse(defaultResponse);
+        }, 1000);
+    };
+}
+```
+
+```typescript
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+bootstrapApplication(AppComponent).catch((err) => console.error(err));
+```
+
+### Supported Alignment Values
+
+| Value | Description |
+|-------|-------------|
+| `'Left'` | (Default) The item is rendered on the left edge of the toolbar. |
+| `'Center'` | The item is rendered in the center of the toolbar. |
+| `'Right'` | The item is rendered on the right edge of the toolbar — useful for secondary actions such as "Settings" or "Export". |
+
+### Tips
+
+- Use `align: 'Right'` for secondary or utility actions (Settings, Export, Help) so they don't compete visually with primary left-side actions (New Chat, Refresh).
+- All items in a single toolbar with the same `align` value are grouped together in DOM order; mixing alignments gives you a left- and right-aligned layout in the same toolbar.
+- The `align` property can be set via the `<e-toolbaritem align="Right">` tag-directive form or through the `ToolbarItemModel.align` property in the property-binding form.
+- The setting is purely visual; it does not affect the click order or `itemClicked` event flow.
 
 ---
 

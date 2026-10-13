@@ -218,6 +218,74 @@ The response item template provides the following context variables through `let
 
 ---
 
+## Response Animation Template
+
+The `responseAnimationTemplate` property allows a custom loading indicator or animation to be shown while the AI AssistView is generating a response. The animation template is shown in place of the response and removed once the response is added.
+
+```typescript
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+
+import { Component, ViewChild } from '@angular/core';
+import { AIAssistViewComponent } from '@syncfusion/ej2-angular-interactive-chat';
+import { PromptRequestEventArgs } from '@syncfusion/ej2-interactive-chat';
+
+
+@Component({
+    imports: [ AIAssistViewModule ],
+    standalone: true,
+    selector: 'app-root',
+    // specifies the template string for the AI AssistView component
+    template: `
+    <div ejs-aiassistview id="response-animation" #aiAssistViewComponent (promptRequest)="onPromptRequest($event)">
+        <ng-template #responseAnimationTemplate>
+            <div class="assistview-loading-status">
+                <div class="assistview-grid-icon">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="assistview-loading-label">Generating</span>
+            </div>
+        </ng-template>
+    </div>`
+})
+
+export class AppComponent {
+    @ViewChild('aiAssistViewComponent')
+    public aiAssistViewComponent!: AIAssistViewComponent;
+
+    public onPromptRequest = (args: PromptRequestEventArgs) => {
+        return new Promise<void>((resolve: () => void) => {
+            setTimeout(() => {
+                let defaultResponse = 'For real-time prompt processing, connect the AIAssistView component to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.';
+                this.aiAssistViewComponent.addPromptResponse(defaultResponse);
+                resolve();
+            }, 2000);
+        });
+    };
+}
+```
+
+### Context Variables
+
+The response animation template does not expose context variables. It is rendered in place of the response and removed automatically once `addPromptResponse()` is called.
+
+### Use Cases
+
+- **Branded loader:** Show a logo or branded spinner while the AI is "thinking"
+- **Status text:** Display progress messages such as "Generating", "Searching knowledge base…"
+- **Skeleton placeholder:** Render a skeleton layout that hints at the upcoming response shape
+- **Animated indicators:** Show typing dots, shimmer effects, or progress bars
+
+### Tips
+
+- Wrap async work in a `Promise` and call `resolve()` after `addPromptResponse()` so the loader stays visible for the full response time
+- Use semantic markup (`role="status"`, `aria-live="polite"`) so screen readers announce the loading state
+- Keep the template lightweight — it is rendered on every prompt
+- Pair with `responseItemTemplate` so the post-loader response renders in your brand's layout
+
+---
+
 ## Prompt Suggestion Item Template
 
 For customizing the prompt suggestion items, the `promptSuggestionItemTemplate` property can be implemented using an `ng-template` directive. The context for this template includes the `index` and `promptSuggestion` items.
@@ -356,6 +424,7 @@ export class AppComponent {
 | **Banner Template** | None | - | No context variables available |
 | **Prompt Item Template** | let-data | Object | Contains: `prompt`, `index`, `toolbarItems` |
 | **Response Item Template** | let-data | Object | Contains: `response`, `prompt`, `index`, `toolbarItems`, `output` |
+| **Response Animation Template** | None | - | No context variables; rendered while generating, removed once `addPromptResponse()` is called |
 | **Suggestion Item Template** | let-data | Object | Contains: `promptSuggestion`, `index` |
 | **Footer Template** | None | - | No context variables; use @ViewChild for component reference |
 

@@ -18,6 +18,7 @@ The **Inline AI Assist** component provides intelligent text processing capabili
 - **Response Actions** - Custom response toolbar items for accept/reject workflows
 - **Template System** - Flexible editor and response templates for custom layouts
 - **Events & Interactions** - Comprehensive events for lifecycle (created, open, close) and user interactions
+- **Speech-to-Text** - Built-in microphone button powered by the Web Speech API with configurable language, interim results, button/tooltip settings, and four lifecycle events (`onStart`, `onStop`, `transcriptChanged`, `onError`)
 - **Toolbar Configuration** - Inline toolbar with custom items, positioning, and alignment
 - **Methods** - Programmatically add prompts, update responses, open/close popups, and control behavior
 - **Globalization** - Multi-language support with RTL capabilities and locale-based formatting
@@ -63,6 +64,16 @@ The **Inline AI Assist** component provides intelligent text processing capabili
 - Prompt request event handling
 - Component methods (addResponse, executePrompt, showPopup, hidePopup)
 - Event arguments and callback patterns
+
+### Speech to Text
+📄 **Read:** [references/speech-to-text.md](references/speech-to-text.md)
+- Enabling the built-in microphone button with `speechToTextSettings.enable`
+- Configuring the recognition language with `lang` (BCP-47 codes like `en-US`, `es-ES`, `fr-FR`)
+- Customizing the microphone button via `buttonSettings` (`content`, `stopContent`, `iconCss`, `stopIconCss`)
+- Showing live transcription with `allowInterimResults`
+- Customizing the microphone tooltip with `tooltipSettings`
+- Reacting to recognition lifecycle with `onStart`, `onStop`, `transcriptChanged`, and `onError`
+- Browser compatibility notes for the Web Speech API
 
 ### Localization and Styling
 📄 **Read:** [references/localization-and-styling.md](references/localization-and-styling.md)
@@ -180,6 +191,14 @@ public responseMode: string = 'Popup'; // or 'Inline'
 // Use Popup for review-based workflows
 ```
 
+### Pattern 5: Voice-Driven Prompts with Speech-to-Text
+1. Enable the microphone button by setting `speechToTextSettings = { enable: true }`
+2. Set `lang` to a BCP-47 code (`'en-US'`, `'es-ES'`, `'fr-FR'`) for the target audience
+3. Set `allowInterimResults: true` to stream partial transcripts while the user speaks
+4. Customize the button via `buttonSettings` (text + icons for idle/recording) and the tooltip via `tooltipSettings`
+5. Hook `onStart` / `onStop` to drive a recording indicator, and `transcriptChanged` to display a live transcript
+6. Always handle `onError` for permission-denied, no-microphone, and unsupported-browser scenarios
+
 ## Key Properties and Configuration
 
 | Property | Purpose | Example |
@@ -197,6 +216,7 @@ public responseMode: string = 'Popup'; // or 'Inline'
 | `inlineToolbarSettings` | Inline toolbar items | `[inlineToolbarSettings]="toolbar"` |
 | `editorTemplate` | Custom prompt input template | `[editorTemplate]="template"` |
 | `responseTemplate` | Custom response display template | `[responseTemplate]="template"` |
+| `speechToTextSettings` | Built-in speech-to-text (Web Speech API) | `[speechToTextSettings]="sttSettings"` |
 | `locale` | Language/localization | `[locale]="'de'"` |
 | `enableRtl` | Right-to-left text direction | `[enableRtl]="true"` |
 
@@ -210,3 +230,5 @@ public responseMode: string = 'Popup'; // or 'Inline'
 6. **Document Enhancement**: Improve document quality with AI-powered editing
 7. **Accessibility Support**: Provide AI assistance for users with accessibility needs
 8. **Multilingual Support**: Enable global applications with localized AI assistance
+9. **Voice-Driven Prompts**: Add the built-in `speechToTextSettings` microphone button so users can dictate prompts via the Web Speech API, with configurable language, button/tooltip, and `onStart` / `onStop` / `transcriptChanged` / `onError` events
+10. **Live Transcription UI**: Combine `allowInterimResults: true` with the `transcriptChanged` event to surface interim transcripts in real time before the final transcript is committed to the prompt editor

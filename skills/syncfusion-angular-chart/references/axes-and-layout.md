@@ -668,8 +668,183 @@ export class AppComponent implements OnInit {
 - `Trim`: Truncate with ellipsis
 - `Wrap`: Wrap to multiple lines
 - `MultipleRows`: Place in multiple rows
-- `Rotate45`: Rotate 45 degrees
-- `Rotate90`: Rotate 90 degrees
+- `Rotate45`: Rotate labels by 45 degrees when they intersect
+- `Rotate90`: Rotate labels by 90 degrees when they intersect
+- `Rotate45WithTrim`: Rotate intersecting labels by 45 degrees and trim text that exceeds the available label bounds
+- `Rotate90WithTrim`: Rotate intersecting labels by 90 degrees and trim text that exceeds the available label bounds
+
+Use `Rotate45WithTrim` or `Rotate90WithTrim` when rotation is required but long labels must also remain within the available axis-label area. Unlike `Rotate45` and `Rotate90`, these options apply trimming after rotation.
+
+
+##### Complete sample for `Rotate45WithTrim`
+
+The following standalone Angular sample uses long category names so the combined rotation and trimming behavior is visible. The axis first rotates intersecting labels by 45 degrees and then trims labels that exceed the available label bounds.
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import {
+    CategoryService, ChartModule, ColumnSeriesService, DataLabelService, LegendService, TooltipService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+    imports: [ChartModule],
+    providers: [CategoryService, ColumnSeriesService, DataLabelService, LegendService, TooltipService],
+    standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="rotate45-with-trim-chart" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis"
+        [title]="title" [tooltip]="tooltip" [legendSettings]="legendSettings">
+        <e-series-collection>
+            <e-series [dataSource]="chartData" type="Column" xName="department" yName="revenue" name="Revenue"
+                [marker]="marker">
+            </e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public chartData?: Object[];
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public marker?: Object;
+    public tooltip?: Object;
+    public legendSettings?: Object;
+    public title?: string;
+
+    public ngOnInit(): void {
+        this.chartData = [
+            { department: 'Consumer Electronics and Accessories', revenue: 72 },
+            { department: 'Home Furniture and Interior Products', revenue: 58 },
+            { department: 'Sports Equipment and Outdoor Recreation', revenue: 64 },
+            { department: 'Personal Care and Beauty Products', revenue: 49 },
+            { department: 'Books, Education and Office Supplies', revenue: 55 },
+            { department: 'Automotive Parts and Maintenance', revenue: 46 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Department',
+            labelIntersectAction: 'Rotate45WithTrim',
+            maximumLabelWidth: 90,
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            title: 'Revenue (Millions)',
+            minimum: 0,
+            maximum: 80,
+            interval: 20,
+            labelFormat: '${value}M'
+        };
+        this.marker = { dataLabel: { visible: true, position: 'Top' } };
+        this.tooltip = { enable: true, format: '${point.x}: ${point.y}M' };
+        this.legendSettings = { visible: false };
+        this.title = 'Department Revenue with 45-Degree Rotation and Trimming';
+    }
+}
+```
+
+##### Complete sample for `Rotate90WithTrim`
+
+This standalone Angular sample uses the 90-degree variant. It is useful when category labels are especially dense and rotating them vertically provides more horizontal separation. Labels that still exceed their available bounds are trimmed.
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import {
+    CategoryService, ChartModule, ColumnSeriesService, DataLabelService, LegendService, TooltipService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+    imports: [ChartModule],
+    providers: [CategoryService, ColumnSeriesService, DataLabelService, LegendService, TooltipService],
+    standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="rotate90-with-trim-chart" [primaryXAxis]="primaryXAxis" [primaryYAxis]="primaryYAxis"
+        [title]="title" [tooltip]="tooltip" [legendSettings]="legendSettings">
+        <e-series-collection>
+            <e-series [dataSource]="chartData" type="Column" xName="product" yName="units" name="Units Sold"
+                [marker]="marker">
+            </e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public chartData?: Object[];
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public marker?: Object;
+    public tooltip?: Object;
+    public legendSettings?: Object;
+    public title?: string;
+
+    public ngOnInit(): void {
+        this.chartData = [
+            { product: 'Professional Wireless Noise-Cancelling Headphones', units: 42 },
+            { product: 'Ultra-Wide High-Resolution Desktop Monitor', units: 36 },
+            { product: 'Ergonomic Adjustable Standing Workstation Desk', units: 31 },
+            { product: 'Smart Home Security and Monitoring System', units: 39 },
+            { product: 'Portable High-Capacity Power Station', units: 28 },
+            { product: 'Automatic Robotic Floor Cleaning System', units: 34 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Product',
+            labelIntersectAction: 'Rotate90WithTrim',
+            maximumLabelWidth: 100,
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            title: 'Units Sold',
+            minimum: 0,
+            maximum: 50,
+            interval: 10
+        };
+        this.marker = { dataLabel: { visible: true, position: 'Top' } };
+        this.tooltip = { enable: true, format: '${point.x}: ${point.y} units' };
+        this.legendSettings = { visible: false };
+        this.title = 'Product Sales with 90-Degree Rotation and Trimming';
+    }
+}
+```
+
+
+
+#### Axis label intersection configuration
+
+`labelIntersectAction` belongs directly on the axis configuration. It controls collisions between axis labels and is not the same as data-label collision handling.
+
+```ts
+public primaryXAxis: Object = {
+    valueType: 'Category',
+    labelIntersectAction: 'Rotate45WithTrim',
+    maximumLabelWidth: 90
+};
+```
+
+Use the actions as follows:
+
+- `None`: Leaves labels unchanged, even when they overlap.
+- `Hide`: Hides labels that collide with previously rendered labels.
+- `Trim`: Trims intersecting labels and displays an ellipsis.
+- `Wrap`: Wraps intersecting labels into multiple lines.
+- `MultipleRows`: Moves colliding horizontal-axis labels into additional rows.
+- `Rotate45`: Rotates intersecting labels by 45 degrees.
+- `Rotate90`: Rotates intersecting labels by 90 degrees.
+- `Rotate45WithTrim`: Rotates labels by 45 degrees and trims text that exceeds the available label width.
+- `Rotate90WithTrim`: Rotates labels by 90 degrees and trims text that exceeds the available label width.
+
+Use `maximumLabelWidth` with trim or wrap actions when the label area must remain predictable. Use `labelRotation` only when a fixed angle must be applied regardless of whether labels intersect.
+
+The setting must not be nested under a `label` object:
+
+```ts
+// Incorrect
+public primaryXAxis: Object = {
+    label: {
+        labelIntersectAction: 'Rotate45WithTrim'
+    }
+};
+```
+
+For Angular, axis intersection does not require a separate intersection service. Provide `ChartModule`, the rendered series service, and the service required by the axis value type, such as `CategoryService`, `DateTimeService`, `DateTimeCategoryService`, or `LogarithmicService`.
+
+
 
 ### Label Styling
 
@@ -1607,6 +1782,167 @@ export class AppComponent implements OnInit {
 }
 ```
 
+### Axis Scrollbar Settings and Zoom Behavior
+
+#### Required Angular services and configuration placement
+
+Use `ScrollBarService` for the Chart scrollbar and `ZoomService` when scrolling participates in zooming or panning. Also provide the rendered series service and the service required by the axis value type.
+
+```ts
+import {
+    CategoryService, ChartModule, LineSeriesService, ScrollBarService, ZoomService
+} from '@syncfusion/ej2-angular-charts';
+
+@Component({
+    imports: [ChartModule],
+    providers: [CategoryService, LineSeriesService, ScrollBarService, ZoomService],
+    standalone: true
+})
+```
+
+There are two related configuration locations:
+
+- `zoomSettings.enableScrollbar` enables the standard scrollbar that follows the Chart zoom state.
+- `axis.scrollbarSettings` configures axis-specific appearance, placement, lazy-load range, and zoom behavior.
+
+```ts
+public zoomSettings: Object = {
+    enableScrollbar: true,
+    enableSelectionZooming: true,
+    enableMouseWheelZooming: true,
+    enablePan: true,
+    mode: 'X'
+};
+
+public primaryXAxis: Object = {
+    valueType: 'Category',
+    zoomFactor: 0.5,
+    zoomPosition: 0,
+    scrollbarSettings: {
+        enable: true,
+        height: 16,
+        enableZoom: true,
+        position: 'PlaceNextToAxisLine',
+        scrollbarRadius: 4,
+        trackRadius: 4,
+        scrollbarColor: '#6B7280',
+        trackColor: '#E5E7EB',
+        gripColor: '#FFFFFF'
+    }
+};
+```
+
+Use the scrollbar properties as follows:
+
+- `enable`: Enables an axis scrollbar for lazy-loading workflows.
+- `pointsLength`: Defines the complete logical point count for numeric or logarithmic lazy loading.
+- `range`: Defines the complete minimum and maximum DateTime range.
+- `height`: Sets scrollbar thickness. Use `12` or greater when the grip-circle visual and grab cursor are required.
+- `enableZoom`: Enables thumb resizing, arrows, and scrollbar wheel zoom. Set it to `false` for pan-only behavior.
+- `position`: Use `Top` or `Bottom` for horizontal axes, `Left` or `Right` for vertical axes, or `PlaceNextToAxisLine` for axis-relative placement.
+- `scrollbarColor`, `trackColor`, and `gripColor`: Configure thumb, track, and grip colors.
+- `scrollbarRadius` and `trackRadius`: Configure thumb and track corner radii.
+
+For DateTime lazy loading, use `range`:
+
+```ts
+public primaryXAxis: Object = {
+    valueType: 'DateTime',
+    minimum: new Date(2025, 0, 1),
+    maximum: new Date(2025, 2, 31),
+    scrollbarSettings: {
+        enable: true,
+        range: {
+            minimum: new Date(2024, 0, 1),
+            maximum: new Date(2026, 11, 31)
+        },
+        enableZoom: true,
+        height: 16
+    }
+};
+```
+
+For numeric or logarithmic lazy loading, use `pointsLength`:
+
+```ts
+public primaryXAxis: Object = {
+    minimum: 0,
+    maximum: 100,
+    scrollbarSettings: {
+        enable: true,
+        pointsLength: 1000,
+        enableZoom: false,
+        height: 16
+    }
+};
+```
+
+Use `scrollStart` for interaction start, `scrollChanged` for continuous range changes, and `scrollEnd` to request or apply lazy-loaded data after the final range is known.
+
+
+Axis scrollbars support styling, positioning, lazy-load ranges, grip interaction, and optional zooming through `ScrollbarSettings`.
+
+```ts
+import { Component } from '@angular/core';
+// Import Chart module, components, and the necessary ScrollBar/Zoom services
+import { ChartModule, ScrollBarService, ZoomService } from '@syncfusion/ej2-angular-charts';
+
+@Component({
+  selector: 'app-chart',
+  standalone: true,
+  imports: [ChartModule],
+  providers: [ScrollBarService, ZoomService], // <-- Inject them here
+  template: `
+    <ejs-chart [primaryXAxis]="primaryXAxis"  [zoomSettings]="zoomSettings">
+      <!-- series collections -->
+    </ejs-chart>
+  `
+})
+export class ChartComponent {
+  // 1. Enable scrollbar via ZoomSettings
+  public zoomSettings: Object = {
+    enableScrollbar: true, 
+    enableSelectionZooming: true 
+  };
+  public primaryXAxis: Object = {
+    scrollbarSettings: {
+      enable: true,
+      height: 16,
+      enableZoom: true,
+      position: 'PlaceNextToAxisLine',
+      scrollbarRadius: 4,
+      trackRadius: 4,
+      scrollbarColor: '#6B7280',
+      trackColor: '#E5E7EB',
+      gripColor: '#FFFFFF'
+    }
+  };
+
+}
+
+
+```
+
+**Scrollbar settings:**
+- `enable`: Enables the axis scrollbar for lazy loading.
+- `pointsLength`: Defines the number of points used for numeric and logarithmic lazy-load ranges.
+- `range`: Defines `minimum` and `maximum` for DateTime lazy-load ranges.
+- `trackColor`: Sets the track fill.
+- `scrollbarColor`: Sets the thumb fill.
+- `scrollbarRadius`: Sets the thumb corner radius.
+- `trackRadius`: Sets the track corner radius.
+- `gripColor`: Sets the thumb grip-circle color.
+- `height`: Sets scrollbar thickness. A height of 12 or greater enables the grip-circle visual and grab/grabbing cursors.
+- `enableZoom`: Defaults to `true`. When enabled, resize circles and arrows support thumb resizing, and the mouse wheel zooms over the scrollbar. When disabled, the scrollbar is pan-only, resize handles are hidden, and scrollbar wheel zoom is ignored.
+- `position`: Supports `Top` and `Bottom` for horizontal axes, `Left` and `Right` for vertical axes, and the default `PlaceNextToAxisLine` placement.
+
+**Scrollbar events:**
+- `scrollStart`: Fires once when a scrollbar gesture starts.
+- `scrollChanged`: Fires continuously while the thumb is dragged.
+- `scrollEnd`: In lazy-load workflows, fires when a track click or wheel interaction resolves to a changed data range.
+
+Horizontal scrollbar zoom-position calculations are RTL-aware. With `enableZoom: true`, wheel zoom uses the pointer position as the zoom origin.
+
 ## Chart Title and Subtitle
 
 ### Title Configuration
@@ -2256,6 +2592,7 @@ export class AppComponent implements OnInit {
 
 }
 ```
+
 
 ## Best Practices
 

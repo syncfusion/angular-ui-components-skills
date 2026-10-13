@@ -338,14 +338,6 @@ visibility: 'hidden'  // ← Might be hiding the series
 <!-- Template must include component -->
 <ejs-smithchart></ejs-smithchart>
 ```
-
-3. **Verify styles loaded:**
-```css
-/* In styles.css */
-@import 'node_modules/@syncfusion/ej2-angular-base/styles/material3.css';
-@import 'node_modules/@syncfusion/ej2-angular-inputs/styles/material3.css';
-```
-
 ### Chart Partially Visible
 
 **Problem:** Only part of chart renders or cuts off

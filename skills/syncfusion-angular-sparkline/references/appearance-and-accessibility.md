@@ -2,9 +2,6 @@
 
 ## Table of Contents
 
-- [CSS Themes and Styling](#css-themes-and-styling)
-  - [Built-in Themes](#built-in-themes)
-  - [Importing Themes in Angular](#importing-themes-in-angular)
 - [Customizing Sparkline Appearance](#customizing-sparkline-appearance)
   - [Changing Colors Dynamically](#changing-colors-dynamically)
   - [CSS Classes for Styling](#css-classes-for-styling)
@@ -23,52 +20,6 @@
   - [Screen Reader Testing](#screen-reader-testing)
   - [Keyboard Navigation Testing](#keyboard-navigation-testing)
 - [Best Practices](#best-practices)
-
-
-## CSS Themes and Styling
-
-### Built-in Themes
-
-Syncfusion provides multiple predefined themes. Include the theme CSS in your application:
-
-```html
-<!-- In index.html or main.ts -->
-
-<!-- Material Theme (Default) -->
-<link rel="stylesheet" href="node_modules/@syncfusion/ej2-base/styles/material.css">
-
-<!-- Bootstrap Theme -->
-<link rel="stylesheet" href="node_modules/@syncfusion/ej2-base/styles/bootstrap.css">
-
-<!-- Bootstrap 5 Theme -->
-<link rel="stylesheet" href="node_modules/@syncfusion/ej2-base/styles/bootstrap5.css">
-
-<!-- Tailwind CSS Theme -->
-<link rel="stylesheet" href="node_modules/@syncfusion/ej2-base/styles/tailwind.css">
-
-<!-- Fluent Theme -->
-<link rel="stylesheet" href="node_modules/@syncfusion/ej2-base/styles/fluent.css">
-```
-
-### Importing Themes in Angular
-
-Import theme CSS in `styles.css`:
-
-```css
-/* styles.css */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-```
-
-Or in `angular.json`:
-
-```json
-{
-  "styles": [
-    "node_modules/@syncfusion/ej2-base/styles/material.css",
-    "src/styles.css"
-  ]
-}
-```
 
 ## Customizing Sparkline Appearance
 

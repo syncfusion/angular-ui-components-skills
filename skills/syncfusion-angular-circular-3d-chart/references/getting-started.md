@@ -14,10 +14,6 @@
   - [Chart Sizing](#chart-sizing)
   - [Enable Tooltips](#enable-tooltips)
   - [Add Legend](#add-legend)
-- [CSS and Theme Setup](#css-and-theme-setup)
-  - [Import Syncfusion Styles](#import-syncfusion-styles)
-  - [Available Themes](#available-themes)
-  - [Custom Styling](#custom-styling)
 - [Minimal Working Example](#minimal-working-example)
   - [Bootstrap Your Application](#bootstrap-your-application)
   - [Test Your Setup](#test-your-setup)
@@ -182,52 +178,6 @@ Enable and position the legend:
     </ejs-circularchart3d>
   `
 })
-```
-
----
-
-## CSS and Theme Setup
-
-### Import Syncfusion Styles
-
-Add to your `styles.css` or `styles.scss`:
-
-```css
-/* Syncfusion CSS imports */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-charts/styles/material.css';
-```
-
-### Available Themes
-
-Syncfusion provides multiple themes:
-- `material.css` - Material Design (default)
-- `bootstrap.css` - Bootstrap theme
-- `bootstrap4.css` - Bootstrap 4 theme
-- `fabric.css` - Fabric theme
-- `tailwind.css` - Tailwind CSS theme
-
-Choose one that matches your application design:
-
-```css
-@import '../node_modules/@syncfusion/ej2-charts/styles/bootstrap.css';
-```
-
-### Custom Styling
-
-Override default styles in your component CSS:
-
-```css
-.e-chart3d-container {
-  background-color: #f5f5f5;
-  border-radius: 8px;
-}
-
-.e-chart3d-tooltip {
-  background-color: #333;
-  color: white;
-  border-radius: 4px;
-}
 ```
 
 ---

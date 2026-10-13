@@ -21,6 +21,7 @@ Use the File Manager component when you need to:
 - **Handle large file sets** efficiently with virtualization
 - **Customize** toolbar, context menu, and file display
 - **Support** multi-selection, sorting, and localization
+- **Deploy** the backend provider service via Docker for Azure Blob Storage or Amazon S3
 
 ## Component Overview & Key Features
 
@@ -220,6 +221,18 @@ Use the File Manager component when you need to:
 - Database-backed file system (SQL)
 - Google Drive and cloud storage patterns
 - Implementing ICustomFileService interface
+
+### Docker Deployment
+📄 **Read:** [references/docker-deployment.md](references/docker-deployment.md)
+- Unified File Manager provider Docker image for Azure Blob Storage and Amazon S3
+- Selecting the storage provider with the `FILEMANAGER_PROVIDER` environment variable
+- Prerequisites for Docker, Azure Storage, and Amazon S3
+- Environment variable reference for `AZURE_*` and `AWS_*` settings
+- Step-by-step Docker deployment with `docker-compose.yml`
+- Pulling the published `syncfusion/filemanager-provider` image
+- Verifying the service via `http://localhost:5000/api/Test`
+- Configuring the Angular client's `ajaxSettings` to point at the containerized service
+- Troubleshooting common deployment, port mapping, and DNS issues
 
 ### Advanced Features
 📄 **Read:** [references/advanced-features.md](references/advanced-features.md)

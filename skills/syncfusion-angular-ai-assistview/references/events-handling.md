@@ -4,8 +4,13 @@
 - [Component Lifecycle Events](#component-lifecycle-events)
 - [User Input Events](#user-input-events)
 - [File Upload Events](#file-upload-events)
+- [Additional Events](#additional-events)
+  - [AttachmentUploadFailure Event](#attachmentuploadfailure-event)
+  - [AttachmentRemoved Event](#attachmentremoved-event)
+  - [AttachmentRemoving Event](#attachmentremoving-event)
 - [Event Arguments Reference](#event-arguments-reference)
 - [Event Handling Patterns](#event-handling-patterns)
+- [Mention Events](#mention-events)
 
 ---
 
@@ -309,6 +314,60 @@ export class AppComponent {
     };
 }
 ```
+
+### AttachmentRemoving Event
+
+The `attachmentRemoving` event is triggered when an attached file is being removed from the AI AssistView. Use it to confirm the removal, perform cleanup, or cancel the operation before the file is detached from the prompt.
+
+Unlike `attachmentRemoved` (which fires *after* the file has been removed), `attachmentRemoving` fires *before* the removal and can be cancelled by setting `args.cancel = true`.
+
+```typescript
+import { AIAssistViewModule } from '@syncfusion/ej2-angular-interactive-chat';
+import { Component, ViewChild } from '@angular/core';
+import { AIAssistViewComponent } from '@syncfusion/ej2-angular-interactive-chat';
+import { RemovingEventArgs } from '@syncfusion/ej2-inputs';
+
+@Component({
+    imports: [ AIAssistViewModule ],
+    standalone: true,
+    selector: 'app-root',
+    // specifies the template string for the AI AssistView component
+    template: `<div ejs-aiassistview #aiAssistViewComponent [enableAttachments]="enableAttachments" [attachmentSettings]="attachmentSettings" (promptRequest)="onPromptRequest()" (attachmentRemoving)="onAttachmentRemoving($event)" ></div>`
+})
+
+export class AppComponent {
+    @ViewChild('aiAssistViewComponent')
+    public aiAssistViewComponent!: AIAssistViewComponent;
+
+    public onAttachmentRemoving = (args: RemovingEventArgs) => {
+        // Your required action here
+    };
+    public onPromptRequest = () => {
+        setTimeout(() => {
+          let defaultResponse = 'For real-time prompt processing, connect the AIAssistView component to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.';
+          this.aiAssistViewComponent.addPromptResponse(defaultResponse);
+        }, 1000);
+    };
+    public enableAttachments: boolean = true;
+    public attachmentSettings = {
+        saveUrl: 'https://services.syncfusion.com/js/production/api/FileUploader/Save',
+        removeUrl: 'https://services.syncfusion.com/js/production/api/FileUploader/Remove'
+    };
+}
+```
+
+#### Common Use Cases
+
+- **Confirmation prompt:** Cancel the removal and show a confirm dialog before letting the user remove the file.
+- **Cleanup hooks:** Tear down any client-side state (preview URLs, in-memory references) tied to the file before it is detached.
+- **Audit logging:** Record the file name, size, and user who initiated the removal.
+
+#### Tips
+
+- Use `args.cancel = true` to prevent the file from being removed; the UI will keep the file attached.
+- Pair with `attachmentRemoved` if you also need to react *after* the removal completes.
+- `RemovingEventArgs` originates from the underlying `ej2-inputs` uploader and exposes the file metadata; see [RemovingEventArgs](#removingeventargs) below for the full property table.
+
 ---
 
 ## Event Arguments Reference
@@ -530,6 +589,40 @@ Represents information about an attached file.
 | `size` | number | Size of the file in bytes |
 | `type` | string | MIME type of the file |
 | `rawFile` | File | Raw File object from the browser |
+
+---
+
+### RemovingEventArgs
+
+Provided to the `attachmentRemoving` event, `RemovingEventArgs` originates from the underlying Syncfusion `ej2-inputs` uploader. Use it to inspect the file that is about to be removed and optionally cancel the removal.
+
+**Import path:** `@syncfusion/ej2-inputs`
+
+**Properties:**
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `cancel` | `boolean` | Defines whether the current action can be prevented. |
+| `currentRequest` | `XMLHttpRequest` | Returns the XMLHttpRequest instance that is associated with remove action. |
+| `customFormData` | `{ [key: string]: Object }[]` | Defines the additional data with key and value pair format that will be submitted to the remove action. |
+| `event` | `MouseEvent \| TouchEvent \| KeyboardEventArgs` | Returns the original event arguments. |
+| `filesData` | `FileInfo[]` | Returns the list of files' details that will be removed. |
+| `postRawFile` | `boolean` | Defines whether the selected raw file is sent to the server remove action. Set `true` to send raw file; set `false` to send file name only. |
+
+**Example: Confirm before removing**
+
+```ts
+import { RemovingEventArgs } from '@syncfusion/ej2-inputs';
+
+public onAttachmentRemoving = (args: RemovingEventArgs) => {
+    // Cancel and ask the user to confirm
+    if (!window.confirm('Remove this attachment?')) {
+        args.cancel = true;
+        return;
+    }
+    console.log('Removing file:', (args.file as any)?.name);
+};
+```
 
 ---
 
@@ -766,3 +859,91 @@ public onAttachmentUploadSuccess = (args: UploadingEventArgs) => {
 };
 ```
 
+---
+
+## Mention Events
+
+### mentionSelect Event
+
+The `mentionSelect` event is triggered when a user selects an item from the mention suggestion popup. It exposes the selected item data so you can capture the choice, pre-load context, or trigger follow-up actions.
+
+> For full mention configuration (`mentionChar`, `dataSource`, `fields`, `query`, `filterType`, `highlight`, `showMentionChar`, `popupWidth/Height`, `displayTemplate`, `itemTemplate`, `noRecordsTemplate`), see [mentions.md](mentions.md).
+
+#### MentionSelectEventArgs Properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `cancel` | `boolean` | Specifies whether the mention selection should be canceled. Set to `true` to prevent the default selection action. |
+| `event` | `Event` | Specifies the original event that triggered the mention selection. Provides access to the underlying browser event details. |
+| `isInteracted` | `boolean` | Specifies whether the selection was initiated through user interaction. Returns `true` when the action is performed directly by the user. |
+| `itemData` | `FieldSettingsModel` | Specifies the data associated with the selected mention item. Contains the field settings information for the selected mention. |
+| `name` | `string` | Specifies the name of the event. |
+
+#### Per-Mention Handler vs. Global Event
+
+You can attach a `mentionSelect` callback to a single mention entry (recommended when different groups need different behavior) **or** listen to a single event on the component that handles every mention group via `args.mentionChar`.
+
+#### Example: Per-Mention Selection Handler
+
+```ts
+import { Component, ViewChild } from "@angular/core";
+import { AIAssistViewComponent, AIAssistViewModule, MentionSelectEventArgs } from "@syncfusion/ej2-angular-interactive-chat";
+
+@Component({
+  imports: [AIAssistViewModule],
+  standalone: true,
+  selector: "app-root",
+  template: ` <ejs-aiassistview
+      id="mention-select"
+      #aiAssistViewComponent
+      promptPlaceholder="Type '@' for agents or '/' for commands..."
+      [mentions]="mentions"
+      (promptRequest)="onPromptRequest()"
+    ></ejs-aiassistview>
+    <p>Selected mention: {{ selectedMention }}</p>`,
+})
+export class AppComponent {
+  @ViewChild("aiAssistViewComponent")
+  public aiAssistViewComponent!: AIAssistViewComponent;
+  public selectedMention: string = "";
+
+  public agents: any[] = [
+    { id: "TechSupport", name: "TechSupport" },
+    { id: "HRAssistant", name: "HRAssistant" },
+    { id: "KnowledgeBase", name: "KnowledgeBase" },
+  ];
+  public commands: any[] = [
+    { id: "table", name: "/table" },
+    { id: "rewrite", name: "/rewrite" },
+    { id: "checklist", name: "/checklist" },
+  ];
+
+  public mentionSelect = (args: MentionSelectEventArgs): void => {
+    const item: any = args.itemData;
+    this.selectedMention = item?.name || item?.id || '';
+  };
+
+  public mentions: any[] = [
+    {
+      mentionChar: "@",
+      dataSource: this.agents,
+      fields: { text: "name", value: "id" },
+      mentionSelect: this.mentionSelect,
+    },
+    {
+      mentionChar: "/",
+      dataSource: this.commands,
+      showMentionChar: false,
+      fields: { text: "name", value: "id" },
+      mentionSelect: this.mentionSelect,
+    },
+  ];
+
+  public onPromptRequest = () => {
+    setTimeout(() => {
+      let defaultResponse = 'For real-time prompt processing, connect the AIAssistView component to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.';
+      this.aiAssistViewComponent.addPromptResponse(defaultResponse);
+    }, 1000);
+  };
+}
+```

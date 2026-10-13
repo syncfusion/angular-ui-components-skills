@@ -423,6 +423,137 @@ public tooltip: Object = {
 };
 ```
 
+##### Raw Datasource Record in the `tooltipRender` Event
+
+The complete datasource record for the hovered point is available only through the `tooltipRender` event as `args.data.rawData`. This value is not a tooltip format token and must not be documented or generated as `${point.data.<field>}`.
+
+Access fields from the original datasource record directly through `rawData`:
+
+```ts
+const x: string = args.data.rawData.x;
+const high: number = args.data.rawData.high;
+const low: number = args.data.rawData.low;
+const open: number = args.data.rawData.open;
+const close: number = args.data.rawData.close;
+```
+
+For a Hilo or HiloOpenClose datasource record such as the following:
+
+```ts
+public chartData: Object[] = [
+    { x: 'Jan', open: 120, high: 160, low: 100, close: 140 },
+    { x: 'Feb', open: 150, high: 190, low: 130, close: 170 },
+    { x: 'Mar', open: 130, high: 170, low: 110, close: 150 },
+    { x: 'Apr', open: 160, high: 180, low: 120, close: 140 },
+    { x: 'May', open: 150, high: 170, low: 110, close: 130 }
+];
+```
+
+The corresponding values can be accessed as `args.data.rawData.x`, `args.data.rawData.open`, `args.data.rawData.high`, `args.data.rawData.low`, and `args.data.rawData.close` inside `tooltipRender`.
+
+The `rawData` value is a deep copy of the resolved datasource record. Modifying it inside the event does not modify the Chart datasource. When the source record cannot be resolved, `rawData` is `null`; therefore, generated event handlers must validate `args.data` and `args.data.rawData` before reading a field.
+
+##### Complete HiloOpenClose sample using `args.data.rawData`
+
+This standalone Angular sample reads all values from the original datasource record in `tooltipRender` and replaces the tooltip text with the month, open, high, low, and close values.
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import {
+    CategoryService, ChartModule, HiloOpenCloseSeriesService, ITooltipRenderEventArgs, TooltipService
+} from '@syncfusion/ej2-angular-charts';
+
+interface HiloOpenCloseData {
+    x: string;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+}
+
+@Component({
+    imports: [ChartModule],
+    providers: [CategoryService, HiloOpenCloseSeriesService, TooltipService],
+    standalone: true,
+    selector: 'app-container',
+    template: `<ejs-chart id="raw-data-tooltip-chart" [primaryXAxis]="primaryXAxis"
+        [primaryYAxis]="primaryYAxis" [tooltip]="tooltip" [title]="title"
+        (tooltipRender)="tooltipRender($event)">
+        <e-series-collection>
+            <e-series [dataSource]="chartData" type="HiloOpenClose" xName="x" high="high" low="low"
+                open="open" close="close" name="Price">
+            </e-series>
+        </e-series-collection>
+    </ejs-chart>`
+})
+export class AppComponent implements OnInit {
+    public chartData?: HiloOpenCloseData[];
+    public primaryXAxis?: Object;
+    public primaryYAxis?: Object;
+    public tooltip?: Object;
+    public title?: string;
+
+    public tooltipRender(args: ITooltipRenderEventArgs): void {
+        if (!args.data || !args.data.rawData) {
+            return;
+        }
+        const rawData: HiloOpenCloseData = args.data.rawData as HiloOpenCloseData;
+        args.headerText = `<b>${rawData.x}</b>`;
+        args.text = [
+            `Open: ${rawData.open}`,
+            `High: ${rawData.high}`,
+            `Low: ${rawData.low}`,
+            `Close: ${rawData.close}`
+        ];
+    }
+
+    public ngOnInit(): void {
+        this.chartData = [
+            { x: 'Jan', open: 120, high: 160, low: 100, close: 140 },
+            { x: 'Feb', open: 150, high: 190, low: 130, close: 170 },
+            { x: 'Mar', open: 130, high: 170, low: 110, close: 150 },
+            { x: 'Apr', open: 160, high: 180, low: 120, close: 140 },
+            { x: 'May', open: 150, high: 170, low: 110, close: 130 }
+        ];
+        this.primaryXAxis = {
+            valueType: 'Category',
+            title: 'Month',
+            majorGridLines: { width: 0 }
+        };
+        this.primaryYAxis = {
+            title: 'Price',
+            minimum: 80,
+            maximum: 200,
+            interval: 20,
+            labelFormat: '${value}'
+        };
+        this.tooltip = {
+            enable: true
+        };
+        this.title = 'HiloOpenClose Tooltip Using the Raw Datasource Record';
+    }
+}
+```
+
+**Expected behavior:**
+
+- Hovering a HiloOpenClose point triggers `tooltipRender`.
+- `args.data.rawData` contains the complete record corresponding to the hovered point.
+- `args.data.rawData.x` provides the month.
+- `args.data.rawData.open`, `high`, `low`, and `close` provide the original financial values.
+- The event changes `headerText` and `text` before the tooltip is rendered.
+- The datasource remains unchanged because `rawData` is a copied record.
+
+**AI sample-generation rules:**
+
+- Use `args.data.rawData` only inside `tooltipRender`.
+- Do not generate `${point.data.<field>}` in `tooltip.format` for this feature.
+- Do not describe `rawData` as a nested tooltip-token feature.
+- Guard against missing `args.data` or `args.data.rawData`.
+- Cast `rawData` to the sample's datasource interface when strongly typed field access is required.
+- Read fields using the datasource property names, such as `args.data.rawData.x` or `args.data.rawData.high`.
+
+
 ### Tooltip Styling
 
 ```typescript
