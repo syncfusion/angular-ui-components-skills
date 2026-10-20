@@ -32,10 +32,12 @@ The Syncfusion Angular Block Editor is a powerful block-based editor component f
 Start here if you're new to Block Editor or need setup instructions.
 
 **Read When**: 
-- Setting up a new project with Block Editor
-- Installing and importing dependencies
-- Configuring CSS and basic properties
-- Creating your first editor instance
+- Installing Node.js v18+ and Angular CLI v14+
+- Setting up a new Angular application
+- Installing the Syncfusion Block Editor package
+- Configuring CSS themes and styles
+- Creating your first Block Editor component instance
+- Running your Angular application
 
 👉 **[Getting Started](./references/getting-started.md)**
 
@@ -201,15 +203,18 @@ Convert between formats and persist content.
 ---
 
 ### Collaborative Editing
-Enable real-time multi-user editing with Yjs.
+Enable real-time multi-user editing with Yjs and version control.
 
 **Read When**:
-- Setting up real-time collaboration with Yjs
+- Getting started with real-time collaboration using y-websocket
 - Choosing and configuring a Yjs provider (y-websocket, y-webrtc, Hocuspocus, Liveblocks, PartyKit)
+- Setting up a WebSocket server for collaboration
 - Displaying user presence, remote cursors, and text selections
 - Configuring the current user and active collaborators
-- Enabling and using document version history (create, restore, compare, export, import snapshots)
-- Handling version history events like snapshotCreated and snapshotRestored
+- Implementing document version history with snapshots
+- Creating, restoring, comparing, exporting, and importing document snapshots
+- Handling version history events (snapshotCreated, snapshotRestored)
+- Persisting snapshots using IndexedDB or custom storage backends
 
 👉 **[Collaborative Editing](./references/collaborative-editing.md)**
 
@@ -249,11 +254,13 @@ Style and customize the editor appearance.
 
 **Read When**:
 - Setting custom width/height
-- Applying themes (light, dark, high-contrast)
-- Using CSS variables for styling
+- Applying built-in themes or defining custom themes
+- Overriding `--color-sf-*` CSS variables
+- Targeting Block Editor CSS classes (`.e-blockeditor`, `.e-active`, `.e-selected`, `.e-list-item`, `.e-dropdownbase`, `.e-table-element`) and IDs (`#blockeditor_contextmenu`, `#blockeditor_code-ddl_popup`)
+- Switching between multiple themes at runtime
 - Customizing fonts and typography
 - Creating responsive editors
-- Styling with custom CSS classes
+- Generating a fully customized theme with Syncfusion Theme Studio
 
 👉 **[Appearance and Customization](./references/appearance-and-customization.md)**
 

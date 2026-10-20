@@ -26,24 +26,197 @@ With collaboration enabled, users can:
 
 ## Prerequisites
 
-Before enabling collaboration, install the `yjs` library and a Yjs provider. See [Yjs Providers](https://docs.yjs.dev/ecosystem/connection-provider) to choose the right provider for your use case.
+Before enabling collaboration, ensure you have:
 
-Inject the `CollaborationService` module into the Block Editor before use in your Angular component.
+- A basic Angular Block Editor set up (see [Getting Started](getting-started.md))
+- `yjs` library and a Yjs provider installed
+
+See [Yjs Providers](#yjs-providers) to choose the right provider for your use case.
+
+## Quick start
+
+Get real-time collaboration working in just a few minutes using `y-websocket` and a simple WebSocket server in our Block Editor component.
+
+### Step 1: Set up a basic Angular Block Editor component
+
+Follow the [Getting Started](getting-started.md) guide to create an Angular CLI-based Angular project with the Block Editor component. This ensures you have all required dependencies and the correct project structure before adding collaboration.
+
+### Step 2: Install Yjs and the WebSocket provider
+
+A Yjs provider handles the transport of document updates between connected users. Choose a provider based on your deployment requirements.
+
+See [Yjs Providers](#yjs-providers) to choose the right provider for your use case.
+
+| Provider | Type | Use case |
+| -------- | ---- | -------- |
+| [y-websocket](https://docs.yjs.dev/ecosystem/connection-provider/y-websocket) | Self-hosted | Production deployments with your own WebSocket server. |
+| `y-webrtc` | Peer-to-peer | Quick local testing and development; no server required. |
+| `y-indexeddb` | Local storage | Offline persistence within a single browser. |
+| [Hocuspocus](https://tiptap.dev/docs/hocuspocus/getting-started/overview) | Open-source server | Scalable Node.js server with pluggable storage and Redis support. |
+| [Liveblocks](https://liveblocks.io/) | Fully managed | Hosted WebSocket infrastructure with REST API and DevTools. |
+| [PartyKit](https://www.partykit.io/) | Serverless | Serverless provider on Cloudflare; ideal for prototyping. |
+
+This guide uses `y-websocket` for the transport, which is the simplest option for getting started. Install the required libraries using npm:
+
+```powershell
+npm install yjs y-websocket
+```
+
+### Step 3: Create a simple WebSocket server
+
+The `y-websocket` package ships with a reference WebSocket server you can run with `npx`. There is no separate `npm install` step for the server itself — it is part of `y-websocket`, which you installed in the previous step.
+
+#### Run the WebSocket server
+
+Open a new terminal and run:
+
+```cmd
+set HOST=localhost&& set PORT=1234&& npx y-websocket
+```
+
+```powershell
+$env:HOST="localhost"; $env:PORT="1234"; npx y-websocket
+```
+
+You should see the message:
+
+```
+running at 'localhost' on port 1234
+```
+
+### Step 4: Create a collaboration configuration file
+
+- Create a shared Yjs document and XML fragment.
+- Create an adapter that provides the Yjs runtime and the shared fragment to the Block Editor.
+- Create a provider that connects users to the same shared document.
+
+Create a `collaboration.ts` file in the src folder and add the following code to configure the Yjs document, provider, collaboration adapter, and room allocation logic.
 
 ```typescript
-import { Component } from '@angular/core';
-import { BlockEditorModule, CollaborationService } from '@syncfusion/ej2-angular-blockeditor';
+import * as Y from 'yjs';
+import type { YjsAdapter } from '@syncfusion/ej2-blockeditor';
+import { WebsocketProvider } from 'y-websocket';
+
+// Create a shared Yjs document for collaborative editing.
+// Each URL hash gets its own room name (e.g., #wb3lu, #x2p4k)
+const roomName = getRoomName();
+const yDoc = new Y.Doc();
+const yFragment = yDoc.getXmlFragment('blockeditor');
+
+// Create adapter that provides Yjs runtime and shared fragment
+const adapter: YjsAdapter = {
+    yRuntime: Y,
+    yXmlFragment: yFragment
+};
+
+// Connects to local WebSocket server on port 1234 and joins the room based on URL hash.
+// Example: https://yourapp.com/#wb3lu joins room "wb3lu"
+const provider = new WebsocketProvider(
+    'ws://localhost:1234',
+    roomName,
+    yDoc
+);
+
+/**
+ * Get or create room ID and store in URL hash
+ */
+function getRoomName(): string {
+    if (typeof window === 'undefined') {
+        return 'default';
+    }
+    // Check if room ID exists in URL hash
+    let roomId = getRoomIdFromHash();
+    // If no room ID in hash, generate a new one
+    if (!roomId) {
+        roomId = generateRoomId();
+        setRoomIdInHash(roomId);
+    }
+    return roomId;
+}
+
+/**
+ * Get room ID from URL hash
+ */
+function getRoomIdFromHash(): string | null {
+    const hash = window.location.hash.substring(1);
+    return hash || null;
+}
+
+/**
+ * Generate a unique 5-character room ID
+ */
+function generateRoomId(): string {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let roomId = '';
+    for (let i = 0; i < 5; i++) {
+        roomId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return roomId;
+}
+
+/**
+ * Set room ID in URL hash
+ */
+function setRoomIdInHash(roomId: string): void {
+    window.location.hash = roomId;
+}
+
+export { yDoc, yFragment, adapter, provider, roomName };
+```
+
+### Step 5: Set up the Block Editor with collaboration
+
+- Enable collaboration by importing the `CollaborationService` module from `@syncfusion/ej2-angular-blockeditor` and injecting it into the blockeditor.
+- Use the `collaborationSettings` property of type `CollaborationSettingsModel` to configure collaboration settings for your Block Editor.
+- It provides properties such as `provider`, `enableAwareness`, `adapter` and `versionHistory` which allows to customize the collaboration behavior.
+- Pass the adapter and provider to the Block Editor through the `collaborationSettings` property.
+- Set `enableAwareness` to `true` in `collaborationSettings` property to display remote cursors, text selection overlays, and user details on hover.
+
+In your `app.ts` file, replace the existing Block Editor with the following code:
+
+```typescript
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BlockEditorModule, BlockEditorComponent, CollaborationSettingsModel, CollaborationService } from '@syncfusion/ej2-angular-blockeditor';
+import { adapter, provider } from './collaboration';
 
 @Component({
-  selector: 'app-block-editor',
+  selector: 'app-root',
   imports: [BlockEditorModule],
   template: `
-    <ejs-blockeditor/>
+    <ejs-blockeditor [collaborationSettings]="collaborationSettings"/>
   `,
   providers: [CollaborationService]
 })
-export class App {}
+export class App implements OnInit{
+  @ViewChild('blockEditor') blockEditor!: BlockEditorComponent;
+  collaborationSettings!: CollaborationSettingsModel;
+
+    ngOnInit() {
+        this.collaborationSettings = {
+            adapter: adapter,
+            provider: provider,
+            enableAwareness: true
+        };
+    }
+}
 ```
+
+### Step 6: Test the collaboration
+
+1. **Start your app development server** — In your project terminal, run:
+
+```bash
+ng serve
+```
+
+> **Important:** Make sure your WebSocket server is still running in another terminal window.
+
+2. **Open a tab and duplicate it** with your Angular application
+3. **Type in one window** — you should see the text appear in the other window instantly
+
+If the text appears in both tabs, **real-time collaboration is achieved.**
+
+> **Cross-browser note:** The setup above uses a single `y-websocket` server, so two tabs of the *same* browser on the *same* machine will sync. To synchronize across different browsers, machines, or networks, run the same `npx y-websocket` server (or your production equivalent) on a host that all clients can reach, and replace `ws://localhost:1234` in `collaboration.ts` with the public `wss://` URL of that server.
 
 ## Yjs Providers
 
@@ -229,259 +402,356 @@ const users = this.blockEditor.users;
 
 `Version History` allows you to capture document snapshots and restore earlier versions. This is a built-in capability of the Block Editor and does not require a third-party service.
 
-### Enable Version History
+### Enable version history
 
-Inject the `VersionHistoryService` module and configure the `versionHistory` property under `collaborationSettings` in your Angular component.
-
-```typescript
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BlockEditorModule, BlockEditorComponent, CollaborationSettingsModel, CollaborationService, VersionHistoryService } from '@syncfusion/ej2-angular-blockeditor';
-
-@Component({
-  selector: 'app-block-editor',
-  imports: [BlockEditorModule],
-  template: `
-    <ejs-blockeditor [collaborationSettings]="collaborationSettings">
-    </ejs-blockeditor>
-  `,
-  providers: [CollaborationService, VersionHistoryService]
-})
-
-export class App implements OnInit{
-    @ViewChild('blockEditor') blockEditor: BlockEditorComponent;
-    myStorage: any;
-    collaborationSettings: CollaborationSettingsModel;
-
-    ngOnInit() {
-        this.myStorage = new CustomVersionStorage(`blockeditor-${uniqueId}`);
-
-        this.collaborationSettings = {
-            adapter: adapter,
-            provider: provider,
-            versionHistory: {
-                storage: this.myStorage,
-                snapshotInterval: 3000
-            }
-        };
-    }
-}
-```
-
-### Access the Version History Instance
-
-After the Block Editor initializes, retrieve the version history instance and wait for snapshot data to load before calling any version history methods.
-
-```typescript
-export class App implements OnInit {
-    @ViewChild('blockEditor') blockEditor: BlockEditorComponent;
-
-    async getVersionHistory() {
-        const versionHistory = this.blockEditor.getVersionHistory();
-        await versionHistory.whenReady();
-        return versionHistory;
-    }
-}
-```
-
-### Configure Snapshot Storage
-
-Version snapshots need to be persisted to enable version history across browser sessions. Implement the `IVersionStorage` interface to provide a custom storage backend for managing snapshots. You can use IndexedDB, a backend database, or any other storage solution suitable for your deployment.
-
-**IVersionStorage Interface:**
+- Inject the `VersionHistoryService` module and configure the `versionHistory` property under `collaborationSettings` property.
+- Version snapshots need to be persisted to enable version history across browser sessions.
+- Implement the `IVersionStorage` interface to provide a custom storage backend for managing snapshots. You can use IndexedDB, a backend database, or any other storage solution suitable for your deployment.
+- The `IVersionStorage` interface defines the following methods:
 
 | Method | Signature | Description |
-|--------|-----------|-------------|
+| -------- | -------- | ----------- |
 | `saveSnapshot` | `(snapshot: VersionSnapshot): Promise<void>` | Persist a snapshot. |
 | `loadAllSnapshots` | `(): Promise<VersionSnapshot[]>` | Load all persisted snapshots, ordered by timestamp ascending. |
 | `loadSnapshot` | `(id: string): Promise<VersionSnapshot \| null>` | Load a single snapshot by id. |
 | `deleteSnapshot` | `(id: string): Promise<void>` | Permanently remove a snapshot by id. |
 | `clearAll` | `(): Promise<void>` | Remove all snapshots from storage. |
 
-### Version History Methods
+- After the Block Editor initializes, retrieve the version history instance and wait for snapshot data to load before calling any version history methods.
 
-#### createSnapshot Method
+Before that, create a storage service for snapshots:
+- Create `version-history.service.ts` with an `IndexedDBVersionStorage` class.
+- This class implements the `IVersionStorage` interface (required by Syncfusion).
+
+Make storage room-specific by importing `roomName` from `collaboration.ts` so each room gets its own isolated snapshot database.
+
+Create a `versionHistoryService.ts` file in the src folder, replace the `app.component.ts` component to configure the BlockEditorComponent, and replace the `app.component.css` file with the styles required for the version history panel.
+
+```typescript
+import {
+  Component,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  BlockEditorModule,
+  BlockEditorComponent,
+  CollaborationSettingsModel,
+  CollaborationService,
+  VersionHistoryService,
+  VersionSnapshot
+} from '@syncfusion/ej2-angular-blockeditor';
+
+import { adapter, provider, roomName } from './collaboration';
+import { IndexedDBVersionStorage } from './versionHistoryService';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, BlockEditorModule],
+  providers: [CollaborationService, VersionHistoryService],
+  styleUrls: ['./app.css'],
+  template: `
+    <div class="app-container">
+      <div class="editor-section">
+        <ejs-blockeditor
+          #blockEditor
+          [collaborationSettings]="collaborationSettings"
+          (created)="onCreated()">
+        </ejs-blockeditor>
+      </div>
+
+      <div class="version-history-panel">
+        <h3>Snapshots ({{ snapshots.length }})</h3>
+
+        <p *ngIf="snapshots.length === 0">
+          No snapshots yet...
+        </p>
+
+        <div
+          *ngIf="snapshots.length > 0"
+          class="snapshots-container">
+
+          <div
+            *ngFor="let snapshot of snapshots"
+            class="snapshot-item">
+
+            <div class="snapshot-timestamp">
+              {{ snapshot.lastModifiedAt | date:'medium' }}
+            </div>
+
+            <div class="snapshot-actions">
+              <button
+                class="restore-btn"
+                (click)="restoreSnapshot(snapshot.id)">
+                Restore
+              </button>
+
+              <button
+                class="delete-btn"
+                (click)="deleteSnapshot(snapshot.id)">
+                Delete
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  `
+})
+export class App implements OnDestroy {
+
+  @ViewChild('blockEditor')
+  blockEditor!: BlockEditorComponent;
+
+  collaborationSettings: CollaborationSettingsModel;
+
+  snapshots: VersionSnapshot[] = [];
+
+  private versionHistory: any;
+  private timerId!: number;
+
+  private storage = new IndexedDBVersionStorage(
+    `blockeditor-versions-${roomName}`
+  );
+
+  constructor(private cdr: ChangeDetectorRef) {
+    this.collaborationSettings = {
+      adapter,
+      provider,
+      enableAwareness: true,
+      versionHistory: {
+        storage: this.storage,
+        snapshotInterval: 3000
+      }
+    };
+  }
+
+  onCreated(): void {
+    this.versionHistory = this.blockEditor.getVersionHistory();
+    this.timerId = window.setInterval(() => {
+      this.snapshots = [
+        ...(this.versionHistory?.getSnapshots() || [])
+      ];
+
+      this.cdr.detectChanges();
+    }, 2000);
+  }
+
+  restoreSnapshot(id: string): void {
+    this.versionHistory?.restoreSnapshot(id);
+  }
+
+  deleteSnapshot(id: string): void {
+    this.versionHistory?.deleteSnapshot(id);
+  }
+
+  ngOnDestroy(): void {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+  }
+}
+```
+
+```typescript
+import type { IVersionStorage, VersionSnapshot } from '@syncfusion/ej2-angular-blockeditor';
+
+export class IndexedDBVersionStorage implements IVersionStorage {
+    private db: IDBDatabase | null = null;
+    private initPromise: Promise<void>;
+
+    constructor(dbName: string) {
+        this.initPromise = new Promise((resolve) => {
+            const req = indexedDB.open(dbName, 1);
+            req.onsuccess = () => { this.db = req.result; resolve(); };
+            req.onupgradeneeded = (e) => {
+                const db = (e.target as IDBOpenDBRequest).result;
+                if (!db.objectStoreNames.contains('snapshots')) {
+                    db.createObjectStore('snapshots', { keyPath: 'id' });
+                }
+            };
+        });
+    }
+
+    private exec(mode: 'readonly' | 'readwrite', fn: (store: IDBObjectStore) => IDBRequest): Promise<any> {
+        return this.initPromise.then(() => new Promise((resolve, reject) => {
+            const tx = this.db!.transaction('snapshots', mode);
+            const req = fn(tx.objectStore('snapshots'));
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        }));
+    }
+
+    async saveSnapshot(snapshot: VersionSnapshot): Promise<void> {
+        await this.exec('readwrite', (store) => store.put(snapshot));
+    }
+
+    async loadAllSnapshots(): Promise<VersionSnapshot[]> {
+        return await this.exec('readonly', (store) => store.getAll());
+    }
+
+    async loadSnapshot(id: string): Promise<VersionSnapshot | null> {
+        return await this.exec('readonly', (store) => store.get(id));
+    }
+
+    async deleteSnapshot(id: string): Promise<void> {
+        await this.exec('readwrite', (store) => store.delete(id));
+    }
+
+    async clearAll(): Promise<void> {
+        await this.exec('readwrite', (store) => store.clear());
+    }
+}
+```
+
+```css
+.app-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.editor-section {
+    flex: 1;
+}
+
+.version-history-panel {
+    width: 350px;
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.snapshots-container {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.snapshot-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+}
+
+.snapshot-timestamp {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.snapshot-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.snapshot-actions button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.restore-btn {
+    background-color: #007bff;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+```
+
+Once done, run the app to see the versionHistory panel for individual rooms.
+
+### Methods
+
+The following are the methods available in the `IVersionHistory`:
+
+#### Create a snapshot
 
 Creates a new snapshot of the current document state with an optional label and metadata.
 
-**Syntax:**
 ```typescript
-createSnapshot(options?: { label?: string; modifiedBy?: string }): Promise<VersionSnapshot>
+this.versionHistory = this.blockEditor.getVersionHistory();
+this.versionHistory.createSnapshot({
+    label: 'Before major update',
+    modifiedBy: this.currentUserId
+});
 ```
 
-**Example:**
+#### List snapshots
+
+Retrieves all saved snapshots, or a paginated subset, in chronological order. The optional `skip` and `take` parameters let you page through large history lists:
 
 ```typescript
-async createSnapshot() {
-    const versionHistory = await this.getVersionHistory();
-    const snapshot = await versionHistory.createSnapshot({
-        label: 'Before major update',
-        modifiedBy: this.currentUserId
-    });
-    return snapshot;
-}
+this.versionHistory = this.blockEditor.getVersionHistory();
+
+// Retrieve all snapshots
+const snapshots: VersionSnapshot[] = this.versionHistory.getSnapshots();
+
+// Skip the first 20 and take the next 40 (for paging)
+const paginatedSnapshots: VersionSnapshot[] = this.versionHistory.getSnapshots(20, 40);
 ```
 
-**Use Cases:**
-- Capturing a checkpoint before major edits
-- Manual save-point creation
-
-#### getSnapshots Method
-
-Retrieves all saved snapshots or a paginated subset. Snapshots are returned in chronological order.
-
-**Syntax:**
-```typescript
-getSnapshots(skip?: number, take?: number): VersionSnapshot[]
-```
-
-**Example:**
-
-```typescript
-async listSnapshots() {
-    const versionHistory = await this.getVersionHistory();
-
-    // Retrieve all snapshots
-    const snapshots = versionHistory.getSnapshots();
-
-    // Retrieve a paginated subset — getSnapshots(skip, take)
-    const paginatedSnapshots = versionHistory.getSnapshots(20, 40);
-
-    return paginatedSnapshots;
-}
-```
-
-**Use Cases:**
-- Building a version history panel
-- Paginating long snapshot lists
-
-#### renameSnapshot Method
+#### Rename a snapshot
 
 Updates the label or metadata of an existing snapshot without modifying its content.
 
-**Syntax:**
 ```typescript
-renameSnapshot(snapshotId: string, newLabel: string): Promise<void>
+this.versionHistory = this.blockEditor.getVersionHistory();
+this.versionHistory.renameSnapshot(snapshotId, newLabel);
 ```
 
-**Example:**
-
-```typescript
-async renameSnapshot(snapshotId: string, newLabel: string) {
-    const versionHistory = await this.getVersionHistory();
-    await versionHistory.renameSnapshot(snapshotId, newLabel);
-}
-```
-
-**Use Cases:**
-- Giving snapshots meaningful, user-friendly names
-- Correcting mislabeled versions
-
-#### restoreSnapshot Method
+#### Restore a snapshot
 
 Reverts the document to a previously saved snapshot state. The current document state is automatically backed up before restoration.
 
-**Syntax:**
 ```typescript
-restoreSnapshot(snapshotId: string): Promise<void>
-```
-
-**Example:**
-
-```typescript
-async restoreSnapshot(snapshotId: string) {
-    const versionHistory = await this.getVersionHistory();
-    await versionHistory.restoreSnapshot(snapshotId);
-}
+this.versionHistory = this.blockEditor.getVersionHistory();
+this.versionHistory.restoreSnapshot(snapshotId);
 ```
 
 > **Note:** When a snapshot is restored, the current document state is automatically backed up before the restore operation is applied.
 
-**Use Cases:**
-- Reverting unwanted or accidental changes
-- Rolling back to a known-good document state
+#### Compare versions
 
-#### compareVersions Method
-
-Compares two snapshots to identify differences such as added, removed, or modified content.
-
-**Syntax:**
-```typescript
-compareVersions(snapshotIdA: string, snapshotIdB: string): VersionDiff
-```
-
-**Example:**
+Compares two snapshots to identify differences such as added, removed, or modified content. The result is a `VersionDiff` object that summarizes the changes — for example, which blocks were added, removed, or had their text changed between the two snapshots:
 
 ```typescript
-async compareVersions(snapshotIdA: string, snapshotIdB: string) {
-    const versionHistory = await this.getVersionHistory();
-    const diff = versionHistory.compareVersions(snapshotIdA, snapshotIdB);
-    return diff;
-}
+this.versionHistory = this.blockEditor.getVersionHistory();
+this.versionHistory.compareVersions(snapshotIdA, snapshotIdB);
 ```
-
 The returned `VersionDiff` object provides a summary of the differences between the two selected versions.
 
-**Use Cases:**
-- Building a visual diff/review UI between versions
-- Auditing changes between snapshots
+#### Export a snapshot
 
-#### exportSnapshot Method
-
-Serializes a snapshot into a portable format that can be stored externally or transferred between systems.
-
-**Syntax:**
-```typescript
-exportSnapshot(snapshotId: string): Promise<any>
-```
-
-**Example:**
+Serializes a snapshot into a portable format (a JSON string) that can be stored externally or transferred between systems:
 
 ```typescript
-async exportSnapshot(snapshotId: string) {
-    const versionHistory = await this.getVersionHistory();
-    const exported = await versionHistory.exportSnapshot(snapshotId);
-    return exported;
-}
+this.versionHistory = this.blockEditor.getVersionHistory();
+const exported: string = this.versionHistory.exportSnapshot(snapshotId);
+// Store `exported` in your database, send it to another user, etc.
 ```
 
-Exported snapshots can be stored externally or transferred between systems.
+#### Import a snapshot
 
-**Use Cases:**
-- Backing up snapshots outside the configured storage
-- Migrating version history between environments
-
-#### importSnapshot Method
-
-Imports a previously exported snapshot back into the version history storage.
-
-**Syntax:**
-```typescript
-importSnapshot(exported: any): Promise<VersionSnapshot>
-```
-
-**Example:**
+Imports a previously exported snapshot back into the version history storage and returns the new snapshot's id:
 
 ```typescript
-async importSnapshot(exported: any) {
-    const versionHistory = await this.getVersionHistory();
-    const imported = await versionHistory.importSnapshot(exported);
-    return imported;
-}
+this.versionHistory = this.blockEditor.getVersionHistory();
+const importedId: string = this.versionHistory.importSnapshot(exported);
 ```
 
-**Use Cases:**
-- Restoring snapshots exported from another environment
-- Transferring version history between systems
+### Events
 
-### Version History Events
+Use the following event callbacks in `versionHistory` settings to respond to snapshot life cycle events.
 
-Use the following event callbacks in the `versionHistory` settings to respond to snapshot life cycle events.
-
-#### snapshotCreated Event
+#### snapshotCreated
 
 Triggered when a new snapshot is created.
-
-**Example:**
 
 ```typescript
 this.collaborationSettings = {
@@ -494,15 +764,9 @@ this.collaborationSettings = {
 };
 ```
 
-**Use Cases:**
-- Logging or notifying on snapshot creation
-- Triggering UI updates when a new version is saved
-
-#### snapshotRestored Event
+#### snapshotRestored
 
 Triggered when a snapshot is restored.
-
-**Example:**
 
 ```typescript
 this.collaborationSettings = {
@@ -514,10 +778,6 @@ this.collaborationSettings = {
     }
 };
 ```
-
-**Use Cases:**
-- Notifying users after a restore completes
-- Tracking restore history via the automatic `backupSnapshot`
 
 ## Best Practices
 

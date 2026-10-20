@@ -1,173 +1,105 @@
-# Getting Started with Syncfusion Angular Block Editor
+# Getting Started with Angular Block Editor
 
-## Table of Contents
-- [Installation](#installation)
-- [Dependencies](#dependencies)
-- [Angular Environment Setup](#angular-environment-setup)
-- [Creating an Angular Application](#creating-an-angular-application)
-- [Installing the Package](#installing-the-package)
-- [Adding CSS Reference](#adding-css-reference)
-- [Creating Your First Editor](#creating-your-first-editor)
-- [Running the Application](#running-the-application)
+## Prerequisites
 
-## Installation
+Before you begin, ensure the following are installed:
 
-The Syncfusion Angular Block Editor component is distributed as npm packages under the `@syncfusion` scope. Start by installing the package for your Angular version.
+- **Node.js** (v18 or later) — required by the Angular CLI.
+- **Angular CLI** (v14 or later) — required for the standalone components used in this guide.
 
-### Prerequisites
-- Node.js and npm installed
-- Angular CLI installed globally
-- Familiarity with Angular project structure
+## Set up the Angular environment
 
-## Dependencies
-
-The Block Editor requires the following dependencies:
+Use the Angular CLI to set up your Angular application. The CLI requires Node.js v18 or later. To install the Angular CLI globally, run the following command:
 
 ```
-@syncfusion/ej2-angular-blockeditor
-  ├── @syncfusion/ej2-angular-base
-  ├── @syncfusion/ej2-base
-  ├── @syncfusion/ej2-popups
-  ├── @syncfusion/ej2-buttons
-  ├── @syncfusion/ej2-splitbuttons
-  ├── @syncfusion/ej2-navigations
-  ├── @syncfusion/ej2-dropdowns
-  └── @syncfusion/ej2-inputs
-```
-
-These are automatically installed as peer dependencies when you install the main package.
-
-## Angular Environment Setup
-skills\documentations\syncfusion-angular-blockeditor\references
-### Step 1: Install Angular CLI
-
-If you don't have the Angular CLI installed globally, run:
-
-```bash
 npm install -g @angular/cli
 ```
 
-### Step 2: Create a New Angular Project
+## Create an Angular Application
+
+1. Run the following Angular CLI command to create a new application:
+
+    ```bash
+    ng new my-app
+    ```
+
+2. When prompted for the stylesheet format, accept the default (CSS).
+
+3. When prompted to enable Server-Side Rendering (SSR) and Static Site Generation (SSG), select No.
+
+4. Navigate to the project folder:
+
+    ```bash
+    cd my-app
+    ```
+
+## Add Syncfusion Block Editor package
+
+All Essential JS 2 packages are published in the [npmjs.com](https://www.npmjs.com/~syncfusionorg) registry. The `@syncfusion/ej2-angular-blockeditor` package supports Angular 14 and later. Install the Block Editor with the following command:
 
 ```bash
-ng new my-block-editor-app
-cd my-block-editor-app
+npm install @syncfusion/ej2-angular-blockeditor
 ```
 
-Choose your preferences for routing and stylesheet format when prompted.
-
-## Creating an Angular Application
-
-Create a new Angular project or use an existing one:
+If you want to seed the editor with content programmatically, also install the model package:
 
 ```bash
-ng new my-app
-cd my-app
+npm install @syncfusion/ej2-blockeditor
 ```
 
-## Installing the Package
+> If you see a peer-dependency warning for `@angular/core` after install, run `ng update` to align the CLI to the version targeted by the Block Editor package.
 
-The latest Syncfusion packages use Ivy distribution and are compatible with Angular 12 and newer.
+## Add a CSS reference
+
+Syncfusion provides multiple themes for the Block Editor. For the full list, see the [themes packages](https://ej2.syncfusion.com/angular/documentation/appearance/overview#theme-packages) overview.
+
+Install a Syncfusion theme package to provide the required styles. The following example installs the [Material 3](https://www.npmjs.com/package/@syncfusion/ej2-material3-theme) theme:
 
 ```bash
-npm install @syncfusion/ej2-angular-blockeditor --save
+npm install @syncfusion/ej2-material3-theme --save
 ```
 
-## CSS Theme Imports
-
-Install the theme package that matches your application. This example uses `Material 3`:
-
-```bash
-npm install @syncfusion/ej2-material3-theme
-```
-
-Add the following stylesheet in `src/styles.css`.
+To render the Block Editor, add the following import to your `src/styles.css` to load the editor's theme and dependency styles:
 
 ```css
 @import '../node_modules/@syncfusion/ej2-material3-theme/styles/blockeditor/index.css';
 ```
 
-Replace `material3` with your preferred theme name (`tailwind3`, `bootstrap5`, `fabric`, `fluent2`, etc) install the corresponding package, and use the same theme name in the CSS import path.
+> If you use a CSS preprocessor or a custom build pipeline, ensure that the editor's CSS is bundled into the final stylesheet before deployment.
 
-## Creating Your First Editor
+## Add the Block Editor component
 
-### Step 1: Import the Module
-
-In your `app.component.ts`:
+Modify the template in `src/app/app.ts` (or `src/app/app.component.ts` for older Angular CLI versions) to render the Block Editor by using the `<ejs-blockeditor>` selector:
 
 ```typescript
 import { Component } from '@angular/core';
-import { BlockEditorModule } from '@syncfusion/ej2-angular-blockeditor';
+import { BlockEditorModule } from "@syncfusion/ej2-angular-blockeditor";
 
 @Component({
     imports: [BlockEditorModule],
     standalone: true,
     selector: 'app-root',
-    template: `<div id="container">
+    template: `<!-- To Render BlockEditor component. -->
+    <div id="container" >
         <ejs-blockeditor />
     </div>`
 })
-export class AppComponent { }
-```
 
-### Step 2: Configure in Template
-
-Update your component template to include the Block Editor:
-
-```typescript
-import { Component } from '@angular/core';
-import { BlockEditorModule } from '@syncfusion/ej2-angular-blockeditor';
-import { BlockModel, ContentType } from '@syncfusion/ej2-blockeditor';
-
-@Component({
-    imports: [BlockEditorModule],
-    standalone: true,
-    selector: 'app-root',
-    template: `<div id="container">
-        <ejs-blockeditor [blocks]="blocksData" />
-    </div>`
-})
-export class AppComponent {
-    public blocksData: BlockModel[] = [
-        {
-            blockType: 'Heading',
-            properties: { level: 1 },
-            content: [
-                {
-                    contentType: ContentType.Text,
-                    content: 'Welcome to Block Editor'
-                }
-            ]
-        },
-        {
-            blockType: 'Paragraph',
-            content: [
-                {
-                    contentType: ContentType.Text,
-                    content: 'Start editing your content here...'
-                }
-            ]
-        }
-    ];
+export class App {
 }
 ```
 
-## Running the Application
-
-Start your Angular development server:
-
-```bash
-ng serve
+```css
+@import "node_modules/@syncfusion/ej2-tailwind3-theme/styles/blockeditor/index.css";
 ```
 
-Navigate to `http://localhost:4200/` in your browser. You should see the Block Editor component ready for use.
+> **Note:** Angular CLI 21 and later generates the root component as `src/app/app.ts`. Earlier Angular CLI versions use `src/app/app.component.ts`. The Block Editor's selector (`ejs-blockeditor`) is identical in both layouts.
 
-### Verify Installation
+## Run the application
 
-- Check that the editor renders without errors
-- Verify you can type in the editor
-- Try using "/" to open the slash command menu
-- Confirm CSS styles are applied correctly
+Run the application in the browser using the following command:
 
-If you see styling issues, double-check that all CSS imports are present in your `styles.css` file and that the paths are correct for your Syncfusion version.
+```bash
+ng serve --open
+```
 
