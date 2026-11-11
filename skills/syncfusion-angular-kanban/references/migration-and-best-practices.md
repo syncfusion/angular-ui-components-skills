@@ -431,7 +431,7 @@ addCard(card: any): void {
 
 **Solution:**
 ```css
-@import '../node_modules/@syncfusion/ej2-kanban/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-tailwind3-theme/styles/kanban/index.css';
 ```
 
 ### Issue: Memory Leak

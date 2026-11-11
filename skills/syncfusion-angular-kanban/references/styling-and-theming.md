@@ -26,47 +26,67 @@ Syncfusion provides 5 built-in themes:
 
 ### Add Theme CSS to styles.css
 
-```css
-/* Material 3 Theme (Default) */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/material3.css';
+Install the desired Syncfusion theme package:
 
-/* OR Bootstrap 5 Theme */
-@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/bootstrap5.css';
-
-/* OR Fabric Theme */
-@import '../node_modules/@syncfusion/ej2-base/styles/fabric.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/fabric.css';
-
-/* OR High Contrast Theme */
-@import '../node_modules/@syncfusion/ej2-base/styles/high-contrast.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/high-contrast.css';
+```bash
+npm install @syncfusion/ej2-material3-theme --save
 ```
+
+Add the theme stylesheet to the global `styles.css` file:
+
+```css
+@import "@syncfusion/ej2-material3-theme/styles/kanban/index.css";
+```
+
+The bundled `kanban/index.css` stylesheet automatically includes all required dependent component styles.
 
 ### Theme-Specific CSS Paths
 
+#### Material 3
+
 ```css
-/* Material 3 */
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
+@import "@syncfusion/ej2-material3-theme/styles/kanban/index.css";
+```
 
-/* Material */
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+#### Material
 
-/* Bootstrap 5 */
-@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap5.css';
+```css
+@import "@syncfusion/ej2-material-theme/styles/kanban/index.css";
+```
 
-/* Bootstrap 4 */
-@import '../node_modules/@syncfusion/ej2-base/styles/bootstrap4.css';
+#### Bootstrap 5
 
-/* Fabric */
-@import '../node_modules/@syncfusion/ej2-base/styles/fabric.css';
+```css
+@import "@syncfusion/ej2-bootstrap5-theme/styles/kanban/index.css";
+```
 
-/* High Contrast */
-@import '../node_modules/@syncfusion/ej2-base/styles/high-contrast.css';
+#### Fluent
+
+```css
+@import "@syncfusion/ej2-fluent-theme/styles/kanban/index.css";
+```
+
+#### Fabric
+
+```css
+@import "@syncfusion/ej2-fabric-theme/styles/kanban/index.css";
+```
+
+#### High Contrast
+
+```css
+@import "@syncfusion/ej2-highcontrast-theme/styles/kanban/index.css";
+```
+
+Install the High Contrast theme package:
+
+```bash
+npm install @syncfusion/ej2-highcontrast-theme --save
 ```
 
 ### Switch Themes Dynamically
+
+Dynamic theme switching requires pre-generated theme stylesheets to be available at runtime. Place the desired theme CSS files in the application's assets folder and update the stylesheet reference dynamically.
 
 ```typescript
 import { Component } from '@angular/core';
@@ -122,6 +142,13 @@ export class KanbanThemesComponent {
   }
 }
 ```
+
+Example asset files:
+
+- `assets/themes/material3.css`
+- `assets/themes/bootstrap5.css`
+- `assets/themes/fabric.css`
+- `assets/themes/highcontrast.css`
 
 ## CSS Variables
 

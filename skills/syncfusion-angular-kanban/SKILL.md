@@ -165,6 +165,7 @@ The Kanban board is a visual workflow management tool built with:
 ### 1. Install Package
 ```bash
 npm install @syncfusion/ej2-angular-kanban
+npm install @syncfusion/ej2-tailwind3-theme
 ```
 
 ### 2. Import and Setup Component
@@ -208,8 +209,7 @@ export class KanbanBoardComponent {
 
 ### 3. Add Styles
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-tailwind3-theme/styles/kanban/index.css';
 ```
 
 ## Common Patterns

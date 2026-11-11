@@ -59,8 +59,7 @@ Include required CSS files in your main styles or component:
 
 ```typescript
 // In styles.css or component.css
-@import '@syncfusion/ej2-base/styles/material.css';
-@import '@syncfusion/ej2-grids/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-material3-theme/styles/grid/index.css";
 ```
 
 **Available themes:**

@@ -14,6 +14,7 @@ Install the Syncfusion Angular Kanban package using npm:
 
 ```bash
 npm install @syncfusion/ej2-angular-kanban
+npm install @syncfusion/ej2-tailwind3-theme
 ```
 
 This package includes:
@@ -61,14 +62,7 @@ export class AppModule {}
 Add Kanban CSS styles to `styles.css` in your project root:
 
 ```css
-@import '../node_modules/@syncfusion/ej2-base/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-layouts/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material3.css';
-@import '../node_modules/@syncfusion/ej2-kanban/styles/material3.css';
+@import '../node_modules/@syncfusion/ej2-tailwind3-theme/styles/kanban/index.css';
 ```
 
 **Available themes:**
